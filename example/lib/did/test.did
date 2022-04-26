@@ -1,0 +1,9 @@
+type Tim = record {
+   name: text;
+   phone: nat;
+   profile: text;
+};
+service : {
+  insert: (text, text, text) -> ();
+  lookup: (text) -> (opt Tim) query;
+}
