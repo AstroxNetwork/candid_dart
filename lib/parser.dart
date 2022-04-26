@@ -115,7 +115,7 @@ class ClassDefListener extends CandidBaseListener {
         var id = ctx.idType()!.text;
         // [idType,dataType] []
         var dataTypeChildNode = child.children.last.children.first;
-        return _resolveFieldMetaFromDataTypeChild(dataTypeChildNode, id, type);
+        return _resolveTypeNode(dataTypeChildNode, id, type);
       }
       throw UnsupportedTypeContextException(ctx);
     }).toList(growable: false);
@@ -136,7 +136,7 @@ class ClassDefListener extends CandidBaseListener {
     _sb.writeln(clazz);
   }
 
-  ClassField _resolveFieldMetaFromDataTypeChild(
+  ClassField _resolveTypeNode(
     TypeNode node,
     String id,
     String type,
@@ -147,6 +147,12 @@ class ClassDefListener extends CandidBaseListener {
       var dartType = kPrimitiveTypeDartMap[text];
       var idlType = kPrimitiveTypeIDLMap[text];
       if (dartType != null && idlType != null) {
+        String? deser;
+        if (idlType == 'IDL.Principal') {
+          deser = node.optional
+              ? "{{val}}==null?null:$dartType.from({{val}})"
+              : "$dartType.from({{val}})";
+        }
         return ClassField(
           id: id,
           did: text,
@@ -154,6 +160,7 @@ class ClassDefListener extends CandidBaseListener {
           idl: idlType,
           obj: false,
           opt: node.optional,
+          deser: deser,
         );
       }
       if (defTypes.contains(text)) {
@@ -180,7 +187,7 @@ class ClassDefListener extends CandidBaseListener {
       );
     } else if (ctx is VecTypeContext || ctx is OptTypeContext) {
       var child = node.children.first.children.first;
-      var field = _resolveFieldMetaFromDataTypeChild(child, id, type);
+      var field = _resolveTypeNode(child, id, type);
       if (ctx is VecTypeContext) {
         var idlType = "IDL.Vec(${field.idl})";
         if (field.did == 'nat8' || field.did == 'int8') {
@@ -382,11 +389,18 @@ class IDLListener extends CandidBaseListener {
       var dartType = kPrimitiveTypeDartMap[text];
       var idlType = kPrimitiveTypeIDLMap[text];
       if (dartType != null && idlType != null) {
+        String? deser;
+        if (idlType == 'IDL.Principal') {
+          deser = node.optional
+              ? "{{val}}==null?null:$dartType.from({{val}})"
+              : "$dartType.from({{val}})";
+        }
         return IDLField(
           did: text,
           idl: idlType,
           type: dartType,
           opt: node.optional,
+          deser: deser,
         );
       }
       if (defTypes.contains(text)) {
@@ -486,9 +500,11 @@ class TypeNode {
 
   List<TypeNode> get children => _children ?? [];
 
-  TypeNode(this.ctx, {this.parent, bool? optional})
-      : optional =
-            optional ?? ctx is OptTypeContext || ctx is VariantTypeContext {
+  TypeNode(
+    this.ctx, {
+    this.parent,
+    this.optional = false,
+  }) {
     var _ctx = ctx;
     if (_ctx is DataTypeContext) {
       _setChildren([
@@ -498,9 +514,9 @@ class TypeNode {
         _ctx.variantType(),
         _ctx.recordType(),
         _ctx.refType(),
-      ]);
+      ], optional);
     } else if (_ctx is VariantTypeContext) {
-      _setChildren(_ctx.exprTypes());
+      _setChildren(_ctx.exprTypes(), true);
     } else if (_ctx is RecordTypeContext) {
       _setChildren(_ctx.exprTypes());
     } else if (_ctx is PairTypeContext) {
@@ -510,7 +526,7 @@ class TypeNode {
     } else if (_ctx is VecTypeContext) {
       _setChild(_ctx.dataType());
     } else if (_ctx is OptTypeContext) {
-      _setChild(_ctx.dataType());
+      _setChild(_ctx.dataType(), true);
     } else if (_ctx is TupleTypeContext) {
       _setChildren(_ctx.dataTypes());
     } else if (_ctx is ExprTypeContext) {
@@ -522,31 +538,29 @@ class TypeNode {
         _ctx.variantType(),
         _ctx.recordType(),
         _ctx.refType(),
-      ]);
+      ], optional);
     } else if (_ctx is RefTypeContext) {
       // todo refType
     }
   }
 
-  void _setChildren(List<RuleContext?> children) {
+  void _setChildren(List<RuleContext?> children, [bool optional = false]) {
     assert(_children == null);
-    var opt = optional ? optional : null;
     _children = children.whereType<RuleContext>().map<TypeNode>(
       (e) {
         return TypeNode(
           e,
           parent: this,
-          optional: opt,
+          optional: optional,
         );
       },
     ).toList(growable: false);
   }
 
-  void _setChild(RuleContext? child) {
+  void _setChild(RuleContext? child, [bool optional = false]) {
     assert(_children == null);
     if (child != null) {
-      var opt = optional ? optional : null;
-      _children = [TypeNode(child, parent: this, optional: opt)];
+      _children = [TypeNode(child, parent: this, optional: optional)];
     }
   }
 

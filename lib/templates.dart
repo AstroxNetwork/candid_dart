@@ -6,7 +6,7 @@ class {{ clazz }} {
     {{# renderConstructorFields }}{{/ renderConstructorFields }}
   });
 
-  factory {{ clazz }}.fromMap(Map<dynamic, dynamic> map) {
+  factory {{ clazz }}.fromMap(Map<dynamic, dynamic> map,) {
     return {{ clazz }}(
      {{# renderFromMapFields }}{{/ renderFromMapFields }}
     );
@@ -45,7 +45,7 @@ const idlReqMethod = """
 ///    <CType<dynamic>>[{{ idlReq }}],
 ///    <CType<dynamic>>[{{ idlRep }}],
 ///    <String>[{{ funcAnno }}],
-/// ),
+/// )
 ///
 static Future<{{ returnType }}> {{ methodName }}(
   CanisterActor actor,
