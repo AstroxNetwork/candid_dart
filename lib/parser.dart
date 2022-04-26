@@ -249,7 +249,7 @@ class ClassDefListener extends CandidBaseListener {
                 : "$dartType.fromList({{val}})",
           );
         }
-        var dartType = 'List<${field.type}>';
+        var dartType = 'List<${field.type.opt(field.opt)}>';
         var ser = field.ser;
         if (ser != null) {
           ser =
@@ -426,8 +426,16 @@ class IDLListener extends CandidBaseListener {
 
   IDLField _resolveTypeNode(TypeNode node) {
     var ctx = node.ctx;
-    if (ctx is DataTypeContext || ctx is OptTypeContext) {
+    if (ctx is DataTypeContext) {
       return _resolveTypeNode(node.children.first);
+    } else if (ctx is OptTypeContext) {
+      var field = _resolveTypeNode(node.children.first);
+      return IDLField(
+        did: ctx.text,
+        idl: "IDL.Opt(${field.idl})",
+        type: field.type,
+        opt: true,
+      );
     } else if (ctx is IdTypeContext) {
       var text = ctx.text;
       var dartType = kPrimitiveTypeDartMap[text];
@@ -479,7 +487,7 @@ class IDLListener extends CandidBaseListener {
               : "$dartType.fromList({{val}})",
         );
       }
-      var dartType = 'List<${field.type}>';
+      var dartType = 'List<${field.type.opt(node.optional)}>';
       var ser = field.ser;
       if (ser != null) {
         ser =
