@@ -11,7 +11,7 @@ environment:
 #   path: ^1.8.0
 
 dev_dependencies:
-  lints: ^1.0.0
+  lints: ^1.0.1
   build_runner: ^2.1.10
   candid_dart:
     path: ../

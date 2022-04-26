@@ -16,7 +16,6 @@ class Candid2DartBuilder implements Builder {
     var split = inputId.pathSegments.last.split(".");
     split.removeLast();
     var clazz = split.join("_").pascalCase;
-    print('class: ${inputId.path} => $clazz');
     var code = codegen(clazz, contents);
     var outputId = inputId.changeExtension('.idl.dart');
     await buildStep.writeAsString(outputId, code);
@@ -25,7 +24,7 @@ class Candid2DartBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions {
     return const {
-      ".did": ['.idl.dart', '.idl.class.dart'],
+      ".did": ['.idl.dart'],
     };
   }
 }

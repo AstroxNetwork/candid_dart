@@ -12,13 +12,45 @@ import 'package:recase/recase.dart';
 
 class TypeDefListener extends CandidBaseListener {
   final Set<String> typeDefs = {};
+  final Map<String, String> primIdlMap = {};
+  final Set<String> _prims = {};
+  final Map<String, List<String>> _mapTypes = {};
 
   @override
   void enterDef(DefContext ctx) {
     var type = ctx.idType()!.text;
     typeDefs.add(type);
     var node = TypeNode(ctx.dataType()!);
+    var first = node.children.first;
+    if (first.ctx is IdTypeContext) {
+      _mapTypes.putIfAbsent(first.ctx.text, () => []).add(type);
+      var idTypeNode = first.children.first;
+      if (idTypeNode.ctx is PrimTypeContext) {
+        var id = idTypeNode.ctx.text;
+        _prims.add(id);
+        primIdlMap[type] = kPrimitiveTypeIDLMap[id]!;
+      }
+      return;
+    }
     _eachNode(node, type, typeDefs);
+  }
+
+  @override
+  void exitDid(DidContext ctx) {
+    for (var prim in _prims) {
+      var idl = kPrimitiveTypeIDLMap[prim]!;
+      _ifContainsKey(prim, idl);
+    }
+  }
+
+  void _ifContainsKey(String key, String idl) {
+    if (_mapTypes.containsKey(key)) {
+      var types = _mapTypes[key]!;
+      primIdlMap.addEntries(types.map((e) => MapEntry(e, idl)));
+      for (var t in types) {
+        _ifContainsKey(t, idl);
+      }
+    }
   }
 
   void _eachNode(TypeNode node, String type, Set<String> defs) {
@@ -69,9 +101,10 @@ class TypeDefListener extends CandidBaseListener {
 }
 
 class ClassDefListener extends CandidBaseListener {
-  ClassDefListener(this.defTypes);
+  ClassDefListener(this.defTypes, this.primIdlMap);
 
   final Set<String> defTypes;
+  final Map<String, String> primIdlMap;
   final StringBuffer _sb = StringBuffer();
   final Map<String, List<ClassField>> classFields = {};
 
@@ -81,6 +114,12 @@ class ClassDefListener extends CandidBaseListener {
   void enterDef(DefContext ctx) {
     var type = ctx.idType()!.text;
     var node = TypeNode(ctx.dataType()!);
+    var first = node.children.first;
+    if (first.ctx is IdTypeContext) {
+      var id = first.ctx.text;
+      _sb.writeln("typedef $type = ${kPrimitiveTypeDartMap[id] ?? id};");
+      return;
+    }
     _eachNode(node, type);
   }
 
@@ -164,17 +203,20 @@ class ClassDefListener extends CandidBaseListener {
         );
       }
       if (defTypes.contains(text)) {
+        var isPrimType = primIdlMap.containsKey(text);
         return ClassField(
           id: id,
           did: text,
           type: text,
-          idl: '$text.idl',
+          idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           obj: false,
           opt: true,
           // ser: ["{{val}}.toJson()", "{{val}}?.toJson()"],
-          deser: node.optional
-              ? "{{val}}==null?null:$text.fromMap({{val}})"
-              : "$text.fromMap({{val}})",
+          deser: isPrimType
+              ? null
+              : node.optional
+                  ? "{{val}}==null?null:$text.fromMap({{val}})"
+                  : "$text.fromMap({{val}})",
         );
       }
       return ClassField(
@@ -263,6 +305,7 @@ class ClassDefListener extends CandidBaseListener {
 class IDLListener extends CandidBaseListener {
   final String clazz;
   final Set<String> defTypes;
+  final Map<String, String> primIdlMap;
   String _idlCodes = "";
 
   String get idlCodes => _idlCodes;
@@ -270,6 +313,7 @@ class IDLListener extends CandidBaseListener {
   IDLListener(
     this.clazz,
     this.defTypes,
+    this.primIdlMap,
   );
 
   @override
@@ -404,14 +448,17 @@ class IDLListener extends CandidBaseListener {
         );
       }
       if (defTypes.contains(text)) {
+        var isPrimType = primIdlMap.containsKey(text);
         return IDLField(
           did: text,
-          idl: "$text.idl",
+          idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           type: text,
           opt: node.optional,
-          deser: node.optional
-              ? "{{val}}==null?null:$text.fromMap({{val}})"
-              : "$text.fromMap({{val}})",
+          deser: isPrimType
+              ? null
+              : node.optional
+                  ? "{{val}}==null?null:$text.fromMap({{val}})"
+                  : "$text.fromMap({{val}})",
         );
       }
     } else if (ctx is VecTypeContext) {
@@ -791,9 +838,9 @@ String codegen(String clazz, String contents) {
   var did = parser.did();
   var typeDef = TypeDefListener();
   ParseTreeWalker.DEFAULT.walk(typeDef, did);
-  var classDef = ClassDefListener(typeDef.typeDefs);
+  var classDef = ClassDefListener(typeDef.typeDefs, typeDef.primIdlMap);
   ParseTreeWalker.DEFAULT.walk(classDef, did);
-  var idl = IDLListener(clazz, typeDef.typeDefs);
+  var idl = IDLListener(clazz, typeDef.typeDefs, typeDef.primIdlMap);
   ParseTreeWalker.DEFAULT.walk(idl, did);
   var formatter = DartFormatter();
   var code = Template(
@@ -829,12 +876,12 @@ const kPrimitiveTypeIDLMap = <String, String>{
 };
 
 const kIntDartMap = <String, String>{
-  "int": "int",
+  "int": "BigInt",
   "int8": "int",
   "int16": "int",
   "int32": "int",
   "int64": "BigInt",
-  "nat": "int",
+  "nat": "BigInt",
   "nat8": "int",
   "nat16": "int",
   "nat32": "int",

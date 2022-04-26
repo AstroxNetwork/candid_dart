@@ -8,7 +8,7 @@ void main() {
     test('First Test', () async {
       var input = File('example/lib/did/test.did').readAsStringSync();
       var code = codegen("TestIDL", input);
-      File('example/lib/did/test.did.dart').writeAsStringSync(code);
+      File('example/lib/did/test.idl.dart').writeAsStringSync(code);
     });
   });
 }

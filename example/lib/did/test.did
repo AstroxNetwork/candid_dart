@@ -1,8 +1,16 @@
+
+type Name = text;
+type Mobile = nat;
+type Phone = Mobile;
+type Contact = Phone;
+type Tel = Phone;
+
 type Tim = record {
-   name: text;
-   phone: nat;
+   name: Name;
+   phone: Phone;
    profile: text;
 };
+
 service : {
   insert: (text, text, text) -> ();
   lookup: (text) -> (opt Tim) query;
