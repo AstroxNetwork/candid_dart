@@ -435,6 +435,8 @@ class IDLListener extends CandidBaseListener {
         idl: "IDL.Opt(${field.idl})",
         type: field.type,
         opt: true,
+        ser: field.ser,
+        deser: field.deser,
       );
     } else if (ctx is IdTypeContext) {
       var text = ctx.text;
