@@ -45,3 +45,12 @@ extension StringExt on String {
     return newVal;
   }
 }
+
+extension ForTypeString on String {
+  String opt(bool optional) {
+    if (optional) {
+      return "${this}?";
+    }
+    return this;
+  }
+}

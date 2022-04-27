@@ -6,6 +6,8 @@ import 'package:recase/recase.dart';
 import '../codegen.dart';
 import '../consts.dart';
 import '../entries.dart';
+import '../extension.dart';
+import '../serialize.dart';
 import '../templates.dart';
 
 class ClassDefParser extends CandidBaseListener {
@@ -63,7 +65,6 @@ class ClassDefParser extends CandidBaseListener {
         );
       } else if (ctx is PairTypeContext) {
         var id = ctx.idType()!.text;
-        // [idType,dataType] []
         var dataTypeChildNode = child.children.last.children.first;
         return _resolveTypeNode(dataTypeChildNode, id, type);
       }
@@ -99,16 +100,13 @@ class ClassDefParser extends CandidBaseListener {
       if (dartType != null && idlType != null) {
         String? deser;
         if (idlType == 'IDL.Principal') {
-          deser = node.optional
-              ? "{{val}}==null?null:$dartType.from({{val}})"
-              : "$dartType.from({{val}})";
+          deser = Ser.principal(node.optional).item2;
         }
         return ClassField(
           id: id,
           did: text,
           type: dartType,
           idl: idlType,
-          obj: false,
           opt: node.optional,
           deser: deser,
         );
@@ -120,14 +118,8 @@ class ClassDefParser extends CandidBaseListener {
           did: text,
           type: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
-          obj: false,
           opt: true,
-          // ser: ["{{val}}.toJson()", "{{val}}?.toJson()"],
-          deser: isPrimType
-              ? null
-              : node.optional
-                  ? "{{val}}==null?null:$text.fromMap({{val}},)"
-                  : "$text.fromMap({{val}},)",
+          deser: isPrimType ? null : Ser.obj(text, node.optional).item2,
         );
       }
       return ClassField(
@@ -135,7 +127,6 @@ class ClassDefParser extends CandidBaseListener {
         did: text,
         type: 'bool',
         idl: 'IDL.Null',
-        obj: false,
         opt: true,
       );
     } else if (ctx is VecTypeContext || ctx is OptTypeContext) {
@@ -145,41 +136,27 @@ class ClassDefParser extends CandidBaseListener {
         var idlType = "IDL.Vec(${field.idl},)";
         if (field.did == 'nat8' || field.did == 'int8') {
           var dartType = 'Uint8List';
+          var ser = Ser.uint8List(node.optional);
           return ClassField(
             id: field.id,
             did: ctx.text,
             type: dartType,
             idl: idlType,
-            obj: false,
             opt: node.optional,
-            ser: node.optional
-                ? "{{val}}?.toList(growable: false)"
-                : "{{val}}.toList(growable: false)",
-            deser: node.optional
-                ? "{{val}}==null?null:$dartType.fromList({{val}})"
-                : "$dartType.fromList({{val}})",
+            ser: ser.item1,
+            deser: ser.item2,
           );
         }
         var dartType = 'List<${field.type.opt(field.opt)}>';
-        var ser = field.ser;
-        if (ser != null) {
-          ser =
-              "{{val}}${node.optional ? '?' : ''}.map((dynamic e) => ${ser.replaceAll("{{val}}", "e")},)";
-        }
-        var deser = field.deser;
-        if (deser != null) {
-          deser =
-              "{{val}}${node.optional ? '?' : ''}.map((dynamic e) => ${deser.replaceAll("{{val}}", "e")},).toList(growable: false)";
-        }
+        var sers = Ser.list(field);
         return ClassField(
           id: field.id,
           did: ctx.text,
           type: dartType,
           idl: idlType,
-          obj: false,
           opt: node.optional,
-          ser: ser,
-          deser: deser,
+          ser: sers.item1,
+          deser: sers.item2,
         );
       } else {
         return ClassField(
@@ -195,6 +172,7 @@ class ClassDefParser extends CandidBaseListener {
       }
     } else if (ctx is VariantTypeContext || ctx is RecordTypeContext) {
       var newType = type + id.pascalCase;
+      var deser = Ser.obj(newType, node.optional).item2;
       return ClassField(
         id: id,
         did: ctx.text,
@@ -202,10 +180,7 @@ class ClassDefParser extends CandidBaseListener {
         idl: "$newType.idl",
         obj: true,
         opt: node.optional,
-        // ser: ["{{val}}.toJson()", "{{val}}?.toJson()"],
-        deser: node.optional
-            ? "{{val}}==null?null:$newType.fromMap({{val}},)"
-            : "$newType.fromMap({{val}},)",
+        deser: deser,
       );
     } else if (ctx is RefTypeContext) {}
 

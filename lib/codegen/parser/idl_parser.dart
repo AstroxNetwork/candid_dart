@@ -1,12 +1,13 @@
 import 'package:candid_dart/antlr/CandidBaseListener.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
-import 'package:candid_dart/codegen/extension.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
 
 import '../codegen.dart';
 import '../consts.dart';
 import '../entries.dart';
+import '../extension.dart';
+import '../serialize.dart';
 import '../templates.dart';
 
 class IDLParser extends CandidBaseListener {
@@ -58,7 +59,7 @@ class IDLParser extends CandidBaseListener {
           var first = argsField.first;
           params = '${first.type.opt(first.opt)} arg,';
           if (first.ser != null) {
-            idlParams = "<dynamic>[${first.ser!.replaceAll("{{val}}", "arg")}]";
+            idlParams = "<dynamic>[${first.ser!.replaceAll(Ser.ph, "arg")}]";
           } else {
             idlParams = "<dynamic>[arg]";
           }
@@ -71,7 +72,7 @@ class IDLParser extends CandidBaseListener {
               var f = argsField.elementAt(i);
               var ind = i + 1;
               if (f.ser != null) {
-                ser.write(f.deser!.replaceAll("{{val}}", "args.item$ind"));
+                ser.write(f.deser!.replaceAll(Ser.ph, "args.item$ind"));
               } else {
                 ser.write("args.item$ind");
               }
@@ -95,6 +96,8 @@ class IDLParser extends CandidBaseListener {
           "methodName": key.camelCase,
           "renderParams": (_) => params,
           "renderParamsName": (_) => idlParams,
+          "idlName": clazz,
+          "idlMethodName": key.pascalCase,
           "hasReturn": !noReturn,
           "returnType": noReturn
               ? 'void'
@@ -107,7 +110,7 @@ class IDLParser extends CandidBaseListener {
             }
             var deser = returnsField.first.deser;
             if (deser != null) {
-              return "return ${deser.replaceAll("{{val}}", "resp")};";
+              return "return ${deser.replaceAll(Ser.ph, "resp")};";
             }
             return "return resp;";
           },
@@ -152,9 +155,7 @@ class IDLParser extends CandidBaseListener {
       if (dartType != null && idlType != null) {
         String? deser;
         if (idlType == 'IDL.Principal') {
-          deser = node.optional
-              ? "{{val}}==null?null:$dartType.from({{val}})"
-              : "$dartType.from({{val}})";
+          deser = Ser.principal(node.optional).item2;
         }
         return IDLField(
           did: text,
@@ -171,11 +172,7 @@ class IDLParser extends CandidBaseListener {
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           type: text,
           opt: node.optional,
-          deser: isPrimType
-              ? null
-              : node.optional
-                  ? "{{val}}==null?null:$text.fromMap({{val}},)"
-                  : "$text.fromMap({{val}},)",
+          deser: isPrimType ? null : Ser.obj(text, node.optional).item2,
         );
       }
     } else if (ctx is VecTypeContext) {
@@ -183,70 +180,36 @@ class IDLParser extends CandidBaseListener {
       var idlType = "IDL.Vec(${field.idl},)";
       if (field.did == 'nat8' || field.did == 'int8') {
         var dartType = 'Uint8List';
+        var ser = Ser.uint8List(node.optional);
         return IDLField(
           did: ctx.text,
           type: dartType,
           idl: idlType,
           opt: node.optional,
-          ser: node.optional
-              ? "{{val}}?.toList(growable: false)"
-              : "{{val}}.toList(growable: false)",
-          deser: node.optional
-              ? "{{val}}==null?null:$dartType.fromList({{val}})"
-              : "$dartType.fromList({{val}})",
+          ser: ser.item1,
+          deser: ser.item2,
         );
       }
       var dartType = 'List<${field.type.opt(node.optional)}>';
-      var ser = field.ser;
-      if (ser != null) {
-        ser =
-            "{{val}}${node.optional ? '?' : ''}.map((dynamic e) => ${ser.replaceAll("{{val}}", "e")},)";
-      }
-      var deser = field.deser;
-      if (deser != null) {
-        deser =
-            "{{val}}${node.optional ? '?' : ''}.map((dynamic e) => ${deser.replaceAll("{{val}}", "e")},).toList(growable: false)";
-      }
+      var sers = Ser.list(field);
       return IDLField(
         did: ctx.text,
         idl: idlType,
         type: dartType,
         opt: node.optional,
-        ser: ser,
-        deser: deser,
+        ser: sers.item1,
+        deser: sers.item2,
       );
     } else if (ctx is RecordTypeContext || ctx is VariantTypeContext) {
       var fields = node.children.map((e) => _resolveTypeNode(e.children.first));
-      var idlTypes = fields.map((e) => e.idl).join(",");
-      var dartTypes = fields.map((e) => e.type.opt(e.opt)).join(",");
-      var deser = StringBuffer();
-      var ser = StringBuffer();
-      for (var i = 0; i < fields.length; ++i) {
-        var f = fields.elementAt(i);
-        var ind = i + 1;
-        if (f.ser != null) {
-          ser.write(f.deser!.replaceAll("{{val}}", "{{val}}.item$ind"));
-        } else {
-          ser.write("{{val}}.item$ind");
-        }
-        ser.write(",");
-
-        if (f.deser != null) {
-          deser.write(f.deser!.replaceAll("{{val}}", "{{val}}[$i]"));
-        } else {
-          deser.write("{{val}}[$i]");
-        }
-        deser.write(",");
-      }
+      var tuple4 = Ser.tuple(fields);
       return IDLField(
         did: ctx.text,
-        idl: "IDL.Tuple(<CType<dynamic>>[$idlTypes],)",
-        type: fields.length == 1
-            ? dartTypes
-            : "Tuple${fields.length}<$dartTypes>",
-        opt: ctx is VariantTypeContext || node.optional,
-        ser: "<dynamic>[$ser]",
-        deser: "Tuple${fields.length}<$dartTypes>.fromList(<dynamic>[$deser],)",
+        idl: tuple4.item4,
+        type: tuple4.item3,
+        opt: node.optional,
+        ser: tuple4.item1,
+        deser: tuple4.item2,
       );
     } else if (ctx is RefTypeContext) {}
     throw UnsupportedTypeContextException(ctx);

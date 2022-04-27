@@ -41,17 +41,17 @@ const idlMethod = """
 // language=Handlebars
 const idlReqMethod = """
 ///
-/// {{ idlName }}: IDL.Func(
+/// {{ idlMethodName }}: IDL.Func(
 ///    <CType<dynamic>>[{{ idlReq }}],
 ///    <CType<dynamic>>[{{ idlRep }}],
 ///    <String>[{{ funcAnno }}],
 /// )
 ///
-static Future<{{ returnType }}> {{ methodName }}(
+Future<{{ returnType }}> {{ methodName }}(
   CanisterActor actor,
  {{# renderParams }}{{/ renderParams }}
 ) async {
-  {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }})!(
+  {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ idlMethodName }})!(
     {{# renderParamsName }}{{/ renderParamsName }},
   );
   {{# renderReturn }}{{/ renderReturn }}
@@ -68,9 +68,8 @@ class {{ clazz }} {
   static final Service idl = IDL.Service(<String, FuncClass>{
     {{ pairs }}
   });
-  
-  {{ methods }}
 }
+{{ methods }}
 """;
 
 // language=Handlebars

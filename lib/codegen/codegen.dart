@@ -1,11 +1,13 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:candid_dart/antlr/CandidLexer.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
+import 'package:candid_dart/codegen/serialize.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
 
 import 'entries.dart';
+import 'extension.dart';
 import 'parser/class_def_parser.dart';
 import 'parser/idl_parser.dart';
 import 'parser/type_def_parser.dart';
@@ -16,7 +18,7 @@ class ClassRender {
     return (LambdaContext _) => fields.map((e) {
           var arg = e.ser == null
               ? e.id.camelCase
-              : e.ser!.replaceAll("{{val}}", e.id.camelCase);
+              : e.ser!.replaceAll(Ser.ph, e.id.camelCase);
           return "'${e.id}': $arg,";
         }).join("\n");
   }
@@ -46,7 +48,7 @@ class ClassRender {
         return fields.map((e) {
           String deser;
           if (e.deser != null) {
-            deser = e.deser!.replaceAll("{{val}}", "map['${e.id}']");
+            deser = e.deser!.replaceAll(Ser.ph, "map['${e.id}']");
           } else if (e.obj) {
             if (e.opt) {
               deser =
@@ -66,7 +68,7 @@ class ClassRender {
     return (LambdaContext _) => fields.map((e) {
           String deser;
           if (e.deser != null) {
-            deser = e.deser!.replaceAll("{{val}}", "map['${e.id}']");
+            deser = e.deser!.replaceAll(Ser.ph, "map['${e.id}']");
           } else if (e.obj) {
             if (e.opt) {
               deser =
@@ -114,15 +116,6 @@ class UnsupportedTypeContextException implements Exception {
   @override
   String toString() {
     return "Unsupported type rule context `<${ctx.runtimeType}=${ctx.text}>`.";
-  }
-}
-
-extension ForTypeString on String {
-  String opt(bool optional) {
-    if (optional) {
-      return "${this}?";
-    }
-    return this;
   }
 }
 

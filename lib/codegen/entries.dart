@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:antlr4/antlr4.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
 
+import 'serialize.dart';
+
 class TypeNode {
   final RuleContext ctx;
 
@@ -93,12 +95,18 @@ class TypeNode {
   }
 }
 
-class IDLField {
+class IDLField implements Ser {
+  @override
   final String did;
+  @override
   final String idl;
+  @override
   final String type;
+  @override
   final bool opt;
+  @override
   final String? ser;
+  @override
   final String? deser;
 
   IDLField({
@@ -127,23 +135,30 @@ class IDLField {
   }
 }
 
-class ClassField extends Comparable<ClassField> {
-  final String id;
+class ClassField extends Comparable<ClassField> implements Ser {
+  @override
   final String did;
+  @override
   final String type;
+  @override
   final String idl;
-  final bool obj;
+  @override
   final bool opt;
+  @override
   final String? ser;
+  @override
   final String? deser;
+
+  final String id;
+  final bool obj;
 
   ClassField({
     required this.id,
     required this.did,
     required this.type,
     required this.idl,
-    required this.obj,
     required this.opt,
+    this.obj = false,
     this.ser,
     this.deser,
   });
