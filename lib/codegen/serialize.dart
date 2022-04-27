@@ -21,20 +21,30 @@ abstract class Ser {
 
   static const String ph = "{{val}}";
 
-  static Tuple2<void, String> principal([bool opt = false]) {
-    return Tuple2(
-      null,
-      opt ? "$ph == null ? null : Principal.from($ph)" : "Principal.from($ph)",
-    );
+  static Tuple2<String, String> principal([bool opt = false]) {
+    String s;
+    String d;
+    if (opt) {
+      s = "$ph?.toJson()";
+      d = "$ph == null ? null : Principal.from($ph)";
+    } else {
+      s = "$ph.toJson()";
+      d = "Principal.from($ph)";
+    }
+    return Tuple2(s, d);
   }
 
-  static Tuple2<void, String> obj(String clazz, [bool opt = false]) {
-    return Tuple2(
-      null,
-      opt
-          ? "$ph == null ? null : $clazz.fromMap($ph,)"
-          : "$clazz.fromMap($ph,)",
-    );
+  static Tuple2<String, String> obj(String clazz, [bool opt = false]) {
+    String s;
+    String d;
+    if (opt) {
+      s = "$ph?.toJson()";
+      d = "$ph == null ? null : $clazz.fromMap($ph,)";
+    } else {
+      s = "$ph.toJson()";
+      d = "$clazz.fromMap($ph,)";
+    }
+    return Tuple2(s, d);
   }
 
   static Tuple2<String, String> uint8List([bool opt = false]) {
