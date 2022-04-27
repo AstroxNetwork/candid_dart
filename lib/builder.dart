@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:build/build.dart';
-import 'package:candid_dart/parser.dart';
+import 'package:candid_dart/codegen/codegen.dart';
 import 'package:recase/recase.dart';
 
 Builder candid2DartBuilder(BuilderOptions options) => Candid2DartBuilder();

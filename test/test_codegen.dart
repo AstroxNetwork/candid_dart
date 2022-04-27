@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:candid_dart/parser.dart';
+import 'package:candid_dart/codegen/codegen.dart';
 import 'package:test/test.dart';
 
 void main() {
