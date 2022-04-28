@@ -144,7 +144,7 @@ class IDLParser extends CandidBaseListener {
         did: ctx.text,
         idl: "IDL.Opt(${field.idl},)",
         type: field.type,
-        opt: true,
+        opt: field.opt,
         ser: field.ser,
         deser: field.deser,
       );

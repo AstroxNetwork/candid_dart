@@ -20,13 +20,10 @@ class ClassDefParser extends CandidBaseListener {
 
   String get classCodes => _sb.toString();
 
-  var nodes = {};
-
   @override
   void enterDef(DefContext ctx) {
     var type = ctx.idType()!.text;
     var node = TypeNode(ctx.dataType()!);
-    nodes[type] = node;
     var first = node.children.first;
     if (first.ctx is IdTypeContext) {
       var id = first.ctx.text;
@@ -118,7 +115,7 @@ class ClassDefParser extends CandidBaseListener {
           did: text,
           type: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
-          opt: true,
+          opt: node.optional,
           deser: isPrimType ? null : Ser.obj(text, node.optional).item2,
         );
       }
@@ -165,7 +162,7 @@ class ClassDefParser extends CandidBaseListener {
           type: field.type,
           idl: "IDL.Opt(${field.idl},)",
           obj: field.obj,
-          opt: true,
+          opt: field.opt,
           ser: field.ser,
           deser: field.deser,
         );
