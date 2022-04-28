@@ -1,30 +1,61 @@
+import 'dart:convert';
+
 import 'package:tuple/tuple.dart';
 
 import 'extension.dart';
 
-abstract class Ser {
+class SerField {
+  final String? id;
   final String did;
   final String idl;
   final String type;
-  final bool opt;
+  final bool nullable;
   final String? ser;
   final String? deser;
 
-  const Ser._(
-    this.idl,
-    this.type,
-    this.did, {
-    this.opt = false,
+  const SerField({
+    required this.idl,
+    required this.type,
+    required this.did,
+    this.id,
+    this.nullable = false,
     this.ser,
     this.deser,
   });
 
+  @override
+  String toString() {
+    return jsonEncode(toJson());
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "did": did,
+      "type": type,
+      "idl": idl,
+      "null": nullable,
+      if (ser != null) "ser": ser,
+      if (deser != null) "deser": deser,
+    };
+  }
+
   static const String ph = "{{val}}";
 
-  static Tuple2<String, String> principal([bool opt = false]) {
+  static Tuple2<String, String> bigInt([bool nullable = false]) {
+    String d;
+    if (nullable) {
+      d = "$ph == null ? null : BigInt.from($ph)";
+    } else {
+      d = "BigInt.from($ph)";
+    }
+    return Tuple2(ph, d);
+  }
+
+  static Tuple2<String, String> principal([bool nullable = false]) {
     String s;
     String d;
-    if (opt) {
+    if (nullable) {
       s = "$ph?.toJson()";
       d = "$ph == null ? null : Principal.from($ph)";
     } else {
@@ -34,10 +65,10 @@ abstract class Ser {
     return Tuple2(s, d);
   }
 
-  static Tuple2<String, String> obj(String clazz, [bool opt = false]) {
+  static Tuple2<String, String> obj(String clazz, [bool nullable = false]) {
     String s;
     String d;
-    if (opt) {
+    if (nullable) {
       s = "$ph?.toJson()";
       d = "$ph == null ? null : $clazz.fromMap($ph,)";
     } else {
@@ -47,10 +78,10 @@ abstract class Ser {
     return Tuple2(s, d);
   }
 
-  static Tuple2<String, String> uint8List([bool opt = false]) {
+  static Tuple2<String, String> uint8List([bool nullable = false]) {
     String s;
     String d;
-    if (opt) {
+    if (nullable) {
       s = "$ph?.toList(growable: false)";
       d = "$ph == null ? null : Uint8List.fromList($ph)";
     } else {
@@ -60,29 +91,46 @@ abstract class Ser {
     return Tuple2(s, d);
   }
 
-  static Tuple2<String?, String?> list(
-    Ser ser, [
-    bool opt = false,
-  ]) {
-    var s = ser.ser;
-    if (s != null) {
-      s = "$ph${opt ? '?' : ''}.map<${ser.type.opt(ser.opt)}>((dynamic e) { return ${s.replaceAll(ph, "e")}; })";
+  static Tuple2<String?, String?> opt(SerField ser) {
+    String? s;
+    String? d;
+    var type = ser.type.nullable(ser.nullable);
+    if (ser.ser != null) {
+      s = "[if($ph != null) ${ser.ser}]";
+    } else {
+      s = "[if($ph !=null) $ph]";
     }
-    var d = ser.deser;
-    if (d != null) {
-      d = "$ph${opt ? '?' : ''}.map<${ser.type.opt(ser.opt)}>((dynamic e) { return ${d.replaceAll(ph, "e")}; }).toList(growable: false)";
+    if (ser.deser != null) {
+      d = "$ph?.map<$type>((dynamic e){ return ${ser.deser!.replaceAll(ph, 'e')}; }).firstOrNull";
+    } else {
+      d = "$ph?.firstOrNull";
     }
     return Tuple2(s, d);
   }
 
-  static Tuple4<String, String, String, String> tuple(Iterable<Ser> sers) {
+  static Tuple2<String?, String?> list(
+    SerField ser, [
+    bool nullable = false,
+  ]) {
+    var s = ser.ser;
+    if (s != null) {
+      s = "$ph${nullable ? '?' : ''}.map<${ser.type.nullable(ser.nullable)}>((dynamic e) { return ${s.replaceAll(ph, "e")}; })";
+    }
+    var d = ser.deser;
+    if (d != null) {
+      d = "$ph${nullable ? '?' : ''}.map<${ser.type.nullable(ser.nullable)}>((dynamic e) { return ${d.replaceAll(ph, "e")}; }).toList(growable: false)";
+    }
+    return Tuple2(s, d);
+  }
+
+  static Tuple4<String, String, String, String> tuple(Iterable<SerField> sers) {
     var ser = StringBuffer();
     var deser = StringBuffer();
     var types = [];
     var idl = [];
     for (var i = 0; i < sers.length; ++i) {
       var f = sers.elementAt(i);
-      types.add(f.type.opt(f.opt));
+      types.add(f.type.nullable(f.nullable));
       idl.add(f.idl);
       var ind = i + 1;
       var s = f.ser;

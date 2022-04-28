@@ -3,7 +3,7 @@ import 'package:candid_dart/antlr/CandidParser.dart';
 import 'package:recase/recase.dart';
 
 import '../consts.dart';
-import '../entries.dart';
+import '../type_node.dart';
 
 class TypeDefParser extends CandidBaseListener {
   final Set<String> typeDefs = {};

@@ -47,7 +47,7 @@ extension StringExt on String {
 }
 
 extension ForTypeString on String {
-  String opt(bool optional) {
+  String nullable(bool optional) {
     if (optional) {
       return "${this}?";
     }

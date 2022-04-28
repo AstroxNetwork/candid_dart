@@ -6,7 +6,6 @@ import 'package:dart_style/dart_style.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
 
-import 'entries.dart';
 import 'extension.dart';
 import 'parser/class_def_parser.dart';
 import 'parser/idl_parser.dart';
@@ -14,16 +13,16 @@ import 'parser/type_def_parser.dart';
 import 'templates.dart';
 
 class ClassRender {
-  static renderToJsonFields(Iterable<ClassField> fields) {
+  static renderToJsonFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
           var arg = e.ser == null
-              ? e.id.camelCase
-              : e.ser!.replaceAll(Ser.ph, e.id.camelCase);
+              ? e.id!.camelCase
+              : e.ser!.replaceAll(SerField.ph, e.id!.camelCase);
           return "'${e.id}': $arg,";
         }).join("\n");
   }
 
-  static renderRecordIDL(Iterable<ClassField> fields) {
+  static renderRecordIDL(Iterable<SerField> fields) {
     return (LambdaContext _) => """
       static final RecordClass idl = IDL.Record(<String, dynamic>{
         ${fields.map((e) => "'${e.id}': ${e.idl},").join("\n")}
@@ -31,7 +30,7 @@ class ClassRender {
     """;
   }
 
-  static renderVariantIDL(String type, Iterable<ClassField> fields) {
+  static renderVariantIDL(String type, Iterable<SerField> fields) {
     // var defaultType = fields.isNotEmpty
     //     ? 'static const $type defaultType = $type(${fields.first.id.camelCase}: true);'
     //     : '';
@@ -42,57 +41,43 @@ class ClassRender {
     """;
   }
 
-  static renderFromMapFields(bool isVariant, Iterable<ClassField> fields) {
+  static renderFromMapFields(bool isVariant, Iterable<SerField> fields) {
     if (isVariant) {
       return (LambdaContext _) {
         return fields.map((e) {
           String deser;
           if (e.deser != null) {
-            deser = e.deser!.replaceAll(Ser.ph, "map['${e.id}']");
-          } else if (e.obj) {
-            if (e.opt) {
-              deser =
-                  "map.containsKey('${e.id}') ? ${e.type}.fromMap(map['${e.id}'],) : null";
-            } else {
-              deser = "${e.type}.fromMap(map['${e.id}'],)";
-            }
+            deser = e.deser!.replaceAll(SerField.ph, "map['${e.id}']");
           } else {
             deser = e.type == 'bool'
                 ? "map.containsKey('${e.id}')"
                 : "map['${e.id}']";
           }
-          return "${e.id.camelCase}: $deser,";
+          return "${e.id!.camelCase}: $deser,";
         }).join("\n");
       };
     }
     return (LambdaContext _) => fields.map((e) {
           String deser;
           if (e.deser != null) {
-            deser = e.deser!.replaceAll(Ser.ph, "map['${e.id}']");
-          } else if (e.obj) {
-            if (e.opt) {
-              deser =
-                  "map.containsKey('${e.id}') ? ${e.type}.fromMap(map['${e.id}'],) : null";
-            } else {
-              deser = "${e.type}.fromMap(map['${e.id}'],)";
-            }
+            deser = e.deser!.replaceAll(SerField.ph, "map['${e.id}']");
           } else {
             deser = "map['${e.id}']";
           }
-          return "${e.id.camelCase}: $deser,";
+          return "${e.id!.camelCase}: $deser,";
         }).join("\n");
   }
 
-  static renderConstructorFields(Iterable<ClassField> fields) {
+  static renderConstructorFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields
-        .map((e) => "${e.opt ? '' : 'required'} this.${e.id.camelCase},")
+        .map((e) => "${e.nullable ? '' : 'required'} this.${e.id!.camelCase},")
         .join("\n");
   }
 
-  static renderFields(Iterable<ClassField> fields) {
+  static renderFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields
         .map((e) =>
-            "/// did: ${e.did} \nfinal ${e.type.opt(e.opt)} ${e.id.camelCase};")
+            "/// did: ${e.did} \nfinal ${e.type.nullable(e.nullable)} ${e.id!.camelCase};")
         .join("\n");
   }
 }

@@ -5,10 +5,10 @@ import 'package:recase/recase.dart';
 
 import '../codegen.dart';
 import '../consts.dart';
-import '../entries.dart';
 import '../extension.dart';
 import '../serialize.dart';
 import '../templates.dart';
+import '../type_node.dart';
 
 class IDLParser extends CandidBaseListener {
   final String clazz;
@@ -58,22 +58,23 @@ class IDLParser extends CandidBaseListener {
           idlParams = '<dynamic>[]';
         } else if (argsField.length == 1) {
           var first = argsField.first;
-          params = '${first.type.opt(first.opt)} arg,';
+          params = '${first.type.nullable(first.nullable)} arg,';
           if (first.ser != null) {
-            idlParams = "<dynamic>[${first.ser!.replaceAll(Ser.ph, "arg")},]";
+            idlParams =
+                "<dynamic>[${first.ser!.replaceAll(SerField.ph, "arg")},]";
           } else {
             idlParams = "<dynamic>[arg]";
           }
         } else {
           params =
-              'Tuple${argsField.length}<${argsField.map((e) => e.type.opt(e.opt)).join(",")}> args,';
+              'Tuple${argsField.length}<${argsField.map((e) => e.type.nullable(e.nullable)).join(",")}> args,';
           if (argsField.any((e) => e.ser != null)) {
             var ser = StringBuffer();
             for (var i = 0; i < argsField.length; ++i) {
               var f = argsField.elementAt(i);
               var ind = i + 1;
               if (f.ser != null) {
-                ser.write(f.ser!.replaceAll(Ser.ph, "args.item$ind"));
+                ser.write(f.ser!.replaceAll(SerField.ph, "args.item$ind"));
               } else {
                 ser.write("args.item$ind");
               }
@@ -103,7 +104,8 @@ class IDLParser extends CandidBaseListener {
           "returnType": noReturn
               ? 'void'
               : returnsField.length == 1
-                  ? returnsField.first.type.opt(returnsField.first.opt)
+                  ? returnsField.first.type
+                      .nullable(returnsField.first.nullable)
                   : throw 'Return has more than one type.',
           "renderReturn": (_) {
             if (noReturn) {
@@ -111,7 +113,7 @@ class IDLParser extends CandidBaseListener {
             }
             var deser = returnsField.first.deser;
             if (deser != null) {
-              return "return ${deser.replaceAll(Ser.ph, "resp")};";
+              return "return ${deser.replaceAll(SerField.ph, "resp")};";
             }
             return "return resp;";
           },
@@ -129,25 +131,26 @@ class IDLParser extends CandidBaseListener {
     });
   }
 
-  List<IDLField> _resolveTupleNode(TypeNode node) {
+  List<SerField> _resolveTupleNode(TypeNode node) {
     return node.children
         .map((e) => _resolveTypeNode(e))
         .toList(growable: false);
   }
 
-  IDLField _resolveTypeNode(TypeNode node) {
+  SerField _resolveTypeNode(TypeNode node) {
     var ctx = node.ctx;
     if (ctx is DataTypeContext) {
       return _resolveTypeNode(node.children.first);
     } else if (ctx is OptTypeContext) {
       var field = _resolveTypeNode(node.children.first);
-      return IDLField(
+      var sers = SerField.opt(field);
+      return SerField(
         did: ctx.text,
         idl: "IDL.Opt(${field.idl},)",
         type: field.type,
-        opt: field.opt,
-        ser: field.ser,
-        deser: field.deser,
+        nullable: field.nullable,
+        ser: sers.item1,
+        deser: sers.item2,
       );
     } else if (ctx is IdTypeContext) {
       var text = ctx.text;
@@ -156,24 +159,26 @@ class IDLParser extends CandidBaseListener {
       if (dartType != null && idlType != null) {
         String? deser;
         if (idlType == 'IDL.Principal') {
-          deser = Ser.principal(node.optional).item2;
+          deser = SerField.principal(node.nullable).item2;
+        } else if (dartType == 'BigInt') {
+          deser = SerField.bigInt(node.nullable).item2;
         }
-        return IDLField(
+        return SerField(
           did: text,
           idl: idlType,
           type: dartType,
-          opt: node.optional,
+          nullable: node.nullable,
           deser: deser,
         );
       }
       if (defTypes.contains(text)) {
         var isPrimType = primIdlMap.containsKey(text);
-        return IDLField(
+        return SerField(
           did: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           type: text,
-          opt: node.optional,
-          deser: isPrimType ? null : Ser.obj(text, node.optional).item2,
+          nullable: node.nullable,
+          deser: isPrimType ? null : SerField.obj(text, node.nullable).item2,
         );
       }
     } else if (ctx is VecTypeContext) {
@@ -181,34 +186,34 @@ class IDLParser extends CandidBaseListener {
       var idlType = "IDL.Vec(${field.idl},)";
       if (field.did == 'nat8' || field.did == 'int8') {
         var dartType = 'Uint8List';
-        var ser = Ser.uint8List(node.optional);
-        return IDLField(
+        var ser = SerField.uint8List(node.nullable);
+        return SerField(
           did: ctx.text,
           type: dartType,
           idl: idlType,
-          opt: node.optional,
+          nullable: node.nullable,
           ser: ser.item1,
           deser: ser.item2,
         );
       }
-      var dartType = 'List<${field.type.opt(field.opt)}>';
-      var sers = Ser.list(field, node.optional);
-      return IDLField(
+      var dartType = 'List<${field.type.nullable(field.nullable)}>';
+      var sers = SerField.list(field, node.nullable);
+      return SerField(
         did: ctx.text,
         idl: idlType,
         type: dartType,
-        opt: node.optional,
+        nullable: node.nullable,
         ser: sers.item1,
         deser: sers.item2,
       );
     } else if (ctx is RecordTypeContext || ctx is VariantTypeContext) {
       var fields = node.children.map((e) => _resolveTypeNode(e.children.first));
-      var tuple4 = Ser.tuple(fields);
-      return IDLField(
+      var tuple4 = SerField.tuple(fields);
+      return SerField(
         did: ctx.text,
         idl: tuple4.item4,
         type: tuple4.item3,
-        opt: node.optional,
+        nullable: node.nullable,
         ser: tuple4.item1,
         deser: tuple4.item2,
       );
