@@ -101,9 +101,9 @@ class SerField {
       s = "[if($ph !=null) $ph]";
     }
     if (ser.deser != null) {
-      d = "$ph?.map<$type>((dynamic e){ return ${ser.deser!.replaceAll(ph, 'e')}; }).firstOrNull";
+      d = "($ph?.map<$type>((dynamic e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable<$type>?)?.firstOrNull";
     } else {
-      d = "$ph?.firstOrNull";
+      d = "($ph as Iterable<$type>?)?.firstOrNull";
     }
     return Tuple2(s, d);
   }

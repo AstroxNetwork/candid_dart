@@ -84,6 +84,7 @@ const fileTpl = """
 import 'dart:typed_data';
 
 import 'package:agent_dart/agent_dart.dart';
+import 'package:collection/collection.dart';
 import 'package:tuple/tuple.dart';
 
 {{ idl }}

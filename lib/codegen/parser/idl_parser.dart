@@ -55,7 +55,7 @@ class IDLParser extends CandidBaseListener {
         String idlParams;
         if (argsField.isEmpty) {
           params = '';
-          idlParams = '<dynamic>[]';
+          idlParams = 'const <dynamic>[]';
         } else if (argsField.length == 1) {
           var first = argsField.first;
           params = '${first.type.nullable(first.nullable)} arg,';

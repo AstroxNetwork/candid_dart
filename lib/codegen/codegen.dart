@@ -1,7 +1,6 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:candid_dart/antlr/CandidLexer.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
-import 'package:candid_dart/codegen/serialize.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
@@ -10,6 +9,7 @@ import 'extension.dart';
 import 'parser/class_def_parser.dart';
 import 'parser/idl_parser.dart';
 import 'parser/type_def_parser.dart';
+import 'serialize.dart';
 import 'templates.dart';
 
 class ClassRender {
