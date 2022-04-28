@@ -91,7 +91,8 @@ class ClassRender {
 
   static renderFields(Iterable<ClassField> fields) {
     return (LambdaContext _) => fields
-        .map((e) => "final ${e.type.opt(e.opt)} ${e.id.camelCase};")
+        .map((e) =>
+            "/// did: ${e.did} \nfinal ${e.type.opt(e.opt)} ${e.id.camelCase};")
         .join("\n");
   }
 }

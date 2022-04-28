@@ -45,6 +45,7 @@ class IDLParser extends CandidBaseListener {
         var argsField = _resolveTupleNode(argsNode);
         var returnsField = _resolveTupleNode(returnsNode);
         var idlValue = {
+          'didText': md.text,
           'idlName': pcKey,
           'idlReq': argsField.map((e) => e.idl).join(","),
           'idlRep': returnsField.map((e) => e.idl).join(","),

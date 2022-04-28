@@ -31,6 +31,7 @@ class {{ clazz }} {
 
 // language=Handlebars
 const idlMethod = """
+/// {{ didText }}
 {{ idlName }}: IDL.Func(
    <CType<dynamic>>[{{ idlReq }}],
    <CType<dynamic>>[{{ idlRep }}],
@@ -40,6 +41,8 @@ const idlMethod = """
 
 // language=Handlebars
 const idlReqMethod = """
+///
+/// {{ didText }}
 ///
 /// {{ idlMethodName }}: IDL.Func(
 ///    <CType<dynamic>>[{{ idlReq }}],
