@@ -34,13 +34,13 @@ class TypeNode {
     } else if (_ctx is VariantTypeContext) {
       _setChildren(_ctx.exprTypes(), true);
     } else if (_ctx is RecordTypeContext) {
-      _setChildren(_ctx.exprTypes());
+      _setChildren(_ctx.exprTypes(), false);
     } else if (_ctx is PairTypeContext) {
       _setChildren([_ctx.idType(), _ctx.dataType()], optional);
     } else if (_ctx is IdTypeContext) {
       _setChildren([_ctx.id(), _ctx.primType()], optional);
     } else if (_ctx is VecTypeContext) {
-      _setChild(_ctx.dataType(), optional);
+      _setChild(_ctx.dataType(), false);
     } else if (_ctx is OptTypeContext) {
       _setChild(_ctx.dataType(), true);
     } else if (_ctx is TupleTypeContext) {
