@@ -60,14 +60,17 @@ abstract class Ser {
     return Tuple2(s, d);
   }
 
-  static Tuple2<String?, String?> list(Ser ser) {
+  static Tuple2<String?, String?> list(
+    Ser ser, [
+    bool opt = false,
+  ]) {
     var s = ser.ser;
     if (s != null) {
-      s = "$ph${ser.opt ? '?' : ''}.map((dynamic e) => ${s.replaceAll(ph, "e")},)";
+      s = "$ph${opt ? '?' : ''}.map<${ser.type.opt(opt)}>((dynamic e) { return ${s.replaceAll(ph, "e")}; })";
     }
     var d = ser.deser;
     if (d != null) {
-      d = "$ph${ser.opt ? '?' : ''}.map((dynamic e) => ${d.replaceAll(ph, "e")},).toList(growable: false)";
+      d = "$ph${opt ? '?' : ''}.map<${ser.type.opt(opt)}>((dynamic e) { return ${d.replaceAll(ph, "e")}; }).toList(growable: false)";
     }
     return Tuple2(s, d);
   }

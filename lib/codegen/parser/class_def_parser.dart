@@ -148,7 +148,7 @@ class ClassDefParser extends CandidBaseListener {
           );
         }
         var dartType = 'List<${field.type.opt(field.opt)}>';
-        var sers = Ser.list(field);
+        var sers = Ser.list(field, node.optional);
         return ClassField(
           id: field.id,
           did: ctx.text,

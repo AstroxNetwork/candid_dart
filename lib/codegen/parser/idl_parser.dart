@@ -59,7 +59,7 @@ class IDLParser extends CandidBaseListener {
           var first = argsField.first;
           params = '${first.type.opt(first.opt)} arg,';
           if (first.ser != null) {
-            idlParams = "<dynamic>[${first.ser!.replaceAll(Ser.ph, "arg")}]";
+            idlParams = "<dynamic>[${first.ser!.replaceAll(Ser.ph, "arg")},]";
           } else {
             idlParams = "<dynamic>[arg]";
           }
@@ -72,7 +72,7 @@ class IDLParser extends CandidBaseListener {
               var f = argsField.elementAt(i);
               var ind = i + 1;
               if (f.ser != null) {
-                ser.write(f.deser!.replaceAll(Ser.ph, "args.item$ind"));
+                ser.write(f.ser!.replaceAll(Ser.ph, "args.item$ind"));
               } else {
                 ser.write("args.item$ind");
               }
@@ -190,8 +190,8 @@ class IDLParser extends CandidBaseListener {
           deser: ser.item2,
         );
       }
-      var dartType = 'List<${field.type.opt(node.optional)}>';
-      var sers = Ser.list(field);
+      var dartType = 'List<${field.type.opt(field.opt)}>';
+      var sers = Ser.list(field, node.optional);
       return IDLField(
         did: ctx.text,
         idl: idlType,
