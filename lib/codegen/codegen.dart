@@ -50,7 +50,7 @@ class ClassRender {
             deser = e.deser!.replaceAll(SerField.ph, "map['${e.id}']");
           } else {
             deser = e.type == 'bool'
-                ? "map.containsKey('${e.id}')"
+                ? "map.containsKey('${e.id}') ? map['${e.id}'] : null"
                 : "map['${e.id}']";
           }
           return "${e.id!.camelCase}: $deser,";

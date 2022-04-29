@@ -111,13 +111,15 @@ class ClassDefParser extends CandidBaseListener {
       }
       if (defTypes.contains(text)) {
         var isPrimType = primIdlMap.containsKey(text);
+        var sers = isPrimType ? null : SerField.object(text, node.nullable);
         return SerField(
           id: id,
           did: text,
           type: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           nullable: node.nullable,
-          deser: isPrimType ? null : SerField.obj(text, node.nullable).item2,
+          // ser: sers?.item1,
+          deser: sers?.item2,
         );
       }
       return SerField(
@@ -170,14 +172,15 @@ class ClassDefParser extends CandidBaseListener {
       );
     } else if (ctx is VariantTypeContext || ctx is RecordTypeContext) {
       var newType = type + id.pascalCase;
-      var deser = SerField.obj(newType, node.nullable).item2;
+      var sers = SerField.object(newType, node.nullable);
       return SerField(
         id: id,
         did: ctx.text,
         type: newType,
         idl: "$newType.idl",
         nullable: node.nullable,
-        deser: deser,
+        // ser: sers.item1,
+        deser: sers.item2,
       );
     } else if (ctx is RefTypeContext) {}
 

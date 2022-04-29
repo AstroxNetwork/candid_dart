@@ -53,57 +53,59 @@ class SerField {
   }
 
   static Tuple2<String, String> principal([bool nullable = false]) {
-    String s;
+    // String s;
     String d;
     if (nullable) {
-      s = "$ph?.toJson()";
+      // s = "$ph?.toJson()";
       d = "$ph == null ? null : Principal.from($ph)";
     } else {
-      s = "$ph.toJson()";
+      // s = "$ph.toJson()";
       d = "Principal.from($ph)";
     }
-    return Tuple2(s, d);
+    return Tuple2(ph, d);
   }
 
-  static Tuple2<String, String> obj(String clazz, [bool nullable = false]) {
-    String s;
+  static Tuple2<String, String> object(String clazz, [bool nullable = false]) {
+    // String s;
     String d;
     if (nullable) {
-      s = "$ph?.toJson()";
+      // s = "$ph?.toJson()";
       d = "$ph == null ? null : $clazz.fromMap($ph,)";
     } else {
-      s = "$ph.toJson()";
+      // s = "$ph.toJson()";
       d = "$clazz.fromMap($ph,)";
     }
-    return Tuple2(s, d);
+    return Tuple2(ph, d);
   }
 
   static Tuple2<String, String> uint8List([bool nullable = false]) {
-    String s;
+    // String s;
     String d;
     if (nullable) {
-      s = "$ph?.toList(growable: false)";
-      d = "$ph == null ? null : Uint8List.fromList($ph)";
+      // s = "$ph?.toList(growable: false)";
+      d = "$ph == null ? null : Uint8List.fromList($ph.cast<int>())";
     } else {
-      s = "$ph.toList(growable: false)";
-      d = "Uint8List.fromList($ph)";
+      // s = "$ph.toList(growable: false)";
+      d = "Uint8List.fromList($ph.cast<int>())";
     }
-    return Tuple2(s, d);
+    return Tuple2(ph, d);
   }
 
   static Tuple2<String?, String?> opt(SerField ser) {
     String? s;
     String? d;
-    var type = ser.type.nullable(ser.nullable);
+    // var type = ser.type.nullable(ser.nullable);
     if (ser.ser != null) {
       s = "[if($ph != null) ${ser.ser}]";
     } else {
       s = "[if($ph !=null) $ph]";
     }
     if (ser.deser != null) {
-      d = "($ph?.map<$type>((dynamic e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable<$type>?)?.firstOrNull";
+      d = "($ph?.map((e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable?)?.firstOrNull";
+      // d = "($ph?.map<$type>((e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable<$type>?)?.firstOrNull";
     } else {
-      d = "($ph as Iterable<$type>?)?.firstOrNull";
+      d = "($ph as Iterable?)?.firstOrNull";
+      // d = "($ph as Iterable<$type>?)?.firstOrNull";
     }
     return Tuple2(s, d);
   }
@@ -114,11 +116,11 @@ class SerField {
   ]) {
     var s = ser.ser;
     if (s != null) {
-      s = "$ph${nullable ? '?' : ''}.map<${ser.type.nullable(ser.nullable)}>((dynamic e) { return ${s.replaceAll(ph, "e")}; })";
+      s = "$ph${nullable ? '?' : ''}.map((e) { return ${s.replaceAll(ph, "e")}; }).toList(growable: false)";
     }
     var d = ser.deser;
     if (d != null) {
-      d = "$ph${nullable ? '?' : ''}.map<${ser.type.nullable(ser.nullable)}>((dynamic e) { return ${d.replaceAll(ph, "e")}; }).toList(growable: false)";
+      d = "$ph${nullable ? '?' : ''}.map<${ser.type.nullable(ser.nullable)}>((e) { return ${d.replaceAll(ph, "e")}; }).toList(growable: false)";
     }
     return Tuple2(s, d);
   }

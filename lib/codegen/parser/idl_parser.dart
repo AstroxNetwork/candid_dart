@@ -2,6 +2,7 @@ import 'package:candid_dart/antlr/CandidBaseListener.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
+import 'package:tuple/tuple.dart';
 
 import '../codegen.dart';
 import '../consts.dart';
@@ -157,28 +158,31 @@ class IDLParser extends CandidBaseListener {
       var dartType = kPrimitiveTypeDartMap[text];
       var idlType = kPrimitiveTypeIDLMap[text];
       if (dartType != null && idlType != null) {
-        String? deser;
+        Tuple2<String, String>? sers;
         if (idlType == 'IDL.Principal') {
-          deser = SerField.principal(node.nullable).item2;
+          sers = SerField.principal(node.nullable);
         } else if (dartType == 'BigInt') {
-          deser = SerField.bigInt(node.nullable).item2;
+          sers = SerField.bigInt(node.nullable);
         }
         return SerField(
           did: text,
           idl: idlType,
           type: dartType,
           nullable: node.nullable,
-          deser: deser,
+          // ser: sers?.item1,
+          deser: sers?.item2,
         );
       }
       if (defTypes.contains(text)) {
         var isPrimType = primIdlMap.containsKey(text);
+        var sers = isPrimType ? null : SerField.object(text, node.nullable);
         return SerField(
           did: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
           type: text,
           nullable: node.nullable,
-          deser: isPrimType ? null : SerField.obj(text, node.nullable).item2,
+          // ser: sers?.item1,
+          deser: sers?.item2,
         );
       }
     } else if (ctx is VecTypeContext) {

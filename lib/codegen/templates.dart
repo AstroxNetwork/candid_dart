@@ -79,7 +79,7 @@ class {{ clazz }} {
 const fileTpl = """
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types
+// ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types, unused_import
 
 import 'dart:typed_data';
 
