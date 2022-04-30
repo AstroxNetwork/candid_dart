@@ -73,7 +73,7 @@ class ClassDefParser extends CandidBaseListener {
       'variant': isVariant,
       'renderFields': ClassRender.renderFields(fields),
       'renderConstructorFields': ClassRender.renderConstructorFields(fields),
-      'renderFromMapFields': ClassRender.renderFromMapFields(isVariant, fields),
+      'renderFromMapFields': ClassRender.renderFromMapFields(fields),
       'renderIDL': isVariant
           ? ClassRender.renderVariantIDL(type, fields)
           : ClassRender.renderRecordIDL(fields),

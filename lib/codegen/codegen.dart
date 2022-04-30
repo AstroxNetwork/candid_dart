@@ -41,28 +41,15 @@ class ClassRender {
     """;
   }
 
-  static renderFromMapFields(bool isVariant, Iterable<SerField> fields) {
-    if (isVariant) {
-      return (LambdaContext _) {
-        return fields.map((e) {
-          String deser;
-          if (e.deser != null) {
-            deser = e.deser!.replaceAll(SerField.ph, "map['${e.id}']");
-          } else {
-            deser = e.type == 'bool'
-                ? "map.containsKey('${e.id}') ? map['${e.id}'] : null"
-                : "map['${e.id}']";
-          }
-          return "${e.id!.camelCase}: $deser,";
-        }).join("\n");
-      };
-    }
+  static renderFromMapFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
           String deser;
           if (e.deser != null) {
             deser = e.deser!.replaceAll(SerField.ph, "map['${e.id}']");
           } else {
-            deser = "map['${e.id}']";
+            deser = e.idl == 'IDL.Null'
+                ? "map.containsKey('${e.id}')"
+                : "map['${e.id}']";
           }
           return "${e.id!.camelCase}: $deser,";
         }).join("\n");

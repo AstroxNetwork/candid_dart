@@ -20,7 +20,7 @@ class {{ clazz }} {
     return <String, dynamic>{
       {{# renderToJsonFields }}{{/ renderToJsonFields }}
     }
-    ..removeWhere((String key, dynamic value) => value == null)
+    ..removeWhere((String key, dynamic value) => value == null{{#variant}}|| value == false{{/variant}})
     {{#variant}}
     ..updateAll((String key, dynamic value) => value is bool ? null : value)
     {{/variant}}
