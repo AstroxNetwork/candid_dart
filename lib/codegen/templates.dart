@@ -26,6 +26,10 @@ class {{ clazz }} {
     {{/variant}}
     ;
   }
+  
+  {{# renderToString }}{{/ renderToString }}
+  {{# renderEquals }}{{/ renderEquals }}
+  {{# renderHashCode }}{{/ renderHashCode }}
 }
 """;
 
@@ -81,6 +85,7 @@ const fileTpl = """
 
 // ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types, unused_import
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:agent_dart/agent_dart.dart';

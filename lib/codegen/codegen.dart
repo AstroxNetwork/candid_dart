@@ -67,6 +67,39 @@ class ClassRender {
             "/// did: ${e.did} \nfinal ${e.type.nullable(e.nullable)} ${e.id!.camelCase};")
         .join("\n");
   }
+
+  static renderToString() {
+    return (LambdaContext _) =>
+        // language=dart
+        """
+      @override
+      String toString() {
+        return jsonEncode(toJson());
+      }
+    """;
+  }
+
+  static renderEquals(String clazz, Iterable<SerField> fields) {
+    return (LambdaContext _) => """
+      @override
+      bool operator ==(Object other) =>
+          identical(this, other) ||
+          other is $clazz &&
+              runtimeType == other.runtimeType &&
+              ${fields.map((e) {
+          var id = e.id!.camelCase;
+          return "$id == other.$id";
+        }).join("&&")};
+    """;
+  }
+
+  static renderHashCode(Iterable<SerField> fields) {
+    return (LambdaContext _) => """
+      @override
+      int get hashCode =>
+          ${fields.map((e) => "${e.id!.camelCase}.hashCode").join("^")};
+    """;
+  }
 }
 
 T ifSupport<T>(RuleContext ctx, Supplier<T?> support) {
