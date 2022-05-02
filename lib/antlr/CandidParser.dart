@@ -32,7 +32,8 @@ class CandidParser extends Parser {
                    TOKEN_T__30 = 31, TOKEN_T__31 = 32, TOKEN_T__32 = 33, 
                    TOKEN_T__33 = 34, TOKEN_T__34 = 35, TOKEN_T__35 = 36, 
                    TOKEN_T__36 = 37, TOKEN_T__37 = 38, TOKEN_T__38 = 39, 
-                   TOKEN_IDENTIFIER = 40, TOKEN_IMPORT_LETTER = 41, TOKEN_WHITESPACE = 42;
+                   TOKEN_IDENTIFIER = 40, TOKEN_IMPORT_LETTER = 41, TOKEN_WHITESPACE = 42, 
+                   TOKEN_SINGLE_LINE_COMMENT = 43, TOKEN_MULTI_LINE_COMMENT = 44;
 
   @override
   final List<String> ruleNames = [
@@ -57,7 +58,7 @@ class CandidParser extends Parser {
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, "IDENTIFIER", "IMPORT_LETTER", 
-      "WHITESPACE"
+      "WHITESPACE", "SINGLE_LINE_COMMENT", "MULTI_LINE_COMMENT"
   ];
   static final Vocabulary VOCABULARY = VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -1191,7 +1192,7 @@ class CandidParser extends Parser {
   }
 
   static const List<int> _serializedATN = [
-      4,1,42,303,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
+      4,1,44,303,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
       2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,
       14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,
       2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,
