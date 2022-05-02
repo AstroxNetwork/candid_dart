@@ -100,6 +100,23 @@ class ClassRender {
           ${fields.map((e) => "${e.id!.camelCase}.hashCode").join("^")};
     """;
   }
+
+  static renderCopy(String clazz, List<SerField> fields) {
+    var p = StringBuffer();
+    var v = StringBuffer();
+    for (var e in fields) {
+      var id = e.id!.camelCase;
+       p.writeln("/// did: ${e.did}\n${e.type}? $id,");
+       v.writeln("$id: $id ?? this.$id,");
+    }
+    return (LambdaContext _) => """
+      $clazz copy({
+        $p
+      }) {
+        return $clazz($v);
+      }
+    """;
+  }
 }
 
 T ifSupport<T>(RuleContext ctx, Supplier<T?> support) {

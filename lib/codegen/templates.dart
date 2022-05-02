@@ -27,6 +27,8 @@ class {{ clazz }} {
     ;
   }
   
+  {{# renderCopy }}{{/ renderCopy }}
+
   {{# renderToString }}{{/ renderToString }}
   {{# renderEquals }}{{/ renderEquals }}
   {{# renderHashCode }}{{/ renderHashCode }}

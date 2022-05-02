@@ -81,6 +81,7 @@ class ClassDefParser extends CandidBaseListener {
       'renderToString': ClassRender.renderToString(),
       'renderEquals': ClassRender.renderEquals(type, fields),
       'renderHashCode': ClassRender.renderHashCode(fields),
+      'renderCopy': ClassRender.renderCopy(type,fields),
     });
     classFields[type] = fields;
     _sb.writeln(clazz);
