@@ -1,6 +1,6 @@
 // language=Handlebars
 const clazzTpl = """
-/// {{ origin }}
+{{# renderClassComment }}{{/ renderClassComment }}
 class {{ clazz }} {
   const {{ clazz }}({
     {{# renderConstructorFields }}{{/ renderConstructorFields }}
@@ -20,9 +20,13 @@ class {{ clazz }} {
     return <String, dynamic>{
       {{# renderToJsonFields }}{{/ renderToJsonFields }}
     }
-    ..removeWhere((String key, dynamic value) => value == null{{#variant}}|| value == false{{/variant}})
+    ..removeWhere((String key, dynamic value){ 
+      return value == null{{#variant}}|| value == false{{/variant}}; 
+    })
     {{#variant}}
-    ..updateAll((String key, dynamic value) => value is bool ? null : value)
+      ..updateAll((String key, dynamic value) {
+        return value is bool ? null : value;
+      })
     {{/variant}}
     ;
   }
@@ -37,6 +41,7 @@ class {{ clazz }} {
 
 // language=Handlebars
 const idlMethod = """
+/// [{{ idlName }}] defined in Candid
 /// {{ didText }}
 {{ idlName }}: IDL.Func(
    <CType<dynamic>>[{{ idlReq }}],
@@ -47,10 +52,11 @@ const idlMethod = """
 
 // language=Handlebars
 const idlReqMethod = """
-///
+/// [{{ methodName }}] defined in Candid
 /// {{ didText }}
-///
-/// {{ idlMethodName }}: IDL.Func(
+/// 
+/// Dart IDL
+/// [{{ idlName }}.{{ methodName }}] : IDL.Func(
 ///    <CType<dynamic>>[{{ idlReq }}],
 ///    <CType<dynamic>>[{{ idlRep }}],
 ///    <String>[{{ funcAnno }}],
@@ -60,9 +66,8 @@ Future<{{ returnType }}> {{ methodName }}(
   CanisterActor actor,
  {{# renderParams }}{{/ renderParams }}
 ) async {
-  {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ idlMethodName }})!(
-    {{# renderParamsName }}{{/ renderParamsName }},
-  );
+  final List<dynamic> dat = {{# renderParamsName }}{{/ renderParamsName }};
+  {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ methodName }})!(dat);
   {{# renderReturn }}{{/ renderReturn }}
 }
 """;
@@ -85,7 +90,7 @@ class {{ clazz }} {
 const fileTpl = """
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types, unused_import
+// ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types, unused_import, invalid_null_aware_operator, avoid_equals_and_hash_code_on_mutable_classes, prefer_const_declarations
 
 import 'dart:convert';
 import 'dart:typed_data';

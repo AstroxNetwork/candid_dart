@@ -117,7 +117,7 @@ variantType
   ;
 
 tupleType
-  : '(' (dataType ','*)* ')'
+  : '(' (exprType ','*)* ')'
   ;
 
 refType

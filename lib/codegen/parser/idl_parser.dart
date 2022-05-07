@@ -33,9 +33,8 @@ class IDLParser extends CandidBaseListener {
     var reqMethods = StringBuffer();
     for (var md in methTypes) {
       var key = md.idType(0)!.text;
-      var pcKey = key.pascalCase;
-      keys.writeln("/// ${md.text}");
-      keys.writeln("static const String $pcKey = '${md.getChild(0)?.text}';");
+      var ccKey = key.camelCase;
+      keys.writeln("/// ${md.text}\nstatic const String $ccKey = '${md.getChild(0)?.text}';");
       var body = md.funcType();
       if (body != null) {
         var ann = body.funcAnn(0)?.text;
@@ -47,7 +46,7 @@ class IDLParser extends CandidBaseListener {
         var returnsField = _resolveTupleNode(returnsNode);
         var idlValue = {
           'didText': md.text,
-          'idlName': pcKey,
+          'idlName': ccKey,
           'idlReq': argsField.map((e) => e.idl).join(","),
           'idlRep': returnsField.map((e) => e.idl).join(","),
           'funcAnno': ann.isNotBlank ? "'$ann'" : '',
@@ -96,11 +95,10 @@ class IDLParser extends CandidBaseListener {
           htmlEscapeValues: false,
         ).renderString({
           ...idlValue,
-          "methodName": key.camelCase,
+          "methodName": ccKey,
           "renderParams": (_) => params,
           "renderParamsName": (_) => idlParams,
           "idlName": clazz,
-          "idlMethodName": key.pascalCase,
           "hasReturn": !noReturn,
           "returnType": noReturn
               ? 'void'
@@ -140,11 +138,11 @@ class IDLParser extends CandidBaseListener {
 
   SerField _resolveTypeNode(TypeNode node) {
     var ctx = node.ctx;
-    if (ctx is DataTypeContext) {
+    if (ctx is ExprTypeContext || ctx is DataTypeContext) {
       return _resolveTypeNode(node.children.first);
     } else if (ctx is OptTypeContext) {
       var field = _resolveTypeNode(node.children.first);
-      var sers = SerField.opt(field);
+      var sers = SerField.opt(ser: field.ser, deser: field.deser);
       return SerField(
         did: ctx.text,
         idl: "IDL.Opt(${field.idl},)",
@@ -152,6 +150,17 @@ class IDLParser extends CandidBaseListener {
         nullable: field.nullable,
         ser: sers.item1,
         deser: sers.item2,
+      );
+    } else if (ctx is PairTypeContext) {
+      var id = node.children.first;
+      var ser = _resolveTypeNode(node.children.last);
+      return SerField(
+        id: id.ctx.text,
+        idl: ser.idl,
+        type: ser.type,
+        did: ctx.text,
+        ser: ser.ser,
+        deser: ser.deser,
       );
     } else if (ctx is IdTypeContext) {
       var text = ctx.text;

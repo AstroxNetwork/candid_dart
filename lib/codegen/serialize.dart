@@ -91,21 +91,19 @@ class SerField {
     return Tuple2(ph, d);
   }
 
-  static Tuple2<String?, String?> opt(SerField ser) {
+  static Tuple2<String?, String?> opt({String? ser, String? deser}) {
     String? s;
     String? d;
     // var type = ser.type.nullable(ser.nullable);
-    if (ser.ser != null) {
-      s = "[if($ph != null) ${ser.ser}]";
+    if (ser != null) {
+      s = "[if($ph != null) $ser]";
     } else {
       s = "[if($ph !=null) $ph]";
     }
-    if (ser.deser != null) {
-      d = "($ph?.map((e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable?)?.firstOrNull";
-      // d = "($ph?.map<$type>((e) { return ${ser.deser!.replaceAll(ph, 'e')}; }) as Iterable<$type>?)?.firstOrNull";
+    if (deser != null) {
+      d = "($ph as List?)?.map((e) { return ${deser.replaceAll(ph, 'e')}; }).firstOrNull";
     } else {
-      d = "($ph as Iterable?)?.firstOrNull";
-      // d = "($ph as Iterable<$type>?)?.firstOrNull";
+      d = "($ph as List?)?.firstOrNull";
     }
     return Tuple2(s, d);
   }

@@ -42,7 +42,7 @@ class TypeNode {
     } else if (_ctx is OptTypeContext) {
       _setChild(_ctx.dataType(), true);
     } else if (_ctx is TupleTypeContext) {
-      _setChildren(_ctx.dataTypes(), nullable);
+      _setChildren(_ctx.exprTypes(), nullable);
     } else if (_ctx is ExprTypeContext) {
       _setChildren([
         _ctx.pairType(),

@@ -779,9 +779,9 @@ class CandidParser extends Parser {
       state = 193;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_T__23) | (BigInt.one << TOKEN_T__24) | (BigInt.one << TOKEN_T__26) | (BigInt.one << TOKEN_T__30) | (BigInt.one << TOKEN_T__34) | (BigInt.one << TOKEN_T__35) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
+      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_T__23) | (BigInt.one << TOKEN_T__24) | (BigInt.one << TOKEN_T__25) | (BigInt.one << TOKEN_T__26) | (BigInt.one << TOKEN_T__30) | (BigInt.one << TOKEN_T__34) | (BigInt.one << TOKEN_T__35) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
         state = 184;
-        dataType();
+        exprType();
         state = 188;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
@@ -1259,8 +1259,8 @@ class CandidParser extends Parser {
       170,172,5,29,0,0,171,170,1,0,0,0,172,175,1,0,0,0,173,171,1,0,0,0,173,
       174,1,0,0,0,174,177,1,0,0,0,175,173,1,0,0,0,176,169,1,0,0,0,177,180,
       1,0,0,0,178,176,1,0,0,0,178,179,1,0,0,0,179,181,1,0,0,0,180,178,1,
-      0,0,0,181,182,5,30,0,0,182,43,1,0,0,0,183,193,5,32,0,0,184,188,3,50,
-      25,0,185,187,5,33,0,0,186,185,1,0,0,0,187,190,1,0,0,0,188,186,1,0,
+      0,0,0,181,182,5,30,0,0,182,43,1,0,0,0,183,193,5,32,0,0,184,188,3,38,
+      19,0,185,187,5,33,0,0,186,185,1,0,0,0,187,190,1,0,0,0,188,186,1,0,
       0,0,188,189,1,0,0,0,189,192,1,0,0,0,190,188,1,0,0,0,191,184,1,0,0,
       0,192,195,1,0,0,0,193,191,1,0,0,0,193,194,1,0,0,0,194,196,1,0,0,0,
       195,193,1,0,0,0,196,197,5,34,0,0,197,45,1,0,0,0,198,199,5,35,0,0,199,
@@ -1645,8 +1645,8 @@ class VariantTypeContext extends ParserRuleContext {
 }
 
 class TupleTypeContext extends ParserRuleContext {
-  List<DataTypeContext> dataTypes() => getRuleContexts<DataTypeContext>();
-  DataTypeContext? dataType(int i) => getRuleContext<DataTypeContext>(i);
+  List<ExprTypeContext> exprTypes() => getRuleContexts<ExprTypeContext>();
+  ExprTypeContext? exprType(int i) => getRuleContext<ExprTypeContext>(i);
   TupleTypeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_tupleType;

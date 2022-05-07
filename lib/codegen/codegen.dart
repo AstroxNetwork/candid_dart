@@ -30,10 +30,12 @@ class ClassRender {
     """;
   }
 
+  static renderClassComment(String clazz, String did) {
+    return (LambdaContext _) =>
+        "/// [$clazz] defined in Candid\n/// $did";
+  }
+
   static renderVariantIDL(String type, Iterable<SerField> fields) {
-    // var defaultType = fields.isNotEmpty
-    //     ? 'static const $type defaultType = $type(${fields.first.id.camelCase}: true);'
-    //     : '';
     return (LambdaContext _) => """
     static final VariantClass idl = IDL.Variant(<String, CType<dynamic>>{
       ${fields.map((e) => "'${e.id}': ${e.idl},").join("\n")}
@@ -62,10 +64,10 @@ class ClassRender {
   }
 
   static renderFields(Iterable<SerField> fields) {
-    return (LambdaContext _) => fields
-        .map((e) =>
-            "/// did: ${e.did} \nfinal ${e.type.nullable(e.nullable)} ${e.id!.camelCase};")
-        .join("\n");
+    return (LambdaContext _) => fields.map((e) {
+          var id = e.id!.camelCase;
+          return "/// [$id] : ${e.did} \nfinal ${e.type.nullable(e.nullable)} $id;";
+        }).join("\n");
   }
 
   static renderToString() {
@@ -102,15 +104,18 @@ class ClassRender {
   }
 
   static renderCopy(String clazz, List<SerField> fields) {
+    var c = StringBuffer();
     var p = StringBuffer();
     var v = StringBuffer();
     for (var e in fields) {
       var id = e.id!.camelCase;
-       p.writeln("/// did: ${e.did}\n${e.type}? $id,");
-       v.writeln("$id: $id ?? this.$id,");
+      c.writeln("/// * [$id] : ${e.did}");
+      p.writeln("${e.type}? $id,");
+      v.writeln("$id: $id ?? this.$id,");
     }
     return (LambdaContext _) => """
-      $clazz copy({
+      /// Types defined in Candid
+      $c$clazz copyWith({
         $p
       }) {
         return $clazz($v);

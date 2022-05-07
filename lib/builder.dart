@@ -12,13 +12,15 @@ class Candid2DartBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     var inputId = buildStep.inputId;
+    var outputId = inputId.changeExtension('.idl.dart');
+    print('start: ${inputId.path} => ${outputId.path}');
     var contents = await buildStep.readAsString(inputId);
     var split = inputId.pathSegments.last.split(".");
     split.removeLast();
     var clazz = split.join("_").pascalCase;
     var code = codegen(clazz, contents);
-    var outputId = inputId.changeExtension('.idl.dart');
     await buildStep.writeAsString(outputId, code);
+    print('  end: ${inputId.path} => ${outputId.path}');
   }
 
   @override

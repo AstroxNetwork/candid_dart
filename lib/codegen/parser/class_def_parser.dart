@@ -68,9 +68,9 @@ class ClassDefParser extends CandidBaseListener {
     }).toList(growable: false);
     var isVariant = node.ctx is VariantTypeContext;
     var clazz = Template(clazzTpl).renderString({
-      'origin': node.ctx.text,
       'clazz': type,
       'variant': isVariant,
+      'renderClassComment': ClassRender.renderClassComment(type, node.ctx.text),
       'renderFields': ClassRender.renderFields(fields),
       'renderConstructorFields': ClassRender.renderConstructorFields(fields),
       'renderFromMapFields': ClassRender.renderFromMapFields(fields),
@@ -81,7 +81,7 @@ class ClassDefParser extends CandidBaseListener {
       'renderToString': ClassRender.renderToString(),
       'renderEquals': ClassRender.renderEquals(type, fields),
       'renderHashCode': ClassRender.renderHashCode(fields),
-      'renderCopy': ClassRender.renderCopy(type,fields),
+      'renderCopy': ClassRender.renderCopy(type, fields),
     });
     classFields[type] = fields;
     _sb.writeln(clazz);
@@ -136,7 +136,7 @@ class ClassDefParser extends CandidBaseListener {
     } else if (ctx is OptTypeContext) {
       var child = node.children.first.children.first;
       var field = _resolveTypeNode(child, id, type);
-      var sers = SerField.opt(field);
+      var sers = SerField.opt(ser: field.ser, deser: field.deser);
       return SerField(
         id: field.id,
         did: ctx.text,
