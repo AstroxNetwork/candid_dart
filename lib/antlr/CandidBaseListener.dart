@@ -220,11 +220,11 @@ class CandidBaseListener implements CandidListener {
 
   /// The default implementation does nothing.
   @override
-  void enterDid(DidContext ctx) {}
+  void enterProg(ProgContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitDid(DidContext ctx) {}
+  void exitProg(ProgContext ctx) {}
 
   /// The default implementation does nothing.
   @override

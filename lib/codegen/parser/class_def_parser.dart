@@ -2,6 +2,7 @@ import 'package:candid_dart/antlr/CandidBaseListener.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
+import 'package:tuple/tuple.dart';
 
 import '../codegen.dart';
 import '../consts.dart';
@@ -27,7 +28,8 @@ class ClassDefParser extends CandidBaseListener {
     var first = node.children.first;
     if (first.ctx is IdTypeContext) {
       var id = first.ctx.text;
-      _sb.writeln("typedef $type = ${kPrimitiveTypeDartMap[id] ?? id};");
+      _sb.writeln(
+          "/// [$type] defined in Candid: ${ctx.text}\ntypedef $type = ${kPrimitiveTypeDartMap[id] ?? id};");
       return;
     }
     _eachNode(node, type);
@@ -57,7 +59,7 @@ class ClassDefParser extends CandidBaseListener {
           did: id,
           type: 'bool',
           idl: 'IDL.Null',
-          nullable: true,
+          nullable: false,
         );
       } else if (ctx is PairTypeContext) {
         var id = ctx.idType()!.text;
@@ -98,11 +100,13 @@ class ClassDefParser extends CandidBaseListener {
       var dartType = kPrimitiveTypeDartMap[text];
       var idlType = kPrimitiveTypeIDLMap[text];
       if (dartType != null && idlType != null) {
-        String? deser;
+        Tuple2<String, String>? sers;
         if (idlType == 'IDL.Principal') {
-          deser = SerField.principal(node.nullable).item2;
+          sers = SerField.principal(node.nullable);
+        } else if (dartType == 'Uint8List') {
+          sers = SerField.uint8List(node.nullable);
         } else if (dartType == 'BigInt') {
-          deser = SerField.bigInt(node.nullable).item2;
+          sers = SerField.bigInt(node.nullable);
         }
         return SerField(
           id: id,
@@ -110,12 +114,26 @@ class ClassDefParser extends CandidBaseListener {
           type: dartType,
           idl: idlType,
           nullable: node.nullable,
-          deser: deser,
+          // ser: sers?.item1,
+          deser: sers?.item2,
         );
       }
       if (defTypes.contains(text)) {
         var isPrimType = primIdlMap.containsKey(text);
-        var sers = isPrimType ? null : SerField.object(text, node.nullable);
+        Tuple2<String, String>? sers;
+        if (isPrimType) {
+          var idl = primIdlMap[text]!;
+          if (idl == 'IDL.Vec(IDL.Nat8)') {
+            sers = SerField.uint8List(node.nullable);
+          } else if (['IDL.Int', 'IDL.Int64', 'IDL.Nat', 'IDL.Nat64']
+              .contains(idl)) {
+            sers = SerField.bigInt(node.nullable);
+          } else {
+            sers = null;
+          }
+        } else {
+          sers = SerField.object(text, node.nullable);
+        }
         return SerField(
           id: id,
           did: text,
@@ -131,7 +149,19 @@ class ClassDefParser extends CandidBaseListener {
         did: text,
         type: 'bool',
         idl: 'IDL.Null',
-        nullable: true,
+        nullable: false,
+      );
+    } else if (ctx is PairTypeContext) {
+      var key = node.children.first;
+      var ser = _resolveTypeNode(node.children.last, id, type);
+      return SerField(
+        id: key.ctx.text,
+        idl: ser.idl,
+        type: ser.type,
+        did: ctx.text,
+        nullable: ser.nullable,
+        ser: ser.ser,
+        deser: ser.deser,
       );
     } else if (ctx is OptTypeContext) {
       var child = node.children.first.children.first;
@@ -159,7 +189,7 @@ class ClassDefParser extends CandidBaseListener {
           type: dartType,
           idl: idlType,
           nullable: node.nullable,
-          ser: ser.item1,
+          // ser: ser.item1,
           deser: ser.item2,
         );
       }

@@ -77,7 +77,7 @@ funcAnn
   ;
 
 funcType
-  : tupleType '->' tupleType funcAnn*
+  : tupleType '->' tupleType funcAnn?
   ;
 
 methType
@@ -138,7 +138,7 @@ dataType
   | refType
   ;
 
-did
+prog
   : imp* def* actor?
   ;
 

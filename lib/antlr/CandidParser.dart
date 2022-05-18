@@ -4,6 +4,8 @@ import 'package:antlr4/antlr4.dart';
 
 import 'CandidListener.dart';
 import 'CandidBaseListener.dart';
+import 'CandidVisitor.dart';
+import 'CandidBaseVisitor.dart';
 const int RULE_null = 0, RULE_natType = 1, RULE_intType = 2, RULE_floatType = 3, 
           RULE_blobType = 4, RULE_numberType = 5, RULE_boolType = 6, RULE_textType = 7, 
           RULE_principalType = 8, RULE_reservedType = 9, RULE_emptyType = 10, 
@@ -11,7 +13,7 @@ const int RULE_null = 0, RULE_natType = 1, RULE_intType = 2, RULE_floatType = 3,
           RULE_methType = 15, RULE_optType = 16, RULE_vecType = 17, RULE_pairType = 18, 
           RULE_exprType = 19, RULE_recordType = 20, RULE_variantType = 21, 
           RULE_tupleType = 22, RULE_refType = 23, RULE_actorType = 24, RULE_dataType = 25, 
-          RULE_did = 26, RULE_imp = 27, RULE_def = 28, RULE_actor = 29, 
+          RULE_prog = 26, RULE_imp = 27, RULE_def = 28, RULE_actor = 29, 
           RULE_id = 30, RULE_importPart = 31;
 class CandidParser extends Parser {
   static final checkVersion = () => RuntimeMetaData.checkVersion('4.10.1', RuntimeMetaData.VERSION);
@@ -41,7 +43,7 @@ class CandidParser extends Parser {
     'boolType', 'textType', 'principalType', 'reservedType', 'emptyType', 
     'primType', 'idType', 'funcAnn', 'funcType', 'methType', 'optType', 
     'vecType', 'pairType', 'exprType', 'recordType', 'variantType', 'tupleType', 
-    'refType', 'actorType', 'dataType', 'did', 'imp', 'def', 'actor', 'id', 
+    'refType', 'actorType', 'dataType', 'prog', 'imp', 'def', 'actor', 'id', 
     'importPart'
   ];
 
@@ -476,16 +478,14 @@ class CandidParser extends Parser {
       match(TOKEN_T__21);
       state = 107;
       tupleType();
-      state = 111;
+      state = 109;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__19 || _la == TOKEN_T__20) {
+      if (_la == TOKEN_T__19 || _la == TOKEN_T__20) {
         state = 108;
         funcAnn();
-        state = 113;
-        errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
       }
+
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -500,25 +500,25 @@ class CandidParser extends Parser {
     dynamic _localctx = MethTypeContext(context, state);
     enterRule(_localctx, 30, RULE_methType);
     try {
-      state = 122;
+      state = 119;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 4, context)) {
       case 1:
         enterOuterAlt(_localctx, 1);
-        state = 114;
+        state = 111;
         idType();
-        state = 115;
+        state = 112;
         match(TOKEN_T__22);
-        state = 116;
+        state = 113;
         funcType();
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
-        state = 118;
+        state = 115;
         idType();
-        state = 119;
+        state = 116;
         match(TOKEN_T__22);
-        state = 120;
+        state = 117;
         idType();
         break;
       }
@@ -537,9 +537,9 @@ class CandidParser extends Parser {
     enterRule(_localctx, 32, RULE_optType);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 124;
+      state = 121;
       match(TOKEN_T__23);
-      state = 125;
+      state = 122;
       dataType();
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -556,9 +556,9 @@ class CandidParser extends Parser {
     enterRule(_localctx, 34, RULE_vecType);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 127;
+      state = 124;
       match(TOKEN_T__24);
-      state = 128;
+      state = 125;
       dataType();
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -574,7 +574,7 @@ class CandidParser extends Parser {
     dynamic _localctx = PairTypeContext(context, state);
     enterRule(_localctx, 36, RULE_pairType);
     try {
-      state = 140;
+      state = 137;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_T__0:
@@ -598,24 +598,24 @@ class CandidParser extends Parser {
       case TOKEN_T__18:
       case TOKEN_IDENTIFIER:
         enterOuterAlt(_localctx, 1);
-        state = 130;
+        state = 127;
         idType();
-        state = 131;
+        state = 128;
         match(TOKEN_T__22);
-        state = 132;
+        state = 129;
         dataType();
         break;
       case TOKEN_T__25:
         enterOuterAlt(_localctx, 2);
-        state = 134;
+        state = 131;
         match(TOKEN_T__25);
-        state = 135;
+        state = 132;
         idType();
-        state = 136;
+        state = 133;
         match(TOKEN_T__25);
-        state = 137;
+        state = 134;
         match(TOKEN_T__22);
-        state = 138;
+        state = 135;
         dataType();
         break;
       default:
@@ -635,42 +635,42 @@ class CandidParser extends Parser {
     dynamic _localctx = ExprTypeContext(context, state);
     enterRule(_localctx, 38, RULE_exprType);
     try {
-      state = 149;
+      state = 146;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 6, context)) {
       case 1:
         enterOuterAlt(_localctx, 1);
-        state = 142;
+        state = 139;
         pairType();
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
-        state = 143;
+        state = 140;
         idType();
         break;
       case 3:
         enterOuterAlt(_localctx, 3);
-        state = 144;
+        state = 141;
         vecType();
         break;
       case 4:
         enterOuterAlt(_localctx, 4);
-        state = 145;
+        state = 142;
         optType();
         break;
       case 5:
         enterOuterAlt(_localctx, 5);
-        state = 146;
+        state = 143;
         variantType();
         break;
       case 6:
         enterOuterAlt(_localctx, 6);
-        state = 147;
+        state = 144;
         recordType();
         break;
       case 7:
         enterOuterAlt(_localctx, 7);
-        state = 148;
+        state = 145;
         refType();
         break;
       }
@@ -690,31 +690,31 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 151;
+      state = 148;
       match(TOKEN_T__26);
-      state = 152;
+      state = 149;
       match(TOKEN_T__27);
-      state = 162;
+      state = 159;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_T__23) | (BigInt.one << TOKEN_T__24) | (BigInt.one << TOKEN_T__25) | (BigInt.one << TOKEN_T__26) | (BigInt.one << TOKEN_T__30) | (BigInt.one << TOKEN_T__34) | (BigInt.one << TOKEN_T__35) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-        state = 153;
+        state = 150;
         exprType();
-        state = 157;
+        state = 154;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__28) {
-          state = 154;
+          state = 151;
           match(TOKEN_T__28);
-          state = 159;
+          state = 156;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
-        state = 164;
+        state = 161;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 165;
+      state = 162;
       match(TOKEN_T__29);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -732,31 +732,31 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 167;
+      state = 164;
       match(TOKEN_T__30);
-      state = 168;
+      state = 165;
       match(TOKEN_T__27);
-      state = 178;
+      state = 175;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_T__23) | (BigInt.one << TOKEN_T__24) | (BigInt.one << TOKEN_T__25) | (BigInt.one << TOKEN_T__26) | (BigInt.one << TOKEN_T__30) | (BigInt.one << TOKEN_T__34) | (BigInt.one << TOKEN_T__35) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-        state = 169;
+        state = 166;
         exprType();
-        state = 173;
+        state = 170;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__28) {
-          state = 170;
+          state = 167;
           match(TOKEN_T__28);
-          state = 175;
+          state = 172;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
-        state = 180;
+        state = 177;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 181;
+      state = 178;
       match(TOKEN_T__29);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -774,29 +774,29 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 183;
+      state = 180;
       match(TOKEN_T__31);
-      state = 193;
+      state = 190;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_T__23) | (BigInt.one << TOKEN_T__24) | (BigInt.one << TOKEN_T__25) | (BigInt.one << TOKEN_T__26) | (BigInt.one << TOKEN_T__30) | (BigInt.one << TOKEN_T__34) | (BigInt.one << TOKEN_T__35) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-        state = 184;
+        state = 181;
         exprType();
-        state = 188;
+        state = 185;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__32) {
-          state = 185;
+          state = 182;
           match(TOKEN_T__32);
-          state = 190;
+          state = 187;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
-        state = 195;
+        state = 192;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 196;
+      state = 193;
       match(TOKEN_T__33);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -812,21 +812,21 @@ class CandidParser extends Parser {
     dynamic _localctx = RefTypeContext(context, state);
     enterRule(_localctx, 46, RULE_refType);
     try {
-      state = 202;
+      state = 199;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_T__34:
         enterOuterAlt(_localctx, 1);
-        state = 198;
+        state = 195;
         match(TOKEN_T__34);
-        state = 199;
+        state = 196;
         funcType();
         break;
       case TOKEN_T__35:
         enterOuterAlt(_localctx, 2);
-        state = 200;
+        state = 197;
         match(TOKEN_T__35);
-        state = 201;
+        state = 198;
         actorType();
         break;
       default:
@@ -848,29 +848,29 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 204;
+      state = 201;
       match(TOKEN_T__27);
-      state = 214;
+      state = 211;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-        state = 205;
+        state = 202;
         methType();
-        state = 209;
+        state = 206;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__28) {
-          state = 206;
+          state = 203;
           match(TOKEN_T__28);
-          state = 211;
+          state = 208;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
-        state = 216;
+        state = 213;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 217;
+      state = 214;
       match(TOKEN_T__29);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -886,7 +886,7 @@ class CandidParser extends Parser {
     dynamic _localctx = DataTypeContext(context, state);
     enterRule(_localctx, 50, RULE_dataType);
     try {
-      state = 225;
+      state = 222;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_T__0:
@@ -910,33 +910,33 @@ class CandidParser extends Parser {
       case TOKEN_T__18:
       case TOKEN_IDENTIFIER:
         enterOuterAlt(_localctx, 1);
-        state = 219;
+        state = 216;
         idType();
         break;
       case TOKEN_T__24:
         enterOuterAlt(_localctx, 2);
-        state = 220;
+        state = 217;
         vecType();
         break;
       case TOKEN_T__23:
         enterOuterAlt(_localctx, 3);
-        state = 221;
+        state = 218;
         optType();
         break;
       case TOKEN_T__30:
         enterOuterAlt(_localctx, 4);
-        state = 222;
+        state = 219;
         variantType();
         break;
       case TOKEN_T__26:
         enterOuterAlt(_localctx, 5);
-        state = 223;
+        state = 220;
         recordType();
         break;
       case TOKEN_T__34:
       case TOKEN_T__35:
         enterOuterAlt(_localctx, 6);
-        state = 224;
+        state = 221;
         refType();
         break;
       default:
@@ -952,37 +952,37 @@ class CandidParser extends Parser {
     return _localctx;
   }
 
-  DidContext did() {
-    dynamic _localctx = DidContext(context, state);
-    enterRule(_localctx, 52, RULE_did);
+  ProgContext prog() {
+    dynamic _localctx = ProgContext(context, state);
+    enterRule(_localctx, 52, RULE_prog);
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 230;
+      state = 227;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__36) {
-        state = 227;
+        state = 224;
         imp();
-        state = 232;
+        state = 229;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 236;
+      state = 233;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__37) {
-        state = 233;
+        state = 230;
         def();
-        state = 238;
+        state = 235;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
-      state = 240;
+      state = 237;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       if (_la == TOKEN_T__35) {
-        state = 239;
+        state = 236;
         actor();
       }
 
@@ -1002,21 +1002,21 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 242;
+      state = 239;
       match(TOKEN_T__36);
-      state = 243;
+      state = 240;
       match(TOKEN_T__25);
-      state = 244;
+      state = 241;
       importPart();
-      state = 245;
+      state = 242;
       match(TOKEN_T__25);
-      state = 249;
+      state = 246;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__28) {
-        state = 246;
+        state = 243;
         match(TOKEN_T__28);
-        state = 251;
+        state = 248;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
@@ -1036,21 +1036,21 @@ class CandidParser extends Parser {
     int _la;
     try {
       enterOuterAlt(_localctx, 1);
-      state = 252;
+      state = 249;
       match(TOKEN_T__37);
-      state = 253;
+      state = 250;
       idType();
-      state = 254;
+      state = 251;
       match(TOKEN_T__38);
-      state = 255;
+      state = 252;
       dataType();
-      state = 259;
+      state = 256;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
       while (_la == TOKEN_T__28) {
-        state = 256;
+        state = 253;
         match(TOKEN_T__28);
-        state = 261;
+        state = 258;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
       }
@@ -1069,79 +1069,79 @@ class CandidParser extends Parser {
     enterRule(_localctx, 58, RULE_actor);
     int _la;
     try {
-      state = 296;
+      state = 293;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 28, context)) {
       case 1:
         enterOuterAlt(_localctx, 1);
-        state = 262;
+        state = 259;
         match(TOKEN_T__35);
-        state = 264;
+        state = 261;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-          state = 263;
+          state = 260;
           idType();
         }
 
-        state = 266;
+        state = 263;
         match(TOKEN_T__22);
-        state = 270;
+        state = 267;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__31) {
-          state = 267;
+          state = 264;
           tupleType();
-          state = 268;
+          state = 265;
           match(TOKEN_T__21);
         }
 
-        state = 272;
+        state = 269;
         actorType();
-        state = 276;
+        state = 273;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__28) {
-          state = 273;
+          state = 270;
           match(TOKEN_T__28);
-          state = 278;
+          state = 275;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
-        state = 279;
+        state = 276;
         match(TOKEN_T__35);
-        state = 281;
+        state = 278;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_T__0) | (BigInt.one << TOKEN_T__1) | (BigInt.one << TOKEN_T__2) | (BigInt.one << TOKEN_T__3) | (BigInt.one << TOKEN_T__4) | (BigInt.one << TOKEN_T__5) | (BigInt.one << TOKEN_T__6) | (BigInt.one << TOKEN_T__7) | (BigInt.one << TOKEN_T__8) | (BigInt.one << TOKEN_T__9) | (BigInt.one << TOKEN_T__10) | (BigInt.one << TOKEN_T__11) | (BigInt.one << TOKEN_T__12) | (BigInt.one << TOKEN_T__13) | (BigInt.one << TOKEN_T__14) | (BigInt.one << TOKEN_T__15) | (BigInt.one << TOKEN_T__16) | (BigInt.one << TOKEN_T__17) | (BigInt.one << TOKEN_T__18) | (BigInt.one << TOKEN_IDENTIFIER))) != BigInt.zero)) {
-          state = 280;
+          state = 277;
           idType();
         }
 
-        state = 283;
+        state = 280;
         match(TOKEN_T__22);
-        state = 287;
+        state = 284;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         if (_la == TOKEN_T__31) {
-          state = 284;
+          state = 281;
           tupleType();
-          state = 285;
+          state = 282;
           match(TOKEN_T__21);
         }
 
-        state = 289;
+        state = 286;
         idType();
-        state = 293;
+        state = 290;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
         while (_la == TOKEN_T__28) {
-          state = 290;
+          state = 287;
           match(TOKEN_T__28);
-          state = 295;
+          state = 292;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
         }
@@ -1162,7 +1162,7 @@ class CandidParser extends Parser {
     enterRule(_localctx, 60, RULE_id);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 298;
+      state = 295;
       match(TOKEN_IDENTIFIER);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1179,7 +1179,7 @@ class CandidParser extends Parser {
     enterRule(_localctx, 62, RULE_importPart);
     try {
       enterOuterAlt(_localctx, 1);
-      state = 300;
+      state = 297;
       match(TOKEN_IMPORT_LETTER);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1192,110 +1192,109 @@ class CandidParser extends Parser {
   }
 
   static const List<int> _serializedATN = [
-      4,1,44,303,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
+      4,1,44,300,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
       2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,
       14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,
       2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,
       27,2,28,7,28,2,29,7,29,2,30,7,30,2,31,7,31,1,0,1,0,1,1,1,1,1,2,1,2,
       1,3,1,3,1,4,1,4,1,5,1,5,1,5,3,5,78,8,5,1,6,1,6,1,7,1,7,1,8,1,8,1,9,
       1,9,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,3,11,98,8,11,
-      1,12,1,12,3,12,102,8,12,1,13,1,13,1,14,1,14,1,14,1,14,5,14,110,8,14,
-      10,14,12,14,113,9,14,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,3,15,
-      123,8,15,1,16,1,16,1,16,1,17,1,17,1,17,1,18,1,18,1,18,1,18,1,18,1,
-      18,1,18,1,18,1,18,1,18,3,18,141,8,18,1,19,1,19,1,19,1,19,1,19,1,19,
-      1,19,3,19,150,8,19,1,20,1,20,1,20,1,20,5,20,156,8,20,10,20,12,20,159,
-      9,20,5,20,161,8,20,10,20,12,20,164,9,20,1,20,1,20,1,21,1,21,1,21,1,
-      21,5,21,172,8,21,10,21,12,21,175,9,21,5,21,177,8,21,10,21,12,21,180,
-      9,21,1,21,1,21,1,22,1,22,1,22,5,22,187,8,22,10,22,12,22,190,9,22,5,
-      22,192,8,22,10,22,12,22,195,9,22,1,22,1,22,1,23,1,23,1,23,1,23,3,23,
-      203,8,23,1,24,1,24,1,24,5,24,208,8,24,10,24,12,24,211,9,24,5,24,213,
-      8,24,10,24,12,24,216,9,24,1,24,1,24,1,25,1,25,1,25,1,25,1,25,1,25,
-      3,25,226,8,25,1,26,5,26,229,8,26,10,26,12,26,232,9,26,1,26,5,26,235,
-      8,26,10,26,12,26,238,9,26,1,26,3,26,241,8,26,1,27,1,27,1,27,1,27,1,
-      27,5,27,248,8,27,10,27,12,27,251,9,27,1,28,1,28,1,28,1,28,1,28,5,28,
-      258,8,28,10,28,12,28,261,9,28,1,29,1,29,3,29,265,8,29,1,29,1,29,1,
-      29,1,29,3,29,271,8,29,1,29,1,29,5,29,275,8,29,10,29,12,29,278,9,29,
-      1,29,1,29,3,29,282,8,29,1,29,1,29,1,29,1,29,3,29,288,8,29,1,29,1,29,
-      5,29,292,8,29,10,29,12,29,295,9,29,3,29,297,8,29,1,30,1,30,1,31,1,
-      31,1,31,0,0,32,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,
-      38,40,42,44,46,48,50,52,54,56,58,60,62,0,4,1,0,2,6,1,0,7,11,1,0,12,
-      13,1,0,20,21,315,0,64,1,0,0,0,2,66,1,0,0,0,4,68,1,0,0,0,6,70,1,0,0,
-      0,8,72,1,0,0,0,10,77,1,0,0,0,12,79,1,0,0,0,14,81,1,0,0,0,16,83,1,0,
-      0,0,18,85,1,0,0,0,20,87,1,0,0,0,22,97,1,0,0,0,24,101,1,0,0,0,26,103,
-      1,0,0,0,28,105,1,0,0,0,30,122,1,0,0,0,32,124,1,0,0,0,34,127,1,0,0,
-      0,36,140,1,0,0,0,38,149,1,0,0,0,40,151,1,0,0,0,42,167,1,0,0,0,44,183,
-      1,0,0,0,46,202,1,0,0,0,48,204,1,0,0,0,50,225,1,0,0,0,52,230,1,0,0,
-      0,54,242,1,0,0,0,56,252,1,0,0,0,58,296,1,0,0,0,60,298,1,0,0,0,62,300,
-      1,0,0,0,64,65,5,1,0,0,65,1,1,0,0,0,66,67,7,0,0,0,67,3,1,0,0,0,68,69,
-      7,1,0,0,69,5,1,0,0,0,70,71,7,2,0,0,71,7,1,0,0,0,72,73,5,14,0,0,73,
-      9,1,0,0,0,74,78,3,2,1,0,75,78,3,4,2,0,76,78,3,6,3,0,77,74,1,0,0,0,
-      77,75,1,0,0,0,77,76,1,0,0,0,78,11,1,0,0,0,79,80,5,15,0,0,80,13,1,0,
-      0,0,81,82,5,16,0,0,82,15,1,0,0,0,83,84,5,17,0,0,84,17,1,0,0,0,85,86,
-      5,18,0,0,86,19,1,0,0,0,87,88,5,19,0,0,88,21,1,0,0,0,89,98,3,10,5,0,
-      90,98,3,12,6,0,91,98,3,14,7,0,92,98,3,8,4,0,93,98,3,0,0,0,94,98,3,
-      16,8,0,95,98,3,18,9,0,96,98,3,20,10,0,97,89,1,0,0,0,97,90,1,0,0,0,
-      97,91,1,0,0,0,97,92,1,0,0,0,97,93,1,0,0,0,97,94,1,0,0,0,97,95,1,0,
-      0,0,97,96,1,0,0,0,98,23,1,0,0,0,99,102,3,60,30,0,100,102,3,22,11,0,
-      101,99,1,0,0,0,101,100,1,0,0,0,102,25,1,0,0,0,103,104,7,3,0,0,104,
-      27,1,0,0,0,105,106,3,44,22,0,106,107,5,22,0,0,107,111,3,44,22,0,108,
-      110,3,26,13,0,109,108,1,0,0,0,110,113,1,0,0,0,111,109,1,0,0,0,111,
-      112,1,0,0,0,112,29,1,0,0,0,113,111,1,0,0,0,114,115,3,24,12,0,115,116,
-      5,23,0,0,116,117,3,28,14,0,117,123,1,0,0,0,118,119,3,24,12,0,119,120,
-      5,23,0,0,120,121,3,24,12,0,121,123,1,0,0,0,122,114,1,0,0,0,122,118,
-      1,0,0,0,123,31,1,0,0,0,124,125,5,24,0,0,125,126,3,50,25,0,126,33,1,
-      0,0,0,127,128,5,25,0,0,128,129,3,50,25,0,129,35,1,0,0,0,130,131,3,
-      24,12,0,131,132,5,23,0,0,132,133,3,50,25,0,133,141,1,0,0,0,134,135,
-      5,26,0,0,135,136,3,24,12,0,136,137,5,26,0,0,137,138,5,23,0,0,138,139,
-      3,50,25,0,139,141,1,0,0,0,140,130,1,0,0,0,140,134,1,0,0,0,141,37,1,
-      0,0,0,142,150,3,36,18,0,143,150,3,24,12,0,144,150,3,34,17,0,145,150,
-      3,32,16,0,146,150,3,42,21,0,147,150,3,40,20,0,148,150,3,46,23,0,149,
-      142,1,0,0,0,149,143,1,0,0,0,149,144,1,0,0,0,149,145,1,0,0,0,149,146,
-      1,0,0,0,149,147,1,0,0,0,149,148,1,0,0,0,150,39,1,0,0,0,151,152,5,27,
-      0,0,152,162,5,28,0,0,153,157,3,38,19,0,154,156,5,29,0,0,155,154,1,
-      0,0,0,156,159,1,0,0,0,157,155,1,0,0,0,157,158,1,0,0,0,158,161,1,0,
-      0,0,159,157,1,0,0,0,160,153,1,0,0,0,161,164,1,0,0,0,162,160,1,0,0,
-      0,162,163,1,0,0,0,163,165,1,0,0,0,164,162,1,0,0,0,165,166,5,30,0,0,
-      166,41,1,0,0,0,167,168,5,31,0,0,168,178,5,28,0,0,169,173,3,38,19,0,
-      170,172,5,29,0,0,171,170,1,0,0,0,172,175,1,0,0,0,173,171,1,0,0,0,173,
-      174,1,0,0,0,174,177,1,0,0,0,175,173,1,0,0,0,176,169,1,0,0,0,177,180,
-      1,0,0,0,178,176,1,0,0,0,178,179,1,0,0,0,179,181,1,0,0,0,180,178,1,
-      0,0,0,181,182,5,30,0,0,182,43,1,0,0,0,183,193,5,32,0,0,184,188,3,38,
-      19,0,185,187,5,33,0,0,186,185,1,0,0,0,187,190,1,0,0,0,188,186,1,0,
-      0,0,188,189,1,0,0,0,189,192,1,0,0,0,190,188,1,0,0,0,191,184,1,0,0,
-      0,192,195,1,0,0,0,193,191,1,0,0,0,193,194,1,0,0,0,194,196,1,0,0,0,
-      195,193,1,0,0,0,196,197,5,34,0,0,197,45,1,0,0,0,198,199,5,35,0,0,199,
-      203,3,28,14,0,200,201,5,36,0,0,201,203,3,48,24,0,202,198,1,0,0,0,202,
-      200,1,0,0,0,203,47,1,0,0,0,204,214,5,28,0,0,205,209,3,30,15,0,206,
-      208,5,29,0,0,207,206,1,0,0,0,208,211,1,0,0,0,209,207,1,0,0,0,209,210,
-      1,0,0,0,210,213,1,0,0,0,211,209,1,0,0,0,212,205,1,0,0,0,213,216,1,
-      0,0,0,214,212,1,0,0,0,214,215,1,0,0,0,215,217,1,0,0,0,216,214,1,0,
-      0,0,217,218,5,30,0,0,218,49,1,0,0,0,219,226,3,24,12,0,220,226,3,34,
-      17,0,221,226,3,32,16,0,222,226,3,42,21,0,223,226,3,40,20,0,224,226,
-      3,46,23,0,225,219,1,0,0,0,225,220,1,0,0,0,225,221,1,0,0,0,225,222,
-      1,0,0,0,225,223,1,0,0,0,225,224,1,0,0,0,226,51,1,0,0,0,227,229,3,54,
-      27,0,228,227,1,0,0,0,229,232,1,0,0,0,230,228,1,0,0,0,230,231,1,0,0,
-      0,231,236,1,0,0,0,232,230,1,0,0,0,233,235,3,56,28,0,234,233,1,0,0,
-      0,235,238,1,0,0,0,236,234,1,0,0,0,236,237,1,0,0,0,237,240,1,0,0,0,
-      238,236,1,0,0,0,239,241,3,58,29,0,240,239,1,0,0,0,240,241,1,0,0,0,
-      241,53,1,0,0,0,242,243,5,37,0,0,243,244,5,26,0,0,244,245,3,62,31,0,
-      245,249,5,26,0,0,246,248,5,29,0,0,247,246,1,0,0,0,248,251,1,0,0,0,
-      249,247,1,0,0,0,249,250,1,0,0,0,250,55,1,0,0,0,251,249,1,0,0,0,252,
-      253,5,38,0,0,253,254,3,24,12,0,254,255,5,39,0,0,255,259,3,50,25,0,
-      256,258,5,29,0,0,257,256,1,0,0,0,258,261,1,0,0,0,259,257,1,0,0,0,259,
-      260,1,0,0,0,260,57,1,0,0,0,261,259,1,0,0,0,262,264,5,36,0,0,263,265,
-      3,24,12,0,264,263,1,0,0,0,264,265,1,0,0,0,265,266,1,0,0,0,266,270,
-      5,23,0,0,267,268,3,44,22,0,268,269,5,22,0,0,269,271,1,0,0,0,270,267,
-      1,0,0,0,270,271,1,0,0,0,271,272,1,0,0,0,272,276,3,48,24,0,273,275,
-      5,29,0,0,274,273,1,0,0,0,275,278,1,0,0,0,276,274,1,0,0,0,276,277,1,
-      0,0,0,277,297,1,0,0,0,278,276,1,0,0,0,279,281,5,36,0,0,280,282,3,24,
-      12,0,281,280,1,0,0,0,281,282,1,0,0,0,282,283,1,0,0,0,283,287,5,23,
-      0,0,284,285,3,44,22,0,285,286,5,22,0,0,286,288,1,0,0,0,287,284,1,0,
-      0,0,287,288,1,0,0,0,288,289,1,0,0,0,289,293,3,24,12,0,290,292,5,29,
-      0,0,291,290,1,0,0,0,292,295,1,0,0,0,293,291,1,0,0,0,293,294,1,0,0,
-      0,294,297,1,0,0,0,295,293,1,0,0,0,296,262,1,0,0,0,296,279,1,0,0,0,
-      297,59,1,0,0,0,298,299,5,40,0,0,299,61,1,0,0,0,300,301,5,41,0,0,301,
-      63,1,0,0,0,29,77,97,101,111,122,140,149,157,162,173,178,188,193,202,
-      209,214,225,230,236,240,249,259,264,270,276,281,287,293,296
+      1,12,1,12,3,12,102,8,12,1,13,1,13,1,14,1,14,1,14,1,14,3,14,110,8,14,
+      1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,3,15,120,8,15,1,16,1,16,1,
+      16,1,17,1,17,1,17,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,18,
+      3,18,138,8,18,1,19,1,19,1,19,1,19,1,19,1,19,1,19,3,19,147,8,19,1,20,
+      1,20,1,20,1,20,5,20,153,8,20,10,20,12,20,156,9,20,5,20,158,8,20,10,
+      20,12,20,161,9,20,1,20,1,20,1,21,1,21,1,21,1,21,5,21,169,8,21,10,21,
+      12,21,172,9,21,5,21,174,8,21,10,21,12,21,177,9,21,1,21,1,21,1,22,1,
+      22,1,22,5,22,184,8,22,10,22,12,22,187,9,22,5,22,189,8,22,10,22,12,
+      22,192,9,22,1,22,1,22,1,23,1,23,1,23,1,23,3,23,200,8,23,1,24,1,24,
+      1,24,5,24,205,8,24,10,24,12,24,208,9,24,5,24,210,8,24,10,24,12,24,
+      213,9,24,1,24,1,24,1,25,1,25,1,25,1,25,1,25,1,25,3,25,223,8,25,1,26,
+      5,26,226,8,26,10,26,12,26,229,9,26,1,26,5,26,232,8,26,10,26,12,26,
+      235,9,26,1,26,3,26,238,8,26,1,27,1,27,1,27,1,27,1,27,5,27,245,8,27,
+      10,27,12,27,248,9,27,1,28,1,28,1,28,1,28,1,28,5,28,255,8,28,10,28,
+      12,28,258,9,28,1,29,1,29,3,29,262,8,29,1,29,1,29,1,29,1,29,3,29,268,
+      8,29,1,29,1,29,5,29,272,8,29,10,29,12,29,275,9,29,1,29,1,29,3,29,279,
+      8,29,1,29,1,29,1,29,1,29,3,29,285,8,29,1,29,1,29,5,29,289,8,29,10,
+      29,12,29,292,9,29,3,29,294,8,29,1,30,1,30,1,31,1,31,1,31,0,0,32,0,
+      2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,
+      50,52,54,56,58,60,62,0,4,1,0,2,6,1,0,7,11,1,0,12,13,1,0,20,21,312,
+      0,64,1,0,0,0,2,66,1,0,0,0,4,68,1,0,0,0,6,70,1,0,0,0,8,72,1,0,0,0,10,
+      77,1,0,0,0,12,79,1,0,0,0,14,81,1,0,0,0,16,83,1,0,0,0,18,85,1,0,0,0,
+      20,87,1,0,0,0,22,97,1,0,0,0,24,101,1,0,0,0,26,103,1,0,0,0,28,105,1,
+      0,0,0,30,119,1,0,0,0,32,121,1,0,0,0,34,124,1,0,0,0,36,137,1,0,0,0,
+      38,146,1,0,0,0,40,148,1,0,0,0,42,164,1,0,0,0,44,180,1,0,0,0,46,199,
+      1,0,0,0,48,201,1,0,0,0,50,222,1,0,0,0,52,227,1,0,0,0,54,239,1,0,0,
+      0,56,249,1,0,0,0,58,293,1,0,0,0,60,295,1,0,0,0,62,297,1,0,0,0,64,65,
+      5,1,0,0,65,1,1,0,0,0,66,67,7,0,0,0,67,3,1,0,0,0,68,69,7,1,0,0,69,5,
+      1,0,0,0,70,71,7,2,0,0,71,7,1,0,0,0,72,73,5,14,0,0,73,9,1,0,0,0,74,
+      78,3,2,1,0,75,78,3,4,2,0,76,78,3,6,3,0,77,74,1,0,0,0,77,75,1,0,0,0,
+      77,76,1,0,0,0,78,11,1,0,0,0,79,80,5,15,0,0,80,13,1,0,0,0,81,82,5,16,
+      0,0,82,15,1,0,0,0,83,84,5,17,0,0,84,17,1,0,0,0,85,86,5,18,0,0,86,19,
+      1,0,0,0,87,88,5,19,0,0,88,21,1,0,0,0,89,98,3,10,5,0,90,98,3,12,6,0,
+      91,98,3,14,7,0,92,98,3,8,4,0,93,98,3,0,0,0,94,98,3,16,8,0,95,98,3,
+      18,9,0,96,98,3,20,10,0,97,89,1,0,0,0,97,90,1,0,0,0,97,91,1,0,0,0,97,
+      92,1,0,0,0,97,93,1,0,0,0,97,94,1,0,0,0,97,95,1,0,0,0,97,96,1,0,0,0,
+      98,23,1,0,0,0,99,102,3,60,30,0,100,102,3,22,11,0,101,99,1,0,0,0,101,
+      100,1,0,0,0,102,25,1,0,0,0,103,104,7,3,0,0,104,27,1,0,0,0,105,106,
+      3,44,22,0,106,107,5,22,0,0,107,109,3,44,22,0,108,110,3,26,13,0,109,
+      108,1,0,0,0,109,110,1,0,0,0,110,29,1,0,0,0,111,112,3,24,12,0,112,113,
+      5,23,0,0,113,114,3,28,14,0,114,120,1,0,0,0,115,116,3,24,12,0,116,117,
+      5,23,0,0,117,118,3,24,12,0,118,120,1,0,0,0,119,111,1,0,0,0,119,115,
+      1,0,0,0,120,31,1,0,0,0,121,122,5,24,0,0,122,123,3,50,25,0,123,33,1,
+      0,0,0,124,125,5,25,0,0,125,126,3,50,25,0,126,35,1,0,0,0,127,128,3,
+      24,12,0,128,129,5,23,0,0,129,130,3,50,25,0,130,138,1,0,0,0,131,132,
+      5,26,0,0,132,133,3,24,12,0,133,134,5,26,0,0,134,135,5,23,0,0,135,136,
+      3,50,25,0,136,138,1,0,0,0,137,127,1,0,0,0,137,131,1,0,0,0,138,37,1,
+      0,0,0,139,147,3,36,18,0,140,147,3,24,12,0,141,147,3,34,17,0,142,147,
+      3,32,16,0,143,147,3,42,21,0,144,147,3,40,20,0,145,147,3,46,23,0,146,
+      139,1,0,0,0,146,140,1,0,0,0,146,141,1,0,0,0,146,142,1,0,0,0,146,143,
+      1,0,0,0,146,144,1,0,0,0,146,145,1,0,0,0,147,39,1,0,0,0,148,149,5,27,
+      0,0,149,159,5,28,0,0,150,154,3,38,19,0,151,153,5,29,0,0,152,151,1,
+      0,0,0,153,156,1,0,0,0,154,152,1,0,0,0,154,155,1,0,0,0,155,158,1,0,
+      0,0,156,154,1,0,0,0,157,150,1,0,0,0,158,161,1,0,0,0,159,157,1,0,0,
+      0,159,160,1,0,0,0,160,162,1,0,0,0,161,159,1,0,0,0,162,163,5,30,0,0,
+      163,41,1,0,0,0,164,165,5,31,0,0,165,175,5,28,0,0,166,170,3,38,19,0,
+      167,169,5,29,0,0,168,167,1,0,0,0,169,172,1,0,0,0,170,168,1,0,0,0,170,
+      171,1,0,0,0,171,174,1,0,0,0,172,170,1,0,0,0,173,166,1,0,0,0,174,177,
+      1,0,0,0,175,173,1,0,0,0,175,176,1,0,0,0,176,178,1,0,0,0,177,175,1,
+      0,0,0,178,179,5,30,0,0,179,43,1,0,0,0,180,190,5,32,0,0,181,185,3,38,
+      19,0,182,184,5,33,0,0,183,182,1,0,0,0,184,187,1,0,0,0,185,183,1,0,
+      0,0,185,186,1,0,0,0,186,189,1,0,0,0,187,185,1,0,0,0,188,181,1,0,0,
+      0,189,192,1,0,0,0,190,188,1,0,0,0,190,191,1,0,0,0,191,193,1,0,0,0,
+      192,190,1,0,0,0,193,194,5,34,0,0,194,45,1,0,0,0,195,196,5,35,0,0,196,
+      200,3,28,14,0,197,198,5,36,0,0,198,200,3,48,24,0,199,195,1,0,0,0,199,
+      197,1,0,0,0,200,47,1,0,0,0,201,211,5,28,0,0,202,206,3,30,15,0,203,
+      205,5,29,0,0,204,203,1,0,0,0,205,208,1,0,0,0,206,204,1,0,0,0,206,207,
+      1,0,0,0,207,210,1,0,0,0,208,206,1,0,0,0,209,202,1,0,0,0,210,213,1,
+      0,0,0,211,209,1,0,0,0,211,212,1,0,0,0,212,214,1,0,0,0,213,211,1,0,
+      0,0,214,215,5,30,0,0,215,49,1,0,0,0,216,223,3,24,12,0,217,223,3,34,
+      17,0,218,223,3,32,16,0,219,223,3,42,21,0,220,223,3,40,20,0,221,223,
+      3,46,23,0,222,216,1,0,0,0,222,217,1,0,0,0,222,218,1,0,0,0,222,219,
+      1,0,0,0,222,220,1,0,0,0,222,221,1,0,0,0,223,51,1,0,0,0,224,226,3,54,
+      27,0,225,224,1,0,0,0,226,229,1,0,0,0,227,225,1,0,0,0,227,228,1,0,0,
+      0,228,233,1,0,0,0,229,227,1,0,0,0,230,232,3,56,28,0,231,230,1,0,0,
+      0,232,235,1,0,0,0,233,231,1,0,0,0,233,234,1,0,0,0,234,237,1,0,0,0,
+      235,233,1,0,0,0,236,238,3,58,29,0,237,236,1,0,0,0,237,238,1,0,0,0,
+      238,53,1,0,0,0,239,240,5,37,0,0,240,241,5,26,0,0,241,242,3,62,31,0,
+      242,246,5,26,0,0,243,245,5,29,0,0,244,243,1,0,0,0,245,248,1,0,0,0,
+      246,244,1,0,0,0,246,247,1,0,0,0,247,55,1,0,0,0,248,246,1,0,0,0,249,
+      250,5,38,0,0,250,251,3,24,12,0,251,252,5,39,0,0,252,256,3,50,25,0,
+      253,255,5,29,0,0,254,253,1,0,0,0,255,258,1,0,0,0,256,254,1,0,0,0,256,
+      257,1,0,0,0,257,57,1,0,0,0,258,256,1,0,0,0,259,261,5,36,0,0,260,262,
+      3,24,12,0,261,260,1,0,0,0,261,262,1,0,0,0,262,263,1,0,0,0,263,267,
+      5,23,0,0,264,265,3,44,22,0,265,266,5,22,0,0,266,268,1,0,0,0,267,264,
+      1,0,0,0,267,268,1,0,0,0,268,269,1,0,0,0,269,273,3,48,24,0,270,272,
+      5,29,0,0,271,270,1,0,0,0,272,275,1,0,0,0,273,271,1,0,0,0,273,274,1,
+      0,0,0,274,294,1,0,0,0,275,273,1,0,0,0,276,278,5,36,0,0,277,279,3,24,
+      12,0,278,277,1,0,0,0,278,279,1,0,0,0,279,280,1,0,0,0,280,284,5,23,
+      0,0,281,282,3,44,22,0,282,283,5,22,0,0,283,285,1,0,0,0,284,281,1,0,
+      0,0,284,285,1,0,0,0,285,286,1,0,0,0,286,290,3,24,12,0,287,289,5,29,
+      0,0,288,287,1,0,0,0,289,292,1,0,0,0,290,288,1,0,0,0,290,291,1,0,0,
+      0,291,294,1,0,0,0,292,290,1,0,0,0,293,259,1,0,0,0,293,276,1,0,0,0,
+      294,59,1,0,0,0,295,296,5,40,0,0,296,61,1,0,0,0,297,298,5,41,0,0,298,
+      63,1,0,0,0,29,77,97,101,109,119,137,146,154,159,170,175,185,190,199,
+      206,211,222,227,233,237,246,256,261,267,273,278,284,290,293
   ];
 
   static final ATN _ATN =
@@ -1313,6 +1312,14 @@ class NullContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNull(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitNull(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class NatTypeContext extends ParserRuleContext {
@@ -1326,6 +1333,14 @@ class NatTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNatType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitNatType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1341,6 +1356,14 @@ class IntTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitIntType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitIntType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class FloatTypeContext extends ParserRuleContext {
@@ -1355,6 +1378,14 @@ class FloatTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFloatType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitFloatType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class BlobTypeContext extends ParserRuleContext {
@@ -1368,6 +1399,14 @@ class BlobTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitBlobType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitBlobType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1386,6 +1425,14 @@ class NumberTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNumberType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitNumberType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class BoolTypeContext extends ParserRuleContext {
@@ -1399,6 +1446,14 @@ class BoolTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitBoolType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitBoolType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1414,6 +1469,14 @@ class TextTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitTextType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitTextType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class PrincipalTypeContext extends ParserRuleContext {
@@ -1427,6 +1490,14 @@ class PrincipalTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPrincipalType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitPrincipalType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1442,6 +1513,14 @@ class ReservedTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitReservedType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitReservedType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class EmptyTypeContext extends ParserRuleContext {
@@ -1455,6 +1534,14 @@ class EmptyTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitEmptyType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitEmptyType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1478,6 +1565,14 @@ class PrimTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPrimType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitPrimType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class IdTypeContext extends ParserRuleContext {
@@ -1494,6 +1589,14 @@ class IdTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitIdType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitIdType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class FuncAnnContext extends ParserRuleContext {
@@ -1508,13 +1611,20 @@ class FuncAnnContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFuncAnn(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitFuncAnn(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class FuncTypeContext extends ParserRuleContext {
   List<TupleTypeContext> tupleTypes() => getRuleContexts<TupleTypeContext>();
   TupleTypeContext? tupleType(int i) => getRuleContext<TupleTypeContext>(i);
-  List<FuncAnnContext> funcAnns() => getRuleContexts<FuncAnnContext>();
-  FuncAnnContext? funcAnn(int i) => getRuleContext<FuncAnnContext>(i);
+  FuncAnnContext? funcAnn() => getRuleContext<FuncAnnContext>(0);
   FuncTypeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_funcType;
@@ -1525,6 +1635,14 @@ class FuncTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFuncType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitFuncType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1543,6 +1661,14 @@ class MethTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitMethType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitMethType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class OptTypeContext extends ParserRuleContext {
@@ -1557,6 +1683,14 @@ class OptTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitOptType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitOptType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1573,6 +1707,14 @@ class VecTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitVecType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitVecType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class PairTypeContext extends ParserRuleContext {
@@ -1588,6 +1730,14 @@ class PairTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPairType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitPairType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1610,6 +1760,14 @@ class ExprTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitExprType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitExprType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class RecordTypeContext extends ParserRuleContext {
@@ -1625,6 +1783,14 @@ class RecordTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitRecordType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitRecordType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1642,6 +1808,14 @@ class VariantTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitVariantType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitVariantType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class TupleTypeContext extends ParserRuleContext {
@@ -1657,6 +1831,14 @@ class TupleTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitTupleType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitTupleType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1674,6 +1856,14 @@ class RefTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitRefType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitRefType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class ActorTypeContext extends ParserRuleContext {
@@ -1689,6 +1879,14 @@ class ActorTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitActorType(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitActorType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1710,24 +1908,40 @@ class DataTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitDataType(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitDataType(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
-class DidContext extends ParserRuleContext {
+class ProgContext extends ParserRuleContext {
   List<ImpContext> imps() => getRuleContexts<ImpContext>();
   ImpContext? imp(int i) => getRuleContext<ImpContext>(i);
   List<DefContext> defs() => getRuleContexts<DefContext>();
   DefContext? def(int i) => getRuleContext<DefContext>(i);
   ActorContext? actor() => getRuleContext<ActorContext>(0);
-  DidContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ProgContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
-  int get ruleIndex => RULE_did;
+  int get ruleIndex => RULE_prog;
   @override
   void enterRule(ParseTreeListener listener) {
-    if (listener is CandidListener) listener.enterDid(this);
+    if (listener is CandidListener) listener.enterProg(this);
   }
   @override
   void exitRule(ParseTreeListener listener) {
-    if (listener is CandidListener) listener.exitDid(this);
+    if (listener is CandidListener) listener.exitProg(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitProg(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1744,6 +1958,14 @@ class ImpContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitImp(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitImp(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class DefContext extends ParserRuleContext {
@@ -1759,6 +1981,14 @@ class DefContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitDef(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitDef(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 
@@ -1778,6 +2008,14 @@ class ActorContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitActor(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitActor(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class IdContext extends ParserRuleContext {
@@ -1793,6 +2031,14 @@ class IdContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitId(this);
   }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitId(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
+  }
 }
 
 class ImportPartContext extends ParserRuleContext {
@@ -1807,6 +2053,14 @@ class ImportPartContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitImportPart(this);
+  }
+  @override
+  T? accept<T>(ParseTreeVisitor<T> visitor) {
+    if (visitor is CandidVisitor<T>) {
+     return visitor.visitImportPart(this);
+    } else {
+    	return visitor.visitChildren(this);
+    }
   }
 }
 

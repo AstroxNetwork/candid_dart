@@ -1,6 +1,7 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:candid_dart/antlr/CandidLexer.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
+import 'package:candid_dart/codegen/templates.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:recase/recase.dart';
@@ -10,7 +11,6 @@ import 'parser/class_def_parser.dart';
 import 'parser/idl_parser.dart';
 import 'parser/type_def_parser.dart';
 import 'serialize.dart';
-import 'templates.dart';
 
 class ClassRender {
   static renderToJsonFields(Iterable<SerField> fields) {
@@ -31,8 +31,7 @@ class ClassRender {
   }
 
   static renderClassComment(String clazz, String did) {
-    return (LambdaContext _) =>
-        "/// [$clazz] defined in Candid\n/// $did";
+    return (LambdaContext _) => "/// [$clazz] defined in Candid\n/// $did";
   }
 
   static renderVariantIDL(String type, Iterable<SerField> fields) {
@@ -58,9 +57,12 @@ class ClassRender {
   }
 
   static renderConstructorFields(Iterable<SerField> fields) {
-    return (LambdaContext _) => fields
-        .map((e) => "${e.nullable ? '' : 'required'} this.${e.id!.camelCase},")
-        .join("\n");
+    return (LambdaContext _) => fields.map((e) {
+          if (e.type == 'bool' && e.idl == 'IDL.Null') {
+            return "this.${e.id!.camelCase} = false,";
+          }
+          return "${e.nullable ? '' : 'required'} this.${e.id!.camelCase},";
+        }).join("\n");
   }
 
   static renderFields(Iterable<SerField> fields) {
@@ -76,7 +78,7 @@ class ClassRender {
         """
       @override
       String toString() {
-        return jsonEncode(toJson());
+        return toJson().toString();
       }
     """;
   }
@@ -156,13 +158,13 @@ String codegen(String clazz, String contents) {
   var parser = CandidParser(tokens);
   parser.addErrorListener(DiagnosticErrorListener());
   parser.buildParseTree = true;
-  var did = parser.did();
+  var prog = parser.prog();
   var typeDef = TypeDefParser();
-  ParseTreeWalker.DEFAULT.walk(typeDef, did);
+  ParseTreeWalker.DEFAULT.walk(typeDef, prog);
   var classDef = ClassDefParser(typeDef.typeDefs, typeDef.primIdlMap);
-  ParseTreeWalker.DEFAULT.walk(classDef, did);
+  ParseTreeWalker.DEFAULT.walk(classDef, prog);
   var idl = IDLParser(clazz, typeDef.typeDefs, typeDef.primIdlMap);
-  ParseTreeWalker.DEFAULT.walk(idl, did);
+  ParseTreeWalker.DEFAULT.walk(idl, prog);
   var formatter = DartFormatter();
   var code = Template(
     fileTpl,

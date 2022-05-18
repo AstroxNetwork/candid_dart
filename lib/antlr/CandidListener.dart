@@ -189,12 +189,12 @@ abstract class CandidListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitDataType(DataTypeContext ctx);
 
-  /// Enter a parse tree produced by [CandidParser.did].
+  /// Enter a parse tree produced by [CandidParser.prog].
   /// [ctx] the parse tree
-  void enterDid(DidContext ctx);
-  /// Exit a parse tree produced by [CandidParser.did].
+  void enterProg(ProgContext ctx);
+  /// Exit a parse tree produced by [CandidParser.prog].
   /// [ctx] the parse tree
-  void exitDid(DidContext ctx);
+  void exitProg(ProgContext ctx);
 
   /// Enter a parse tree produced by [CandidParser.imp].
   /// [ctx] the parse tree

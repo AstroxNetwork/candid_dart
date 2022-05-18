@@ -87,7 +87,7 @@ class TypeNode {
     return {
       "ctx": ctx.runtimeType.toString(),
       "text": ctx.text,
-      "optional": nullable,
+      "nullable": nullable,
       "children": children,
     };
   }

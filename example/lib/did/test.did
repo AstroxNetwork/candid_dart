@@ -17,6 +17,10 @@ type Person = record {
   family: opt vec Person;
 };
 
+type NewPerson = Person;
+type NewPerson1 = NewPerson;
+type NewPerson2 = NewPerson1;
+
 type Complex = record {
   field1: opt vec Person;
   field2: opt vec Phone;
@@ -47,6 +51,8 @@ type Complex = record {
         field3: vec vec vec vec vec Person;
         field4: opt vec vec vec vec vec Person;
         field5: opt vec opt vec opt vec opt vec opt vec Person;
+        field6: opt vec opt vec opt vec opt vec opt vec NewPerson1;
+        field7: opt vec opt vec opt vec opt vec opt vec NewPerson2;
       };
     };
   };
@@ -60,6 +66,8 @@ type Complex = record {
         field1: vec nat;
         field2: vec nat8;
         field3: vec vec vec vec vec Person;
+        field4: vec vec vec vec vec NewPerson1;
+        field5: vec vec vec vec vec NewPerson2;
       };
     };
   };
@@ -76,4 +84,9 @@ service : {
   echo4: (opt vec vec vec vec vec nat8) -> (opt vec vec vec vec vec nat8);
   echo5: (opt vec vec vec vec vec Person) -> (opt vec vec vec vec vec Person);
   echo6: (opt vec opt vec opt vec opt vec opt vec opt Person) -> (opt vec opt vec opt vec opt vec opt vec opt Person);
+  echo7: (opt vec opt vec opt vec opt vec opt vec opt Person, opt vec opt vec opt vec opt vec opt vec opt Person) -> (opt vec opt vec opt vec opt vec opt vec opt Person, opt vec opt vec opt vec opt vec opt vec opt Person);
+  echo8: (opt vec opt nat8, opt vec opt nat8, opt vec opt nat8) -> (opt vec nat8, opt vec opt nat8, opt vec opt nat8);
+  echo9: (opt vec opt NewPerson, opt vec opt NewPerson, opt vec opt NewPerson) -> (opt vec NewPerson, opt vec opt NewPerson, opt vec opt NewPerson);
+  echo10: (opt vec opt NewPerson1, opt vec opt NewPerson1, opt vec opt NewPerson1) -> (opt vec NewPerson1, opt vec opt NewPerson1, opt vec opt NewPerson1);
+  echo11: (opt vec opt NewPerson2, opt vec opt NewPerson2, opt vec opt NewPerson2) -> (opt vec NewPerson2, opt vec opt NewPerson2, opt vec opt NewPerson2);
 }

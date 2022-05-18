@@ -17,6 +17,7 @@ const kPrimitiveTypeIDLMap = <String, String>{
   "float32": "IDL.Float32",
   "float64": "IDL.Float64",
   "principal": "IDL.Principal",
+  "blob": "IDL.Vec(IDL.Nat8)",
 };
 
 const kIntDartMap = <String, String>{
@@ -39,4 +40,5 @@ const kPrimitiveTypeDartMap = <String, String>{
   "float32": "double",
   "float64": "double",
   "principal": "Principal",
+  "blob": "Uint8List",
 };

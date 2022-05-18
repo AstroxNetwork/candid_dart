@@ -34,7 +34,7 @@ class SerField {
       "did": did,
       "type": type,
       "idl": idl,
-      "null": nullable,
+      "nullable": nullable,
       if (ser != null) "ser": ser,
       if (deser != null) "deser": deser,
     };
@@ -45,9 +45,9 @@ class SerField {
   static Tuple2<String, String> bigInt([bool nullable = false]) {
     String d;
     if (nullable) {
-      d = "$ph == null ? null : BigInt.from($ph)";
+      d = "$ph == null ? null : $ph is BigInt ? $ph : BigInt.from($ph)";
     } else {
-      d = "BigInt.from($ph)";
+      d = "$ph is BigInt ? $ph : BigInt.from($ph)";
     }
     return Tuple2(ph, d);
   }
@@ -79,16 +79,16 @@ class SerField {
   }
 
   static Tuple2<String, String> uint8List([bool nullable = false]) {
-    // String s;
+    String s;
     String d;
     if (nullable) {
-      // s = "$ph?.toList(growable: false)";
-      d = "$ph == null ? null : Uint8List.fromList($ph.cast<int>())";
+      s = "$ph?.toList(growable: false)";
+      d = "$ph == null ? null : $ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())";
     } else {
-      // s = "$ph.toList(growable: false)";
-      d = "Uint8List.fromList($ph.cast<int>())";
+      s = "$ph.toList(growable: false)";
+      d = "$ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())";
     }
-    return Tuple2(ph, d);
+    return Tuple2(s, d);
   }
 
   static Tuple2<String?, String?> opt({String? ser, String? deser}) {

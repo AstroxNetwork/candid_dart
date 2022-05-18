@@ -34,30 +34,32 @@ class IDLParser extends CandidBaseListener {
     for (var md in methTypes) {
       var key = md.idType(0)!.text;
       var ccKey = key.camelCase;
-      keys.writeln("/// ${md.text}\nstatic const String $ccKey = '${md.getChild(0)?.text}';");
+      keys.writeln(
+          "/// ${md.text}\nstatic const String $ccKey = '${md.getChild(0)?.text}';");
       var body = md.funcType();
       if (body != null) {
-        var ann = body.funcAnn(0)?.text;
+        var ann = body.funcAnn()?.text;
         var args = body.tupleType(0)!;
         var returns = body.tupleType(1)!;
-        var argsNode = TypeNode(args);
-        var returnsNode = TypeNode(returns);
-        var argsField = _resolveTupleNode(argsNode);
-        var returnsField = _resolveTupleNode(returnsNode);
+        var argNodes = TypeNode(args);
+        var returnNodes = TypeNode(returns);
+        var argFields = _resolveTupleNode(argNodes);
+        var returnFields = _resolveTupleNode(returnNodes);
         var idlValue = {
           'didText': md.text,
           'idlName': ccKey,
-          'idlReq': argsField.map((e) => e.idl).join(","),
-          'idlRep': returnsField.map((e) => e.idl).join(","),
+          'idlReq': argFields.map((e) => e.idl).join(","),
+          'idlRep': returnFields.map((e) => e.idl).join(","),
           'funcAnno': ann.isNotBlank ? "'$ann'" : '',
         };
         String params;
         String idlParams;
-        if (argsField.isEmpty) {
+        var argFieldsLen = argFields.length;
+        if (argFields.isEmpty) {
           params = '';
           idlParams = 'const <dynamic>[]';
-        } else if (argsField.length == 1) {
-          var first = argsField.first;
+        } else if (argFieldsLen == 1) {
+          var first = argFields.first;
           params = '${first.type.nullable(first.nullable)} arg,';
           if (first.ser != null) {
             idlParams =
@@ -67,11 +69,11 @@ class IDLParser extends CandidBaseListener {
           }
         } else {
           params =
-              'Tuple${argsField.length}<${argsField.map((e) => e.type.nullable(e.nullable)).join(",")}> args,';
-          if (argsField.any((e) => e.ser != null)) {
+              'Tuple$argFieldsLen<${argFields.map((e) => e.type.nullable(e.nullable)).join(",")}> args,';
+          if (argFields.any((e) => e.ser != null)) {
             var ser = StringBuffer();
-            for (var i = 0; i < argsField.length; ++i) {
-              var f = argsField.elementAt(i);
+            for (var i = 0; i < argFieldsLen; ++i) {
+              var f = argFields.elementAt(i);
               var ind = i + 1;
               if (f.ser != null) {
                 ser.write(f.ser!.replaceAll(SerField.ph, "args.item$ind"));
@@ -89,7 +91,8 @@ class IDLParser extends CandidBaseListener {
           idlMethod,
           htmlEscapeValues: false,
         ).renderString(idlValue));
-        var noReturn = returnsField.isEmpty;
+        var returnFieldsLen = returnFields.length;
+        var noReturn = returnFieldsLen == 0;
         reqMethods.writeln(Template(
           idlReqMethod,
           htmlEscapeValues: false,
@@ -102,17 +105,31 @@ class IDLParser extends CandidBaseListener {
           "hasReturn": !noReturn,
           "returnType": noReturn
               ? 'void'
-              : returnsField.length == 1
-                  ? returnsField.first.type
-                      .nullable(returnsField.first.nullable)
-                  : throw 'Return has more than one type.',
+              : returnFieldsLen == 1
+                  ? returnFields.first.type
+                      .nullable(returnFields.first.nullable)
+                  : "Tuple$returnFieldsLen<${returnFields.map((e) => e.type.nullable(e.nullable)).join(",")}>",
           "renderReturn": (_) {
             if (noReturn) {
               return '';
             }
-            var deser = returnsField.first.deser;
-            if (deser != null) {
-              return "return ${deser.replaceAll(SerField.ph, "resp")};";
+            if (returnFieldsLen == 1) {
+              var deser = returnFields.first.deser;
+              if (deser != null) {
+                return "return ${deser.replaceAll(SerField.ph, "resp")};";
+              }
+            } else if (returnFieldsLen > 1) {
+              var sb = StringBuffer();
+              for (var i = 0; i < returnFieldsLen; ++i) {
+                var field = returnFields[i];
+                if (field.deser != null) {
+                  sb.write(field.deser!.replaceAll(SerField.ph, "resp[$i]"));
+                } else {
+                  sb.write("resp[$i]");
+                }
+                sb.write(",");
+              }
+              return "return Tuple$returnFieldsLen($sb);";
             }
             return "return resp;";
           },
@@ -159,6 +176,7 @@ class IDLParser extends CandidBaseListener {
         idl: ser.idl,
         type: ser.type,
         did: ctx.text,
+        nullable: ser.nullable,
         ser: ser.ser,
         deser: ser.deser,
       );
@@ -170,6 +188,8 @@ class IDLParser extends CandidBaseListener {
         Tuple2<String, String>? sers;
         if (idlType == 'IDL.Principal') {
           sers = SerField.principal(node.nullable);
+        } else if (dartType == 'Uint8List') {
+          sers = SerField.uint8List(node.nullable);
         } else if (dartType == 'BigInt') {
           sers = SerField.bigInt(node.nullable);
         }
@@ -184,7 +204,20 @@ class IDLParser extends CandidBaseListener {
       }
       if (defTypes.contains(text)) {
         var isPrimType = primIdlMap.containsKey(text);
-        var sers = isPrimType ? null : SerField.object(text, node.nullable);
+        Tuple2<String, String>? sers;
+        if (isPrimType) {
+          var idl = primIdlMap[text]!;
+          if (idl == 'IDL.Vec(IDL.Nat8)') {
+            sers = SerField.uint8List(node.nullable);
+          } else if (['IDL.Int', 'IDL.Int64', 'IDL.Nat', 'IDL.Nat64']
+              .contains(idl)) {
+            sers = SerField.bigInt(node.nullable);
+          } else {
+            sers = null;
+          }
+        } else {
+          sers = SerField.object(text, node.nullable);
+        }
         return SerField(
           did: text,
           idl: isPrimType ? primIdlMap[text]! : '$text.idl',
@@ -205,7 +238,7 @@ class IDLParser extends CandidBaseListener {
           type: dartType,
           idl: idlType,
           nullable: node.nullable,
-          ser: ser.item1,
+          // ser: ser.item1,
           deser: ser.item2,
         );
       }

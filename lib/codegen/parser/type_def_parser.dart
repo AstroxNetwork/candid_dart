@@ -31,7 +31,7 @@ class TypeDefParser extends CandidBaseListener {
   }
 
   @override
-  void exitDid(DidContext ctx) {
+  void exitProg(ProgContext ctx) {
     for (var prim in _prims) {
       var idl = kPrimitiveTypeIDLMap[prim]!;
       _ifContainsKey(prim, idl);
