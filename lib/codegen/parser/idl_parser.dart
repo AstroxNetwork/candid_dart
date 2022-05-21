@@ -15,6 +15,7 @@ class IDLParser extends CandidBaseListener {
   final String clazz;
   final Set<String> defTypes;
   final Map<String, String> primIdlMap;
+  final Map<String, Tuple4<String, String, String, String>> tupleTypes;
   String _idlCodes = "";
 
   String get idlCodes => _idlCodes;
@@ -23,6 +24,7 @@ class IDLParser extends CandidBaseListener {
     this.clazz,
     this.defTypes,
     this.primIdlMap,
+    this.tupleTypes,
   );
 
   @override
@@ -200,6 +202,17 @@ class IDLParser extends CandidBaseListener {
           nullable: node.nullable,
           // ser: sers?.item1,
           deser: sers?.item2,
+        );
+      }
+      if (tupleTypes.containsKey(text)) {
+        var tuple4 = tupleTypes[text]!;
+        return SerField(
+          did: ctx.text,
+          idl: tuple4.item4,
+          type: tuple4.item3,
+          nullable: node.nullable,
+          ser: tuple4.item1,
+          deser: tuple4.item2,
         );
       }
       if (defTypes.contains(text)) {

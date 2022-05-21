@@ -123,7 +123,10 @@ class SerField {
     return Tuple2(s, d);
   }
 
-  static Tuple4<String, String, String, String> tuple(Iterable<SerField> sers) {
+  static Tuple4<String, String, String, String> tuple(
+    Iterable<SerField> sers, {
+    String? type,
+  }) {
     var ser = StringBuffer();
     var deser = StringBuffer();
     var types = [];
@@ -151,8 +154,11 @@ class SerField {
     var dartTypes = types.join(",");
     return Tuple4(
       "<dynamic>[$ser]",
-      "Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)",
-      sers.length == 1 ? dartTypes : "Tuple${sers.length}<$dartTypes>",
+      type == null
+          ? "Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)"
+          : "$type.fromList(<dynamic>[$deser],)",
+      type ??
+          (sers.length == 1 ? dartTypes : "Tuple${sers.length}<$dartTypes>"),
       "IDL.Tuple(<CType<dynamic>>[${idl.join(",")}],)",
     );
   }

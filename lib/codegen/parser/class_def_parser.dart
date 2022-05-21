@@ -17,7 +17,7 @@ class ClassDefParser extends CandidBaseListener {
   final Set<String> defTypes;
   final Map<String, String> primIdlMap;
   final StringBuffer _sb = StringBuffer();
-  final Map<String, List<SerField>> classFields = {};
+  final Map<String, Tuple4<String, String, String, String>> tupleTypes = {};
 
   String get classCodes => _sb.toString();
 
@@ -38,7 +38,20 @@ class ClassDefParser extends CandidBaseListener {
   void _eachNode(TypeNode node, String type) {
     var children = node.children;
     var ctx = node.ctx;
-    if (ctx is RecordTypeContext || ctx is VariantTypeContext) {
+    if (ctx is RecordTypeContext) {
+      var hasKey =
+          node.children.every((e) => e.children.first.ctx is PairTypeContext);
+      if (!hasKey) {
+        var fields = node.children
+            .map((e) => _resolveTypeNode(e.children.first, '', type));
+        var tuple = SerField.tuple(fields);
+        _sb.writeln(
+            "/// [$type] defined in Candid\n/// ${ctx.text}\ntypedef $type = ${tuple.item3};");
+        tupleTypes[type] = SerField.tuple(fields, type: type);
+      } else {
+        _resolveClassType(node, type);
+      }
+    } else if (ctx is VariantTypeContext) {
       _resolveClassType(node, type);
     } else if (ctx is PairTypeContext) {
       type = type + ctx.idType()!.text.pascalCase;
@@ -85,7 +98,6 @@ class ClassDefParser extends CandidBaseListener {
       'renderHashCode': ClassRender.renderHashCode(fields),
       'renderCopy': ClassRender.renderCopy(type, fields),
     });
-    classFields[type] = fields;
     _sb.writeln(clazz);
   }
 
@@ -116,6 +128,18 @@ class ClassDefParser extends CandidBaseListener {
           nullable: node.nullable,
           // ser: sers?.item1,
           deser: sers?.item2,
+        );
+      }
+      if (tupleTypes.containsKey(text)) {
+        var tuple4 = tupleTypes[text]!;
+        return SerField(
+          id: id,
+          did: ctx.text,
+          idl: tuple4.item4,
+          type: text,
+          nullable: node.nullable,
+          ser: tuple4.item1,
+          deser: tuple4.item2,
         );
       }
       if (defTypes.contains(text)) {
@@ -206,6 +230,24 @@ class ClassDefParser extends CandidBaseListener {
       );
     } else if (ctx is VariantTypeContext || ctx is RecordTypeContext) {
       var newType = type + id.pascalCase;
+      if (ctx is RecordTypeContext) {
+        var hasKey =
+            node.children.every((e) => e.children.first.ctx is PairTypeContext);
+        if (!hasKey) {
+          var fields = node.children
+              .map((e) => _resolveTypeNode(e.children.first, id, type));
+          var tuple4 = SerField.tuple(fields);
+          return SerField(
+            id: id,
+            did: ctx.text,
+            idl: tuple4.item4,
+            type: tuple4.item3,
+            nullable: node.nullable,
+            ser: tuple4.item1,
+            deser: tuple4.item2,
+          );
+        }
+      }
       var sers = SerField.object(newType, node.nullable);
       return SerField(
         id: id,

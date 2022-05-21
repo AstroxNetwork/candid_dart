@@ -163,7 +163,12 @@ String codegen(String clazz, String contents) {
   ParseTreeWalker.DEFAULT.walk(typeDef, prog);
   var classDef = ClassDefParser(typeDef.typeDefs, typeDef.primIdlMap);
   ParseTreeWalker.DEFAULT.walk(classDef, prog);
-  var idl = IDLParser(clazz, typeDef.typeDefs, typeDef.primIdlMap);
+  var idl = IDLParser(
+    clazz,
+    typeDef.typeDefs,
+    typeDef.primIdlMap,
+    classDef.tupleTypes,
+  );
   ParseTreeWalker.DEFAULT.walk(idl, prog);
   var formatter = DartFormatter();
   var code = Template(
