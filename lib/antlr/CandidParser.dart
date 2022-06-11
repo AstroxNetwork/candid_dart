@@ -4,8 +4,6 @@ import 'package:antlr4/antlr4.dart';
 
 import 'CandidListener.dart';
 import 'CandidBaseListener.dart';
-import 'CandidVisitor.dart';
-import 'CandidBaseVisitor.dart';
 const int RULE_null = 0, RULE_natType = 1, RULE_intType = 2, RULE_floatType = 3, 
           RULE_blobType = 4, RULE_numberType = 5, RULE_boolType = 6, RULE_textType = 7, 
           RULE_principalType = 8, RULE_reservedType = 9, RULE_emptyType = 10, 
@@ -1312,14 +1310,6 @@ class NullContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNull(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitNull(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class NatTypeContext extends ParserRuleContext {
@@ -1333,14 +1323,6 @@ class NatTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNatType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitNatType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1356,14 +1338,6 @@ class IntTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitIntType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitIntType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class FloatTypeContext extends ParserRuleContext {
@@ -1378,14 +1352,6 @@ class FloatTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFloatType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitFloatType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class BlobTypeContext extends ParserRuleContext {
@@ -1399,14 +1365,6 @@ class BlobTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitBlobType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitBlobType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1425,14 +1383,6 @@ class NumberTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitNumberType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitNumberType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class BoolTypeContext extends ParserRuleContext {
@@ -1446,14 +1396,6 @@ class BoolTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitBoolType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitBoolType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1469,14 +1411,6 @@ class TextTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitTextType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitTextType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class PrincipalTypeContext extends ParserRuleContext {
@@ -1490,14 +1424,6 @@ class PrincipalTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPrincipalType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitPrincipalType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1513,14 +1439,6 @@ class ReservedTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitReservedType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitReservedType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class EmptyTypeContext extends ParserRuleContext {
@@ -1534,14 +1452,6 @@ class EmptyTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitEmptyType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitEmptyType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1565,14 +1475,6 @@ class PrimTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPrimType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitPrimType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class IdTypeContext extends ParserRuleContext {
@@ -1589,14 +1491,6 @@ class IdTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitIdType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitIdType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class FuncAnnContext extends ParserRuleContext {
@@ -1610,14 +1504,6 @@ class FuncAnnContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFuncAnn(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitFuncAnn(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1636,14 +1522,6 @@ class FuncTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitFuncType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitFuncType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class MethTypeContext extends ParserRuleContext {
@@ -1661,14 +1539,6 @@ class MethTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitMethType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitMethType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class OptTypeContext extends ParserRuleContext {
@@ -1683,14 +1553,6 @@ class OptTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitOptType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitOptType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1707,14 +1569,6 @@ class VecTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitVecType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitVecType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class PairTypeContext extends ParserRuleContext {
@@ -1730,14 +1584,6 @@ class PairTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitPairType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitPairType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1760,14 +1606,6 @@ class ExprTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitExprType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitExprType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class RecordTypeContext extends ParserRuleContext {
@@ -1783,14 +1621,6 @@ class RecordTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitRecordType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitRecordType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1808,14 +1638,6 @@ class VariantTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitVariantType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitVariantType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class TupleTypeContext extends ParserRuleContext {
@@ -1831,14 +1653,6 @@ class TupleTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitTupleType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitTupleType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1856,14 +1670,6 @@ class RefTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitRefType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitRefType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class ActorTypeContext extends ParserRuleContext {
@@ -1879,14 +1685,6 @@ class ActorTypeContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitActorType(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitActorType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1908,14 +1706,6 @@ class DataTypeContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitDataType(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitDataType(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class ProgContext extends ParserRuleContext {
@@ -1935,14 +1725,6 @@ class ProgContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitProg(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitProg(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class ImpContext extends ParserRuleContext {
@@ -1957,14 +1739,6 @@ class ImpContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitImp(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitImp(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -1981,14 +1755,6 @@ class DefContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitDef(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitDef(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
@@ -2008,14 +1774,6 @@ class ActorContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitActor(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitActor(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class IdContext extends ParserRuleContext {
@@ -2031,14 +1789,6 @@ class IdContext extends ParserRuleContext {
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitId(this);
   }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitId(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
-  }
 }
 
 class ImportPartContext extends ParserRuleContext {
@@ -2053,14 +1803,6 @@ class ImportPartContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is CandidListener) listener.exitImportPart(this);
-  }
-  @override
-  T? accept<T>(ParseTreeVisitor<T> visitor) {
-    if (visitor is CandidVisitor<T>) {
-     return visitor.visitImportPart(this);
-    } else {
-    	return visitor.visitChildren(this);
-    }
   }
 }
 
