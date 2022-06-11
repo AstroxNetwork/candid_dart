@@ -57,12 +57,13 @@ class ClassRender {
   }
 
   static renderConstructorFields(Iterable<SerField> fields) {
-    return (LambdaContext _) => fields.map((e) {
+    if (fields.isEmpty) return "";
+    return (LambdaContext _) => "{${fields.map((e) {
           if (e.type == 'bool' && e.idl == 'IDL.Null') {
             return "this.${e.id!.camelCase} = false,";
           }
           return "${e.nullable ? '' : 'required'} this.${e.id!.camelCase},";
-        }).join("\n");
+        }).join("\n")}}";
   }
 
   static renderFields(Iterable<SerField> fields) {
@@ -84,6 +85,7 @@ class ClassRender {
   }
 
   static renderEquals(String clazz, Iterable<SerField> fields) {
+    if (fields.isEmpty) return "";
     return (LambdaContext _) => """
       @override
       bool operator ==(Object other) =>
@@ -98,6 +100,7 @@ class ClassRender {
   }
 
   static renderHashCode(Iterable<SerField> fields) {
+    if (fields.isEmpty) return "";
     return (LambdaContext _) => """
       @override
       int get hashCode =>
@@ -106,6 +109,7 @@ class ClassRender {
   }
 
   static renderCopy(String clazz, List<SerField> fields) {
+    if (fields.isEmpty) return "";
     var c = StringBuffer();
     var p = StringBuffer();
     var v = StringBuffer();

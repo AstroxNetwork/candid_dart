@@ -127,6 +127,10 @@ class SerField {
     Iterable<SerField> sers, {
     String? type,
   }) {
+    if (sers.isEmpty) {
+      return Tuple4("<dynamic>[[]]", "[]", "List<dynamic>",
+          "IDL.Tuple(<CType<dynamic>>[],)");
+    }
     var ser = StringBuffer();
     var deser = StringBuffer();
     var types = [];
@@ -152,13 +156,24 @@ class SerField {
       deser.write(",");
     }
     var dartTypes = types.join(",");
+    var one = sers.length == 1;
+    if (one) {
+      var deserStr = deser.toString();
+      return Tuple4(
+        "<dynamic>[$ser]",
+        type == null
+            ? deserStr.substring(0, deserStr.length - 1)
+            : "$type.fromList(<dynamic>[$deser],)",
+        type ?? dartTypes,
+        "IDL.Tuple(<CType<dynamic>>[${idl.join(",")}],)",
+      );
+    }
     return Tuple4(
       "<dynamic>[$ser]",
       type == null
           ? "Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)"
           : "$type.fromList(<dynamic>[$deser],)",
-      type ??
-          (sers.length == 1 ? dartTypes : "Tuple${sers.length}<$dartTypes>"),
+      type ?? (one ? dartTypes : "Tuple${sers.length}<$dartTypes>"),
       "IDL.Tuple(<CType<dynamic>>[${idl.join(",")}],)",
     );
   }

@@ -2,9 +2,9 @@
 const clazzTpl = """
 {{# renderClassComment }}{{/ renderClassComment }}
 class {{ clazz }} {
-  const {{ clazz }}({
+  const {{ clazz }}(
     {{# renderConstructorFields }}{{/ renderConstructorFields }}
-  });
+  );
 
   factory {{ clazz }}.fromMap(Map<dynamic, dynamic> map,) {
     return {{ clazz }}(
