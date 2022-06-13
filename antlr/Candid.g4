@@ -82,7 +82,9 @@ funcType
 
 methType
   : idType ':' funcType
+  | '"' idType '"' ':' funcType
   | idType ':' idType
+  | '"' idType '"' ':' idType
   ;
 
 optType
