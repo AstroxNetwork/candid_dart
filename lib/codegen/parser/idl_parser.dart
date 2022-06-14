@@ -37,7 +37,7 @@ class IDLParser extends CandidBaseListener {
       var key = md.idType(0)!.text;
       var ccKey = key.camelCase;
       keys.writeln(
-          "/// ${md.text}\nstatic const String $ccKey = '${md.getChild(0)?.text}';");
+          "/// ${md.text}\nstatic const String $ccKey = '$key';");
       var body = md.funcType();
       if (body != null) {
         var ann = body.funcAnn()?.text;
