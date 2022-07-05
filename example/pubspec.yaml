@@ -6,12 +6,12 @@ publish_to: 'none'
 environment:
   sdk: '>=2.16.2 <3.0.0'
 
-dependencies: 
+dependencies:
   agent_dart: ^0.1.15+2
   collection: ^1.16.0
-  candid_dart:
-    path: ../
 
 dev_dependencies:
-  lints: ^1.0.1
   build_runner: ^2.1.10
+  candid_dart:
+    path: ../
+  lints: ^1.0.1
