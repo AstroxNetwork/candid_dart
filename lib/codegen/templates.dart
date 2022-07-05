@@ -1,5 +1,5 @@
 // language=Handlebars
-const clazzTpl = """
+const clazzTpl = '''
 {{# renderClassComment }}{{/ renderClassComment }}
 class {{ clazz }} {
   const {{ clazz }}(
@@ -37,10 +37,10 @@ class {{ clazz }} {
   {{# renderEquals }}{{/ renderEquals }}
   {{# renderHashCode }}{{/ renderHashCode }}
 }
-""";
+''';
 
 // language=Handlebars
-const idlMethod = """
+const idlMethod = '''
 /// [{{ idlName }}] defined in Candid
 /// {{ didText }}
 {{ idlName }}: IDL.Func(
@@ -48,10 +48,10 @@ const idlMethod = """
    <CType<dynamic>>[{{ idlRep }}],
    <String>[{{ funcAnno }}],
 ),
-""";
+''';
 
 // language=Handlebars
-const idlReqMethod = """
+const idlReqMethod = '''
 /// [{{ methodName }}] defined in Candid
 /// {{ didText }}
 /// 
@@ -70,10 +70,10 @@ Future<{{ returnType }}> {{ methodName }}(
   {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ methodName }})!(dat);
   {{# renderReturn }}{{/ renderReturn }}
 }
-""";
+''';
 
 // language=Handlebars
-const idlTpl = """
+const idlTpl = '''
 class {{ clazz }} {
   const {{ clazz }}._();
   
@@ -84,7 +84,7 @@ class {{ clazz }} {
   });
 }
 {{ methods }}
-""";
+''';
 
 // language=Handlebars
 const fileTpl = """

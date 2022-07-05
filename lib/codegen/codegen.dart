@@ -13,13 +13,15 @@ import 'parser/type_def_parser.dart';
 import 'serialize.dart';
 
 class ClassRender {
+  const ClassRender._();
+
   static renderToJsonFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
-          var arg = e.ser == null
+          final arg = e.ser == null
               ? e.id!.camelCase
               : e.ser!.replaceAll(SerField.ph, e.id!.camelCase);
           return "'${e.id}': $arg,";
-        }).join("\n");
+        }).join('\n');
   }
 
   static renderRecordIDL(Iterable<SerField> fields) {
@@ -31,7 +33,7 @@ class ClassRender {
   }
 
   static renderClassComment(String clazz, String did) {
-    return (LambdaContext _) => "/// [$clazz] defined in Candid\n/// $did";
+    return (LambdaContext _) => '/// [$clazz] defined in Candid\n/// $did';
   }
 
   static renderVariantIDL(String type, Iterable<SerField> fields) {
@@ -52,12 +54,12 @@ class ClassRender {
                 ? "map.containsKey('${e.id}')"
                 : "map['${e.id}']";
           }
-          return "${e.id!.camelCase}: $deser,";
-        }).join("\n");
+          return '${e.id!.camelCase}: $deser,';
+        }).join('\n');
   }
 
   static renderConstructorFields(Iterable<SerField> fields) {
-    if (fields.isEmpty) return "";
+    if (fields.isEmpty) return '';
     return (LambdaContext _) => "{${fields.map((e) {
           if (e.type == 'bool' && e.idl == 'IDL.Null') {
             return "this.${e.id!.camelCase} = false,";
@@ -68,24 +70,24 @@ class ClassRender {
 
   static renderFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
-          var id = e.id!.camelCase;
-          return "/// [$id] : ${e.did} \nfinal ${e.type.nullable(e.nullable)} $id;";
-        }).join("\n");
+          final id = e.id!.camelCase;
+          return '/// [$id] : ${e.did} \nfinal ${e.type.nullable(e.nullable)} $id;';
+        }).join('\n');
   }
 
   static renderToString() {
     return (LambdaContext _) =>
         // language=dart
-        """
+        '''
       @override
       String toString() {
         return toJson().toString();
       }
-    """;
+    ''';
   }
 
   static renderEquals(String clazz, Iterable<SerField> fields) {
-    if (fields.isEmpty) return "";
+    if (fields.isEmpty) return '';
     return (LambdaContext _) => """
       @override
       bool operator ==(Object other) =>
@@ -93,14 +95,14 @@ class ClassRender {
           other is $clazz &&
               runtimeType == other.runtimeType &&
               ${fields.map((e) {
-          var id = e.id!.camelCase;
+          final id = e.id!.camelCase;
           return "$id == other.$id";
         }).join("&&")};
     """;
   }
 
   static renderHashCode(Iterable<SerField> fields) {
-    if (fields.isEmpty) return "";
+    if (fields.isEmpty) return '';
     return (LambdaContext _) => """
       @override
       int get hashCode =>
@@ -109,29 +111,29 @@ class ClassRender {
   }
 
   static renderCopy(String clazz, List<SerField> fields) {
-    if (fields.isEmpty) return "";
-    var c = StringBuffer();
-    var p = StringBuffer();
-    var v = StringBuffer();
-    for (var e in fields) {
-      var id = e.id!.camelCase;
-      c.writeln("/// * [$id] : ${e.did}");
-      p.writeln("${e.type}? $id,");
-      v.writeln("$id: $id ?? this.$id,");
+    if (fields.isEmpty) return '';
+    final c = StringBuffer();
+    final p = StringBuffer();
+    final v = StringBuffer();
+    for (final e in fields) {
+      final id = e.id!.camelCase;
+      c.writeln('/// * [$id] : ${e.did}');
+      p.writeln('${e.type}? $id,');
+      v.writeln('$id: $id ?? this.$id,');
     }
-    return (LambdaContext _) => """
+    return (LambdaContext _) => '''
       /// Types defined in Candid
       $c$clazz copyWith({
         $p
       }) {
         return $clazz($v);
       }
-    """;
+    ''';
   }
 }
 
 T ifSupport<T>(RuleContext ctx, Supplier<T?> support) {
-  var t = support();
+  final t = support();
   if (t == null) {
     throw UnsupportedTypeContextException(ctx);
   }
@@ -143,45 +145,44 @@ typedef Supplier<T> = T Function();
 typedef Transform<T, R> = R Function(T e);
 
 class UnsupportedTypeContextException implements Exception {
-  final RuleContext ctx;
-
   const UnsupportedTypeContextException(this.ctx);
+
+  final RuleContext ctx;
 
   @override
   String toString() {
-    return "Unsupported type rule context `<${ctx.runtimeType}=${ctx.text}>`.";
+    return 'Unsupported type rule context `<${ctx.runtimeType}=${ctx.text}>`.';
   }
 }
 
 String codegen(String clazz, String contents) {
   CandidLexer.checkVersion();
   CandidParser.checkVersion();
-  var input = InputStream.fromString(contents);
-  var lexer = CandidLexer(input);
-  var tokens = CommonTokenStream(lexer);
-  var parser = CandidParser(tokens);
+  final input = InputStream.fromString(contents);
+  final lexer = CandidLexer(input);
+  final tokens = CommonTokenStream(lexer);
+  final parser = CandidParser(tokens);
   parser.addErrorListener(DiagnosticErrorListener());
   parser.buildParseTree = true;
-  var prog = parser.prog();
-  var typeDef = TypeDefParser();
+  final prog = parser.prog();
+  final typeDef = TypeDefParser();
   ParseTreeWalker.DEFAULT.walk(typeDef, prog);
-  var classDef = ClassDefParser(typeDef.typeDefs, typeDef.primIdlMap);
+  final classDef = ClassDefParser(typeDef.typeDefs, typeDef.primIdlMap);
   ParseTreeWalker.DEFAULT.walk(classDef, prog);
-  var idl = IDLParser(
+  final idl = IDLParser(
     clazz,
     typeDef.typeDefs,
     typeDef.primIdlMap,
     classDef.tupleTypes,
   );
   ParseTreeWalker.DEFAULT.walk(idl, prog);
-  var formatter = DartFormatter();
-  var code = Template(
+  final formatter = DartFormatter();
+  final code = formatter.format(Template(
     fileTpl,
     htmlEscapeValues: false,
   ).renderString({
-    "idl": idl.idlCodes,
-    "classes": classDef.classCodes,
-  });
-  code = formatter.format(code);
+    'idl': idl.idlCodes,
+    'classes': classDef.classCodes,
+  }));
   return code;
 }

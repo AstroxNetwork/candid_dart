@@ -4,22 +4,12 @@ import 'package:antlr4/antlr4.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
 
 class TypeNode {
-  final RuleContext ctx;
-
-  final TypeNode? parent;
-
-  final bool nullable;
-
-  List<TypeNode>? _children;
-
-  List<TypeNode> get children => _children ?? [];
-
   TypeNode(
     this.ctx, {
     this.parent,
     this.nullable = false,
   }) {
-    var _ctx = ctx;
+    final _ctx = ctx;
     if (_ctx is DataTypeContext) {
       _setChildren([
         _ctx.idType(),
@@ -54,9 +44,19 @@ class TypeNode {
         _ctx.refType(),
       ], nullable);
     } else if (_ctx is RefTypeContext) {
-      // todo refType
+      // TODO: Handle RefTypeContext.
     }
   }
+
+  final RuleContext ctx;
+
+  final TypeNode? parent;
+
+  final bool nullable;
+
+  List<TypeNode>? _children;
+
+  List<TypeNode> get children => _children ?? [];
 
   void _setChildren(List<RuleContext?> children, [bool opt = false]) {
     assert(_children == null);
@@ -78,17 +78,17 @@ class TypeNode {
     }
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'ctx': ctx.runtimeType.toString(),
+      'text': ctx.text,
+      'nullable': nullable,
+      'children': children,
+    };
+  }
+
   @override
   String toString() {
     return jsonEncode(toJson());
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "ctx": ctx.runtimeType.toString(),
-      "text": ctx.text,
-      "nullable": nullable,
-      "children": children,
-    };
   }
 }

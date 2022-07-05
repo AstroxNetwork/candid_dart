@@ -12,10 +12,10 @@ import '../templates.dart';
 import '../type_node.dart';
 
 class ClassDefParser extends CandidBaseListener {
-  ClassDefParser(this.defTypes, this.primIdlMap);
+  ClassDefParser(this.defTypes, this.primitiveIdlMap);
 
   final Set<String> defTypes;
-  final Map<String, String> primIdlMap;
+  final Map<String, String> primitiveIdlMap;
   final StringBuffer _sb = StringBuffer();
   final Map<String, Tuple4<String, String, String, String>> tupleTypes = {};
 
@@ -23,30 +23,34 @@ class ClassDefParser extends CandidBaseListener {
 
   @override
   void enterDef(DefContext ctx) {
-    var type = ctx.idType()!.text;
-    var node = TypeNode(ctx.dataType()!);
-    var first = node.children.first;
+    final type = ctx.idType()!.text;
+    final node = TypeNode(ctx.dataType()!);
+    final first = node.children.first;
     if (first.ctx is IdTypeContext) {
-      var id = first.ctx.text;
+      final id = first.ctx.text;
       _sb.writeln(
-          "/// [$type] defined in Candid: ${ctx.text}\ntypedef $type = ${kPrimitiveTypeDartMap[id] ?? id};");
+        '/// [$type] defined in Candid: '
+        '${ctx.text}\ntypedef $type = ${kPrimitiveTypeDartMap[id] ?? id};',
+      );
       return;
     }
     _eachNode(node, type);
   }
 
   void _eachNode(TypeNode node, String type) {
-    var children = node.children;
-    var ctx = node.ctx;
+    final children = node.children;
+    final ctx = node.ctx;
     if (ctx is RecordTypeContext) {
-      var hasKey =
+      final hasKey =
           node.children.every((e) => e.children.first.ctx is PairTypeContext);
       if (!hasKey) {
-        var fields = node.children
+        final fields = node.children
             .map((e) => _resolveTypeNode(e.children.first, '', type));
-        var tuple = SerField.tuple(fields);
+        final tuple = SerField.tuple(fields);
         _sb.writeln(
-            "/// [$type] defined in Candid\n/// ${ctx.text}\ntypedef $type = ${tuple.item3};");
+          '/// [$type] defined in Candid\n'
+          '/// ${ctx.text}\ntypedef $type = ${tuple.item3};',
+        );
         tupleTypes[type] = SerField.tuple(fields, type: type);
       } else {
         _resolveClassType(node, type);
@@ -56,17 +60,17 @@ class ClassDefParser extends CandidBaseListener {
     } else if (ctx is PairTypeContext) {
       type = type + ctx.idType()!.text.pascalCase;
     }
-    for (var child in children) {
+    for (final child in children) {
       _eachNode(child, type);
     }
   }
 
   void _resolveClassType(TypeNode node, String type) {
-    var fields = node.children.map<SerField>((e) {
-      var child = e.children.first;
-      var ctx = child.ctx;
+    final fields = node.children.map<SerField>((e) {
+      final child = e.children.first;
+      final ctx = child.ctx;
       if (ctx is IdTypeContext) {
-        var id = ctx.text;
+        final id = ctx.text;
         return SerField(
           id: id,
           did: id,
@@ -75,14 +79,14 @@ class ClassDefParser extends CandidBaseListener {
           nullable: false,
         );
       } else if (ctx is PairTypeContext) {
-        var id = ctx.idType()!.text;
-        var dataTypeChildNode = child.children.last.children.first;
+        final id = ctx.idType()!.text;
+        final dataTypeChildNode = child.children.last.children.first;
         return _resolveTypeNode(dataTypeChildNode, id, type);
       }
       throw UnsupportedTypeContextException(ctx);
     }).toList(growable: false);
-    var isVariant = node.ctx is VariantTypeContext;
-    var clazz = Template(clazzTpl).renderString({
+    final isVariant = node.ctx is VariantTypeContext;
+    final clazz = Template(clazzTpl).renderString({
       'clazz': type,
       'variant': isVariant,
       'renderClassComment': ClassRender.renderClassComment(type, node.ctx.text),
@@ -106,11 +110,11 @@ class ClassDefParser extends CandidBaseListener {
     String id,
     String type,
   ) {
-    var ctx = node.ctx;
+    final ctx = node.ctx;
     if (ctx is IdTypeContext) {
-      var text = ctx.text;
-      var dartType = kPrimitiveTypeDartMap[text];
-      var idlType = kPrimitiveTypeIDLMap[text];
+      final text = ctx.text;
+      final dartType = kPrimitiveTypeDartMap[text];
+      final idlType = kPrimitiveTypeIDLMap[text];
       if (dartType != null && idlType != null) {
         Tuple2<String, String>? sers;
         if (idlType == 'IDL.Principal') {
@@ -131,7 +135,7 @@ class ClassDefParser extends CandidBaseListener {
         );
       }
       if (tupleTypes.containsKey(text)) {
-        var tuple4 = tupleTypes[text]!;
+        final tuple4 = tupleTypes[text]!;
         return SerField(
           id: id,
           did: ctx.text,
@@ -143,10 +147,10 @@ class ClassDefParser extends CandidBaseListener {
         );
       }
       if (defTypes.contains(text)) {
-        var isPrimType = primIdlMap.containsKey(text);
+        final isPrimitiveType = primitiveIdlMap.containsKey(text);
         Tuple2<String, String>? sers;
-        if (isPrimType) {
-          var idl = primIdlMap[text]!;
+        if (isPrimitiveType) {
+          final idl = primitiveIdlMap[text]!;
           if (idl == 'IDL.Vec(IDL.Nat8)') {
             sers = SerField.uint8List(node.nullable);
           } else if (['IDL.Int', 'IDL.Int64', 'IDL.Nat', 'IDL.Nat64']
@@ -162,7 +166,7 @@ class ClassDefParser extends CandidBaseListener {
           id: id,
           did: text,
           type: text,
-          idl: isPrimType ? primIdlMap[text]! : '$text.idl',
+          idl: isPrimitiveType ? primitiveIdlMap[text]! : '$text.idl',
           nullable: node.nullable,
           // ser: sers?.item1,
           deser: sers?.item2,
@@ -176,8 +180,8 @@ class ClassDefParser extends CandidBaseListener {
         nullable: false,
       );
     } else if (ctx is PairTypeContext) {
-      var key = node.children.first;
-      var ser = _resolveTypeNode(node.children.last, id, type);
+      final key = node.children.first;
+      final ser = _resolveTypeNode(node.children.last, id, type);
       return SerField(
         id: key.ctx.text,
         idl: ser.idl,
@@ -188,25 +192,25 @@ class ClassDefParser extends CandidBaseListener {
         deser: ser.deser,
       );
     } else if (ctx is OptTypeContext) {
-      var child = node.children.first.children.first;
-      var field = _resolveTypeNode(child, id, type);
-      var sers = SerField.opt(ser: field.ser, deser: field.deser);
+      final child = node.children.first.children.first;
+      final field = _resolveTypeNode(child, id, type);
+      final sers = SerField.opt(ser: field.ser, deser: field.deser);
       return SerField(
         id: field.id,
         did: ctx.text,
         type: field.type,
-        idl: "IDL.Opt(${field.idl},)",
+        idl: 'IDL.Opt(${field.idl},)',
         nullable: field.nullable,
         ser: sers.item1,
         deser: sers.item2,
       );
     } else if (ctx is VecTypeContext) {
-      var child = node.children.first.children.first;
-      var field = _resolveTypeNode(child, id, type);
-      var idlType = "IDL.Vec(${field.idl},)";
+      final child = node.children.first.children.first;
+      final field = _resolveTypeNode(child, id, type);
+      final idlType = 'IDL.Vec(${field.idl},)';
       if (field.did == 'nat8' || field.did == 'int8') {
-        var dartType = 'Uint8List';
-        var ser = SerField.uint8List(node.nullable);
+        final dartType = 'Uint8List';
+        final ser = SerField.uint8List(node.nullable);
         return SerField(
           id: field.id,
           did: ctx.text,
@@ -217,8 +221,8 @@ class ClassDefParser extends CandidBaseListener {
           deser: ser.item2,
         );
       }
-      var dartType = 'List<${field.type.nullable(field.nullable)}>';
-      var sers = SerField.list(field, node.nullable);
+      final dartType = 'List<${field.type.nullable(field.nullable)}>';
+      final sers = SerField.list(field, node.nullable);
       return SerField(
         id: field.id,
         did: ctx.text,
@@ -229,14 +233,16 @@ class ClassDefParser extends CandidBaseListener {
         deser: sers.item2,
       );
     } else if (ctx is VariantTypeContext || ctx is RecordTypeContext) {
-      var newType = type + id.pascalCase;
+      final newType = type + id.pascalCase;
       if (ctx is RecordTypeContext) {
-        var hasKey =
-            node.children.every((e) => e.children.first.ctx is PairTypeContext);
+        final hasKey = node.children.every(
+          (e) => e.children.first.ctx is PairTypeContext,
+        );
         if (!hasKey) {
-          var fields = node.children
-              .map((e) => _resolveTypeNode(e.children.first, id, type));
-          var tuple4 = SerField.tuple(fields);
+          final fields = node.children.map(
+            (e) => _resolveTypeNode(e.children.first, id, type),
+          );
+          final tuple4 = SerField.tuple(fields);
           return SerField(
             id: id,
             did: ctx.text,
@@ -248,18 +254,19 @@ class ClassDefParser extends CandidBaseListener {
           );
         }
       }
-      var sers = SerField.object(newType, node.nullable);
+      final sers = SerField.object(newType, node.nullable);
       return SerField(
         id: id,
         did: ctx.text,
         type: newType,
-        idl: "$newType.idl",
+        idl: '$newType.idl',
         nullable: node.nullable,
         // ser: sers.item1,
         deser: sers.item2,
       );
-    } else if (ctx is RefTypeContext) {}
-
+    } else if (ctx is RefTypeContext) {
+      // TODO: Handle RefTypeContext or remove the condition.
+    }
     throw UnsupportedTypeContextException(ctx);
   }
 }

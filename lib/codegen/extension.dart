@@ -47,10 +47,5 @@ extension StringExt on String {
 }
 
 extension ForTypeString on String {
-  String nullable(bool optional) {
-    if (optional) {
-      return "${this}?";
-    }
-    return this;
-  }
+  String nullable(bool optional) => optional ? '$this?' : this;
 }
