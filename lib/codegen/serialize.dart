@@ -5,14 +5,6 @@ import 'package:tuple/tuple.dart';
 import 'extension.dart';
 
 class SerField {
-  final String? id;
-  final String did;
-  final String idl;
-  final String type;
-  final bool nullable;
-  final String? ser;
-  final String? deser;
-
   const SerField({
     required this.idl,
     required this.type,
@@ -23,31 +15,22 @@ class SerField {
     this.deser,
   });
 
-  @override
-  String toString() {
-    return jsonEncode(toJson());
-  }
+  final String? id;
+  final String did;
+  final String idl;
+  final String type;
+  final bool nullable;
+  final String? ser;
+  final String? deser;
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "did": did,
-      "type": type,
-      "idl": idl,
-      "nullable": nullable,
-      if (ser != null) "ser": ser,
-      if (deser != null) "deser": deser,
-    };
-  }
-
-  static const String ph = "{{val}}";
+  static const String ph = '{{val}}';
 
   static Tuple2<String, String> bigInt([bool nullable = false]) {
     String d;
     if (nullable) {
-      d = "$ph == null ? null : $ph is BigInt ? $ph : BigInt.from($ph)";
+      d = '$ph == null ? null : $ph is BigInt ? $ph : BigInt.from($ph)';
     } else {
-      d = "$ph is BigInt ? $ph : BigInt.from($ph)";
+      d = '$ph is BigInt ? $ph : BigInt.from($ph)';
     }
     return Tuple2(ph, d);
   }
@@ -57,10 +40,10 @@ class SerField {
     String d;
     if (nullable) {
       // s = "$ph?.toJson()";
-      d = "$ph == null ? null : Principal.from($ph)";
+      d = '$ph == null ? null : Principal.from($ph)';
     } else {
       // s = "$ph.toJson()";
-      d = "Principal.from($ph)";
+      d = 'Principal.from($ph)';
     }
     return Tuple2(ph, d);
   }
@@ -70,10 +53,10 @@ class SerField {
     String d;
     if (nullable) {
       // s = "$ph?.toJson()";
-      d = "$ph == null ? null : $clazz.fromMap($ph,)";
+      d = '$ph == null ? null : $clazz.fromMap($ph,)';
     } else {
       // s = "$ph.toJson()";
-      d = "$clazz.fromMap($ph,)";
+      d = '$clazz.fromMap($ph,)';
     }
     return Tuple2(ph, d);
   }
@@ -82,11 +65,11 @@ class SerField {
     String s;
     String d;
     if (nullable) {
-      s = "$ph?.toList(growable: false)";
-      d = "$ph == null ? null : $ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())";
+      s = '$ph?.toList(growable: false)';
+      d = '$ph == null ? null : $ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())';
     } else {
-      s = "$ph.toList(growable: false)";
-      d = "$ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())";
+      s = '$ph.toList(growable: false)';
+      d = '$ph is Uint8List ? $ph : Uint8List.fromList($ph.cast<int>())';
     }
     return Tuple2(s, d);
   }
@@ -94,16 +77,16 @@ class SerField {
   static Tuple2<String?, String?> opt({String? ser, String? deser}) {
     String? s;
     String? d;
-    // var type = ser.type.nullable(ser.nullable);
+    // final type = ser.type.nullable(ser.nullable);
     if (ser != null) {
-      s = "[if($ph != null) $ser]";
+      s = '[if($ph != null) $ser]';
     } else {
-      s = "[if($ph !=null) $ph]";
+      s = '[if($ph !=null) $ph]';
     }
     if (deser != null) {
       d = "($ph as List?)?.map((e) { return ${deser.replaceAll(ph, 'e')}; }).firstOrNull";
     } else {
-      d = "($ph as List?)?.firstOrNull";
+      d = '($ph as List?)?.firstOrNull';
     }
     return Tuple2(s, d);
   }
@@ -128,53 +111,68 @@ class SerField {
     String? type,
   }) {
     if (sers.isEmpty) {
-      return Tuple4("<dynamic>[[]]", "[]", "List<dynamic>",
-          "IDL.Tuple(<CType<dynamic>>[],)");
+      return Tuple4('<dynamic>[[]]', '[]', 'List<dynamic>',
+          'IDL.Tuple(<CType<dynamic>>[],)');
     }
-    var ser = StringBuffer();
-    var deser = StringBuffer();
-    var types = [];
-    var idl = [];
-    for (var i = 0; i < sers.length; ++i) {
-      var f = sers.elementAt(i);
+    final ser = StringBuffer();
+    final deser = StringBuffer();
+    final types = [];
+    final idl = [];
+    for (int i = 0; i < sers.length; ++i) {
+      final f = sers.elementAt(i);
       types.add(f.type.nullable(f.nullable));
       idl.add(f.idl);
-      var ind = i + 1;
-      var s = f.ser;
+      final ind = i + 1;
+      final s = f.ser;
       if (s != null) {
-        ser.write(s.replaceAll(ph, "$ph.item$ind"));
+        ser.write(s.replaceAll(ph, '$ph.item$ind'));
       } else {
-        ser.write("$ph.item$ind");
+        ser.write('$ph.item$ind');
       }
-      ser.write(",");
-      var d = f.deser;
+      ser.write(',');
+      final d = f.deser;
       if (d != null) {
-        deser.write(d.replaceAll(ph, "$ph[$i]"));
+        deser.write(d.replaceAll(ph, '$ph[$i]'));
       } else {
-        deser.write("$ph[$i]");
+        deser.write('$ph[$i]');
       }
-      deser.write(",");
+      deser.write(',');
     }
-    var dartTypes = types.join(",");
-    var one = sers.length == 1;
+    final dartTypes = types.join(',');
+    final one = sers.length == 1;
     if (one) {
-      var deserStr = deser.toString();
+      final deserStr = deser.toString();
       return Tuple4(
-        "<dynamic>[$ser]",
+        '<dynamic>[$ser]',
         type == null
             ? deserStr.substring(0, deserStr.length - 1)
-            : "$type.fromList(<dynamic>[$deser],)",
+            : '$type.fromList(<dynamic>[$deser],)',
         type ?? dartTypes,
         "IDL.Tuple(<CType<dynamic>>[${idl.join(",")}],)",
       );
     }
     return Tuple4(
-      "<dynamic>[$ser]",
+      '<dynamic>[$ser]',
       type == null
-          ? "Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)"
-          : "$type.fromList(<dynamic>[$deser],)",
-      type ?? (one ? dartTypes : "Tuple${sers.length}<$dartTypes>"),
+          ? 'Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)'
+          : '$type.fromList(<dynamic>[$deser],)',
+      type ?? (one ? dartTypes : 'Tuple${sers.length}<$dartTypes>'),
       "IDL.Tuple(<CType<dynamic>>[${idl.join(",")}],)",
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'did': did,
+      'type': type,
+      'idl': idl,
+      'nullable': nullable,
+      if (ser != null) 'ser': ser,
+      if (deser != null) 'deser': deser,
+    };
+  }
+
+  @override
+  String toString() => jsonEncode(toJson());
 }

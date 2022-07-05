@@ -13,15 +13,15 @@ class TypeDefParser extends CandidBaseListener {
 
   @override
   void enterDef(DefContext ctx) {
-    var type = ctx.idType()!.text;
+    final type = ctx.idType()!.text;
     typeDefs.add(type);
-    var node = TypeNode(ctx.dataType()!);
-    var first = node.children.first;
+    final node = TypeNode(ctx.dataType()!);
+    final first = node.children.first;
     if (first.ctx is IdTypeContext) {
       _mapTypes.putIfAbsent(first.ctx.text, () => []).add(type);
-      var idTypeNode = first.children.first;
+      final idTypeNode = first.children.first;
       if (idTypeNode.ctx is PrimTypeContext) {
-        var id = idTypeNode.ctx.text;
+        final id = idTypeNode.ctx.text;
         _prims.add(id);
         primIdlMap[type] = kPrimitiveTypeIDLMap[id]!;
       }
@@ -32,38 +32,38 @@ class TypeDefParser extends CandidBaseListener {
 
   @override
   void exitProg(ProgContext ctx) {
-    for (var prim in _prims) {
-      var idl = kPrimitiveTypeIDLMap[prim]!;
+    for (final prim in _prims) {
+      final idl = kPrimitiveTypeIDLMap[prim]!;
       _ifContainsKey(prim, idl);
     }
   }
 
   void _ifContainsKey(String key, String idl) {
     if (_mapTypes.containsKey(key)) {
-      var types = _mapTypes[key]!;
+      final types = _mapTypes[key]!;
       primIdlMap.addEntries(types.map((e) => MapEntry(e, idl)));
-      for (var t in types) {
+      for (final t in types) {
         _ifContainsKey(t, idl);
       }
     }
   }
 
   void _eachNode(TypeNode node, String type, Set<String> defs) {
-    var children = node.children;
-    var ctx = node.ctx;
+    final children = node.children;
+    final ctx = node.ctx;
     if (ctx is PairTypeContext) {
       _check(type, defs, ctx);
       type = type + ctx.idType()!.text.pascalCase;
     }
-    for (var child in children) {
+    for (final child in children) {
       _eachNode(child, type, defs);
     }
   }
 
   void _check(String parent, Set<String> defs, PairTypeContext ctx) {
-    var dataType = ctx.dataType()!;
-    var idType = ctx.idType()!;
-    var type = parent + idType.text.pascalCase;
+    final dataType = ctx.dataType()!;
+    final idType = ctx.idType()!;
+    final type = parent + idType.text.pascalCase;
     _addDef(type, defs, dataType);
     _checkVecType(type, defs, dataType);
     _checkOptType(type, defs, dataType);
@@ -74,9 +74,9 @@ class TypeDefParser extends CandidBaseListener {
     Set<String> defs,
     DataTypeContext dataType,
   ) {
-    var optType = dataType.optType();
+    final optType = dataType.optType();
     if (optType != null) {
-      var dataType = optType.dataType()!;
+      final dataType = optType.dataType()!;
       _addDef(name, defs, dataType);
       _checkVecType(name, defs, dataType);
     }
