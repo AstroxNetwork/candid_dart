@@ -53,10 +53,10 @@ class SerField {
     String d;
     if (nullable) {
       // s = "$ph?.toJson()";
-      d = '$ph == null ? null : $clazz.fromMap($ph,)';
+      d = '$ph == null ? null : $clazz.fromJson($ph,)';
     } else {
       // s = "$ph.toJson()";
-      d = '$clazz.fromMap($ph,)';
+      d = '$clazz.fromJson($ph,)';
     }
     return Tuple2(ph, d);
   }
@@ -109,6 +109,7 @@ class SerField {
   static Tuple4<String, String, String, String> tuple(
     Iterable<SerField> sers, {
     String? type,
+    bool nullable = false,
   }) {
     if (sers.isEmpty) {
       return Tuple4('<dynamic>[[]]', '[]', 'List<dynamic>',
@@ -143,7 +144,7 @@ class SerField {
     if (one) {
       final deserStr = deser.toString();
       return Tuple4(
-        '<dynamic>[$ser]',
+        nullable ? '$ph==null?<dynamic>[]:<dynamic>[$ser]' : '<dynamic>[$ser]',
         type == null
             ? deserStr.substring(0, deserStr.length - 1)
             : '$type.fromList(<dynamic>[$deser],)',
@@ -152,7 +153,7 @@ class SerField {
       );
     }
     return Tuple4(
-      '<dynamic>[$ser]',
+      nullable ? '$ph==null?<dynamic>[]:<dynamic>[$ser]' : '<dynamic>[$ser]',
       type == null
           ? 'Tuple${sers.length}<$dartTypes>.fromList(<dynamic>[$deser],)'
           : '$type.fromList(<dynamic>[$deser],)',

@@ -51,7 +51,11 @@ class ClassDefParser extends CandidBaseListener {
           '/// [$type] defined in Candid\n'
           '/// ${ctx.text}\ntypedef $type = ${tuple.item3};',
         );
-        tupleTypes[type] = SerField.tuple(fields, type: type);
+        tupleTypes[type] = SerField.tuple(
+          fields,
+          type: type,
+          nullable: node.nullable,
+        );
       } else {
         _resolveClassType(node, type);
       }
@@ -242,7 +246,7 @@ class ClassDefParser extends CandidBaseListener {
           final fields = node.children.map(
             (e) => _resolveTypeNode(e.children.first, id, type),
           );
-          final tuple4 = SerField.tuple(fields);
+          final tuple4 = SerField.tuple(fields, nullable: node.nullable);
           return SerField(
             id: id,
             did: ctx.text,

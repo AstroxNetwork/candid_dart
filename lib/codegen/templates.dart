@@ -6,7 +6,7 @@ class {{ clazz }} {
     {{# renderConstructorFields }}{{/ renderConstructorFields }}
   );
 
-  factory {{ clazz }}.fromMap(Map<dynamic, dynamic> map,) {
+  factory {{ clazz }}.fromJson(Map<dynamic, dynamic> map,) {
     return {{ clazz }}(
      {{# renderFromMapFields }}{{/ renderFromMapFields }}
     );
@@ -67,7 +67,9 @@ Future<{{ returnType }}> {{ methodName }}(
  {{# renderParams }}{{/ renderParams }}
 ) async {
   final List<dynamic> dat = {{# renderParamsName }}{{/ renderParamsName }};
+  LogUtil.dd(() => ' req: \$dat');
   {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ methodName }})!(dat);
+  LogUtil.dd(() => 'resp: \$resp');
   {{# renderReturn }}{{/ renderReturn }}
 }
 ''';
@@ -88,10 +90,10 @@ class {{ clazz }} {
 
 // language=Handlebars
 const fileTpl = """
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
-// ignore_for_file: constant_identifier_names, camel_case_types, avoid_dynamic_calls, always_specify_types, unused_import, invalid_null_aware_operator, avoid_equals_and_hash_code_on_mutable_classes, prefer_const_declarations
-
+// ignore_for_file: type=lint
+///
+/// GENERATED CODE - DO NOT MODIFY BY HAND
+///
 import 'dart:typed_data';
 
 import 'package:agent_dart/agent_dart.dart';

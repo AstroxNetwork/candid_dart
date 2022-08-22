@@ -96,7 +96,7 @@ class ClassRender {
               runtimeType == other.runtimeType &&
               ${fields.map((e) {
           final id = e.id!.camelCase;
-          return "$id == other.$id";
+          return "this.$id == other.$id";
         }).join("&&")};
     """;
   }
