@@ -4,7 +4,6 @@ import 'package:candid_dart/antlr/CandidParser.dart';
 import 'package:candid_dart/codegen/templates.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:mustache_template/mustache.dart';
-import 'package:recase/recase.dart';
 
 import 'extension.dart';
 import 'parser/class_def_parser.dart';
@@ -18,8 +17,8 @@ class ClassRender {
   static renderToJsonFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
           final arg = e.ser == null
-              ? e.id!.camelCase
-              : e.ser!.replaceAll(SerField.ph, e.id!.camelCase);
+              ? e.id!.toCamelCase()
+              : e.ser!.replaceAll(SerField.ph, e.id!.toCamelCase());
           return "'${e.id}': $arg,";
         }).join('\n');
   }
@@ -54,7 +53,7 @@ class ClassRender {
                 ? "map.containsKey('${e.id}')"
                 : "map['${e.id}']";
           }
-          return '${e.id!.camelCase}: $deser,';
+          return '${e.id!.toCamelCase()}: $deser,';
         }).join('\n');
   }
 
@@ -62,15 +61,15 @@ class ClassRender {
     if (fields.isEmpty) return '';
     return (LambdaContext _) => "{${fields.map((e) {
           if (e.type == 'bool' && e.idl == 'IDL.Null') {
-            return "this.${e.id!.camelCase} = false,";
+            return "this.${e.id!.toCamelCase()} = false,";
           }
-          return "${e.nullable ? '' : 'required'} this.${e.id!.camelCase},";
+          return "${e.nullable ? '' : 'required'} this.${e.id!.toCamelCase()},";
         }).join("\n")}}";
   }
 
   static renderFields(Iterable<SerField> fields) {
     return (LambdaContext _) => fields.map((e) {
-          final id = e.id!.camelCase;
+          final id = e.id!.toCamelCase();
           return '/// [$id] : ${e.did} \nfinal ${e.type.nullable(e.nullable)} $id;';
         }).join('\n');
   }
@@ -95,7 +94,7 @@ class ClassRender {
           other is $clazz &&
               runtimeType == other.runtimeType &&
               ${fields.map((e) {
-          final id = e.id!.camelCase;
+          final id = e.id!.toCamelCase();
           return "this.$id == other.$id";
         }).join("&&")};
     """;
@@ -106,7 +105,7 @@ class ClassRender {
     return (LambdaContext _) => """
       @override
       int get hashCode =>
-          ${fields.map((e) => "${e.id!.camelCase}.hashCode").join("^")};
+          ${fields.map((e) => "${e.id!.toCamelCase()}.hashCode").join("^")};
     """;
   }
 
@@ -116,7 +115,7 @@ class ClassRender {
     final p = StringBuffer();
     final v = StringBuffer();
     for (final e in fields) {
-      final id = e.id!.camelCase;
+      final id = e.id!.toCamelCase();
       c.writeln('/// * [$id] : ${e.did}');
       p.writeln('${e.type}? $id,');
       v.writeln('$id: $id ?? this.$id,');

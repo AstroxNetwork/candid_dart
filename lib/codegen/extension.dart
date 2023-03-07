@@ -1,3 +1,6 @@
+import 'package:candid_dart/codegen/consts.dart';
+import 'package:recase/recase.dart';
+
 extension NullableStringExt on String? {
   bool get isNullOrBlank => this == null || this!.isBlank;
 
@@ -48,4 +51,12 @@ extension StringExt on String {
 
 extension ForTypeString on String {
   String nullable(bool optional) => optional ? '$this?' : this;
+
+  String toCamelCase() {
+    var cased = camelCase;
+    if (kDartKeywords.contains(cased)) {
+      return '\$$cased';
+    }
+    return cased;
+  }
 }

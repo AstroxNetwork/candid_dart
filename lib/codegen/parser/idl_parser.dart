@@ -1,7 +1,6 @@
 import 'package:candid_dart/antlr/CandidBaseListener.dart';
 import 'package:candid_dart/antlr/CandidParser.dart';
 import 'package:mustache_template/mustache.dart';
-import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
 
 import '../codegen.dart';
@@ -35,7 +34,7 @@ class IDLParser extends CandidBaseListener {
     final reqMethods = StringBuffer();
     for (final md in methTypes) {
       final key = md.idType(0)!.text;
-      final ccKey = key.camelCase;
+      final ccKey = key.toCamelCase();
       keys.writeln(
         "/// ${md.text}\nstatic const String $ccKey = '$key';",
       );

@@ -67,9 +67,7 @@ Future<{{ returnType }}> {{ methodName }}(
  {{# renderParams }}{{/ renderParams }}
 ) async {
   final List<dynamic> dat = {{# renderParamsName }}{{/ renderParamsName }};
-  LogUtil.dd(() => ' req: \$dat');
   {{#hasReturn}}final dynamic resp = {{/hasReturn}} await actor.getFunc({{ idlName }}.{{ methodName }})!(dat);
-  LogUtil.dd(() => 'resp: \$resp');
   {{# renderReturn }}{{/ renderReturn }}
 }
 ''';
