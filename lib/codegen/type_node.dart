@@ -9,41 +9,41 @@ class TypeNode {
     this.parent,
     this.nullable = false,
   }) {
-    final _ctx = ctx;
-    if (_ctx is DataTypeContext) {
+    final context = ctx;
+    if (context is DataTypeContext) {
       _setChildren([
-        _ctx.idType(),
-        _ctx.vecType(),
-        _ctx.optType(),
-        _ctx.variantType(),
-        _ctx.recordType(),
-        _ctx.refType(),
+        context.idType(),
+        context.vecType(),
+        context.optType(),
+        context.variantType(),
+        context.recordType(),
+        context.refType(),
       ], nullable);
-    } else if (_ctx is VariantTypeContext) {
-      _setChildren(_ctx.exprTypes(), true);
-    } else if (_ctx is RecordTypeContext) {
-      _setChildren(_ctx.exprTypes(), false);
-    } else if (_ctx is PairTypeContext) {
-      _setChildren([_ctx.idType(), _ctx.dataType()], nullable);
-    } else if (_ctx is IdTypeContext) {
-      _setChildren([_ctx.id(), _ctx.primType()], nullable);
-    } else if (_ctx is VecTypeContext) {
-      _setChild(_ctx.dataType(), false);
-    } else if (_ctx is OptTypeContext) {
-      _setChild(_ctx.dataType(), true);
-    } else if (_ctx is TupleTypeContext) {
-      _setChildren(_ctx.exprTypes(), nullable);
-    } else if (_ctx is ExprTypeContext) {
+    } else if (context is VariantTypeContext) {
+      _setChildren(context.exprTypes(), true);
+    } else if (context is RecordTypeContext) {
+      _setChildren(context.exprTypes(), false);
+    } else if (context is PairTypeContext) {
+      _setChildren([context.idType(), context.dataType()], nullable);
+    } else if (context is IdTypeContext) {
+      _setChildren([context.id(), context.primType()], nullable);
+    } else if (context is VecTypeContext) {
+      _setChild(context.dataType(), false);
+    } else if (context is OptTypeContext) {
+      _setChild(context.dataType(), true);
+    } else if (context is TupleTypeContext) {
+      _setChildren(context.exprTypes(), nullable);
+    } else if (context is ExprTypeContext) {
       _setChildren([
-        _ctx.pairType(),
-        _ctx.idType(),
-        _ctx.vecType(),
-        _ctx.optType(),
-        _ctx.variantType(),
-        _ctx.recordType(),
-        _ctx.refType(),
+        context.pairType(),
+        context.idType(),
+        context.vecType(),
+        context.optType(),
+        context.variantType(),
+        context.recordType(),
+        context.refType(),
       ], nullable);
-    } else if (_ctx is RefTypeContext) {
+    } else if (context is RefTypeContext) {
       // TODO: Handle RefTypeContext.
     }
   }
