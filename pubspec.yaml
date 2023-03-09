@@ -1,6 +1,7 @@
 name: candid_dart
-description: A simple command-line application.
-version: 1.0.0
+description: Generates smart contracts definition in Dart files.
+repository: https://github.com/AstroxNetwork/candid_dart
+version: 0.1.0
 
 environment:
   sdk: '>=2.16.2 <3.0.0'
