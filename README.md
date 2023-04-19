@@ -5,7 +5,7 @@
 [![pub,dev](https://img.shields.io/pub/v/candid_dart_cli?color=%230175C2&label=candid_dart_cli&logo=dart)](https://pub.dev/packages/candid_dart_cli)
 ![MIT](https://img.shields.io/github/license/AstroxNetwork/candid_dart)
 
-[English](README.md) | 简体中文
+English | [简体中文](README-ZH.md)
 
 Provide [candid_dart_core](packages/core), [candid_dart_build](packages/build), and [candid_dart_cli](packages/cli) to
 handle `Candid` and quickly generate corresponding Dart code for `Candid`.
