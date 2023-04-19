@@ -1,0 +1,9 @@
+# Read about `build.yaml` at https://pub.dev/packages/build_config
+builders:
+  candid2dart:
+    import: "package:candid_dart_build/builder.dart"
+    builder_factories: [ "candid2dart" ]
+    build_extensions: { ".did": [ ".idl.dart" ] }
+    build_to: source
+    auto_apply: root_package
+    runs_before: ["freezed"]

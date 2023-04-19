@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      candid_dart_build|candid2dart:
+        options:
+          freezed: false
+          copy_with: true
+          equal: true

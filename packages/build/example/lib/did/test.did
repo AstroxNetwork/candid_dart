@@ -1,0 +1,168 @@
+type Service = service {
+    do : (action: text) ->
+    (service {
+        echo: () -> ();
+        echo1: (Name) -> (Name) query;
+        echo2: (Record) -> (Record);
+        echo3: (Record, Variant) -> (Record, Variant);
+    });
+};
+
+type Tuple = record {
+    text;
+    text;
+    vec nat8;
+    opt vec nat8;
+};
+
+type TestEnum = variant {
+    Q;
+    W;
+    E;
+    R;
+    T;
+};
+
+
+type EmptyRecord = record {};
+
+type EmptyVariant = variant {};
+
+type Name = text;
+
+type Tel = Phone;
+
+type Phone = Mobile;
+
+type Mobile = nat;
+
+type Contact = Phone;
+
+type Contacts = vec Contact;
+
+type NullableContacts = opt vec Contact;
+
+type Record = record {
+    emptyRecord: EmptyRecord;
+    emptyVariant: EmptyVariant;
+    tuple: Tuple;
+    name: Name;
+    phone: opt Phone;
+    profile: opt text;
+};
+
+type Variant = variant {
+    name: Name;
+    phone: opt Phone;
+    profile: opt text;
+};
+
+type NullableRecord = opt record {
+    name: Name;
+    phone: opt Phone;
+    profile: opt text;
+    family: opt vec Variant;
+};
+
+type NullableNestedRecord = opt vec record {
+    name: Name;
+    phone: opt Phone;
+    profile: opt text;
+    family: opt vec Variant;
+};
+
+
+type NullableVariant = opt variant {
+    name: Name;
+    phone: opt Phone;
+    profile: opt text;
+    family: opt vec Record;
+};
+
+type New = record {
+    Record;
+    Variant;
+};
+
+type NullableNew = opt record {
+    Record;
+    Variant;
+};
+
+type New1 = New;
+
+type New2 = opt vec opt New1;
+
+type Complex = record {
+    field1: opt vec Record;
+    field2: opt vec Phone;
+    nested1: record {
+        field1: vec nat;
+        field2: vec nat8;
+        nested3: record {
+            field1: vec nat;
+            field2: vec nat8;
+            nested5: record {
+                field1: opt vec nat;
+                field2: vec nat8;
+                field3: vec vec vec vec vec Record;
+                field4: opt vec vec vec vec vec Record;
+                field5: opt vec opt vec opt vec opt vec opt vec Record;
+            };
+        };
+    };
+    nested2: variant {
+        no_body;
+        field1: opt vec nat;
+        field2: vec nat8;
+        nested4: record {
+            field1: vec nat;
+            field2: opt vec nat8;
+            nested6: variant {
+                no_body;
+                field1: vec nat;
+                field2: vec nat8;
+                field3: vec vec vec vec vec Record;
+                field4: opt vec vec vec vec vec Record;
+                field5: vec opt vec Record;
+                field6: vec opt vec New1;
+                field7: vec opt vec New2;
+            };
+        };
+    };
+    nested3: variant {
+        no_key;
+        nested5: record {
+            field1: vec nat;
+            field2: opt vec nat8;
+            nested7: variant {
+                no_key;
+                field1: vec nat;
+                field2: vec nat8;
+                field3: vec vec Record;
+                field4: vec vec New1;
+                field5: vec vec New2;
+            };
+        };
+    };
+};
+
+type refFunc = func (Name, func (Record) -> (Variant)) -> (opt NullableNestedRecord);
+
+type refService = service {
+    refFunc: refFunc;
+    insert: (text, text, text) -> ();
+    lookup: (text) -> (opt Record) query;
+    family: (text) -> (opt vec Record) query;
+    echo: () -> ();
+    echo1: (text) -> (text);
+    echo2: (opt vec opt New2, opt vec opt New2, opt vec opt New2) -> (opt vec New2, opt vec opt New2, opt vec opt New2);
+    echo3: (record {
+        text
+    })->(record {
+        text
+    });
+    echo4: (TestEnum) -> (TestEnum);
+};
+
+service test: (Record, NullableNew)-> refService

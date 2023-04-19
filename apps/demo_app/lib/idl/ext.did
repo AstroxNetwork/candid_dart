@@ -1,0 +1,84 @@
+
+type User = variant {
+    address: AccountIdentifier;
+    "principal": principal;
+};
+
+type TransferResponse = variant {
+    err: variant {
+        CannotNotify: AccountIdentifier;
+        InsufficientAllowance;
+        InsufficientBalance;
+        InvalidToken: TokenIdentifier;
+        Other: text;
+        Rejected;
+        Unauthorized: AccountIdentifier;
+    };
+    ok: Balance;
+};
+
+type TransferRequest = record {
+    amount: Balance;
+    from: User;
+    memo: Memo;
+    nonce: opt nat;
+    notify: bool;
+    subaccount: opt vec nat8;
+    to: User;
+    token: TokenIdentifier;
+};
+
+
+type TokenIdentifier = text;
+
+type Balance = nat;
+
+type Result = variant {
+    err: CommonError;
+    ok: Metadata;
+};
+
+type Metadata = variant {
+    fungible: record {
+        decimals: nat8;
+        metadata: opt blob;
+        name: text;
+        ownerAccount: AccountIdentifier;
+        symbol: text;
+    };
+    nonfungible: record {
+        metadata: opt blob;
+    };
+};
+
+type Memo = blob;
+
+
+type CommonError = variant {
+    InsufficientBalance;
+    InvalidToken: TokenIdentifier;
+    Other: text;
+    Unauthorized: AccountIdentifier;
+};
+
+type BalanceResponse = variant {
+    err: CommonError;
+    ok: Balance;
+};
+
+type BalanceRequest = record {
+    token: TokenIdentifier;
+    user: User;
+};
+
+type FeeResult = variant {
+    err: CommonError;
+    ok: nat;
+};
+
+type AccountIdentifier = text;service : {
+    getFee: () -> (FeeResult) query;
+    balance: (BalanceRequest) -> (BalanceResponse) query;
+    metadata: () -> (Result) query;
+    transfer: (TransferRequest) -> (TransferResponse);
+}

@@ -1,0 +1,131 @@
+type TransactionsType =
+record {
+    action: TransactionType;
+    amountToken0: float64;
+    amountToken1: float64;
+    amountUSD: float64;
+    exchangePrice: float64;
+    exchangeRate: float64;
+    from: text;
+    hash: text;
+    liquidityChange: nat;
+    liquidityTotal: nat;
+    poolFee: nat;
+    poolId: text;
+    recipient: text;
+    sender: text;
+    tick: int;
+    timestamp: int;
+    to: text;
+    token0ChangeAmount: float64;
+    token0Decimals: float64;
+    token0Fee: float64;
+    token0Id: text;
+    token0Price: float64;
+    token0Standard: text;
+    token0Symbol: text;
+    token1ChangeAmount: float64;
+    token1Decimals: float64;
+    token1Fee: float64;
+    token1Id: text;
+    token1Price: float64;
+    token1Standard: text;
+    token1Symbol: text;
+};
+
+type TransactionType =
+variant {
+    addLiquidity;
+    claim;
+    decreaseLiquidity;
+    increaseLiquidity;
+    swap;
+};
+
+type PublicTokenPricesData =
+record {
+    close: float64;
+    high: float64;
+    id: int;
+    low: float64;
+    open: float64;
+    timestamp: int;
+};
+
+type PublicTokenOverview =
+record {
+    address: text;
+    feesUSD: float64;
+    id: nat;
+    name: text;
+    priceUSD: float64;
+    priceUSDChange: float64;
+    priceUSDChangeWeek: float64;
+    standard: text;
+    symbol: text;
+    totalVolumeUSD: float64;
+    tvlToken: float64;
+    tvlUSD: float64;
+    tvlUSDChange: float64;
+    txCount: int;
+    volumeUSD: float64;
+    volumeUSDChange: float64;
+    volumeUSDWeek: float64;
+};
+
+type PublicTokenChartDayData =
+record {
+    id: int;
+    timestamp: int;
+    tvlUSD: float64;
+    txCount: int;
+    volumeUSD: float64;
+};
+
+type PoolInfo =
+record {
+    fee: int;
+    pool: text;
+    token0Decimals: float64;
+    token0Id: text;
+    token0Price: float64;
+    token0Symbol: text;
+    token1Decimals: float64;
+    token1Id: text;
+    token1Price: float64;
+    token1Symbol: text;
+};
+
+type NatResult =
+variant {
+    err: text;
+    ok: nat;
+};
+service : {
+    cycleAvailable: () -> (NatResult) query;
+    cycleBalance: () -> (NatResult) query;
+    deleteToken: (text) -> ();
+    getAllToken: (opt nat) -> (vec PublicTokenOverview) query;
+    getBaseDataStructureCanister: () -> (text) query;
+    getLastID: (nat) -> (vec record {
+        text;
+        nat;
+    }) query;
+    getPoolsForToken: (text) -> (vec PoolInfo) query;
+    getRollIndex: () -> (nat) query;
+    getStartHeartBeatStatus: () -> (bool) query;
+    getToken: (text) -> (PublicTokenOverview) query;
+    getTokenChartData: (text, nat, nat) -> (vec PublicTokenChartDayData) query;
+    getTokenPricesData: (text, int, int, nat) ->
+    (vec PublicTokenPricesData) query;
+    getTokenTransactions: (text, nat, nat) -> (vec TransactionsType) query;
+    getTvlRecord: (nat) -> (vec record {
+        text;
+        vec float64;
+    }) query;
+    reset: () -> ();
+    rollBackData: (vec TransactionsType) -> ();
+    rollBackStatus: (bool) -> () query;
+    saveTransactions: (TransactionsType, bool) -> ();
+    setBaseDataStructureCanister: (text) -> ();
+}

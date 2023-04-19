@@ -1,0 +1,61 @@
+type TokenMetadata =
+record {
+    canisterId: text;
+    decimals: nat;
+    fee: nat;
+    introduction: text;
+    mediaLinks: vec Media;
+    name: text;
+    rank: nat32;
+    standard: text;
+    symbol: text;
+    totalSupply: nat;
+};
+
+type Result_2 =
+variant {
+    err: text;
+    ok: opt TokenMetadata;
+};
+
+type Result_1 =
+variant {
+    err: text;
+    ok: vec text;
+};
+
+type Result =
+variant {
+    err: text;
+    ok: vec TokenMetadata;
+};
+
+type NatResult =
+variant {
+    err: text;
+    ok: nat;
+};
+
+type Media =
+record {
+    link: text;
+    mediaType: text;
+};
+
+type BoolResult =
+variant {
+    err: text;
+    ok: bool;
+};
+service : {
+    add: (TokenMetadata) -> (BoolResult);
+    addAdmin: (text) -> (BoolResult);
+    cycleAvailable: () -> (NatResult);
+    cycleBalance: () -> (NatResult) query;
+    edit: (text, TokenMetadata) -> (BoolResult);
+    get: (text) -> (Result_2) query;
+    getAdminList: () -> (Result_1) query;
+    getList: () -> (Result) query;
+    remove: (text) -> (BoolResult);
+    removeAdmin: (text) -> (BoolResult);
+}

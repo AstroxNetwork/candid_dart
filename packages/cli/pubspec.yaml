@@ -1,0 +1,21 @@
+name: candid_dart_cli
+description: Provide a command-line tool for handing `.did` files and quickly generate Dart code corresponding to the `.did` file.
+version: 1.0.0
+homepage: https://github.com/AstroxNetwork
+repository: https://github.com/AstroxNetwork/candid_dart
+issue_tracker: https://github.com/AstroxNetwork/candid_dart/issues
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
+
+dependencies:
+  args: ^2.4.0
+  candid_dart_core: ^1.0.0
+
+executables:
+  did2dart: cli

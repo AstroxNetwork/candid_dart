@@ -1,0 +1,43 @@
+type TxnResult = variant {
+    err: record {
+        code: variant {
+            DuplicateExecutedTransfer;
+            InsufficientAllowance;
+            InsufficientBalance;
+            InsufficientGas;
+            LockedTransferExpired;
+            NoLockedTransfer;
+            NonceError;
+            UndefinedError;
+        };
+        message: text;
+    };
+    ok: Txid;
+};
+
+type Txid = blob;
+
+type To = text;
+
+type Nonce = nat;
+
+type Metadata = record {
+    content: text;
+    name: text;
+};
+
+type Data = blob;
+
+type Amount = nat;
+
+type Address = text;
+service : () -> {
+    standard: () -> (text) query;
+    drc20_balanceOf: (Address) -> (Amount) query;
+    drc20_decimals: () -> (nat8) query;
+    drc20_fee: () -> (Amount) query;
+    drc20_metadata: () -> (vec Metadata) query;
+    drc20_name: () -> (text) query;
+    drc20_symbol: () -> (text) query;
+    drc20_transfer: (To, Amount, opt Nonce, Sa: opt vec nat8, opt Data) -> (TxnResult);
+}
