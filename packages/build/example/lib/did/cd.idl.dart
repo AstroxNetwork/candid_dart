@@ -112,6 +112,9 @@ class CdIDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   echo: (node: opt Node) -> (opt Node1) query
+  /// ```
   Future<Node1?> echo([
     Node? arg,
   ]) async {
@@ -122,6 +125,9 @@ class CdIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo1: (A, B, C, D, E, F, G, H, I, J) -> (opt A, opt B, opt C, opt D, opt E, opt F, opt G, opt H, opt I, opt J)
+  /// ```
   Future<Echo1Ret> echo1(
     Echo1Arg arg,
   ) async {
@@ -132,6 +138,9 @@ class CdIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo2: (tt: J) -> ()
+  /// ```
   Future<void> echo2(
     J arg,
   ) async {

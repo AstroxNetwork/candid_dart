@@ -171,6 +171,9 @@ class TestIDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   echo: () -> ()
+  /// ```
   Future<void> echo() async {
     final actor = await getActor();
     return TestIDLActor.echo(
@@ -178,6 +181,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo1: (text) -> (text)
+  /// ```
   Future<String> echo1(
     String arg,
   ) async {
@@ -188,6 +194,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo2: (opt vec opt New2, opt vec opt New2, opt vec opt New2) -> (opt vec New2, opt vec opt New2, opt vec opt New2)
+  /// ```
   Future<RefServiceEcho2Ret> echo2(
     RefServiceEcho2Arg arg,
   ) async {
@@ -198,6 +207,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo3: (record { text }) -> (record { text })
+  /// ```
   Future<RefServiceEcho3Ret0> echo3(
     RefServiceEcho3Arg0 arg,
   ) async {
@@ -208,6 +220,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   insert: (text, text, text) -> ()
+  /// ```
   Future<void> insert(
     RefServiceInsertArg arg,
   ) async {
@@ -218,6 +233,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   lookup: (text) -> (opt Record) query
+  /// ```
   Future<Record?> lookup(
     String arg,
   ) async {
@@ -228,6 +246,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   family: (text) -> (opt vec Record) query
+  /// ```
   Future<List<Record>?> family(
     String arg,
   ) async {
@@ -238,6 +259,9 @@ class TestIDLService {
     );
   }
 
+  /// ```Candid
+  ///   echo4: (TestEnum) -> (TestEnum)
+  /// ```
   Future<TestEnum> echo4(
     TestEnum arg,
   ) async {

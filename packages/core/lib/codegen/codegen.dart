@@ -18,6 +18,7 @@ String did2dart(
   String contents, [
   GenOption option = const GenOption(),
 ]) {
+  fileName = fileName.replaceAllMapped(RegExp(r'[^\da-zA-Z_.]'), (_) => '_');
   final cdVisitor = PreVisitor();
   cdVisitor.visit(newParser(contents).prog());
   final deps = cdVisitor.deps;
@@ -96,6 +97,7 @@ static Future<$retType> ${name.did.camelCase}(CanisterActor actor, $arg) async {
       """;
       actorMethods.writeln(actorMethod);
       final serviceMethod = '''
+${entry.value.doc}
 Future<$retType> ${name.did.camelCase}($arg) async {
   final actor = await getActor();
   return ${clazz}IDLActor.${name.did.camelCase}(actor, ${noArgs ? '' : 'arg,'});
@@ -663,7 +665,7 @@ Spec toEnum(String className, ObjectType obj) {
           (b) => b
             ..name = 'fromJson'
             ..factory = true
-            ..body =  Code(
+            ..body = Code(
               'final key = json.keys.first; return $className.values.firstWhere((e) => e.name == key);',
             )
             ..requiredParameters = ListBuilder([

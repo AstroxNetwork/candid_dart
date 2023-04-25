@@ -187,6 +187,9 @@ class Icrc1IDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   icrc1_balance_of: (Account) -> (nat) query
+  /// ```
   Future<BigInt> icrc1BalanceOf(
     Account arg,
   ) async {
@@ -197,6 +200,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_decimals: () -> (nat8) query
+  /// ```
   Future<int> icrc1Decimals() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1Decimals(
@@ -204,6 +210,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_fee: () -> (nat) query
+  /// ```
   Future<BigInt> icrc1Fee() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1Fee(
@@ -211,6 +220,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_metadata: () -> (vec record { text; Value }) query
+  /// ```
   Future<List<Icrc1MetadataRet0Item>> icrc1Metadata() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1Metadata(
@@ -218,6 +230,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_minting_account: () -> (opt Account) query
+  /// ```
   Future<Account?> icrc1MintingAccount() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1MintingAccount(
@@ -225,6 +240,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_name: () -> (text) query
+  /// ```
   Future<String> icrc1Name() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1Name(
@@ -232,6 +250,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_supported_standards: () -> (vec StandardRecord) query
+  /// ```
   Future<List<StandardRecord>> icrc1SupportedStandards() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1SupportedStandards(
@@ -239,6 +260,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_symbol: () -> (text) query
+  /// ```
   Future<String> icrc1Symbol() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1Symbol(
@@ -246,6 +270,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_total_supply: () -> (nat) query
+  /// ```
   Future<BigInt> icrc1TotalSupply() async {
     final actor = await getActor();
     return Icrc1IDLActor.icrc1TotalSupply(
@@ -253,6 +280,9 @@ class Icrc1IDLService {
     );
   }
 
+  /// ```Candid
+  ///   icrc1_transfer: (TransferArg) -> (Result)
+  /// ```
   Future<Result> icrc1Transfer(
     TransferArg arg,
   ) async {
