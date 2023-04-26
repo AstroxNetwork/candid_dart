@@ -75,28 +75,38 @@ class _MyHomePageState extends State<MyHomePage> {
               if (value.isEmpty) {
                 return const SizedBox.shrink();
               }
-              return IconButton(
+              return ElevatedButton.icon(
                 onPressed: () {
                   save(value);
                 },
-                icon: const Icon(Icons.download_rounded),
+                icon: const Icon(
+                  Icons.download_rounded,
+                  size: 16.0,
+                ),
+                label: const Text('Download'),
               );
             },
           ),
+          const SizedBox(width: 12.0),
           ValueListenableBuilder(
             valueListenable: _dids,
             builder: (context, value, child) {
-              if (value.isEmpty) {
+              if (value.isEmpty ) {
                 return const SizedBox.shrink();
               }
-              return IconButton(
+              return ElevatedButton.icon(
                 onPressed: () {
                   _dids.newValue(_dids.value..clear());
                 },
-                icon: const Icon(Icons.clear_all_rounded),
+                icon: const Icon(
+                  Icons.clear_all_rounded,
+                  size: 16.0,
+                ),
+                label: const Text('Clear'),
               );
             },
           ),
+          const SizedBox(width: 16.0),
         ],
       ),
       body: ValueListenableBuilder(
@@ -135,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               final code = did2dart(file.name, str);
               final codes = code
                   .split('\n')
-                  .slices(256)
+                  .slices(512)
                   .map((e) => e.join('\n'))
                   .toList();
               return MapEntry(file, codes);
