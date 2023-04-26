@@ -1,0 +1,3 @@
+[submodule "apps/did2dart"]
+	path = apps/did2dart
+	url = https://github.com/iota9star/did2dart
