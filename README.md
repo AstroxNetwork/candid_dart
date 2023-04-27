@@ -1,3 +1,5 @@
+![candid_dart](https://socialify.git.ci/AstroxNetwork/candid_dart/image?description=1&font=Source%20Code%20Pro&forks=1&issues=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FAstroxNetwork%2Fcandid_dart%2Fmain%2Fdocs%2Fassets%2Fic.svg&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
+
 # Candid Dart
 
 [![pub,dev](https://img.shields.io/pub/v/candid_dart_core?color=%230175C2&label=candid_dart_core&logo=dart)](https://pub.dev/packages/candid_dart_core)
@@ -32,6 +34,13 @@ Dart code corresponding to `.did` files.
 ### [candid_dart_cli](packages/cli) [![pub,dev](https://img.shields.io/pub/v/candid_dart_cli?color=%230175C2&label=candid_dart_cli&logo=dart)](https://pub.dev/packages/candid_dart_cli)
 
 Provide a command-line tool for handing `.did` files and quickly generate Dart code corresponding to the `.did` file.
+
+### [did2dart](apps/did2dart)
+
+Provide applications on different platforms to quickly convert Candid to Dart code.
+
+[Click to open](https://did2dart.astrox.app/#/)
+
 
 ## Example Application
 

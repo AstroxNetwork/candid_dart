@@ -1,3 +1,5 @@
+![candid_dart](https://socialify.git.ci/AstroxNetwork/candid_dart/image?description=1&font=Source%20Code%20Pro&forks=1&issues=1&logo=https%3A%2F%2Fraw.githubusercontent.com%2FAstroxNetwork%2Fcandid_dart%2Fmain%2Fdocs%2Fassets%2Fic.svg&name=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
+
 # Candid Dart
 
 [![pub,dev](https://img.shields.io/pub/v/candid_dart_core?color=%230175C2&label=candid_dart_core&logo=dart)](https://pub.dev/packages/candid_dart_core)
@@ -7,7 +9,8 @@
 
 [English](README.md) | 简体中文
 
-提供 [candid_dart_core](packages/core)、[candid_dart_build](packages/build)、[candid_dart_cli](packages/cli) 以处理 `Candid`，快速生成 `Candid` 对应的Dart代码。
+提供 [candid_dart_core](packages/core)、[candid_dart_build](packages/build)、[candid_dart_cli](packages/cli)
+以处理 `Candid`，快速生成 `Candid` 对应的Dart代码。
 
 生成代码包括：
 
@@ -31,6 +34,11 @@
 
 提供命令行工具以处理 `.did` 文件，快速生成 `.did` 文件对应的Dart代码。
 
+### [did2dart](apps/did2dart)
+
+提供不同平台的应用来快速将Candid转换成dart代码
+
+[Click to open](https://did2dart.astrox.app/#/)
 
 ## 示例应用
 
