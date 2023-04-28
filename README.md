@@ -35,7 +35,7 @@ Dart code corresponding to `.did` files.
 
 Provide a command-line tool for handing `.did` files and quickly generate Dart code corresponding to the `.did` file.
 
-### [did2dart](apps/did2dart)
+### [did2dart](https://github.com/iota9star/did2dart)
 
 Provide applications on different platforms to quickly convert Candid to Dart code.
 
