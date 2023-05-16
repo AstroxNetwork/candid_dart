@@ -1,0 +1,125 @@
+type Account = record {
+    owner : principal;
+    subaccount : opt vec nat8
+};
+
+type ArchivedTransactionRange = record {
+    callback : func (GetTransactionsRequest) -> (
+    record {
+        transactions : vec Transaction
+    },
+    ) query;
+    start : nat;
+    length : nat;
+};
+
+type Burn = record {
+    from : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+};
+
+type GetTransactionsRequest = record {
+    start : nat;
+    length : nat
+};
+
+type GetTransactionsResponse = record {
+    first_index : nat;
+    log_length : nat;
+    transactions : vec Transaction;
+    archived_transactions : vec ArchivedTransactionRange;
+};
+
+type Mint = record {
+    to : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+};
+
+type Result = variant {
+    Ok : nat;
+    Err : TransferError
+};
+
+type StandardRecord = record {
+    url : text;
+    name : text
+};
+
+type Transaction = record {
+    burn : opt Burn;
+    kind : text;
+    mint : opt Mint;
+    timestamp : nat64;
+    transfer : opt Transfer;
+};
+
+type Transfer = record {
+    to : Account;
+    fee : opt nat;
+    from : Account;
+    memo : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+};
+
+type TransferArg = record {
+    to : Account;
+    fee : opt nat;
+    memo : opt vec nat8;
+    from_subaccount : opt vec nat8;
+    created_at_time : opt nat64;
+    amount : nat;
+};
+
+type TransferError = variant {
+    GenericError : record {
+        message : text;
+        error_code : nat
+    };
+    TemporarilyUnavailable;
+    BadBurn : record {
+        min_burn_amount : nat
+    };
+    Duplicate : record {
+        duplicate_of : nat
+    };
+    BadFee : record {
+        expected_fee : nat
+    };
+    CreatedInFuture : record {
+        ledger_time : nat64
+    };
+    TooOld;
+    InsufficientFunds : record {
+        balance : nat
+    };
+};
+
+type Value = variant {
+    Int : int;
+    Nat : nat;
+    Blob : vec nat8;
+    Text : text
+};
+service : {
+    get_transactions : (GetTransactionsRequest) -> (
+    GetTransactionsResponse,
+    ) query;
+    icrc1_balance_of : (Account) -> (nat) query;
+    icrc1_decimals : () -> (nat8) query;
+    icrc1_fee : () -> (nat) query;
+    icrc1_metadata : () -> (vec record {
+        text;
+        Value
+    }) query;
+    icrc1_minting_account : () -> (opt Account) query;
+    icrc1_name : () -> (text) query;
+    icrc1_supported_standards : () -> (vec StandardRecord) query;
+    icrc1_symbol : () -> (text) query;
+    icrc1_total_supply : () -> (nat) query;
+    icrc1_transfer : (TransferArg) -> (Result);
+}

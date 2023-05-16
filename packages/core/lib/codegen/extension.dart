@@ -25,6 +25,11 @@ extension StringExt on String {
     return true;
   }
 
+  bool get hasDoubleQuotes => startsWith('"') && endsWith('"');
+
+  String get noDoubleQuotes =>
+      hasDoubleQuotes ? substring(1, length - 1) : this;
+
   bool _isWhitespace(int rune) =>
       (rune >= 0x0009 && rune <= 0x000D) ||
       rune == 0x0020 ||

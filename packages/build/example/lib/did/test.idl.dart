@@ -1,11 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
+
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
@@ -19,8 +20,9 @@ class TestIDLActor {
   static Future<void> echo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    await actor.getFunc('echo')!(dat);
+    const request = [];
+    const method = 'echo';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -30,9 +32,10 @@ class TestIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('echo1')!(dat);
-    return ret;
+    final request = [arg];
+    const method = 'echo1';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -42,9 +45,10 @@ class TestIDLActor {
     CanisterActor actor,
     RefServiceEcho2Arg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('echo2')!(dat);
-    return RefServiceEcho2Ret.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'echo2';
+    final response = await actor.getFunc(method)!(request);
+    return RefServiceEcho2Ret.fromJson(response);
   }
 
   /// ```Candid
@@ -54,14 +58,15 @@ class TestIDLActor {
     CanisterActor actor,
     RefServiceEcho3Arg0 arg,
   ) async {
-    final dat = [
+    final request = [
       [
         arg.item1,
       ]
     ];
-    final ret = await actor.getFunc('echo3')!(dat);
+    const method = 'echo3';
+    final response = await actor.getFunc(method)!(request);
     return RefServiceEcho3Ret0(
-      ret[0],
+      response[0],
     );
   }
 
@@ -72,8 +77,9 @@ class TestIDLActor {
     CanisterActor actor,
     RefServiceInsertArg arg,
   ) async {
-    final dat = arg.toJson();
-    await actor.getFunc('insert')!(dat);
+    final request = arg.toJson();
+    const method = 'insert';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -83,9 +89,10 @@ class TestIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('lookup')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'lookup';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return e == null ? null : Record.fromJson(e);
     }).firstOrNull;
   }
@@ -97,9 +104,10 @@ class TestIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('family')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'family';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return (e as List?)?.map((e) {
         return Record.fromJson(e);
       }).toList();
@@ -107,169 +115,16 @@ class TestIDLActor {
   }
 
   /// ```Candid
-  ///   echo4: (TestEnum) -> (TestEnum)
+  ///   "echo4": (TestEnum) -> (TestEnum)
   /// ```
   static Future<TestEnum> echo4(
     CanisterActor actor,
     TestEnum arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('echo4')!(dat);
-    return TestEnum.fromJson(ret);
-  }
-}
-
-class TestIDLService {
-  TestIDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = TestIDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
-  }
-
-  /// ```Candid
-  ///   echo: () -> ()
-  /// ```
-  Future<void> echo() async {
-    final actor = await getActor();
-    return TestIDLActor.echo(
-      actor,
-    );
-  }
-
-  /// ```Candid
-  ///   echo1: (text) -> (text)
-  /// ```
-  Future<String> echo1(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.echo1(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo2: (opt vec opt New2, opt vec opt New2, opt vec opt New2) -> (opt vec New2, opt vec opt New2, opt vec opt New2)
-  /// ```
-  Future<RefServiceEcho2Ret> echo2(
-    RefServiceEcho2Arg arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.echo2(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo3: (record { text }) -> (record { text })
-  /// ```
-  Future<RefServiceEcho3Ret0> echo3(
-    RefServiceEcho3Arg0 arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.echo3(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   insert: (text, text, text) -> ()
-  /// ```
-  Future<void> insert(
-    RefServiceInsertArg arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.insert(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   lookup: (text) -> (opt Record) query
-  /// ```
-  Future<Record?> lookup(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.lookup(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   family: (text) -> (opt vec Record) query
-  /// ```
-  Future<List<Record>?> family(
-    String arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.family(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo4: (TestEnum) -> (TestEnum)
-  /// ```
-  Future<TestEnum> echo4(
-    TestEnum arg,
-  ) async {
-    final actor = await getActor();
-    return TestIDLActor.echo4(
-      actor,
-      arg,
-    );
+    final request = [arg];
+    const method = 'echo4';
+    final response = await actor.getFunc(method)!(request);
+    return TestEnum.fromJson(response);
   }
 }
 
@@ -773,7 +628,7 @@ class TestIDL {
   ///     echo1: (text) -> (text);
   ///     echo2: (opt vec opt New2, opt vec opt New2, opt vec opt New2) -> (opt vec New2, opt vec opt New2, opt vec opt New2);
   ///     echo3: (record { text }) -> (record { text });
-  ///     echo4: (TestEnum) -> (TestEnum)
+  ///     "echo4": (TestEnum) -> (TestEnum)
   ///   };
   /// ```
   static final ServiceClass _refService = IDL.Service({
@@ -873,7 +728,7 @@ class TestIDL {
       ],
       [],
     ),
-    'echo4': IDL.Func(
+    '"echo4"': IDL.Func(
       [_TestEnum],
       [_TestEnum],
       [],
@@ -968,6 +823,7 @@ class Tuple {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3, item4]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1002,6 +858,16 @@ enum TestEnum {
   }
 
   final String name;
+
+  bool get isQ => this == TestEnum.q;
+
+  bool get isW => this == TestEnum.w;
+
+  bool get isE => this == TestEnum.e;
+
+  bool get isR => this == TestEnum.r;
+
+  bool get isT => this == TestEnum.t;
 
   Map<String, dynamic> toJson() {
     return {name: null};
@@ -1043,6 +909,7 @@ class EmptyRecord {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1079,6 +946,7 @@ class EmptyVariant {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1208,6 +1076,7 @@ class Record {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, emptyRecord, emptyVariant, tuple, name, phone, profile]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1292,6 +1161,7 @@ class Variant {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, name, phone, profile]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1400,6 +1270,7 @@ class NullableRecordOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1514,6 +1385,7 @@ class NullableVariantOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1577,6 +1449,7 @@ class New {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1764,6 +1637,7 @@ class ComplexNested1Nested3Nested5 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1853,6 +1727,7 @@ class ComplexNested1Nested3 {
         field2,
         nested5
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1942,6 +1817,7 @@ class ComplexNested1 {
         field2,
         nested3
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2169,6 +2045,7 @@ class ComplexNested2Nested4Nested6 {
         const DeepCollectionEquality().hash(field6),
         const DeepCollectionEquality().hash(field7)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2260,6 +2137,7 @@ class ComplexNested2Nested4 {
         field2,
         nested6
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2368,6 +2246,7 @@ class ComplexNested2 {
         field2,
         nested4
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2528,6 +2407,7 @@ class ComplexNested3Nested5Nested7 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2619,6 +2499,7 @@ class ComplexNested3Nested5 {
         field2,
         nested7
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2689,6 +2570,7 @@ class ComplexNested3 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, noKey, nested5]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2818,6 +2700,7 @@ class Complex {
         nested2,
         nested3
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2867,6 +2750,7 @@ class RefServiceEcho3Arg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2936,6 +2820,7 @@ class ServiceDoRet0Echo3Arg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2999,6 +2884,7 @@ class ServiceDoRet0Echo3Ret {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3074,6 +2960,7 @@ class RefServiceInsertArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3229,6 +3116,7 @@ class RefServiceEcho2Arg {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3379,6 +3267,7 @@ class RefServiceEcho2Ret {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
+
   @override
   String toString() {
     return toJson().toString();

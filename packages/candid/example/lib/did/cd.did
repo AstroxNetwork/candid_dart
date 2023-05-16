@@ -1,0 +1,75 @@
+type Class = variant {
+    no_body;
+    hello: text;
+    class: opt vec opt Class;
+    bigint: nat;
+};
+
+type Node2 = record {
+    Node1;
+};
+
+type Node = record {
+    data: nat;
+    left: opt Node2;
+};
+
+type Node1 = record {
+    Node;
+    Node;
+};
+
+type A = vec B;
+
+type B = vec C;
+
+type C = opt vec D;
+
+type D = variant {
+    A;
+    B;
+    c: C;
+    d: D;
+    e: E;
+    node2: Node2;
+};
+
+type E = vec nat8;
+
+type F = vec E;
+
+type G = record {
+    record {
+        F;
+        E;
+        G;
+    };
+    record {
+        A;
+        B;
+        C;
+    }
+};
+
+type H = record {
+    A;
+    B;
+    C;
+};
+
+type I = opt record {
+    A;
+    B;
+    C;
+};
+
+type J = opt vec opt vec H;
+
+type K = func () -> ();
+
+
+service : () -> {
+    echo: (node: opt Node)->(opt Node1) query;
+    echo1: (A, B, C, D, E, F, G, H, I, J)->(opt A, opt B, opt C, opt D, opt E, opt F, opt G, opt H, opt I, opt J);
+    echo2: (tt: J)-> ();
+}

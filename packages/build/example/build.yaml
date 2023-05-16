@@ -6,3 +6,16 @@ targets:
           freezed: false
           copy_with: true
           equal: true
+          make_collections_unmodifiable: true
+          inject_packages:
+            - package:recase/recase.dart
+            - package:dart_style/dart_style.dart
+          pre_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+          post_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+            print(response);

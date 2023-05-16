@@ -1,10 +1,10 @@
-// Generated from ./antlr/Candid.g4 by ANTLR 4.10.1
+// Generated from Candid.g4 by ANTLR 4.12.0
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
 
 class CandidLexer extends Lexer {
-  static final checkVersion = () => RuntimeMetaData.checkVersion('4.10.1', RuntimeMetaData.VERSION);
+  static final checkVersion = () => RuntimeMetaData.checkVersion('4.12.0', RuntimeMetaData.VERSION);
 
   static final List<DFA> _decisionToDFA = List.generate(
         _ATN.numberOfDecisions, (i) => DFA(_ATN.getDecisionState(i), i));

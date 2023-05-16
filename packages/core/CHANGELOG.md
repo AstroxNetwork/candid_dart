@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Support for more Candid syntax.
+
 ## 1.0.1
 
 - Add comments to the Service methods.

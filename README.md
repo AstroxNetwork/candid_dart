@@ -9,7 +9,8 @@
 
 English | [简体中文](README-ZH.md)
 
-Provide [candid_dart_core](packages/core), [candid_dart_build](packages/build), and [candid_dart_cli](packages/cli) to
+Provide [candid_dart_core](packages/core), [candid_dart](packages/candid), [candid_dart_build](packages/build),
+and [candid_dart_cli](packages/cli) to
 handle `Candid` and quickly generate corresponding Dart code for `Candid`.
 
 The generated code includes:
@@ -20,11 +21,31 @@ The generated code includes:
 
 > The generated code depends on [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [Projects](#projects)
+    * [candid_dart_core](#candid_dart_core)
+    * [candid_dart](#candid_dart)
+    * [candid_dart_build](#candid_dart_build)
+    * [candid_dart_cli](#candid_dart_cli)
+    * [did2dart](#did2dart)
+- [Example Application](#example-application)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## Projects
 
 ### [candid_dart_core](packages/core) [![pub,dev](https://img.shields.io/pub/v/candid_dart_core?color=%230175C2&label=candid_dart_core&logo=dart)](https://pub.dev/packages/candid_dart_core)
 
 Provide the `did2dart` method to process `Candid` content, and quickly generate corresponding Dart code.
+
+### [candid_dart](packages/candid) [![pub,dev](https://img.shields.io/pub/v/candid_dart?color=%230175C2&label=candid_dart&logo=dart)](https://pub.dev/packages/candid_dart) (Recommend)
+
+Provides [Dart Build System](https://github.com/dart-lang/build) builders and command-line tool
+for handling `.did` files
+and quickly generate
+Dart code corresponding to `.did` files.
 
 ### [candid_dart_build](packages/build) [![pub,dev](https://img.shields.io/pub/v/candid_dart_build?color=%230175C2&label=candid_dart_build&logo=dart)](https://pub.dev/packages/candid_dart_build)
 
@@ -40,7 +61,6 @@ Provide a command-line tool for handing `.did` files and quickly generate Dart c
 Provide applications on different platforms to quickly convert Candid to Dart code.
 
 [Click to open](https://did2dart.astrox.app/#/)
-
 
 ## Example Application
 

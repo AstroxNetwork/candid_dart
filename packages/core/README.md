@@ -16,6 +16,15 @@ The generated code includes:
 
 > The generated code depends on [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [Quick Start](#quick-start)
+  * [Add Dependencies](#add-dependencies)
+- [Example](#example)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## Quick Start
 
 ### Add Dependencies
@@ -42,7 +51,7 @@ dev_dependencies:
 ```dart
 import 'package:candid_dart_core/core.dart';
 
-void main(){
+void main() {
   final code = did2dart(
     'test.did',
     '''

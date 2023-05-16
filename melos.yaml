@@ -1,4 +1,4 @@
-name: candid_dart
+name: candid_dart_packages
 
 packages:
   - packages/**

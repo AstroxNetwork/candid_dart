@@ -16,6 +16,16 @@ The generated code includes:
 
 > The generated code depends on [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [Quick Start](#quick-start)
+  * [Install CLI](#install-cli)
+  * [Run CLI](#run-cli)
+- [CLI Options](#cli-options)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## Quick Start
 
 ### Install CLI
@@ -34,14 +44,17 @@ did2dart -d ./ -r
 
 ```text
 -p, --path                           Specify the path of the `.did` file.
+-i, --inject-packages                Import packages with settings into each generated Dart file.
+-b, --pre-actor-call                 Inject a piece of code before calling the Actor method, which can reference the request parameters `request` and the parameter of type CanisterActor `actor`.
+-a, --post-actor-call                Inject a piece of code after calling the Actor method, which can reference the request parameters `request`, the parameter of type CanisterActor `actor`, and the return result of the method `response`.
 -d, --dir                            Specify the directory where the `.did` file is located.
 -r, --recursive                      Whether to recursively search for `.did` files, only valid when specifying a directory.
 -f, --freezed                        Whether to use `Freezed`.
 -e, --equal                          Whether to generate `equals` and `hashCode` methods.
                                      (Enabled by default)
--c, --copyWith                       Whether to generate `copyWith` method.
+-c, --copy-with                      Whether to generate `copyWith` method.
                                      (Enabled by default)
--u, --makeCollectionsUnmodifiable    Whether collection fields are unmodifiable, only valid when `Freezed` is enabled.
+-u, --make-collections-unmodifiable  Whether collection fields are unmodifiable, only valid when `Freezed` is enabled.
                                      (Enabled by default)
 -h, --help                           View help options.
 ```

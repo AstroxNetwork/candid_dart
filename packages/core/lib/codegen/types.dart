@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:antlr4/antlr4.dart';
-import 'package:meta/meta.dart';
 import 'package:recase/recase.dart';
 
 import '../antlr/CandidParser.dart';
@@ -9,7 +8,6 @@ import 'consts.dart';
 import 'extension.dart';
 import 'visitor.dart';
 
-@immutable
 abstract class IDLType<T extends RuleContext> {
   IDLType(this.ctx);
 
@@ -81,7 +79,7 @@ class PrimType extends IDLType<PrimTypeContext> {
     }
     if (ctx.blobType() != null) {
       const deser =
-          '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList(${IDLType.ph})';
+          '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
       return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
     }
     if (kBigIntIDLTypes.contains(did)) {
@@ -363,12 +361,23 @@ class VecType extends NestedType<VecTypeContext> {
 
   @override
   String? deserialize({bool nullable = false}) {
+    if (isUint8List) {
+      const deser =
+          '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
+      return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
+    }
     var d = child.deserialize();
     if (d != null && d != IDLType.ph) {
       if (nullable) {
         d = "(${IDLType.ph} as List?)?.map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
       } else {
         d = "(${IDLType.ph} as List).map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
+      }
+    } else if (d == null || d == IDLType.ph) {
+      if (nullable) {
+        d = '(${IDLType.ph} as List?)?.cast()';
+      } else {
+        d = '(${IDLType.ph} as List).cast()';
       }
     }
     return d;
@@ -501,7 +510,23 @@ class RecordType extends ObjectType<RecordTypeContext> {
   }
 
   late bool isTupleValue =
-      children.every((element) => element.child is! PairType);
+      children.every((element) => element.child is! PairType) ||
+          (() {
+            bool tuple = true;
+            for (int i = 0; i < children.length; ++i) {
+              final child = children[i].child;
+              if (child is PairType) {
+                if (child.key.did != i.toString()) {
+                  tuple = false;
+                  break;
+                }
+              } else {
+                tuple = false;
+                break;
+              }
+            }
+            return tuple;
+          }());
 
   @override
   String get type => isTupleValue ? 'TupleClass' : 'RecordClass';

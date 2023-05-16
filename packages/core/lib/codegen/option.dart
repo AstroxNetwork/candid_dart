@@ -1,21 +1,32 @@
 class GenOption {
-
-  const GenOption({
+  const GenOption( {
     this.freezed = false,
     this.makeCollectionsUnmodifiable = true,
     this.equal = true,
     this.copyWith = true,
+    this.service = false,
+    this.injectPackages,
+    this.preActorCall,
+    this.postActorCall,
   });
 
   factory GenOption.fromJson(Map<String, dynamic> json) {
+    final injectPackages = json['inject_packages'];
+    final preActorCall = json['pre_actor_call'];
+    final postActorCall = json['post_actor_call'];
     return GenOption(
       freezed: json['freezed'] ?? false,
       equal: json['equal'] ?? true,
       copyWith: json['copy_with'] ?? true,
+      service: json['service'] ?? false,
+      preActorCall: preActorCall,
+      postActorCall: postActorCall,
+      injectPackages: injectPackages is List ? injectPackages.cast() : null,
       makeCollectionsUnmodifiable:
           json['make_collections_unmodifiable'] ?? true,
     );
   }
+
   final bool freezed;
 
   final bool makeCollectionsUnmodifiable;
@@ -24,9 +35,16 @@ class GenOption {
 
   final bool copyWith;
 
+  final bool service;
+
+  final List<String>? injectPackages;
+  final String? preActorCall;
+  final String? postActorCall;
+
+
   @override
   String toString() {
-    return 'freezed: $freezed | makeCollectionsUnmodifiable: $makeCollectionsUnmodifiable | equal: $equal | copyWith: $copyWith';
+    return 'freezed: $freezed, makeCollectionsUnmodifiable: $makeCollectionsUnmodifiable, equal: $equal, copyWith: $copyWith, service: $service, injectPackages: $injectPackages, preActorCall: $preActorCall, postActorCall: $postActorCall';
   }
 
   String get annotation {

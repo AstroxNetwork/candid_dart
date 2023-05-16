@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:antlr4/antlr4.dart';
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 import '../antlr/CandidBaseVisitor.dart';
 import '../antlr/CandidParser.dart';
@@ -188,9 +187,14 @@ class IDLVisitor extends CandidBaseVisitor<IDLType<RuleContext>> {
   @override
   IDLType<RuleContext> visitVecType(VecTypeContext ctx) {
     final vecType = VecType(ctx, visit(ctx.dataType()!) as DataType);
-    if (!pkgs.contains(pkgTypeData) &&
-        (vecType.did == 'vec nat8' || vecType.did == 'vec int8')) {
-      pkgs.add(pkgTypeData);
+    if (vecType.isUint8List) {
+      if (!pkgs.contains(pkgTypeData)) {
+        pkgs.add(pkgTypeData);
+      }
+    } else {
+      if (!pkgs.contains(pkgCollection)) {
+        pkgs.add(pkgCollection);
+      }
     }
     return vecType;
   }
@@ -315,7 +319,6 @@ class PreVisitor extends CandidBaseVisitor<void> {
   }
 }
 
-@immutable
 class Dep {
   Dep({
     required this.id,
@@ -349,7 +352,6 @@ class Dep {
 
 typedef SerFunction = String? Function();
 
-@immutable
 class MethodKey {
   MethodKey(this.id, this.actor);
 

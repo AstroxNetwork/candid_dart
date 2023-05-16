@@ -1,0 +1,22 @@
+name: candid_dart
+description: Provide [Dart Build System](https://github.com/dart-lang/build) builder and command-line tools to process `.did` files
+  and quickly generate Dart code corresponding to the `.did` files.
+version: 1.1.0
+homepage: https://github.com/AstroxNetwork
+repository: https://github.com/AstroxNetwork/candid_dart
+issue_tracker: https://github.com/AstroxNetwork/candid_dart/issues
+
+environment:
+  sdk: '>=2.18.0 <4.0.0'
+
+dependencies:
+  candid_dart_cli: ^1.1.0
+  candid_dart_core: ^1.1.0
+  build: ^2.3.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
+
+executables:
+  did2dart: cli

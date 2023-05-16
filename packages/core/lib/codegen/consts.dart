@@ -138,39 +138,3 @@ const kDartKeywordsAndInternalTypes = <String>{
   'implements',
   'set',
 };
-
-const serviceTpl = '''
-class {{clazz}}Service {
-  {{clazz}}Service({
-    required String canisterId,
-    required String url,
-    required Service idl,
-    Identity? identity,
-    bool? debug = true,
-  }) {
-    factory = initAgentFactory(canisterId: canisterId, url: url, idl: idl);
-  }
-
-  late final AgentFactory factory;
-
-  AgentFactory initAgentFactory({
-    required String canisterId,
-    required String url,
-    required Service idl,
-    Identity? identity,
-    bool? debug = true,
-  }) {
-    return AgentFactory(
-      canisterId: canisterId,
-      identity: identity,
-      url: url,
-      idl: idl,
-      debug: debug,
-    );
-  }
-
-  FutureOr<void> callOnBeforeRequest(String method, List<dynamic> params) {}
-
-  FutureOr<void> callOnAfterResponse(String method, List<dynamic> resp) {}
-}
-''';

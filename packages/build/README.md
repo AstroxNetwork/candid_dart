@@ -6,7 +6,8 @@
 
 English | [简体中文](README-ZH.md)
 
-Provides [Dart Build System](https://github.com/dart-lang/build) builders for handling `.did` files and quickly generate Dart code corresponding to `.did` files.
+Provides [Dart Build System](https://github.com/dart-lang/build) builders for handling `.did` files and quickly generate
+Dart code corresponding to `.did` files.
 
 The generated code includes:
 
@@ -15,6 +16,17 @@ The generated code includes:
 - Objects and related methods corresponding to `.did` files
 
 > The generated code depends on [agent_dart](https://github.com/AstroxNetwork/agent_dart)
+
+<!-- toc -->
+
+- [Quick start](#quick-start)
+  * [Introduction of dependencies](#introduction-of-dependencies)
+  * [Run the generator](#run-the-generator)
+- [Configuration](#configuration)
+- [Example](#example)
+- [License](#license)
+
+<!-- tocstop -->
 
 ## Quick start
 
@@ -66,6 +78,25 @@ targets:
           equal: true
           # Whether collection fields are unmodifiable, only effective when Freezed is turned on, default is `true`
           make_collections_unmodifiable: true
+          # Is `Service` generated automatically?
+          service: true
+          # Import packages with settings into each generated Dart file.
+          inject_packages:
+            - package:recase/recase.dart
+            - package:dart_style/dart_style.dart
+          # Inject a piece of code before calling the Actor method, which can reference the request parameters `request` and the parameter of type CanisterActor `actor`.
+          pre_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+            // ...
+          # Inject a piece of code after calling the Actor method, which can reference the request parameters `request`, the parameter of type CanisterActor `actor`, and the return result of the method `response`.
+          post_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+            print(response);
+            // ...
 ```
 
 ## Example

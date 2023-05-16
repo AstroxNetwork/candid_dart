@@ -16,6 +16,16 @@
 
 > 生成的代码依赖于 [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
+  * [安装命令行工具](#%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7)
+  * [运行命令行工具](#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7)
+- [命令行工具](#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## 快速开始
 
 ### 安装命令行工具
@@ -34,14 +44,17 @@ did2dart -d ./ -r
 
 ```text
 -p, --path                           指定 `.did` 文件路径
+-i, --inject-packages                给每个生成的dart文件导入设置的packages
+-b, --pre-actor-call                 在Actor调用方法之前注入一段代码，代码可以引用到方法的请求参数 `request` 和 CanisterActor 类型的参数 `actor`
+-a, --post-actor-call                在Actor调用方法之后注入一段代码，代码可以引用到方法的请求参数 `request` 和 CanisterActor 类型的参数 `actor` ，以及方法的返回结果 `response`
 -d, --dir                            指定 `.did` 文件所在目录
 -r, --recursive                      是否递归查找 `.did` 文件，仅在指定目录时生效
 -f, --freezed                        是否使用 `Freezed`
 -e, --equal                          是否生成 `equals` 和 `hashCode` 方法
                                      (默认开启)
--c, --copyWith                       是否生成 `copyWith` 方法
+-c, --copy-with                      是否生成 `copyWith` 方法
                                      (默认开启)
--u, --makeCollectionsUnmodifiable    集合字段是否不可修改，仅在开启 `Freezed` 时生效
+-u, --make-collections-unmodifiable  集合字段是否不可修改，仅在开启 `Freezed` 时生效
                                      (默认开启)
 -h, --help                           查看帮助选项
 ```

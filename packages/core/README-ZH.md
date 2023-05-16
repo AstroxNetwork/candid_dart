@@ -16,6 +16,15 @@
 
 > 生成的代码依赖于 [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
+  * [引入依赖](#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96)
+- [示例](#%E7%A4%BA%E4%BE%8B)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## 快速开始
 
 ### 引入依赖
@@ -42,7 +51,7 @@ dev_dependencies:
 ```dart
 import 'package:candid_dart_core/core.dart';
 
-void main(){
+void main() {
   final code = did2dart(
     'test.did',
     '''

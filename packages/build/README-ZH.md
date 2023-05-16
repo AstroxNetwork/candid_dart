@@ -16,6 +16,17 @@
 
 > 生成的代码依赖于 [agent_dart](https://github.com/AstroxNetwork/agent_dart)
 
+<!-- toc -->
+
+- [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
+  * [引入依赖](#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96)
+  * [运行生成器](#%E8%BF%90%E8%A1%8C%E7%94%9F%E6%88%90%E5%99%A8)
+- [配置](#%E9%85%8D%E7%BD%AE)
+- [示例](#%E7%A4%BA%E4%BE%8B)
+- [License](#license)
+
+<!-- tocstop -->
+
 ## 快速开始
 
 ### 引入依赖
@@ -66,6 +77,25 @@ targets:
           equal: true
           # 集合字段是否不可修改，仅在开启 Freezed 时生效，默认 `true`
           make_collections_unmodifiable: true
+          # 是否自动生成 `Service`，默认 `false`
+          service: true
+          # Import packages with settings into each generated Dart file.
+          inject_packages:
+            - package:recase/recase.dart
+            - package:dart_style/dart_style.dart
+          # 在Actor调用方法之前注入一段代码，代码可以引用到方法的请求参数`request`和CanisterActor类型的参数`actor`
+          pre_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+            // ...
+          # 在Actor调用方法之后注入一段代码，代码可以引用到方法的请求参数`request`和CanisterActor类型的参数`actor`，以及方法的返回结果`response`
+          post_actor_call: |
+            print(method);
+            print(request);
+            print(actor);
+            print(response);
+            // ...
 ```
 
 ## 示例

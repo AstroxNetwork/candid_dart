@@ -7,9 +7,9 @@ import 'package:recase/recase.dart';
 
 import '../antlr/CandidLexer.dart';
 import '../antlr/CandidParser.dart';
+import '../core.dart';
 import 'consts.dart';
 import 'extension.dart';
-import 'option.dart';
 import 'types.dart';
 import 'visitor.dart';
 
@@ -27,7 +27,7 @@ String did2dart(
   final defs = prog.defs;
   final idls = StringBuffer();
   for (final def in defs) {
-    final id = '_${def.key.did}';
+    final id = '_${def.key.did.noDoubleQuotes}';
     final cd = deps[def.key.did]?.cd ?? false;
     final type = cd ? 'RecClass' : def.type;
     final idlType = cd ? 'IDL.Rec()..fill(${def.idlType})' : def.idlType;
@@ -43,10 +43,12 @@ String did2dart(
   String? idlName;
   if (actor != null) {
     final ref = actor.isRef();
-    final key = actor.key?.did;
+    final key = actor.key?.did.noDoubleQuotes;
     idlName = key == null ? 'idl' : '${key}Idl';
     if (ref) {
-      actors.writeln('static final $idlName = _${actor.body.did};');
+      actors.writeln(
+        'static final $idlName = _${actor.body.did.noDoubleQuotes};',
+      );
     } else {
       actors.writeln(
         'static final ${actor.type} $idlName = ${actor.body.idlType};',
@@ -87,20 +89,25 @@ String did2dart(
           : argsType.endsWith('?')
               ? '[$argsType arg,]'
               : '$argsType arg,';
+      String methodName = name.did.noDoubleQuotes.camelCase;
+      if (kDartKeywordsAndInternalTypes.contains(methodName)) {
+        methodName = '${methodName}_';
+      }
       final actorMethod = """
 ${entry.value.doc}
-static Future<$retType> ${name.did.camelCase}(CanisterActor actor, $arg) async {
-  ${noArgs ? 'const' : 'final'} dat = ${argsSer.replaceAll(IDLType.ph, "arg")};
-  ${noRet ? '' : 'final ret ='} await actor.getFunc('${name.did}')!(dat);
-  ${retDeser.replaceAll(IDLType.ph, "ret")}
+static Future<$retType> $methodName(CanisterActor actor, $arg) async {
+  ${noArgs ? 'const' : 'final'} request = ${argsSer.replaceAll(IDLType.ph, "arg")};
+  const method = '${name.did.noDoubleQuotes}';${option.preActorCall?.trim() ?? ''}
+  ${noRet && (option.postActorCall == null || option.postActorCall!.isEmpty) ? '' : 'final response ='} await actor.getFunc(method)!(request);${option.postActorCall?.trim() ?? ''}
+  ${retDeser.replaceAll(IDLType.ph, "response")}
 }
       """;
       actorMethods.writeln(actorMethod);
       final serviceMethod = '''
 ${entry.value.doc}
-Future<$retType> ${name.did.camelCase}($arg) async {
+Future<$retType> $methodName($arg) async {
   final actor = await getActor();
-  return ${clazz}IDLActor.${name.did.camelCase}(actor, ${noArgs ? '' : 'arg,'});
+  return ${clazz}IDLActor.$methodName(actor, ${noArgs ? '' : 'arg,'});
 }
       ''';
       serviceMethods.writeln(serviceMethod);
@@ -114,7 +121,8 @@ Future<$retType> ${name.did.camelCase}($arg) async {
     ...idlVisitor.pkgs.map(Directive.import),
     if (hasObj) Directive.import('package:meta/meta.dart'),
     if (option.freezed && hasObj)
-      Directive.import('package:freezed_annotation/freezed_annotation.dart')
+      Directive.import('package:freezed_annotation/freezed_annotation.dart'),
+    ...?option.injectPackages?.map(Directive.import),
   ];
   imports.sort((a, b) => a.url.compareTo(b.url));
   if (option.freezed && hasObj) {
@@ -129,7 +137,7 @@ Future<$retType> ${name.did.camelCase}($arg) async {
     (b) => b
       ..body.addAll([
         Code(newActor(clazz, actorMethods.toString())),
-        Code(newService(clazz, serviceMethods.toString())),
+        if (option.service) Code(newService(clazz, serviceMethods.toString())),
         Code('class ${clazz}IDL{\nconst ${clazz}IDL._();\n$idls\n$actors}'),
         ...idlVisitor.objs.entries.map((e) {
           final className = e.key;
@@ -180,7 +188,7 @@ Future<$retType> ${name.did.camelCase}($arg) async {
       ..directives = ListBuilder(imports)
       ..comments = ListBuilder([
         'coverage:ignore-file',
-        'ignore_for_file: type=lint, unnecessary_null_comparison',
+        'ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field',
         '======================================',
         'GENERATED CODE - DO NOT MODIFY BY HAND',
         '======================================',
@@ -449,6 +457,10 @@ Spec toClass(
     if (kDartKeywordsAndInternalTypes.contains(fieldName)) {
       fieldName += '_';
     }
+    final isNumberKey = RegExp(r'^\d+$').hasMatch(fieldName);
+    if (isNumberKey) {
+      fieldName = '\$$fieldName';
+    }
     final isIdType = child is IdType;
     var dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
@@ -518,9 +530,17 @@ Spec toClass(
     } else {
       var deser = child.deserialize(nullable: isOpt);
       if (deser != null) {
-        deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+        if (isNumberKey) {
+          deser = deser.replaceAll(IDLType.ph, 'json[$idlName]');
+        } else {
+          deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+        }
       } else {
-        deser = "json['$idlName']";
+        if (isNumberKey) {
+          deser = 'json[$idlName]';
+        } else {
+          deser = "json['$idlName']";
+        }
       }
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
@@ -533,9 +553,17 @@ Spec toClass(
             (value is IdType && value.child is Id && (value.child as Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
-        toJson.writeln("'$idlName': $arg,");
+        if (isNumberKey) {
+          toJson.writeln('$idlName: $arg,');
+        } else {
+          toJson.writeln("'$idlName': $arg,");
+        }
       } else {
-        toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+        if (isNumberKey) {
+          toJson.writeln('if ($fieldName != null) $idlName: $arg,');
+        } else {
+          toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+        }
       }
     }
     toJsonFields.writeln('final $fieldName = this.$fieldName;');
@@ -618,6 +646,7 @@ Spec toClass(
 
 Spec toEnum(String className, ObjectType obj) {
   final values = <EnumValue>[];
+  final getters = <Method>[];
   for (final e in obj.children) {
     final child = e.child;
     final idlName = child.id!;
@@ -633,6 +662,16 @@ Spec toEnum(String className, ObjectType obj) {
           ..docs = ListBuilder(
             ['/// [$fieldName] defined in Candid: `${child.did}`'],
           ),
+      ),
+    );
+    getters.add(
+      Method(
+        (b) => b
+          ..name = 'is_$fieldName'.camelCase
+          ..lambda = true
+          ..type = MethodType.getter
+          ..returns = const Reference('bool')
+          ..body = Code('this == $className.$fieldName'),
       ),
     );
   }
@@ -678,6 +717,7 @@ Spec toEnum(String className, ObjectType obj) {
         ),
       ])
       ..methods = ListBuilder([
+        ...getters,
         Method(
           (b) => b
             ..name = 'toJson'
@@ -702,6 +742,10 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
     var fieldName = idlName.camelCase;
     if (kDartKeywordsAndInternalTypes.contains(fieldName)) {
       fieldName += '_';
+    }
+    final isNumberKey = RegExp(r'^\d+$').hasMatch(fieldName);
+    if (isNumberKey) {
+      fieldName = '\$$fieldName';
     }
     final isIdType = child is IdType;
     var dartType = child.dartType();
@@ -732,9 +776,17 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
     } else {
       var deser = child.deserialize(nullable: isOpt);
       if (deser != null) {
-        deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+        if (isNumberKey) {
+          deser = deser.replaceAll(IDLType.ph, 'json[$idlName]');
+        } else {
+          deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+        }
       } else {
-        deser = "json['$idlName']";
+        if (isNumberKey) {
+          deser = 'json[$idlName]';
+        } else {
+          deser = "json['$idlName']";
+        }
       }
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
@@ -747,9 +799,17 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
             (value is IdType && value.child is Id && (value.child as Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
-        toJson.writeln("'$idlName': $arg,");
+        if (isNumberKey) {
+          toJson.writeln('$idlName: $arg,');
+        } else {
+          toJson.writeln("'$idlName': $arg,");
+        }
       } else {
-        toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+        if (isNumberKey) {
+          toJson.writeln('if ($fieldName != null) $idlName: $arg,');
+        } else {
+          toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+        }
       }
     }
     toJsonFields.writeln('final $fieldName = this.$fieldName;');

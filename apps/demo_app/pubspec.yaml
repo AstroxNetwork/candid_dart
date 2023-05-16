@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.18.0 <4.0.0'
 
 dependencies:
   agent_dart: ^1.0.0-dev.11
@@ -35,9 +35,6 @@ dev_dependencies:
   lints: ^2.0.1
   freezed: ^2.3.2
   build_runner: ^2.3.3
-
-dependency_overrides:
-  meta: any
 
 flutter:
   uses-material-design: true

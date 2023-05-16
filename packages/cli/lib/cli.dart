@@ -13,6 +13,23 @@ Future<void> cli(List<String> arguments) async {
     help: 'Specify the path of the `.did` file.',
   );
   parser.addOption(
+    'inject-packages',
+    abbr: 'i',
+    help: 'Import packages with settings into each generated Dart file.',
+  );
+  parser.addOption(
+    'pre-actor-call',
+    abbr: 'b',
+    help:
+        'Inject a piece of code before calling the Actor method, which can reference the request parameters `request` and the parameter of type CanisterActor `actor`.',
+  );
+  parser.addOption(
+    'post-actor-call',
+    abbr: 'a',
+    help:
+        'Inject a piece of code after calling the Actor method, which can reference the request parameters `request`, the parameter of type CanisterActor `actor`, and the return result of the method `response`.',
+  );
+  parser.addOption(
     'dir',
     abbr: 'd',
     help: 'Specify the directory where the `.did` files are located.',
@@ -23,6 +40,12 @@ Future<void> cli(List<String> arguments) async {
     negatable: false,
     help:
         'Determine whether to search for `.did` files recursively. This option only works when specifying a directory.',
+  );
+  parser.addFlag(
+    'service',
+    abbr: 's',
+    negatable: false,
+    help: 'Is `Service` generated automatically?',
   );
   parser.addFlag(
     'freezed',
@@ -38,14 +61,14 @@ Future<void> cli(List<String> arguments) async {
     help: 'Determine whether to generate `equals` and `hashCode` methods.',
   );
   parser.addFlag(
-    'copyWith',
+    'copy-with',
     abbr: 'c',
     defaultsTo: true,
     negatable: false,
     help: 'Determine whether to generate `copyWith` method.',
   );
   parser.addFlag(
-    'makeCollectionsUnmodifiable',
+    'make-collections-unmodifiable',
     abbr: 'u',
     defaultsTo: true,
     negatable: false,
@@ -70,12 +93,24 @@ Future<void> cli(List<String> arguments) async {
     'Please specify at least one argument: `-path` or `-dir`.'.$warn(tag: '🚨');
     return;
   }
+  List<String>? packages;
+  final i = parse['inject-packages'];
+  if (i != null) {
+    packages =
+        (i as String).split(',').map((e) => e.trim()).toList(growable: false);
+  }
+
   final option = GenOption(
     freezed: parse['freezed'],
-    makeCollectionsUnmodifiable: parse['makeCollectionsUnmodifiable'],
+    makeCollectionsUnmodifiable: parse['make-collections-unmodifiable'],
     equal: parse['equal'],
-    copyWith: parse['copyWith'],
+    copyWith: parse['copy-with'],
+    service: parse['service'],
+    injectPackages: packages,
+    preActorCall: parse['pre-actor-call'],
+    postActorCall: parse['post-actor-call'],
   );
+
   option.$info(tag: '   options');
   if (path != null) {
     _writeCode(File(path), option);
