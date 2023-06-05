@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Compatible with the new version of code_builder.
+
 ## 1.1.0
 
 - Support for more Candid syntax.

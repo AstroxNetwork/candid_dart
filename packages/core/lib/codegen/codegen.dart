@@ -10,7 +10,7 @@ import '../antlr/CandidParser.dart';
 import '../core.dart';
 import 'consts.dart';
 import 'extension.dart';
-import 'types.dart';
+import 'types.dart' as ts;
 import 'visitor.dart';
 
 String did2dart(
@@ -23,7 +23,7 @@ String did2dart(
   cdVisitor.visit(newParser(contents).prog());
   final deps = cdVisitor.deps;
   final idlVisitor = IDLVisitor();
-  final prog = idlVisitor.visit(newParser(contents).prog()) as Prog;
+  final prog = idlVisitor.visit(newParser(contents).prog()) as ts.Prog;
   final defs = prog.defs;
   final idls = StringBuffer();
   for (final def in defs) {
@@ -32,7 +32,7 @@ String did2dart(
     final type = cd ? 'RecClass' : def.type;
     final idlType = cd ? 'IDL.Rec()..fill(${def.idlType})' : def.idlType;
     idls.writeln('/// [$id] defined in Candid\n${def.doc}');
-    if (def.body.child is IdType) {
+    if (def.body.child is ts.IdType) {
       idls.writeln('static final $id = $idlType;');
     } else {
       idls.writeln('static final $type $id = $idlType;');
@@ -74,7 +74,7 @@ String did2dart(
   for (final entry in entries) {
     final name = entry.value.name;
     final body = entry.value.body;
-    if (body is FuncType) {
+    if (body is ts.FuncType) {
       if (!body.args.serializable || !body.ret.serializable) {
         continue;
       }
@@ -96,10 +96,10 @@ String did2dart(
       final actorMethod = """
 ${entry.value.doc}
 static Future<$retType> $methodName(CanisterActor actor, $arg) async {
-  ${noArgs ? 'const' : 'final'} request = ${argsSer.replaceAll(IDLType.ph, "arg")};
+  ${noArgs ? 'const' : 'final'} request = ${argsSer.replaceAll(ts.IDLType.ph, "arg")};
   const method = '${name.did.noDoubleQuotes}';${option.preActorCall?.trim() ?? ''}
   ${noRet && (option.postActorCall == null || option.postActorCall!.isEmpty) ? '' : 'final response ='} await actor.getFunc(method)!(request);${option.postActorCall?.trim() ?? ''}
-  ${retDeser.replaceAll(IDLType.ph, "response")}
+  ${retDeser.replaceAll(ts.IDLType.ph, "response")}
 }
       """;
       actorMethods.writeln(actorMethod);
@@ -142,7 +142,7 @@ Future<$retType> $methodName($arg) async {
         ...idlVisitor.objs.entries.map((e) {
           final className = e.key;
           final type = e.value;
-          final isTuple = type is RecordType && type.isTupleValue;
+          final isTuple = type is ts.RecordType && type.isTupleValue;
           final Spec clazz;
           if (type.isEnum) {
             clazz = toEnum(className, type);
@@ -199,7 +199,7 @@ Future<$retType> $methodName($arg) async {
 
 Spec toTupleClass(
   String className,
-  ObjectType obj,
+  ts.ObjectType obj,
   GenOption option,
 ) {
   final constructorParameters = <Parameter>[];
@@ -214,7 +214,7 @@ Spec toTupleClass(
   obj.children.forEachIndexed((index, e) {
     final child = e.child;
     final fieldName = 'item${index + 1}';
-    final isOpt = child is OptType;
+    final isOpt = child is ts.OptType;
     var dartType = child.dartType();
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
@@ -264,13 +264,14 @@ Spec toTupleClass(
     );
     var deserialize = child.deserialize();
     if (deserialize != null) {
-      deserialize = deserialize.replaceAll(IDLType.ph, 'tuple[$index]');
+      deserialize = deserialize.replaceAll(ts.IDLType.ph, 'tuple[$index]');
     } else {
       deserialize = 'tuple[$index]';
     }
     fromJson.writeln('$deserialize,');
     final ser = child.serialize();
-    final arg = ser == null ? fieldName : ser.replaceAll(IDLType.ph, fieldName);
+    final arg =
+        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toJsonFields.writeln('final $fieldName = this.$fieldName;');
   });
@@ -352,7 +353,7 @@ Spec toTupleClass(
 
 Spec toFreezedTupleClass(
   String className,
-  ObjectType obj,
+  ts.ObjectType obj,
   GenOption option,
 ) {
   final requiredParameters = <Parameter>[];
@@ -362,7 +363,7 @@ Spec toFreezedTupleClass(
   obj.children.forEachIndexed((index, e) {
     final child = e.child;
     final fieldName = 'item${index + 1}';
-    final isOpt = child is OptType;
+    final isOpt = child is ts.OptType;
     var dartType = child.dartType();
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
@@ -380,13 +381,14 @@ Spec toFreezedTupleClass(
     );
     var deserialize = child.deserialize();
     if (deserialize != null) {
-      deserialize = deserialize.replaceAll(IDLType.ph, 'tuple[$index]');
+      deserialize = deserialize.replaceAll(ts.IDLType.ph, 'tuple[$index]');
     } else {
       deserialize = 'tuple[$index]';
     }
     fromJson.writeln('$deserialize,');
     final ser = child.serialize();
-    final arg = ser == null ? fieldName : ser.replaceAll(IDLType.ph, fieldName);
+    final arg =
+        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toJsonFields.writeln('final $fieldName = this.$fieldName;');
   });
@@ -437,7 +439,7 @@ Spec toFreezedTupleClass(
 
 Spec toClass(
   String className,
-  ObjectType obj,
+  ts.ObjectType obj,
   GenOption option,
 ) {
   final isVariant = obj.isVariant;
@@ -461,11 +463,12 @@ Spec toClass(
     if (isNumberKey) {
       fieldName = '\$$fieldName';
     }
-    final isIdType = child is IdType;
+    final isIdType = child is ts.IdType;
     var dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
-    final isOpt =
-        isIdType || (child as PairType).value.child is OptType || isVariant;
+    final isOpt = isIdType ||
+        (child as ts.PairType).value.child is ts.OptType ||
+        isVariant;
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
     }
@@ -531,9 +534,9 @@ Spec toClass(
       var deser = child.deserialize(nullable: isOpt);
       if (deser != null) {
         if (isNumberKey) {
-          deser = deser.replaceAll(IDLType.ph, 'json[$idlName]');
+          deser = deser.replaceAll(ts.IDLType.ph, 'json[$idlName]');
         } else {
-          deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+          deser = deser.replaceAll(ts.IDLType.ph, "json['$idlName']");
         }
       } else {
         if (isNumberKey) {
@@ -545,12 +548,14 @@ Spec toClass(
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
       final arg =
-          ser == null ? fieldName : ser.replaceAll(IDLType.ph, fieldName);
+          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
-      if (child is PairType) {
+      if (child is ts.PairType) {
         final value = child.value.child;
-        isOptChild = value is OptType ||
-            (value is IdType && value.child is Id && (value.child as Id).isOpt);
+        isOptChild = value is ts.OptType ||
+            (value is ts.IdType &&
+                value.child is ts.Id &&
+                (value.child as ts.Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
@@ -644,7 +649,7 @@ Spec toClass(
   );
 }
 
-Spec toEnum(String className, ObjectType obj) {
+Spec toEnum(String className, ts.ObjectType obj) {
   final values = <EnumValue>[];
   final getters = <Method>[];
   for (final e in obj.children) {
@@ -730,7 +735,7 @@ Spec toEnum(String className, ObjectType obj) {
   );
 }
 
-Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
+Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
   final isVariant = obj.isVariant;
   final optionalParameters = <Parameter>[];
   final fromJson = StringBuffer();
@@ -747,11 +752,12 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
     if (isNumberKey) {
       fieldName = '\$$fieldName';
     }
-    final isIdType = child is IdType;
+    final isIdType = child is ts.IdType;
     var dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
-    final isOpt =
-        isIdType || (child as PairType).value.child is OptType || isVariant;
+    final isOpt = isIdType ||
+        (child as ts.PairType).value.child is ts.OptType ||
+        isVariant;
     if (isOpt && !dartType.endsWith('?')) {
       dartType += '?';
     }
@@ -777,9 +783,9 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
       var deser = child.deserialize(nullable: isOpt);
       if (deser != null) {
         if (isNumberKey) {
-          deser = deser.replaceAll(IDLType.ph, 'json[$idlName]');
+          deser = deser.replaceAll(ts.IDLType.ph, 'json[$idlName]');
         } else {
-          deser = deser.replaceAll(IDLType.ph, "json['$idlName']");
+          deser = deser.replaceAll(ts.IDLType.ph, "json['$idlName']");
         }
       } else {
         if (isNumberKey) {
@@ -791,12 +797,14 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
       fromJson.writeln('$fieldName: $deser,');
       final ser = child.serialize();
       final arg =
-          ser == null ? fieldName : ser.replaceAll(IDLType.ph, fieldName);
+          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
-      if (child is PairType) {
+      if (child is ts.PairType) {
         final value = child.value.child;
-        isOptChild = value is OptType ||
-            (value is IdType && value.child is Id && (value.child as Id).isOpt);
+        isOptChild = value is ts.OptType ||
+            (value is ts.IdType &&
+                value.child is ts.Id &&
+                (value.child as ts.Id).isOpt);
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
@@ -859,7 +867,7 @@ Spec toFreezedClass(String className, ObjectType obj, GenOption option) {
   );
 }
 
-TypeDef? toTypeDef(Def def) {
+TypeDef? toTypeDef(ts.Def def) {
   try {
     var name = def.key.dartType();
     if (kDartKeywordsAndInternalTypes.contains(name)) {

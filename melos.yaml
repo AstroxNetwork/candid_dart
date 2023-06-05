@@ -21,8 +21,6 @@ command:
 
 scripts:
   upgrade: melos exec -- dart pub upgrade --null-safety
-  pub-get: melos exec -- dart pub get
-  prepare: melos bootstrap
   analyze:
     exec: dart analyze .
   publish: melos publish --no-dry-run --ignore="*example*" --yes
