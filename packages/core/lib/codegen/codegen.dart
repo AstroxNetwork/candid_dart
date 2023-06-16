@@ -25,17 +25,22 @@ String did2dart(
   final idlVisitor = IDLVisitor();
   final prog = idlVisitor.visit(newParser(contents).prog()) as ts.Prog;
   final defs = prog.defs;
+  final cdSb = StringBuffer();
   final idls = StringBuffer();
   for (final def in defs) {
     final id = '_${def.key.did.noDoubleQuotes}';
     final cd = deps[def.key.did]?.cd ?? false;
     final type = cd ? 'RecClass' : def.type;
-    final idlType = cd ? 'IDL.Rec()..fill(${def.idlType})' : def.idlType;
+    final idlType = cd ? 'IDL.Rec()' : def.idlType;
     idls.writeln('/// [$id] defined in Candid\n${def.doc}');
     if (def.body.child is ts.IdType) {
       idls.writeln('static final $id = $idlType;');
     } else {
       idls.writeln('static final $type $id = $idlType;');
+    }
+    if (cd) {
+      idls.writeln('static final _$id = ${def.idlType};');
+      cdSb.writeln('$id.fill(_$id);');
     }
   }
   final actors = StringBuffer();
@@ -50,9 +55,16 @@ String did2dart(
         'static final $idlName = _${actor.body.did.noDoubleQuotes};',
       );
     } else {
-      actors.writeln(
-        'static final ${actor.type} $idlName = ${actor.body.idlType};',
-      );
+      final cds = cdSb.toString();
+      if (cds.isEmpty) {
+        actors.writeln(
+          'static final ${actor.type} $idlName = ${actor.body.idlType};',
+        );
+      } else {
+        actors.writeln(
+          'static final ${actor.type} $idlName = (){${cds}return ${actor.body.idlType};}();',
+        );
+      }
     }
     if (key != null) {
       actors.writeln('static final idl = $idlName;');

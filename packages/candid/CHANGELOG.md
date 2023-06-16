@@ -1,3 +1,7 @@
+## 1.1.2
+
+- Fix circular dependency issue.
+
 ## 1.1.1
 
 - Compatible with the new version of code_builder.

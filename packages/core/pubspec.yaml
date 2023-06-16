@@ -1,6 +1,6 @@
 name: candid_dart_core
 description: Provide the `did2dart` method to process `Candid` content, and quickly generate corresponding Dart code.
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/AstroxNetwork
 repository: https://github.com/AstroxNetwork/candid_dart
 issue_tracker: https://github.com/AstroxNetwork/candid_dart/issues
@@ -15,7 +15,7 @@ dependencies:
   built_value: ^8.4.4
   code_builder: ^4.4.0
   collection: ^1.17.0
-  dart_style: ^2.3.0
+  dart_style: ^2.3.1
   freezed_annotation: ^2.2.0
   recase: ^4.1.0
 

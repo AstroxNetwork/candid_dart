@@ -517,7 +517,11 @@ class Account {
     return Account(
       owner: Principal.from(json['owner']),
       subaccount: (json['subaccount'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
     );
   }
@@ -648,7 +652,11 @@ class Burn {
     return Burn(
       from: Account.fromJson(json['from']),
       memo: (json['memo'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       createdAtTime: (json['created_at_time'] as List).map((e) {
         return e == null
@@ -823,7 +831,11 @@ class Mint {
     return Mint(
       to: Account.fromJson(json['to']),
       memo: (json['memo'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       createdAtTime: (json['created_at_time'] as List).map((e) {
         return e == null
@@ -1198,7 +1210,11 @@ class Transfer {
       }).firstOrNull,
       from: Account.fromJson(json['from']),
       memo: (json['memo'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       createdAtTime: (json['created_at_time'] as List).map((e) {
         return e == null
@@ -1337,10 +1353,18 @@ class TransferArg {
                 : BigInt.from(e);
       }).firstOrNull,
       memo: (json['memo'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       fromSubaccount: (json['from_subaccount'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       createdAtTime: (json['created_at_time'] as List).map((e) {
         return e == null
@@ -2008,7 +2032,11 @@ class Value {
           : json['Nat'] is BigInt
               ? json['Nat']
               : BigInt.from(json['Nat']),
-      blob: json['Blob'],
+      blob: json['Blob'] == null
+          ? null
+          : json['Blob'] is Uint8List
+              ? json['Blob']
+              : Uint8List.fromList((json['Blob'] as List).cast()),
       text: json['Text'],
     );
   }

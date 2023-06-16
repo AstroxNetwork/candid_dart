@@ -6,7 +6,6 @@
 
 import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
@@ -757,9 +756,15 @@ class Tuple {
     return Tuple(
       tuple[0],
       tuple[1],
-      tuple[2],
+      tuple[2] is Uint8List
+          ? tuple[2]
+          : Uint8List.fromList((tuple[2] as List).cast()),
       (tuple[3] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
     );
   }
@@ -823,7 +828,6 @@ class Tuple {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3, item4]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -860,15 +864,10 @@ enum TestEnum {
   final String name;
 
   bool get isQ => this == TestEnum.q;
-
   bool get isW => this == TestEnum.w;
-
   bool get isE => this == TestEnum.e;
-
   bool get isR => this == TestEnum.r;
-
   bool get isT => this == TestEnum.t;
-
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -909,7 +908,6 @@ class EmptyRecord {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -946,7 +944,6 @@ class EmptyVariant {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1076,7 +1073,6 @@ class Record {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, emptyRecord, emptyVariant, tuple, name, phone, profile]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1161,7 +1157,6 @@ class Variant {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, name, phone, profile]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1270,7 +1265,6 @@ class NullableRecordOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1385,7 +1379,6 @@ class NullableVariantOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1449,7 +1442,6 @@ class New {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1492,7 +1484,9 @@ class ComplexNested1Nested3Nested5 {
           return e is BigInt ? e : BigInt.from(e);
         }).toList();
       }).firstOrNull,
-      field2: json['field2'],
+      field2: json['field2'] is Uint8List
+          ? json['field2']
+          : Uint8List.fromList((json['field2'] as List).cast()),
       field3: (json['field3'] as List).map((e) {
         return (e as List).map((e) {
           return (e as List).map((e) {
@@ -1637,7 +1631,6 @@ class ComplexNested1Nested3Nested5 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1666,7 +1659,9 @@ class ComplexNested1Nested3 {
       field1: (json['field1'] as List).map((e) {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
-      field2: json['field2'],
+      field2: json['field2'] is Uint8List
+          ? json['field2']
+          : Uint8List.fromList((json['field2'] as List).cast()),
       nested5: ComplexNested1Nested3Nested5.fromJson(
         json['nested5'],
       ),
@@ -1727,7 +1722,6 @@ class ComplexNested1Nested3 {
         field2,
         nested5
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1756,7 +1750,9 @@ class ComplexNested1 {
       field1: (json['field1'] as List).map((e) {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
-      field2: json['field2'],
+      field2: json['field2'] is Uint8List
+          ? json['field2']
+          : Uint8List.fromList((json['field2'] as List).cast()),
       nested3: ComplexNested1Nested3.fromJson(
         json['nested3'],
       ),
@@ -1817,7 +1813,6 @@ class ComplexNested1 {
         field2,
         nested3
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -1862,7 +1857,11 @@ class ComplexNested2Nested4Nested6 {
       field1: (json['field1'] as List?)?.map((e) {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
-      field2: json['field2'],
+      field2: json['field2'] == null
+          ? null
+          : json['field2'] is Uint8List
+              ? json['field2']
+              : Uint8List.fromList((json['field2'] as List).cast()),
       field3: (json['field3'] as List?)?.map((e) {
         return (e as List).map((e) {
           return (e as List).map((e) {
@@ -2045,7 +2044,6 @@ class ComplexNested2Nested4Nested6 {
         const DeepCollectionEquality().hash(field6),
         const DeepCollectionEquality().hash(field7)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2075,7 +2073,11 @@ class ComplexNested2Nested4 {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
       field2: (json['field2'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       nested6: ComplexNested2Nested4Nested6.fromJson(
         json['nested6'],
@@ -2137,7 +2139,6 @@ class ComplexNested2Nested4 {
         field2,
         nested6
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2172,7 +2173,11 @@ class ComplexNested2 {
           return e is BigInt ? e : BigInt.from(e);
         }).toList();
       }).firstOrNull,
-      field2: json['field2'],
+      field2: json['field2'] == null
+          ? null
+          : json['field2'] is Uint8List
+              ? json['field2']
+              : Uint8List.fromList((json['field2'] as List).cast()),
       nested4: json['nested4'] == null
           ? null
           : ComplexNested2Nested4.fromJson(
@@ -2246,7 +2251,6 @@ class ComplexNested2 {
         field2,
         nested4
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2285,7 +2289,11 @@ class ComplexNested3Nested5Nested7 {
       field1: (json['field1'] as List?)?.map((e) {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
-      field2: json['field2'],
+      field2: json['field2'] == null
+          ? null
+          : json['field2'] is Uint8List
+              ? json['field2']
+              : Uint8List.fromList((json['field2'] as List).cast()),
       field3: (json['field3'] as List?)?.map((e) {
         return (e as List).map((e) {
           return Record.fromJson(e);
@@ -2407,7 +2415,6 @@ class ComplexNested3Nested5Nested7 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2437,7 +2444,11 @@ class ComplexNested3Nested5 {
         return e is BigInt ? e : BigInt.from(e);
       }).toList(),
       field2: (json['field2'] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       nested7: ComplexNested3Nested5Nested7.fromJson(
         json['nested7'],
@@ -2499,7 +2510,6 @@ class ComplexNested3Nested5 {
         field2,
         nested7
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2570,7 +2580,6 @@ class ComplexNested3 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, noKey, nested5]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2700,7 +2709,6 @@ class Complex {
         nested2,
         nested3
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2750,7 +2758,6 @@ class RefServiceEcho3Arg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2820,7 +2827,6 @@ class ServiceDoRet0Echo3Arg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2884,7 +2890,6 @@ class ServiceDoRet0Echo3Ret {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -2960,7 +2965,6 @@ class RefServiceInsertArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -3116,7 +3120,6 @@ class RefServiceEcho2Arg {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
-
   @override
   String toString() {
     return toJson().toString();
@@ -3267,7 +3270,6 @@ class RefServiceEcho2Ret {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
-
   @override
   String toString() {
     return toJson().toString();

@@ -70,50 +70,50 @@ class CdIDL {
   /// ```Candid
   ///   type Class = variant { no_body; hello: text; class: opt vec opt Class; bigint: nat };
   /// ```
-  static final RecClass _Class = IDL.Rec()
-    ..fill(IDL.Variant({
-      'no_body': IDL.Null,
-      'hello': IDL.Text,
-      'class': IDL.Opt(
-        IDL.Vec(
-          IDL.Opt(
-            _Class,
-          ),
+  static final RecClass _Class = IDL.Rec();
+  static final __Class = IDL.Variant({
+    'no_body': IDL.Null,
+    'hello': IDL.Text,
+    'class': IDL.Opt(
+      IDL.Vec(
+        IDL.Opt(
+          _Class,
         ),
       ),
-      'bigint': IDL.Nat,
-    }));
+    ),
+    'bigint': IDL.Nat,
+  });
 
   /// [_Node2] defined in Candid
   /// ```Candid
   ///   type Node2 = record { Node1 };
   /// ```
-  static final RecClass _Node2 = IDL.Rec()
-    ..fill(IDL.Tuple([
-      _Node1,
-    ]));
+  static final RecClass _Node2 = IDL.Rec();
+  static final __Node2 = IDL.Tuple([
+    _Node1,
+  ]);
 
   /// [_Node] defined in Candid
   /// ```Candid
   ///   type Node = record { data: nat; left: opt Node2 };
   /// ```
-  static final RecClass _Node = IDL.Rec()
-    ..fill(IDL.Record({
-      'data': IDL.Nat,
-      'left': IDL.Opt(
-        _Node2,
-      ),
-    }));
+  static final RecClass _Node = IDL.Rec();
+  static final __Node = IDL.Record({
+    'data': IDL.Nat,
+    'left': IDL.Opt(
+      _Node2,
+    ),
+  });
 
   /// [_Node1] defined in Candid
   /// ```Candid
   ///   type Node1 = record { Node; Node };
   /// ```
-  static final RecClass _Node1 = IDL.Rec()
-    ..fill(IDL.Tuple([
-      _Node,
-      _Node,
-    ]));
+  static final RecClass _Node1 = IDL.Rec();
+  static final __Node1 = IDL.Tuple([
+    _Node,
+    _Node,
+  ]);
 
   /// [_A] defined in Candid
   /// ```Candid
@@ -135,26 +135,26 @@ class CdIDL {
   /// ```Candid
   ///   type C = opt vec D;
   /// ```
-  static final RecClass _C = IDL.Rec()
-    ..fill(IDL.Opt(
-      IDL.Vec(
-        _D,
-      ),
-    ));
+  static final RecClass _C = IDL.Rec();
+  static final __C = IDL.Opt(
+    IDL.Vec(
+      _D,
+    ),
+  );
 
   /// [_D] defined in Candid
   /// ```Candid
   ///   type D = variant { A; B; c: C; d: D; e: E; node2: Node2 };
   /// ```
-  static final RecClass _D = IDL.Rec()
-    ..fill(IDL.Variant({
-      'A': IDL.Null,
-      'B': IDL.Null,
-      'c': _C,
-      'd': _D,
-      'e': _E,
-      'node2': _Node2,
-    }));
+  static final RecClass _D = IDL.Rec();
+  static final __D = IDL.Variant({
+    'A': IDL.Null,
+    'B': IDL.Null,
+    'c': _C,
+    'd': _D,
+    'e': _E,
+    'node2': _Node2,
+  });
 
   /// [_E] defined in Candid
   /// ```Candid
@@ -176,19 +176,19 @@ class CdIDL {
   /// ```Candid
   ///   type G = record { record { F; E; G }; record { A; B; C } };
   /// ```
-  static final RecClass _G = IDL.Rec()
-    ..fill(IDL.Tuple([
-      IDL.Tuple([
-        _F,
-        _E,
-        _G,
-      ]),
-      IDL.Tuple([
-        _A,
-        _B,
-        _C,
-      ]),
-    ]));
+  static final RecClass _G = IDL.Rec();
+  static final __G = IDL.Tuple([
+    IDL.Tuple([
+      _F,
+      _E,
+      _G,
+    ]),
+    IDL.Tuple([
+      _A,
+      _B,
+      _C,
+    ]),
+  ]);
 
   /// [_H] defined in Candid
   /// ```Candid
@@ -236,62 +236,71 @@ class CdIDL {
     [],
   );
 
-  static final ServiceClass idl = IDL.Service({
-    'echo': IDL.Func(
-      [
-        IDL.Opt(
-          _Node,
-        )
-      ],
-      [
-        IDL.Opt(
-          _Node1,
-        )
-      ],
-      ['query'],
-    ),
-    'echo1': IDL.Func(
-      [_A, _B, _C, _D, _E, _F, _G, _H, _I, _J],
-      [
-        IDL.Opt(
-          _A,
-        ),
-        IDL.Opt(
-          _B,
-        ),
-        IDL.Opt(
-          _C,
-        ),
-        IDL.Opt(
-          _D,
-        ),
-        IDL.Opt(
-          _E,
-        ),
-        IDL.Opt(
-          _F,
-        ),
-        IDL.Opt(
-          _G,
-        ),
-        IDL.Opt(
-          _H,
-        ),
-        IDL.Opt(
-          _I,
-        ),
-        IDL.Opt(
-          _J,
-        )
-      ],
-      [],
-    ),
-    'echo2': IDL.Func(
-      [_J],
-      [],
-      [],
-    ),
-  });
+  static final ServiceClass idl = () {
+    _Class.fill(__Class);
+    _Node2.fill(__Node2);
+    _Node.fill(__Node);
+    _Node1.fill(__Node1);
+    _C.fill(__C);
+    _D.fill(__D);
+    _G.fill(__G);
+    return IDL.Service({
+      'echo': IDL.Func(
+        [
+          IDL.Opt(
+            _Node,
+          )
+        ],
+        [
+          IDL.Opt(
+            _Node1,
+          )
+        ],
+        ['query'],
+      ),
+      'echo1': IDL.Func(
+        [_A, _B, _C, _D, _E, _F, _G, _H, _I, _J],
+        [
+          IDL.Opt(
+            _A,
+          ),
+          IDL.Opt(
+            _B,
+          ),
+          IDL.Opt(
+            _C,
+          ),
+          IDL.Opt(
+            _D,
+          ),
+          IDL.Opt(
+            _E,
+          ),
+          IDL.Opt(
+            _F,
+          ),
+          IDL.Opt(
+            _G,
+          ),
+          IDL.Opt(
+            _H,
+          ),
+          IDL.Opt(
+            _I,
+          ),
+          IDL.Opt(
+            _J,
+          )
+        ],
+        [],
+      ),
+      'echo2': IDL.Func(
+        [_J],
+        [],
+        [],
+      ),
+    });
+  }();
 }
 
 /// [Class] defined in Candid
@@ -626,7 +635,9 @@ class D {
         }).toList();
       }).firstOrNull,
       d: json['d'] == null ? null : D.fromJson(json['d']),
-      e: json['e'],
+      e: json['e'] is Uint8List
+          ? json['e']
+          : Uint8List.fromList((json['e'] as List).cast()),
       node2: json['node2'] == null ? null : Node2.fromJson(json['node2']),
     );
   }
@@ -730,8 +741,12 @@ class G0 {
 
   factory G0.fromJson(List<dynamic> tuple) {
     return G0(
-      tuple[0],
-      tuple[1],
+      (tuple[0] as List).map((e) {
+        return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+      }).toList(),
+      tuple[1] is Uint8List
+          ? tuple[1]
+          : Uint8List.fromList((tuple[1] as List).cast()),
       G.fromJson(tuple[2]),
     );
   }
@@ -916,8 +931,12 @@ class G {
   factory G.fromJson(List<dynamic> tuple) {
     return G(
       G0(
-        tuple[0][0],
-        tuple[0][1],
+        (tuple[0][0] as List).map((e) {
+          return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+        }).toList(),
+        tuple[0][1] is Uint8List
+            ? tuple[0][1]
+            : Uint8List.fromList((tuple[0][1] as List).cast()),
         G.fromJson(tuple[0][2]),
       ),
       G1(
@@ -1048,8 +1067,12 @@ class Echo1Arg {
         }).toList();
       }).firstOrNull,
       D.fromJson(tuple[3]),
-      tuple[4],
-      tuple[5],
+      tuple[4] is Uint8List
+          ? tuple[4]
+          : Uint8List.fromList((tuple[4] as List).cast()),
+      (tuple[5] as List).map((e) {
+        return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+      }).toList(),
       G.fromJson(tuple[6]),
       H.fromJson(tuple[7]),
       (tuple[8] as List).map((e) {
@@ -1304,10 +1327,12 @@ class Echo1Ret {
         return e == null ? null : D.fromJson(e);
       }).firstOrNull,
       (tuple[4] as List).map((e) {
-        return e;
+        return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       (tuple[5] as List).map((e) {
-        return e;
+        return (e as List).map((e) {
+          return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+        }).toList();
       }).firstOrNull,
       (tuple[6] as List).map((e) {
         return e == null ? null : G.fromJson(e);
