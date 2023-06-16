@@ -1,3 +1,7 @@
+## 1.1.3
+
+- Add IDl type.
+
 ## 1.1.2
 
 - Fix circular dependency issue.

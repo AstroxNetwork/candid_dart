@@ -71,7 +71,7 @@ class CdIDL {
   ///   type Class = variant { no_body; hello: text; class: opt vec opt Class; bigint: nat };
   /// ```
   static final RecClass _Class = IDL.Rec();
-  static final __Class = IDL.Variant({
+  static final VariantClass __Class = IDL.Variant({
     'no_body': IDL.Null,
     'hello': IDL.Text,
     'class': IDL.Opt(
@@ -89,7 +89,7 @@ class CdIDL {
   ///   type Node2 = record { Node1 };
   /// ```
   static final RecClass _Node2 = IDL.Rec();
-  static final __Node2 = IDL.Tuple([
+  static final TupleClass __Node2 = IDL.Tuple([
     _Node1,
   ]);
 
@@ -98,7 +98,7 @@ class CdIDL {
   ///   type Node = record { data: nat; left: opt Node2 };
   /// ```
   static final RecClass _Node = IDL.Rec();
-  static final __Node = IDL.Record({
+  static final RecordClass __Node = IDL.Record({
     'data': IDL.Nat,
     'left': IDL.Opt(
       _Node2,
@@ -110,7 +110,7 @@ class CdIDL {
   ///   type Node1 = record { Node; Node };
   /// ```
   static final RecClass _Node1 = IDL.Rec();
-  static final __Node1 = IDL.Tuple([
+  static final TupleClass __Node1 = IDL.Tuple([
     _Node,
     _Node,
   ]);
@@ -136,7 +136,7 @@ class CdIDL {
   ///   type C = opt vec D;
   /// ```
   static final RecClass _C = IDL.Rec();
-  static final __C = IDL.Opt(
+  static final OptClass __C = IDL.Opt(
     IDL.Vec(
       _D,
     ),
@@ -147,7 +147,7 @@ class CdIDL {
   ///   type D = variant { A; B; c: C; d: D; e: E; node2: Node2 };
   /// ```
   static final RecClass _D = IDL.Rec();
-  static final __D = IDL.Variant({
+  static final VariantClass __D = IDL.Variant({
     'A': IDL.Null,
     'B': IDL.Null,
     'c': _C,
@@ -177,7 +177,7 @@ class CdIDL {
   ///   type G = record { record { F; E; G }; record { A; B; C } };
   /// ```
   static final RecClass _G = IDL.Rec();
-  static final __G = IDL.Tuple([
+  static final TupleClass __G = IDL.Tuple([
     IDL.Tuple([
       _F,
       _E,

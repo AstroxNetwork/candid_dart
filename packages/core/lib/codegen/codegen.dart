@@ -39,7 +39,7 @@ String did2dart(
       idls.writeln('static final $type $id = $idlType;');
     }
     if (cd) {
-      idls.writeln('static final _$id = ${def.idlType};');
+      idls.writeln('static final ${def.type} _$id = ${def.idlType};');
       cdSb.writeln('$id.fill(_$id);');
     }
   }
