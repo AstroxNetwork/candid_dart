@@ -782,12 +782,12 @@ class Def extends IDLType<DefContext> {
 
   @override
   String? serialize({bool nullable = false}) {
-    return body.serialize();
+    return body.serialize(nullable: nullable);
   }
 
   @override
   String? deserialize({bool nullable = false}) {
-    return body.deserialize();
+    return body.deserialize(nullable: nullable);
   }
 
   @override

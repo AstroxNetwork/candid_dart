@@ -983,7 +983,11 @@ class Record {
       tuple: Tuple.fromJson(json['tuple']),
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1100,7 +1104,11 @@ class Variant {
     return Variant(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1187,7 +1195,11 @@ class NullableRecordOpt {
     return NullableRecordOpt(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1301,7 +1313,11 @@ class NullableVariantOpt {
     return NullableVariantOpt(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -2618,7 +2634,11 @@ class Complex {
       }).firstOrNull,
       field2: (json['field2'] as List).map((e) {
         return (e as List?)?.map((e) {
-          return e is BigInt ? e : BigInt.from(e);
+          return e == null
+              ? null
+              : e is BigInt
+                  ? e
+                  : BigInt.from(e);
         }).toList();
       }).firstOrNull,
       nested1: ComplexNested1.fromJson(

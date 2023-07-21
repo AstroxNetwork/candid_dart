@@ -1,6 +1,10 @@
+## 1.1.4
+
+- Fix nullable vec.
+
 ## 1.1.3
 
-- Add IDl type.
+- Add IDL type.
 
 ## 1.1.2
 

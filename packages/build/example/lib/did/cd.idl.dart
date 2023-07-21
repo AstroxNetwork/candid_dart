@@ -635,9 +635,11 @@ class D {
         }).toList();
       }).firstOrNull,
       d: json['d'] == null ? null : D.fromJson(json['d']),
-      e: json['e'] is Uint8List
-          ? json['e']
-          : Uint8List.fromList((json['e'] as List).cast()),
+      e: json['e'] == null
+          ? null
+          : json['e'] is Uint8List
+              ? json['e']
+              : Uint8List.fromList((json['e'] as List).cast()),
       node2: json['node2'] == null ? null : Node2.fromJson(json['node2']),
     );
   }
@@ -1297,7 +1299,7 @@ class Echo1Ret {
   factory Echo1Ret.fromJson(List<dynamic> tuple) {
     return Echo1Ret(
       (tuple[0] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return (e as List).map((e) {
             return (e as List).map((e) {
               return (e as List?)?.map((e) {
@@ -1308,7 +1310,7 @@ class Echo1Ret {
         }).toList();
       }).firstOrNull,
       (tuple[1] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return (e as List).map((e) {
             return (e as List?)?.map((e) {
               return D.fromJson(e);
@@ -1327,10 +1329,14 @@ class Echo1Ret {
         return e == null ? null : D.fromJson(e);
       }).firstOrNull,
       (tuple[4] as List).map((e) {
-        return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       (tuple[5] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
         }).toList();
       }).firstOrNull,
@@ -1427,7 +1433,7 @@ class Echo1Ret {
     return [
       [
         if (item1 != null)
-          item1.map((e) {
+          item1?.map((e) {
             return e.map((e) {
               return [if (e != null) e];
             }).toList();
@@ -1435,7 +1441,7 @@ class Echo1Ret {
       ],
       [
         if (item2 != null)
-          item2.map((e) {
+          item2?.map((e) {
             return [if (e != null) e];
           }).toList()
       ],
