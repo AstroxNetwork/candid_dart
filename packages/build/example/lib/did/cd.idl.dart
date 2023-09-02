@@ -61,6 +61,25 @@ class CdIDLActor {
     const method = 'echo2';
     await actor.getFunc(method)!(request);
   }
+
+  /// ```Candid
+  ///   echo3: (tt: J) -> () composite_query
+  /// ```
+  static Future<void> echo3(
+    CanisterActor actor,
+    J arg,
+  ) async {
+    final request = [
+      [
+        if (arg != null)
+          arg.map((e) {
+            return [if (e != null) e];
+          }).toList()
+      ]
+    ];
+    const method = 'echo3';
+    await actor.getFunc(method)!(request);
+  }
 }
 
 class CdIDL {
@@ -298,6 +317,11 @@ class CdIDL {
         [_J],
         [],
         [],
+      ),
+      'echo3': IDL.Func(
+        [_J],
+        [],
+        ['composite_query'],
       ),
     });
   }();

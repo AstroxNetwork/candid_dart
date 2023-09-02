@@ -32,8 +32,9 @@ class CandidParser extends Parser {
                    TOKEN_T__30 = 31, TOKEN_T__31 = 32, TOKEN_T__32 = 33, 
                    TOKEN_T__33 = 34, TOKEN_T__34 = 35, TOKEN_T__35 = 36, 
                    TOKEN_T__36 = 37, TOKEN_T__37 = 38, TOKEN_T__38 = 39, 
-                   TOKEN_IDENTIFIER = 40, TOKEN_IMPORT_LETTER = 41, TOKEN_WHITESPACE = 42, 
-                   TOKEN_SINGLE_LINE_COMMENT = 43, TOKEN_MULTI_LINE_COMMENT = 44;
+                   TOKEN_T__39 = 40, TOKEN_IDENTIFIER = 41, TOKEN_IMPORT_LETTER = 42, 
+                   TOKEN_WHITESPACE = 43, TOKEN_SINGLE_LINE_COMMENT = 44, 
+                   TOKEN_MULTI_LINE_COMMENT = 45;
 
   @override
   final List<String> ruleNames = [
@@ -49,15 +50,15 @@ class CandidParser extends Parser {
       null, "'null'", "'nat'", "'nat8'", "'nat16'", "'nat32'", "'nat64'", 
       "'int'", "'int8'", "'int16'", "'int32'", "'int64'", "'float32'", "'float64'", 
       "'blob'", "'bool'", "'text'", "'principal'", "'reserved'", "'empty'", 
-      "'oneway'", "'query'", "'->'", "':'", "'opt'", "'vec'", "'\"'", "'record'", 
-      "'{'", "';'", "'}'", "'variant'", "'('", "','", "')'", "'func'", "'service'", 
-      "'import'", "'type'", "'='"
+      "'oneway'", "'query'", "'composite_query'", "'->'", "':'", "'opt'", 
+      "'vec'", "'\"'", "'record'", "'{'", "';'", "'}'", "'variant'", "'('", 
+      "','", "')'", "'func'", "'service'", "'import'", "'type'", "'='"
   ];
   static final List<String?> _SYMBOLIC_NAMES = [
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, null, null, null, null, 
       null, null, null, null, null, null, null, null, null, null, null, 
-      null, null, null, null, null, null, null, "IDENTIFIER", "IMPORT_LETTER", 
+      null, null, null, null, null, null, null, null, "IDENTIFIER", "IMPORT_LETTER", 
       "WHITESPACE", "SINGLE_LINE_COMMENT", "MULTI_LINE_COMMENT"
   ];
   static final Vocabulary VOCABULARY = VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -398,7 +399,7 @@ class CandidParser extends Parser {
       state = 101;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
-      case TOKEN_T__25:
+      case TOKEN_T__26:
       case TOKEN_IDENTIFIER:
         enterOuterAlt(_localctx, 1);
         state = 99;
@@ -448,7 +449,7 @@ class CandidParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 103;
       _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_T__19 || _la == TOKEN_T__20)) {
+      if (!((((_la) & ~0x3f) == 0 && ((1 << _la) & 7340032) != 0))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -474,13 +475,13 @@ class CandidParser extends Parser {
       state = 105;
       tupleType();
       state = 106;
-      match(TOKEN_T__21);
+      match(TOKEN_T__22);
       state = 107;
       tupleType();
       state = 109;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_T__19 || _la == TOKEN_T__20) {
+      if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 7340032) != 0)) {
         state = 108;
         funcAnn();
       }
@@ -507,7 +508,7 @@ class CandidParser extends Parser {
         state = 111;
         idType();
         state = 112;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 113;
         funcType();
         break;
@@ -516,7 +517,7 @@ class CandidParser extends Parser {
         state = 115;
         idType();
         state = 116;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 117;
         idType();
         break;
@@ -537,7 +538,7 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 121;
-      match(TOKEN_T__23);
+      match(TOKEN_T__24);
       state = 122;
       dataType();
     } on RecognitionException catch (re) {
@@ -556,7 +557,7 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 124;
-      match(TOKEN_T__24);
+      match(TOKEN_T__25);
       state = 125;
       dataType();
     } on RecognitionException catch (re) {
@@ -581,20 +582,20 @@ class CandidParser extends Parser {
         state = 127;
         idType();
         state = 128;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 129;
         dataType();
         break;
       case 2:
         enterOuterAlt(_localctx, 2);
         state = 131;
-        match(TOKEN_T__25);
+        match(TOKEN_T__26);
         state = 132;
         idType();
         state = 133;
-        match(TOKEN_T__25);
+        match(TOKEN_T__26);
         state = 134;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 135;
         dataType();
         break;
@@ -669,21 +670,21 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 148;
-      match(TOKEN_T__26);
-      state = 149;
       match(TOKEN_T__27);
+      state = 149;
+      match(TOKEN_T__28);
       state = 159;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1204991033342) != 0)) {
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2409981018110) != 0)) {
         state = 150;
         exprType();
         state = 154;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__28) {
+        while (_la == TOKEN_T__29) {
           state = 151;
-          match(TOKEN_T__28);
+          match(TOKEN_T__29);
           state = 156;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -693,7 +694,7 @@ class CandidParser extends Parser {
         _la = tokenStream.LA(1)!;
       }
       state = 162;
-      match(TOKEN_T__29);
+      match(TOKEN_T__30);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -711,21 +712,21 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 164;
-      match(TOKEN_T__30);
+      match(TOKEN_T__31);
       state = 165;
-      match(TOKEN_T__27);
+      match(TOKEN_T__28);
       state = 175;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1204991033342) != 0)) {
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2409981018110) != 0)) {
         state = 166;
         exprType();
         state = 170;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__28) {
+        while (_la == TOKEN_T__29) {
           state = 167;
-          match(TOKEN_T__28);
+          match(TOKEN_T__29);
           state = 172;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -735,7 +736,7 @@ class CandidParser extends Parser {
         _la = tokenStream.LA(1)!;
       }
       state = 178;
-      match(TOKEN_T__29);
+      match(TOKEN_T__30);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -753,19 +754,19 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 180;
-      match(TOKEN_T__31);
+      match(TOKEN_T__32);
       state = 190;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1204991033342) != 0)) {
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2409981018110) != 0)) {
         state = 181;
         exprType();
         state = 185;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__32) {
+        while (_la == TOKEN_T__33) {
           state = 182;
-          match(TOKEN_T__32);
+          match(TOKEN_T__33);
           state = 187;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -775,7 +776,7 @@ class CandidParser extends Parser {
         _la = tokenStream.LA(1)!;
       }
       state = 193;
-      match(TOKEN_T__33);
+      match(TOKEN_T__34);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -793,17 +794,17 @@ class CandidParser extends Parser {
       state = 199;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
-      case TOKEN_T__34:
+      case TOKEN_T__35:
         enterOuterAlt(_localctx, 1);
         state = 195;
-        match(TOKEN_T__34);
+        match(TOKEN_T__35);
         state = 196;
         funcType();
         break;
-      case TOKEN_T__35:
+      case TOKEN_T__36:
         enterOuterAlt(_localctx, 2);
         state = 197;
-        match(TOKEN_T__35);
+        match(TOKEN_T__36);
         state = 198;
         actorType();
         break;
@@ -827,19 +828,19 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 201;
-      match(TOKEN_T__27);
+      match(TOKEN_T__28);
       state = 211;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1099579785214) != 0)) {
+      while ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2199158521854) != 0)) {
         state = 202;
         methType();
         state = 206;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__28) {
+        while (_la == TOKEN_T__29) {
           state = 203;
-          match(TOKEN_T__28);
+          match(TOKEN_T__29);
           state = 208;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -849,7 +850,7 @@ class CandidParser extends Parser {
         _la = tokenStream.LA(1)!;
       }
       state = 214;
-      match(TOKEN_T__29);
+      match(TOKEN_T__30);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
       errorHandler.reportError(this, re);
@@ -886,34 +887,34 @@ class CandidParser extends Parser {
       case TOKEN_T__16:
       case TOKEN_T__17:
       case TOKEN_T__18:
-      case TOKEN_T__25:
+      case TOKEN_T__26:
       case TOKEN_IDENTIFIER:
         enterOuterAlt(_localctx, 1);
         state = 216;
         idType();
         break;
-      case TOKEN_T__24:
+      case TOKEN_T__25:
         enterOuterAlt(_localctx, 2);
         state = 217;
         vecType();
         break;
-      case TOKEN_T__23:
+      case TOKEN_T__24:
         enterOuterAlt(_localctx, 3);
         state = 218;
         optType();
         break;
-      case TOKEN_T__30:
+      case TOKEN_T__31:
         enterOuterAlt(_localctx, 4);
         state = 219;
         variantType();
         break;
-      case TOKEN_T__26:
+      case TOKEN_T__27:
         enterOuterAlt(_localctx, 5);
         state = 220;
         recordType();
         break;
-      case TOKEN_T__34:
       case TOKEN_T__35:
+      case TOKEN_T__36:
         enterOuterAlt(_localctx, 6);
         state = 221;
         refType();
@@ -940,7 +941,7 @@ class CandidParser extends Parser {
       state = 227;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__36) {
+      while (_la == TOKEN_T__37) {
         state = 224;
         imp();
         state = 229;
@@ -950,7 +951,7 @@ class CandidParser extends Parser {
       state = 233;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__37) {
+      while (_la == TOKEN_T__38) {
         state = 230;
         def();
         state = 235;
@@ -960,7 +961,7 @@ class CandidParser extends Parser {
       state = 237;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_T__35) {
+      if (_la == TOKEN_T__36) {
         state = 236;
         actor();
       }
@@ -982,19 +983,19 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 239;
-      match(TOKEN_T__36);
+      match(TOKEN_T__37);
       state = 240;
-      match(TOKEN_T__25);
+      match(TOKEN_T__26);
       state = 241;
       importPart();
       state = 242;
-      match(TOKEN_T__25);
+      match(TOKEN_T__26);
       state = 246;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__28) {
+      while (_la == TOKEN_T__29) {
         state = 243;
-        match(TOKEN_T__28);
+        match(TOKEN_T__29);
         state = 248;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
@@ -1016,19 +1017,19 @@ class CandidParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 249;
-      match(TOKEN_T__37);
+      match(TOKEN_T__38);
       state = 250;
       idType();
       state = 251;
-      match(TOKEN_T__38);
+      match(TOKEN_T__39);
       state = 252;
       dataType();
       state = 256;
       errorHandler.sync(this);
       _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_T__28) {
+      while (_la == TOKEN_T__29) {
         state = 253;
-        match(TOKEN_T__28);
+        match(TOKEN_T__29);
         state = 258;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
@@ -1054,25 +1055,25 @@ class CandidParser extends Parser {
       case 1:
         enterOuterAlt(_localctx, 1);
         state = 259;
-        match(TOKEN_T__35);
+        match(TOKEN_T__36);
         state = 261;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1099579785214) != 0)) {
+        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2199158521854) != 0)) {
           state = 260;
           idType();
         }
 
         state = 263;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 267;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__31) {
+        if (_la == TOKEN_T__32) {
           state = 264;
           tupleType();
           state = 265;
-          match(TOKEN_T__21);
+          match(TOKEN_T__22);
         }
 
         state = 269;
@@ -1080,9 +1081,9 @@ class CandidParser extends Parser {
         state = 273;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__28) {
+        while (_la == TOKEN_T__29) {
           state = 270;
-          match(TOKEN_T__28);
+          match(TOKEN_T__29);
           state = 275;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -1091,25 +1092,25 @@ class CandidParser extends Parser {
       case 2:
         enterOuterAlt(_localctx, 2);
         state = 276;
-        match(TOKEN_T__35);
+        match(TOKEN_T__36);
         state = 278;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 1099579785214) != 0)) {
+        if ((((_la) & ~0x3f) == 0 && ((1 << _la) & 2199158521854) != 0)) {
           state = 277;
           idType();
         }
 
         state = 280;
-        match(TOKEN_T__22);
+        match(TOKEN_T__23);
         state = 284;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_T__31) {
+        if (_la == TOKEN_T__32) {
           state = 281;
           tupleType();
           state = 282;
-          match(TOKEN_T__21);
+          match(TOKEN_T__22);
         }
 
         state = 286;
@@ -1117,9 +1118,9 @@ class CandidParser extends Parser {
         state = 290;
         errorHandler.sync(this);
         _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_T__28) {
+        while (_la == TOKEN_T__29) {
           state = 287;
-          match(TOKEN_T__28);
+          match(TOKEN_T__29);
           state = 292;
           errorHandler.sync(this);
           _la = tokenStream.LA(1)!;
@@ -1148,14 +1149,14 @@ class CandidParser extends Parser {
         state = 295;
         match(TOKEN_IDENTIFIER);
         break;
-      case TOKEN_T__25:
+      case TOKEN_T__26:
         enterOuterAlt(_localctx, 2);
         state = 296;
-        match(TOKEN_T__25);
+        match(TOKEN_T__26);
         state = 297;
         match(TOKEN_IDENTIFIER);
         state = 298;
-        match(TOKEN_T__25);
+        match(TOKEN_T__26);
         break;
       default:
         throw NoViableAltException(this);
@@ -1188,7 +1189,7 @@ class CandidParser extends Parser {
   }
 
   static const List<int> _serializedATN = [
-      4,1,44,304,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
+      4,1,45,304,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,
       2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,
       14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,
       2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,
@@ -1215,7 +1216,7 @@ class CandidParser extends Parser {
       29,12,29,292,9,29,3,29,294,8,29,1,30,1,30,1,30,1,30,3,30,300,8,30,
       1,31,1,31,1,31,0,0,32,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,
       34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,0,4,1,0,2,6,1,0,7,11,
-      1,0,12,13,1,0,20,21,317,0,64,1,0,0,0,2,66,1,0,0,0,4,68,1,0,0,0,6,70,
+      1,0,12,13,1,0,20,22,317,0,64,1,0,0,0,2,66,1,0,0,0,4,68,1,0,0,0,6,70,
       1,0,0,0,8,72,1,0,0,0,10,77,1,0,0,0,12,79,1,0,0,0,14,81,1,0,0,0,16,
       83,1,0,0,0,18,85,1,0,0,0,20,87,1,0,0,0,22,97,1,0,0,0,24,101,1,0,0,
       0,26,103,1,0,0,0,28,105,1,0,0,0,30,119,1,0,0,0,32,121,1,0,0,0,34,124,
@@ -1233,38 +1234,38 @@ class CandidParser extends Parser {
       1,0,0,0,97,91,1,0,0,0,97,92,1,0,0,0,97,93,1,0,0,0,97,94,1,0,0,0,97,
       95,1,0,0,0,97,96,1,0,0,0,98,23,1,0,0,0,99,102,3,60,30,0,100,102,3,
       22,11,0,101,99,1,0,0,0,101,100,1,0,0,0,102,25,1,0,0,0,103,104,7,3,
-      0,0,104,27,1,0,0,0,105,106,3,44,22,0,106,107,5,22,0,0,107,109,3,44,
+      0,0,104,27,1,0,0,0,105,106,3,44,22,0,106,107,5,23,0,0,107,109,3,44,
       22,0,108,110,3,26,13,0,109,108,1,0,0,0,109,110,1,0,0,0,110,29,1,0,
-      0,0,111,112,3,24,12,0,112,113,5,23,0,0,113,114,3,28,14,0,114,120,1,
-      0,0,0,115,116,3,24,12,0,116,117,5,23,0,0,117,118,3,24,12,0,118,120,
-      1,0,0,0,119,111,1,0,0,0,119,115,1,0,0,0,120,31,1,0,0,0,121,122,5,24,
-      0,0,122,123,3,50,25,0,123,33,1,0,0,0,124,125,5,25,0,0,125,126,3,50,
-      25,0,126,35,1,0,0,0,127,128,3,24,12,0,128,129,5,23,0,0,129,130,3,50,
-      25,0,130,138,1,0,0,0,131,132,5,26,0,0,132,133,3,24,12,0,133,134,5,
-      26,0,0,134,135,5,23,0,0,135,136,3,50,25,0,136,138,1,0,0,0,137,127,
+      0,0,111,112,3,24,12,0,112,113,5,24,0,0,113,114,3,28,14,0,114,120,1,
+      0,0,0,115,116,3,24,12,0,116,117,5,24,0,0,117,118,3,24,12,0,118,120,
+      1,0,0,0,119,111,1,0,0,0,119,115,1,0,0,0,120,31,1,0,0,0,121,122,5,25,
+      0,0,122,123,3,50,25,0,123,33,1,0,0,0,124,125,5,26,0,0,125,126,3,50,
+      25,0,126,35,1,0,0,0,127,128,3,24,12,0,128,129,5,24,0,0,129,130,3,50,
+      25,0,130,138,1,0,0,0,131,132,5,27,0,0,132,133,3,24,12,0,133,134,5,
+      27,0,0,134,135,5,24,0,0,135,136,3,50,25,0,136,138,1,0,0,0,137,127,
       1,0,0,0,137,131,1,0,0,0,138,37,1,0,0,0,139,147,3,36,18,0,140,147,3,
       24,12,0,141,147,3,34,17,0,142,147,3,32,16,0,143,147,3,42,21,0,144,
       147,3,40,20,0,145,147,3,46,23,0,146,139,1,0,0,0,146,140,1,0,0,0,146,
       141,1,0,0,0,146,142,1,0,0,0,146,143,1,0,0,0,146,144,1,0,0,0,146,145,
-      1,0,0,0,147,39,1,0,0,0,148,149,5,27,0,0,149,159,5,28,0,0,150,154,3,
-      38,19,0,151,153,5,29,0,0,152,151,1,0,0,0,153,156,1,0,0,0,154,152,1,
+      1,0,0,0,147,39,1,0,0,0,148,149,5,28,0,0,149,159,5,29,0,0,150,154,3,
+      38,19,0,151,153,5,30,0,0,152,151,1,0,0,0,153,156,1,0,0,0,154,152,1,
       0,0,0,154,155,1,0,0,0,155,158,1,0,0,0,156,154,1,0,0,0,157,150,1,0,
       0,0,158,161,1,0,0,0,159,157,1,0,0,0,159,160,1,0,0,0,160,162,1,0,0,
-      0,161,159,1,0,0,0,162,163,5,30,0,0,163,41,1,0,0,0,164,165,5,31,0,0,
-      165,175,5,28,0,0,166,170,3,38,19,0,167,169,5,29,0,0,168,167,1,0,0,
+      0,161,159,1,0,0,0,162,163,5,31,0,0,163,41,1,0,0,0,164,165,5,32,0,0,
+      165,175,5,29,0,0,166,170,3,38,19,0,167,169,5,30,0,0,168,167,1,0,0,
       0,169,172,1,0,0,0,170,168,1,0,0,0,170,171,1,0,0,0,171,174,1,0,0,0,
       172,170,1,0,0,0,173,166,1,0,0,0,174,177,1,0,0,0,175,173,1,0,0,0,175,
-      176,1,0,0,0,176,178,1,0,0,0,177,175,1,0,0,0,178,179,5,30,0,0,179,43,
-      1,0,0,0,180,190,5,32,0,0,181,185,3,38,19,0,182,184,5,33,0,0,183,182,
+      176,1,0,0,0,176,178,1,0,0,0,177,175,1,0,0,0,178,179,5,31,0,0,179,43,
+      1,0,0,0,180,190,5,33,0,0,181,185,3,38,19,0,182,184,5,34,0,0,183,182,
       1,0,0,0,184,187,1,0,0,0,185,183,1,0,0,0,185,186,1,0,0,0,186,189,1,
       0,0,0,187,185,1,0,0,0,188,181,1,0,0,0,189,192,1,0,0,0,190,188,1,0,
-      0,0,190,191,1,0,0,0,191,193,1,0,0,0,192,190,1,0,0,0,193,194,5,34,0,
-      0,194,45,1,0,0,0,195,196,5,35,0,0,196,200,3,28,14,0,197,198,5,36,0,
+      0,0,190,191,1,0,0,0,191,193,1,0,0,0,192,190,1,0,0,0,193,194,5,35,0,
+      0,194,45,1,0,0,0,195,196,5,36,0,0,196,200,3,28,14,0,197,198,5,37,0,
       0,198,200,3,48,24,0,199,195,1,0,0,0,199,197,1,0,0,0,200,47,1,0,0,0,
-      201,211,5,28,0,0,202,206,3,30,15,0,203,205,5,29,0,0,204,203,1,0,0,
+      201,211,5,29,0,0,202,206,3,30,15,0,203,205,5,30,0,0,204,203,1,0,0,
       0,205,208,1,0,0,0,206,204,1,0,0,0,206,207,1,0,0,0,207,210,1,0,0,0,
       208,206,1,0,0,0,209,202,1,0,0,0,210,213,1,0,0,0,211,209,1,0,0,0,211,
-      212,1,0,0,0,212,214,1,0,0,0,213,211,1,0,0,0,214,215,5,30,0,0,215,49,
+      212,1,0,0,0,212,214,1,0,0,0,213,211,1,0,0,0,214,215,5,31,0,0,215,49,
       1,0,0,0,216,223,3,24,12,0,217,223,3,34,17,0,218,223,3,32,16,0,219,
       223,3,42,21,0,220,223,3,40,20,0,221,223,3,46,23,0,222,216,1,0,0,0,
       222,217,1,0,0,0,222,218,1,0,0,0,222,219,1,0,0,0,222,220,1,0,0,0,222,
@@ -1272,25 +1273,25 @@ class CandidParser extends Parser {
       1,0,0,0,227,225,1,0,0,0,227,228,1,0,0,0,228,233,1,0,0,0,229,227,1,
       0,0,0,230,232,3,56,28,0,231,230,1,0,0,0,232,235,1,0,0,0,233,231,1,
       0,0,0,233,234,1,0,0,0,234,237,1,0,0,0,235,233,1,0,0,0,236,238,3,58,
-      29,0,237,236,1,0,0,0,237,238,1,0,0,0,238,53,1,0,0,0,239,240,5,37,0,
-      0,240,241,5,26,0,0,241,242,3,62,31,0,242,246,5,26,0,0,243,245,5,29,
+      29,0,237,236,1,0,0,0,237,238,1,0,0,0,238,53,1,0,0,0,239,240,5,38,0,
+      0,240,241,5,27,0,0,241,242,3,62,31,0,242,246,5,27,0,0,243,245,5,30,
       0,0,244,243,1,0,0,0,245,248,1,0,0,0,246,244,1,0,0,0,246,247,1,0,0,
-      0,247,55,1,0,0,0,248,246,1,0,0,0,249,250,5,38,0,0,250,251,3,24,12,
-      0,251,252,5,39,0,0,252,256,3,50,25,0,253,255,5,29,0,0,254,253,1,0,
+      0,247,55,1,0,0,0,248,246,1,0,0,0,249,250,5,39,0,0,250,251,3,24,12,
+      0,251,252,5,40,0,0,252,256,3,50,25,0,253,255,5,30,0,0,254,253,1,0,
       0,0,255,258,1,0,0,0,256,254,1,0,0,0,256,257,1,0,0,0,257,57,1,0,0,0,
-      258,256,1,0,0,0,259,261,5,36,0,0,260,262,3,24,12,0,261,260,1,0,0,0,
-      261,262,1,0,0,0,262,263,1,0,0,0,263,267,5,23,0,0,264,265,3,44,22,0,
-      265,266,5,22,0,0,266,268,1,0,0,0,267,264,1,0,0,0,267,268,1,0,0,0,268,
-      269,1,0,0,0,269,273,3,48,24,0,270,272,5,29,0,0,271,270,1,0,0,0,272,
+      258,256,1,0,0,0,259,261,5,37,0,0,260,262,3,24,12,0,261,260,1,0,0,0,
+      261,262,1,0,0,0,262,263,1,0,0,0,263,267,5,24,0,0,264,265,3,44,22,0,
+      265,266,5,23,0,0,266,268,1,0,0,0,267,264,1,0,0,0,267,268,1,0,0,0,268,
+      269,1,0,0,0,269,273,3,48,24,0,270,272,5,30,0,0,271,270,1,0,0,0,272,
       275,1,0,0,0,273,271,1,0,0,0,273,274,1,0,0,0,274,294,1,0,0,0,275,273,
-      1,0,0,0,276,278,5,36,0,0,277,279,3,24,12,0,278,277,1,0,0,0,278,279,
-      1,0,0,0,279,280,1,0,0,0,280,284,5,23,0,0,281,282,3,44,22,0,282,283,
-      5,22,0,0,283,285,1,0,0,0,284,281,1,0,0,0,284,285,1,0,0,0,285,286,1,
-      0,0,0,286,290,3,24,12,0,287,289,5,29,0,0,288,287,1,0,0,0,289,292,1,
+      1,0,0,0,276,278,5,37,0,0,277,279,3,24,12,0,278,277,1,0,0,0,278,279,
+      1,0,0,0,279,280,1,0,0,0,280,284,5,24,0,0,281,282,3,44,22,0,282,283,
+      5,23,0,0,283,285,1,0,0,0,284,281,1,0,0,0,284,285,1,0,0,0,285,286,1,
+      0,0,0,286,290,3,24,12,0,287,289,5,30,0,0,288,287,1,0,0,0,289,292,1,
       0,0,0,290,288,1,0,0,0,290,291,1,0,0,0,291,294,1,0,0,0,292,290,1,0,
-      0,0,293,259,1,0,0,0,293,276,1,0,0,0,294,59,1,0,0,0,295,300,5,40,0,
-      0,296,297,5,26,0,0,297,298,5,40,0,0,298,300,5,26,0,0,299,295,1,0,0,
-      0,299,296,1,0,0,0,300,61,1,0,0,0,301,302,5,41,0,0,302,63,1,0,0,0,30,
+      0,0,293,259,1,0,0,0,293,276,1,0,0,0,294,59,1,0,0,0,295,300,5,41,0,
+      0,296,297,5,27,0,0,297,298,5,41,0,0,298,300,5,27,0,0,299,295,1,0,0,
+      0,299,296,1,0,0,0,300,61,1,0,0,0,301,302,5,42,0,0,302,63,1,0,0,0,30,
       77,97,101,109,119,137,146,154,159,170,175,185,190,199,206,211,222,
       227,233,237,246,256,261,267,273,278,284,290,293,299
   ];

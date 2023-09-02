@@ -1,3 +1,7 @@
+## 1.1.5
+
+- Support `composite_query` in candid.
+
 ## 1.1.4
 
 - Fix nullable vec.
