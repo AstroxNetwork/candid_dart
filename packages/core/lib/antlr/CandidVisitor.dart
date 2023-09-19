@@ -1,4 +1,4 @@
-// Generated from Candid.g4 by ANTLR 4.12.0
+// Generated from Candid.g4 by ANTLR 4.13.1
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 

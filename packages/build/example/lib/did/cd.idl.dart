@@ -82,6 +82,111 @@ class CdIDLActor {
   }
 }
 
+class CdIDLService {
+  CdIDLService({
+    required this.canisterId,
+    required this.uri,
+    this.identity,
+    this.createActorMethod,
+    this.debug = true,
+  }) : idl = CdIDL.idl;
+
+  final String canisterId;
+  final Uri uri;
+  final Service idl;
+  final Identity? identity;
+  final bool debug;
+  final CreateActorMethod? createActorMethod;
+
+  Completer<CanisterActor>? _actor;
+
+  Future<CanisterActor> getActor() {
+    if (_actor != null) {
+      return _actor!.future;
+    }
+    final completer = Completer<CanisterActor>();
+    _actor = completer;
+    Future(() async {
+      final httpAgent = HttpAgent(
+        defaultProtocol: uri.scheme,
+        defaultHost: uri.host,
+        defaultPort: uri.port,
+        options: HttpAgentOptions(identity: identity),
+      );
+      if (debug) {
+        await httpAgent.fetchRootKey();
+      }
+      httpAgent.addTransform(
+        HttpAgentRequestTransformFn(call: makeNonceTransform()),
+      );
+      return CanisterActor(
+        ActorConfig(
+          canisterId: Principal.fromText(canisterId),
+          agent: httpAgent,
+        ),
+        idl,
+        createActorMethod: createActorMethod,
+      );
+    }).then(completer.complete).catchError((e, s) {
+      completer.completeError(e, s);
+      _actor = null;
+    });
+    return completer.future;
+  }
+
+  /// ```Candid
+  ///   echo: (node: opt Node) -> (opt Node1) query
+  /// ```
+  Future<Node1?> echo([
+    Node? arg,
+  ]) async {
+    final actor = await getActor();
+    return CdIDLActor.echo(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   echo1: (A, B, C, D, E, F, G, H, I, J) -> (opt A, opt B, opt C, opt D, opt E, opt F, opt G, opt H, opt I, opt J)
+  /// ```
+  Future<Echo1Ret> echo1(
+    Echo1Arg arg,
+  ) async {
+    final actor = await getActor();
+    return CdIDLActor.echo1(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   echo2: (tt: J) -> ()
+  /// ```
+  Future<void> echo2(
+    J arg,
+  ) async {
+    final actor = await getActor();
+    return CdIDLActor.echo2(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   echo3: (tt: J) -> () composite_query
+  /// ```
+  Future<void> echo3(
+    J arg,
+  ) async {
+    final actor = await getActor();
+    return CdIDLActor.echo3(
+      actor,
+      arg,
+    );
+  }
+}
+
 class CdIDL {
   const CdIDL._();
 

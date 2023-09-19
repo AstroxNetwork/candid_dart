@@ -47,7 +47,7 @@ void main() {
         if (filePath.endsWith('.did')) {
           final contents = (f as File).readAsStringSync();
           final fileName = filePath.split(Platform.pathSeparator).last;
-          final code = did2dart(fileName, contents);
+          final code = did2dart(fileName, contents, GenOption(service: true));
           File(filePath.replaceAll(RegExp(r'.did$'), '.idl.dart'))
               .writeAsStringSync(code);
         }

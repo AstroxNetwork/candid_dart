@@ -1,4 +1,4 @@
-// Generated from Candid.g4 by ANTLR 4.12.0
+// Generated from Candid.g4 by ANTLR 4.13.1
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
@@ -14,7 +14,7 @@ const int RULE_null = 0, RULE_natType = 1, RULE_intType = 2, RULE_floatType = 3,
           RULE_prog = 26, RULE_imp = 27, RULE_def = 28, RULE_actor = 29, 
           RULE_id = 30, RULE_importPart = 31;
 class CandidParser extends Parser {
-  static final checkVersion = () => RuntimeMetaData.checkVersion('4.12.0', RuntimeMetaData.VERSION);
+  static final checkVersion = () => RuntimeMetaData.checkVersion('4.13.1', RuntimeMetaData.VERSION);
   static const int TOKEN_EOF = IntStream.EOF;
 
   static final List<DFA> _decisionToDFA = List.generate(

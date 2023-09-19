@@ -127,6 +127,160 @@ class TestIDLActor {
   }
 }
 
+class TestIDLService {
+  TestIDLService({
+    required this.canisterId,
+    required this.uri,
+    this.identity,
+    this.createActorMethod,
+    this.debug = true,
+  }) : idl = TestIDL.idl;
+
+  final String canisterId;
+  final Uri uri;
+  final Service idl;
+  final Identity? identity;
+  final bool debug;
+  final CreateActorMethod? createActorMethod;
+
+  Completer<CanisterActor>? _actor;
+
+  Future<CanisterActor> getActor() {
+    if (_actor != null) {
+      return _actor!.future;
+    }
+    final completer = Completer<CanisterActor>();
+    _actor = completer;
+    Future(() async {
+      final httpAgent = HttpAgent(
+        defaultProtocol: uri.scheme,
+        defaultHost: uri.host,
+        defaultPort: uri.port,
+        options: HttpAgentOptions(identity: identity),
+      );
+      if (debug) {
+        await httpAgent.fetchRootKey();
+      }
+      httpAgent.addTransform(
+        HttpAgentRequestTransformFn(call: makeNonceTransform()),
+      );
+      return CanisterActor(
+        ActorConfig(
+          canisterId: Principal.fromText(canisterId),
+          agent: httpAgent,
+        ),
+        idl,
+        createActorMethod: createActorMethod,
+      );
+    }).then(completer.complete).catchError((e, s) {
+      completer.completeError(e, s);
+      _actor = null;
+    });
+    return completer.future;
+  }
+
+  /// ```Candid
+  ///   echo: () -> ()
+  /// ```
+  Future<void> echo() async {
+    final actor = await getActor();
+    return TestIDLActor.echo(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   echo1: (text) -> (text)
+  /// ```
+  Future<String> echo1(
+    String arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.echo1(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   echo2: (opt vec opt New2, opt vec opt New2, opt vec opt New2) -> (opt vec New2, opt vec opt New2, opt vec opt New2)
+  /// ```
+  Future<RefServiceEcho2Ret> echo2(
+    RefServiceEcho2Arg arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.echo2(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   echo3: (record { text }) -> (record { text })
+  /// ```
+  Future<RefServiceEcho3Ret0> echo3(
+    RefServiceEcho3Arg0 arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.echo3(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   insert: (text, text, text) -> ()
+  /// ```
+  Future<void> insert(
+    RefServiceInsertArg arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.insert(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   lookup: (text) -> (opt Record) query
+  /// ```
+  Future<Record?> lookup(
+    String arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.lookup(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   family: (text) -> (opt vec Record) query
+  /// ```
+  Future<List<Record>?> family(
+    String arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.family(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   "echo4": (TestEnum) -> (TestEnum)
+  /// ```
+  Future<TestEnum> echo4(
+    TestEnum arg,
+  ) async {
+    final actor = await getActor();
+    return TestIDLActor.echo4(
+      actor,
+      arg,
+    );
+  }
+}
+
 class TestIDL {
   const TestIDL._();
 

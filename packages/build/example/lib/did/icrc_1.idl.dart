@@ -145,6 +145,165 @@ class Icrc1IDLActor {
   }
 }
 
+class Icrc1IDLService {
+  Icrc1IDLService({
+    required this.canisterId,
+    required this.uri,
+    this.identity,
+    this.createActorMethod,
+    this.debug = true,
+  }) : idl = Icrc1IDL.idl;
+
+  final String canisterId;
+  final Uri uri;
+  final Service idl;
+  final Identity? identity;
+  final bool debug;
+  final CreateActorMethod? createActorMethod;
+
+  Completer<CanisterActor>? _actor;
+
+  Future<CanisterActor> getActor() {
+    if (_actor != null) {
+      return _actor!.future;
+    }
+    final completer = Completer<CanisterActor>();
+    _actor = completer;
+    Future(() async {
+      final httpAgent = HttpAgent(
+        defaultProtocol: uri.scheme,
+        defaultHost: uri.host,
+        defaultPort: uri.port,
+        options: HttpAgentOptions(identity: identity),
+      );
+      if (debug) {
+        await httpAgent.fetchRootKey();
+      }
+      httpAgent.addTransform(
+        HttpAgentRequestTransformFn(call: makeNonceTransform()),
+      );
+      return CanisterActor(
+        ActorConfig(
+          canisterId: Principal.fromText(canisterId),
+          agent: httpAgent,
+        ),
+        idl,
+        createActorMethod: createActorMethod,
+      );
+    }).then(completer.complete).catchError((e, s) {
+      completer.completeError(e, s);
+      _actor = null;
+    });
+    return completer.future;
+  }
+
+  /// ```Candid
+  ///   icrc1_balance_of: (Account) -> (nat) query
+  /// ```
+  Future<BigInt> icrc1BalanceOf(
+    Account arg,
+  ) async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1BalanceOf(
+      actor,
+      arg,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_decimals: () -> (nat8) query
+  /// ```
+  Future<int> icrc1Decimals() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Decimals(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_fee: () -> (nat) query
+  /// ```
+  Future<BigInt> icrc1Fee() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Fee(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_metadata: () -> (vec record { text; Value }) query
+  /// ```
+  Future<List<Icrc1MetadataRet0Item>> icrc1Metadata() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Metadata(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_minting_account: () -> (opt Account) query
+  /// ```
+  Future<Account?> icrc1MintingAccount() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1MintingAccount(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_name: () -> (text) query
+  /// ```
+  Future<String> icrc1Name() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Name(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_supported_standards: () -> (vec StandardRecord) query
+  /// ```
+  Future<List<StandardRecord>> icrc1SupportedStandards() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1SupportedStandards(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_symbol: () -> (text) query
+  /// ```
+  Future<String> icrc1Symbol() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Symbol(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_total_supply: () -> (nat) query
+  /// ```
+  Future<BigInt> icrc1TotalSupply() async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1TotalSupply(
+      actor,
+    );
+  }
+
+  /// ```Candid
+  ///   icrc1_transfer: (TransferArg) -> (Result)
+  /// ```
+  Future<Result> icrc1Transfer(
+    TransferArg arg,
+  ) async {
+    final actor = await getActor();
+    return Icrc1IDLActor.icrc1Transfer(
+      actor,
+      arg,
+    );
+  }
+}
+
 class Icrc1IDL {
   const Icrc1IDL._();
 
