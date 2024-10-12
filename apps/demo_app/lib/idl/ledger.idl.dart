@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -20,9 +20,10 @@ class LedgerIDLActor {
     CanisterActor actor,
     TransferArgs arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('transfer')!(dat);
-    return TransferResult.fromJson(ret);
+    final request = [arg];
+    const method = 'transfer';
+    final response = await actor.getFunc(method)!(request);
+    return TransferResult.fromJson(response);
   }
 
   /// ```Candid
@@ -32,9 +33,10 @@ class LedgerIDLActor {
     CanisterActor actor,
     AccountBalanceArgs arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('account_balance')!(dat);
-    return Tokens.fromJson(ret);
+    final request = [arg];
+    const method = 'account_balance';
+    final response = await actor.getFunc(method)!(request);
+    return Tokens.fromJson(response);
   }
 
   /// ```Candid
@@ -44,9 +46,10 @@ class LedgerIDLActor {
     CanisterActor actor,
     TransferFeeArg arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('transfer_fee')!(dat);
-    return TransferFee.fromJson(ret);
+    final request = [arg];
+    const method = 'transfer_fee';
+    final response = await actor.getFunc(method)!(request);
+    return TransferFee.fromJson(response);
   }
 
   /// ```Candid
@@ -55,10 +58,11 @@ class LedgerIDLActor {
   static Future<SymbolRet0> symbol(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('symbol')!(dat);
+    const request = [];
+    const method = 'symbol';
+    final response = await actor.getFunc(method)!(request);
     return SymbolRet0.fromJson(
-      ret,
+      response,
     );
   }
 
@@ -68,10 +72,11 @@ class LedgerIDLActor {
   static Future<NameRet0> name(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('name')!(dat);
+    const request = [];
+    const method = 'name';
+    final response = await actor.getFunc(method)!(request);
     return NameRet0.fromJson(
-      ret,
+      response,
     );
   }
 
@@ -81,10 +86,11 @@ class LedgerIDLActor {
   static Future<DecimalsRet0> decimals(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('decimals')!(dat);
+    const request = [];
+    const method = 'decimals';
+    final response = await actor.getFunc(method)!(request);
     return DecimalsRet0.fromJson(
-      ret,
+      response,
     );
   }
 
@@ -94,9 +100,10 @@ class LedgerIDLActor {
   static Future<Archives> archives(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('archives')!(dat);
-    return Archives.fromJson(ret);
+    const request = [];
+    const method = 'archives';
+    final response = await actor.getFunc(method)!(request);
+    return Archives.fromJson(response);
   }
 }
 
@@ -152,6 +159,9 @@ class LedgerIDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   transfer: (TransferArgs) -> (TransferResult)
+  /// ```
   Future<TransferResult> transfer(
     TransferArgs arg,
   ) async {
@@ -162,6 +172,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   account_balance: (AccountBalanceArgs) -> (Tokens) query
+  /// ```
   Future<Tokens> accountBalance(
     AccountBalanceArgs arg,
   ) async {
@@ -172,6 +185,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   transfer_fee: (TransferFeeArg) -> (TransferFee) query
+  /// ```
   Future<TransferFee> transferFee(
     TransferFeeArg arg,
   ) async {
@@ -182,6 +198,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   symbol: () -> (record { symbol: text }) query
+  /// ```
   Future<SymbolRet0> symbol() async {
     final actor = await getActor();
     return LedgerIDLActor.symbol(
@@ -189,6 +208,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   name: () -> (record { name: text }) query
+  /// ```
   Future<NameRet0> name() async {
     final actor = await getActor();
     return LedgerIDLActor.name(
@@ -196,6 +218,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   decimals: () -> (record { decimals: nat32 }) query
+  /// ```
   Future<DecimalsRet0> decimals() async {
     final actor = await getActor();
     return LedgerIDLActor.decimals(
@@ -203,6 +228,9 @@ class LedgerIDLService {
     );
   }
 
+  /// ```Candid
+  ///   archives: () -> (Archives) query
+  /// ```
   Future<Archives> archives() async {
     final actor = await getActor();
     return LedgerIDLActor.archives(
@@ -437,6 +465,7 @@ class SymbolRet0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, symbol]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -489,6 +518,7 @@ class NameRet0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, name]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -542,6 +572,7 @@ class DecimalsRet0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, decimals]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -594,6 +625,7 @@ class Tokens {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, e8s]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -649,6 +681,7 @@ class TimeStamp {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, timestampNanos]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -687,9 +720,15 @@ class TransferArgs {
       amount: Tokens.fromJson(json['amount']),
       fee: Tokens.fromJson(json['fee']),
       fromSubaccount: (json['from_subaccount'] as List).map((e) {
-        return e is Uint8List ? e : Uint8List.fromList(e);
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
-      to: json['to'] is Uint8List ? json['to'] : Uint8List.fromList(json['to']),
+      to: json['to'] is Uint8List
+          ? json['to']
+          : Uint8List.fromList((json['to'] as List).cast()),
       createdAtTime: (json['created_at_time'] as List).map((e) {
         return e == null ? null : TimeStamp.fromJson(e);
       }).firstOrNull,
@@ -778,6 +817,7 @@ class TransferArgs {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, memo, amount, fee, fromSubaccount, to, createdAtTime]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -831,6 +871,7 @@ class TransferErrorBadFee {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, expectedFee]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -883,6 +924,7 @@ class TransferErrorInsufficientFunds {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, balance]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -938,6 +980,7 @@ class TransferErrorTxTooOld {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, allowedWindowNanos]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -993,6 +1036,7 @@ class TransferErrorTxDuplicate {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, duplicateOf]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1128,6 +1172,7 @@ class TransferError {
         txCreatedInFuture,
         txDuplicate
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1150,7 +1195,11 @@ class TransferResult {
 
   factory TransferResult.fromJson(Map json) {
     return TransferResult(
-      ok: json['Ok'] is BigInt ? json['Ok'] : BigInt.from(json['Ok']),
+      ok: json['Ok'] == null
+          ? null
+          : json['Ok'] is BigInt
+              ? json['Ok']
+              : BigInt.from(json['Ok']),
       err: json['Err'] == null ? null : TransferError.fromJson(json['Err']),
     );
   }
@@ -1194,6 +1243,7 @@ class TransferResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1215,7 +1265,7 @@ class AccountBalanceArgs {
     return AccountBalanceArgs(
       account: json['account'] is Uint8List
           ? json['account']
-          : Uint8List.fromList(json['account']),
+          : Uint8List.fromList((json['account'] as List).cast()),
     );
   }
 
@@ -1248,6 +1298,7 @@ class AccountBalanceArgs {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, account]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1284,6 +1335,7 @@ class TransferFeeArg {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1337,6 +1389,7 @@ class TransferFee {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, transferFee]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1390,6 +1443,7 @@ class Archive {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, canisterId]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1445,6 +1499,7 @@ class Archives {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, const DeepCollectionEquality().hash(archives)]);
+
   @override
   String toString() {
     return toJson().toString();

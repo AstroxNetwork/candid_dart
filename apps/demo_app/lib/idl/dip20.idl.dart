@@ -1,11 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'package:agent_dart/agent_dart.dart';
+import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
 class Dip20IDLActor {
@@ -18,9 +19,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     AllowanceArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('allowance')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = arg.toJson();
+    const method = 'allowance';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -30,9 +32,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     ApproveArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('approve')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'approve';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -42,9 +45,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('balanceOf')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = [arg];
+    const method = 'balanceOf';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -54,9 +58,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('burn')!(dat);
-    return Result.fromJson(ret);
+    final request = [arg];
+    const method = 'burn';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -65,9 +70,10 @@ class Dip20IDLActor {
   static Future<int> decimals(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('decimals')!(dat);
-    return ret;
+    const request = [];
+    const method = 'decimals';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -76,9 +82,10 @@ class Dip20IDLActor {
   static Future<BigInt> getAllowanceSize(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getAllowanceSize')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'getAllowanceSize';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -88,9 +95,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     GetHoldersArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('getHolders')!(dat);
-    return (ret as List).map((e) {
+    final request = arg.toJson();
+    const method = 'getHolders';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetHoldersRet0Item(
         Principal.from(e[0]),
         e[1] is BigInt ? e[1] : BigInt.from(e[1]),
@@ -104,9 +112,10 @@ class Dip20IDLActor {
   static Future<Metadata> getMetadata(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getMetadata')!(dat);
-    return Metadata.fromJson(ret);
+    const request = [];
+    const method = 'getMetadata';
+    final response = await actor.getFunc(method)!(request);
+    return Metadata.fromJson(response);
   }
 
   /// ```Candid
@@ -115,9 +124,10 @@ class Dip20IDLActor {
   static Future<TokenInfo> getTokenInfo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getTokenInfo')!(dat);
-    return TokenInfo.fromJson(ret);
+    const request = [];
+    const method = 'getTokenInfo';
+    final response = await actor.getFunc(method)!(request);
+    return TokenInfo.fromJson(response);
   }
 
   /// ```Candid
@@ -127,9 +137,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getUserApprovals')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'getUserApprovals';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetUserApprovalsRet0Item(
         Principal.from(e[0]),
         e[1] is BigInt ? e[1] : BigInt.from(e[1]),
@@ -143,9 +154,10 @@ class Dip20IDLActor {
   static Future<BigInt> historySize(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('historySize')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'historySize';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -154,9 +166,10 @@ class Dip20IDLActor {
   static Future<String> logo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('logo')!(dat);
-    return ret;
+    const request = [];
+    const method = 'logo';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -166,9 +179,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     MintArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mint')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mint';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -177,9 +191,10 @@ class Dip20IDLActor {
   static Future<String> name(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('name')!(dat);
-    return ret;
+    const request = [];
+    const method = 'name';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -188,9 +203,10 @@ class Dip20IDLActor {
   static Future<Principal> owner(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('owner')!(dat);
-    return Principal.from(ret);
+    const request = [];
+    const method = 'owner';
+    final response = await actor.getFunc(method)!(request);
+    return Principal.from(response);
   }
 
   /// ```Candid
@@ -200,8 +216,9 @@ class Dip20IDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setFee')!(dat);
+    final request = [arg];
+    const method = 'setFee';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -211,8 +228,9 @@ class Dip20IDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setFeeTo')!(dat);
+    final request = [arg];
+    const method = 'setFeeTo';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -222,8 +240,9 @@ class Dip20IDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setLogo')!(dat);
+    final request = [arg];
+    const method = 'setLogo';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -233,8 +252,9 @@ class Dip20IDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setName')!(dat);
+    final request = [arg];
+    const method = 'setName';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -244,8 +264,9 @@ class Dip20IDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setOwner')!(dat);
+    final request = [arg];
+    const method = 'setOwner';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -254,9 +275,10 @@ class Dip20IDLActor {
   static Future<String> symbol(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('symbol')!(dat);
-    return ret;
+    const request = [];
+    const method = 'symbol';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -265,9 +287,10 @@ class Dip20IDLActor {
   static Future<BigInt> totalSupply(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('totalSupply')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'totalSupply';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -277,9 +300,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     TransferArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transfer')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transfer';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -289,9 +313,10 @@ class Dip20IDLActor {
     CanisterActor actor,
     TransferFromArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transferFrom')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transferFrom';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 }
 
@@ -347,6 +372,9 @@ class Dip20IDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   allowance: (principal, principal) -> (nat) query
+  /// ```
   Future<BigInt> allowance(
     AllowanceArg arg,
   ) async {
@@ -357,6 +385,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   approve: (principal, nat) -> (Result)
+  /// ```
   Future<Result> approve(
     ApproveArg arg,
   ) async {
@@ -367,6 +398,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   balanceOf: (principal) -> (nat) query
+  /// ```
   Future<BigInt> balanceOf(
     Principal arg,
   ) async {
@@ -377,6 +411,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   burn: (nat) -> (Result)
+  /// ```
   Future<Result> burn(
     BigInt arg,
   ) async {
@@ -387,6 +424,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   decimals: () -> (nat8) query
+  /// ```
   Future<int> decimals() async {
     final actor = await getActor();
     return Dip20IDLActor.decimals(
@@ -394,6 +434,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   getAllowanceSize: () -> (nat64) query
+  /// ```
   Future<BigInt> getAllowanceSize() async {
     final actor = await getActor();
     return Dip20IDLActor.getAllowanceSize(
@@ -401,6 +444,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   getHolders: (nat64, nat64) -> (vec record { principal; nat }) query
+  /// ```
   Future<List<GetHoldersRet0Item>> getHolders(
     GetHoldersArg arg,
   ) async {
@@ -411,6 +457,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   getMetadata: () -> (Metadata) query
+  /// ```
   Future<Metadata> getMetadata() async {
     final actor = await getActor();
     return Dip20IDLActor.getMetadata(
@@ -418,6 +467,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTokenInfo: () -> (TokenInfo) query
+  /// ```
   Future<TokenInfo> getTokenInfo() async {
     final actor = await getActor();
     return Dip20IDLActor.getTokenInfo(
@@ -425,6 +477,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   getUserApprovals: (principal) -> (vec record { principal; nat }) query
+  /// ```
   Future<List<GetUserApprovalsRet0Item>> getUserApprovals(
     Principal arg,
   ) async {
@@ -435,6 +490,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   historySize: () -> (nat64) query
+  /// ```
   Future<BigInt> historySize() async {
     final actor = await getActor();
     return Dip20IDLActor.historySize(
@@ -442,6 +500,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   logo: () -> (text) query
+  /// ```
   Future<String> logo() async {
     final actor = await getActor();
     return Dip20IDLActor.logo(
@@ -449,6 +510,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   mint: (principal, nat) -> (Result)
+  /// ```
   Future<Result> mint(
     MintArg arg,
   ) async {
@@ -459,6 +523,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   name: () -> (text) query
+  /// ```
   Future<String> name() async {
     final actor = await getActor();
     return Dip20IDLActor.name(
@@ -466,6 +533,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   owner: () -> (principal) query
+  /// ```
   Future<Principal> owner() async {
     final actor = await getActor();
     return Dip20IDLActor.owner(
@@ -473,6 +543,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   setFee: (nat) -> ()
+  /// ```
   Future<void> setFee(
     BigInt arg,
   ) async {
@@ -483,6 +556,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   setFeeTo: (principal) -> ()
+  /// ```
   Future<void> setFeeTo(
     Principal arg,
   ) async {
@@ -493,6 +569,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   setLogo: (text) -> ()
+  /// ```
   Future<void> setLogo(
     String arg,
   ) async {
@@ -503,6 +582,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   setName: (text) -> ()
+  /// ```
   Future<void> setName(
     String arg,
   ) async {
@@ -513,6 +595,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   setOwner: (principal) -> ()
+  /// ```
   Future<void> setOwner(
     Principal arg,
   ) async {
@@ -523,6 +608,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   symbol: () -> (text) query
+  /// ```
   Future<String> symbol() async {
     final actor = await getActor();
     return Dip20IDLActor.symbol(
@@ -530,6 +618,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   totalSupply: () -> (nat) query
+  /// ```
   Future<BigInt> totalSupply() async {
     final actor = await getActor();
     return Dip20IDLActor.totalSupply(
@@ -537,6 +628,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   transfer: (principal, nat) -> (Result)
+  /// ```
   Future<Result> transfer(
     TransferArg arg,
   ) async {
@@ -547,6 +641,9 @@ class Dip20IDLService {
     );
   }
 
+  /// ```Candid
+  ///   transferFrom: (principal, principal, nat) -> (Result)
+  /// ```
   Future<Result> transferFrom(
     TransferFromArg arg,
   ) async {
@@ -819,6 +916,7 @@ class GetHoldersRet0Item {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -966,6 +1064,7 @@ class Metadata {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, fee, decimals, owner, logo, name, totalSupply, symbol]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1036,6 +1135,7 @@ class Result {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1178,6 +1278,7 @@ class TokenInfo {
         cycles,
         feeTo
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1361,6 +1462,7 @@ class TxError {
         blockUsed,
         amountTooSmall
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1424,6 +1526,7 @@ class AllowanceArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1487,6 +1590,7 @@ class ApproveArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1550,6 +1654,7 @@ class GetHoldersArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1613,6 +1718,7 @@ class MintArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1676,6 +1782,7 @@ class TransferArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1751,6 +1858,7 @@ class TransferFromArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();

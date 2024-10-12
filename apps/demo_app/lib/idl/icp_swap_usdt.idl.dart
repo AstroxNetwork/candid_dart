@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -18,9 +18,10 @@ class IcpSwapUsdtIDLActor {
   static Future<NatResult> cycleAvailable(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('cycleAvailable')!(dat);
-    return NatResult.fromJson(ret);
+    const request = [];
+    const method = 'cycleAvailable';
+    final response = await actor.getFunc(method)!(request);
+    return NatResult.fromJson(response);
   }
 
   /// ```Candid
@@ -29,9 +30,10 @@ class IcpSwapUsdtIDLActor {
   static Future<NatResult> cycleBalance(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('cycleBalance')!(dat);
-    return NatResult.fromJson(ret);
+    const request = [];
+    const method = 'cycleBalance';
+    final response = await actor.getFunc(method)!(request);
+    return NatResult.fromJson(response);
   }
 
   /// ```Candid
@@ -41,8 +43,9 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('deleteToken')!(dat);
+    final request = [arg];
+    const method = 'deleteToken';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -52,11 +55,12 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor, [
     BigInt? arg,
   ]) async {
-    final dat = [
+    final request = [
       [if (arg != null) arg]
     ];
-    final ret = await actor.getFunc('getAllToken')!(dat);
-    return (ret as List).map((e) {
+    const method = 'getAllToken';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return PublicTokenOverview.fromJson(e);
     }).toList();
   }
@@ -67,9 +71,10 @@ class IcpSwapUsdtIDLActor {
   static Future<String> getBaseDataStructureCanister(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getBaseDataStructureCanister')!(dat);
-    return ret;
+    const request = [];
+    const method = 'getBaseDataStructureCanister';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -79,9 +84,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getLastID')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'getLastID';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetLastIDRet0Item(
         e[0],
         e[1] is BigInt ? e[1] : BigInt.from(e[1]),
@@ -96,9 +102,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getPoolsForToken')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'getPoolsForToken';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return PoolInfo.fromJson(e);
     }).toList();
   }
@@ -109,9 +116,10 @@ class IcpSwapUsdtIDLActor {
   static Future<BigInt> getRollIndex(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getRollIndex')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'getRollIndex';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -120,9 +128,10 @@ class IcpSwapUsdtIDLActor {
   static Future<bool> getStartHeartBeatStatus(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getStartHeartBeatStatus')!(dat);
-    return ret;
+    const request = [];
+    const method = 'getStartHeartBeatStatus';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -132,9 +141,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getToken')!(dat);
-    return PublicTokenOverview.fromJson(ret);
+    final request = [arg];
+    const method = 'getToken';
+    final response = await actor.getFunc(method)!(request);
+    return PublicTokenOverview.fromJson(response);
   }
 
   /// ```Candid
@@ -144,9 +154,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     GetTokenChartDataArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('getTokenChartData')!(dat);
-    return (ret as List).map((e) {
+    final request = arg.toJson();
+    const method = 'getTokenChartData';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return PublicTokenChartDayData.fromJson(e);
     }).toList();
   }
@@ -158,9 +169,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     GetTokenPricesDataArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('getTokenPricesData')!(dat);
-    return (ret as List).map((e) {
+    final request = arg.toJson();
+    const method = 'getTokenPricesData';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return PublicTokenPricesData.fromJson(e);
     }).toList();
   }
@@ -172,9 +184,10 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     GetTokenTransactionsArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('getTokenTransactions')!(dat);
-    return (ret as List).map((e) {
+    final request = arg.toJson();
+    const method = 'getTokenTransactions';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return TransactionsType.fromJson(e);
     }).toList();
   }
@@ -186,12 +199,13 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getTvlRecord')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'getTvlRecord';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetTvlRecordRet0Item(
         e[0],
-        e[1],
+        (e[1] as List).cast(),
       );
     }).toList();
   }
@@ -202,8 +216,9 @@ class IcpSwapUsdtIDLActor {
   static Future<void> reset(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    await actor.getFunc('reset')!(dat);
+    const request = [];
+    const method = 'reset';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -213,8 +228,9 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     List<TransactionsType> arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('rollBackData')!(dat);
+    final request = [arg];
+    const method = 'rollBackData';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -224,8 +240,9 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     bool arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('rollBackStatus')!(dat);
+    final request = [arg];
+    const method = 'rollBackStatus';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -235,8 +252,9 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     SaveTransactionsArg arg,
   ) async {
-    final dat = arg.toJson();
-    await actor.getFunc('saveTransactions')!(dat);
+    final request = arg.toJson();
+    const method = 'saveTransactions';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -246,8 +264,9 @@ class IcpSwapUsdtIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setBaseDataStructureCanister')!(dat);
+    final request = [arg];
+    const method = 'setBaseDataStructureCanister';
+    await actor.getFunc(method)!(request);
   }
 }
 
@@ -303,6 +322,9 @@ class IcpSwapUsdtIDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   cycleAvailable: () -> (NatResult) query
+  /// ```
   Future<NatResult> cycleAvailable() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.cycleAvailable(
@@ -310,6 +332,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   cycleBalance: () -> (NatResult) query
+  /// ```
   Future<NatResult> cycleBalance() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.cycleBalance(
@@ -317,6 +342,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   deleteToken: (text) -> ()
+  /// ```
   Future<void> deleteToken(
     String arg,
   ) async {
@@ -327,6 +355,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getAllToken: (opt nat) -> (vec PublicTokenOverview) query
+  /// ```
   Future<List<PublicTokenOverview>> getAllToken([
     BigInt? arg,
   ]) async {
@@ -337,6 +368,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getBaseDataStructureCanister: () -> (text) query
+  /// ```
   Future<String> getBaseDataStructureCanister() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.getBaseDataStructureCanister(
@@ -344,6 +378,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getLastID: (nat) -> (vec record { text; nat }) query
+  /// ```
   Future<List<GetLastIDRet0Item>> getLastID(
     BigInt arg,
   ) async {
@@ -354,6 +391,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getPoolsForToken: (text) -> (vec PoolInfo) query
+  /// ```
   Future<List<PoolInfo>> getPoolsForToken(
     String arg,
   ) async {
@@ -364,6 +404,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getRollIndex: () -> (nat) query
+  /// ```
   Future<BigInt> getRollIndex() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.getRollIndex(
@@ -371,6 +414,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getStartHeartBeatStatus: () -> (bool) query
+  /// ```
   Future<bool> getStartHeartBeatStatus() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.getStartHeartBeatStatus(
@@ -378,6 +424,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getToken: (text) -> (PublicTokenOverview) query
+  /// ```
   Future<PublicTokenOverview> getToken(
     String arg,
   ) async {
@@ -388,6 +437,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTokenChartData: (text, nat, nat) -> (vec PublicTokenChartDayData) query
+  /// ```
   Future<List<PublicTokenChartDayData>> getTokenChartData(
     GetTokenChartDataArg arg,
   ) async {
@@ -398,6 +450,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTokenPricesData: (text, int, int, nat) -> (vec PublicTokenPricesData) query
+  /// ```
   Future<List<PublicTokenPricesData>> getTokenPricesData(
     GetTokenPricesDataArg arg,
   ) async {
@@ -408,6 +463,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTokenTransactions: (text, nat, nat) -> (vec TransactionsType) query
+  /// ```
   Future<List<TransactionsType>> getTokenTransactions(
     GetTokenTransactionsArg arg,
   ) async {
@@ -418,6 +476,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTvlRecord: (nat) -> (vec record { text; vec float64 }) query
+  /// ```
   Future<List<GetTvlRecordRet0Item>> getTvlRecord(
     BigInt arg,
   ) async {
@@ -428,6 +489,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   reset: () -> ()
+  /// ```
   Future<void> reset() async {
     final actor = await getActor();
     return IcpSwapUsdtIDLActor.reset(
@@ -435,6 +499,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   rollBackData: (vec TransactionsType) -> ()
+  /// ```
   Future<void> rollBackData(
     List<TransactionsType> arg,
   ) async {
@@ -445,6 +512,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   rollBackStatus: (bool) -> () query
+  /// ```
   Future<void> rollBackStatus(
     bool arg,
   ) async {
@@ -455,6 +525,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   saveTransactions: (TransactionsType, bool) -> ()
+  /// ```
   Future<void> saveTransactions(
     SaveTransactionsArg arg,
   ) async {
@@ -465,6 +538,9 @@ class IcpSwapUsdtIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setBaseDataStructureCanister: (text) -> ()
+  /// ```
   Future<void> setBaseDataStructureCanister(
     String arg,
   ) async {
@@ -804,6 +880,7 @@ class GetLastIDRet0Item {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -824,7 +901,7 @@ class GetTvlRecordRet0Item {
   factory GetTvlRecordRet0Item.fromJson(List<dynamic> tuple) {
     return GetTvlRecordRet0Item(
       tuple[0],
-      tuple[1],
+      (tuple[1] as List).cast(),
     );
   }
 
@@ -868,6 +945,7 @@ class GetTvlRecordRet0Item {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, item1, const DeepCollectionEquality().hash(item2)]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1404,6 +1482,7 @@ class TransactionsType {
         token1Standard,
         token1Symbol
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1438,6 +1517,16 @@ enum TransactionType {
   }
 
   final String name;
+
+  bool get isAddLiquidity => this == TransactionType.addLiquidity;
+
+  bool get isClaim => this == TransactionType.claim;
+
+  bool get isDecreaseLiquidity => this == TransactionType.decreaseLiquidity;
+
+  bool get isIncreaseLiquidity => this == TransactionType.increaseLiquidity;
+
+  bool get isSwap => this == TransactionType.swap;
 
   Map<String, dynamic> toJson() {
     return {name: null};
@@ -1569,6 +1658,7 @@ class PublicTokenPricesData {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, close, high, id, low, open, timestamp]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1876,6 +1966,7 @@ class PublicTokenOverview {
         volumeUSDChange,
         volumeUSDWeek
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1991,6 +2082,7 @@ class PublicTokenChartDayData {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, id, timestamp, tvlUSD, txCount, volumeUSD]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2189,6 +2281,7 @@ class PoolInfo {
         token1Price,
         token1Symbol
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2259,6 +2352,7 @@ class NatResult {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, err, ok]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2334,6 +2428,7 @@ class GetTokenChartDataArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2421,6 +2516,7 @@ class GetTokenPricesDataArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3, item4]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2496,6 +2592,7 @@ class GetTokenTransactionsArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2559,6 +2656,7 @@ class SaveTransactionsArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();

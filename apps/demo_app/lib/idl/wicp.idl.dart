@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -20,9 +20,10 @@ class WicpIDLActor {
     CanisterActor actor,
     AllowanceArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('allowance')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = arg.toJson();
+    const method = 'allowance';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -32,9 +33,10 @@ class WicpIDLActor {
     CanisterActor actor,
     ApproveArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('approve')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'approve';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -44,9 +46,10 @@ class WicpIDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('balanceOf')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    final request = [arg];
+    const method = 'balanceOf';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -55,9 +58,10 @@ class WicpIDLActor {
   static Future<int> decimals(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('decimals')!(dat);
-    return ret;
+    const request = [];
+    const method = 'decimals';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -66,9 +70,10 @@ class WicpIDLActor {
   static Future<BigInt> getAllowanceSize(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getAllowanceSize')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'getAllowanceSize';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -77,9 +82,10 @@ class WicpIDLActor {
   static Future<List<BigInt>> getBlockUsed(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getBlockUsed')!(dat);
-    return (ret as List).map((e) {
+    const request = [];
+    const method = 'getBlockUsed';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return e is BigInt ? e : BigInt.from(e);
     }).toList();
   }
@@ -91,9 +97,10 @@ class WicpIDLActor {
     CanisterActor actor,
     GetHoldersArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('getHolders')!(dat);
-    return (ret as List).map((e) {
+    final request = arg.toJson();
+    const method = 'getHolders';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetHoldersRet0Item(
         Principal.from(e[0]),
         e[1] is BigInt ? e[1] : BigInt.from(e[1]),
@@ -107,9 +114,10 @@ class WicpIDLActor {
   static Future<Metadata> getMetadata(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getMetadata')!(dat);
-    return Metadata.fromJson(ret);
+    const request = [];
+    const method = 'getMetadata';
+    final response = await actor.getFunc(method)!(request);
+    return Metadata.fromJson(response);
   }
 
   /// ```Candid
@@ -118,9 +126,10 @@ class WicpIDLActor {
   static Future<TokenInfo> getTokenInfo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('getTokenInfo')!(dat);
-    return TokenInfo.fromJson(ret);
+    const request = [];
+    const method = 'getTokenInfo';
+    final response = await actor.getFunc(method)!(request);
+    return TokenInfo.fromJson(response);
   }
 
   /// ```Candid
@@ -130,9 +139,10 @@ class WicpIDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('getUserApprovals')!(dat);
-    return (ret as List).map((e) {
+    final request = [arg];
+    const method = 'getUserApprovals';
+    final response = await actor.getFunc(method)!(request);
+    return (response as List).map((e) {
       return GetUserApprovalsRet0Item(
         Principal.from(e[0]),
         e[1] is BigInt ? e[1] : BigInt.from(e[1]),
@@ -146,9 +156,10 @@ class WicpIDLActor {
   static Future<BigInt> historySize(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('historySize')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'historySize';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -158,9 +169,10 @@ class WicpIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    final ret = await actor.getFunc('isBlockUsed')!(dat);
-    return ret;
+    final request = [arg];
+    const method = 'isBlockUsed';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -169,9 +181,10 @@ class WicpIDLActor {
   static Future<String> logo(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('logo')!(dat);
-    return ret;
+    const request = [];
+    const method = 'logo';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -181,9 +194,10 @@ class WicpIDLActor {
     CanisterActor actor,
     MintArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mint')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mint';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -193,9 +207,10 @@ class WicpIDLActor {
     CanisterActor actor,
     MintForArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('mintFor')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'mintFor';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -204,9 +219,10 @@ class WicpIDLActor {
   static Future<String> name(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('name')!(dat);
-    return ret;
+    const request = [];
+    const method = 'name';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -215,9 +231,10 @@ class WicpIDLActor {
   static Future<Principal> owner(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('owner')!(dat);
-    return Principal.from(ret);
+    const request = [];
+    const method = 'owner';
+    final response = await actor.getFunc(method)!(request);
+    return Principal.from(response);
   }
 
   /// ```Candid
@@ -227,8 +244,9 @@ class WicpIDLActor {
     CanisterActor actor,
     BigInt arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setFee')!(dat);
+    final request = [arg];
+    const method = 'setFee';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -238,8 +256,9 @@ class WicpIDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setFeeTo')!(dat);
+    final request = [arg];
+    const method = 'setFeeTo';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -248,9 +267,10 @@ class WicpIDLActor {
   static Future<Result> setGenesis(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('setGenesis')!(dat);
-    return Result.fromJson(ret);
+    const request = [];
+    const method = 'setGenesis';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -260,8 +280,9 @@ class WicpIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setLogo')!(dat);
+    final request = [arg];
+    const method = 'setLogo';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -271,8 +292,9 @@ class WicpIDLActor {
     CanisterActor actor,
     String arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setName')!(dat);
+    final request = [arg];
+    const method = 'setName';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -282,8 +304,9 @@ class WicpIDLActor {
     CanisterActor actor,
     Principal arg,
   ) async {
-    final dat = [arg];
-    await actor.getFunc('setOwner')!(dat);
+    final request = [arg];
+    const method = 'setOwner';
+    await actor.getFunc(method)!(request);
   }
 
   /// ```Candid
@@ -292,9 +315,10 @@ class WicpIDLActor {
   static Future<String> symbol(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('symbol')!(dat);
-    return ret;
+    const request = [];
+    const method = 'symbol';
+    final response = await actor.getFunc(method)!(request);
+    return response;
   }
 
   /// ```Candid
@@ -303,9 +327,10 @@ class WicpIDLActor {
   static Future<BigInt> totalSupply(
     CanisterActor actor,
   ) async {
-    const dat = [];
-    final ret = await actor.getFunc('totalSupply')!(dat);
-    return ret is BigInt ? ret : BigInt.from(ret);
+    const request = [];
+    const method = 'totalSupply';
+    final response = await actor.getFunc(method)!(request);
+    return response is BigInt ? response : BigInt.from(response);
   }
 
   /// ```Candid
@@ -315,9 +340,10 @@ class WicpIDLActor {
     CanisterActor actor,
     TransferArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transfer')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transfer';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -327,9 +353,10 @@ class WicpIDLActor {
     CanisterActor actor,
     TransferFromArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('transferFrom')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'transferFrom';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 
   /// ```Candid
@@ -339,9 +366,10 @@ class WicpIDLActor {
     CanisterActor actor,
     WithdrawArg arg,
   ) async {
-    final dat = arg.toJson();
-    final ret = await actor.getFunc('withdraw')!(dat);
-    return Result.fromJson(ret);
+    final request = arg.toJson();
+    const method = 'withdraw';
+    final response = await actor.getFunc(method)!(request);
+    return Result.fromJson(response);
   }
 }
 
@@ -397,6 +425,9 @@ class WicpIDLService {
     return completer.future;
   }
 
+  /// ```Candid
+  ///   allowance: (principal, principal) -> (nat) query
+  /// ```
   Future<BigInt> allowance(
     AllowanceArg arg,
   ) async {
@@ -407,6 +438,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   approve: (principal, nat) -> (Result)
+  /// ```
   Future<Result> approve(
     ApproveArg arg,
   ) async {
@@ -417,6 +451,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   balanceOf: (principal) -> (nat) query
+  /// ```
   Future<BigInt> balanceOf(
     Principal arg,
   ) async {
@@ -427,6 +464,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   decimals: () -> (nat8) query
+  /// ```
   Future<int> decimals() async {
     final actor = await getActor();
     return WicpIDLActor.decimals(
@@ -434,6 +474,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getAllowanceSize: () -> (nat64) query
+  /// ```
   Future<BigInt> getAllowanceSize() async {
     final actor = await getActor();
     return WicpIDLActor.getAllowanceSize(
@@ -441,6 +484,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getBlockUsed: () -> (vec nat64) query
+  /// ```
   Future<List<BigInt>> getBlockUsed() async {
     final actor = await getActor();
     return WicpIDLActor.getBlockUsed(
@@ -448,6 +494,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getHolders: (nat64, nat64) -> (vec record { principal; nat }) query
+  /// ```
   Future<List<GetHoldersRet0Item>> getHolders(
     GetHoldersArg arg,
   ) async {
@@ -458,6 +507,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getMetadata: () -> (Metadata) query
+  /// ```
   Future<Metadata> getMetadata() async {
     final actor = await getActor();
     return WicpIDLActor.getMetadata(
@@ -465,6 +517,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getTokenInfo: () -> (TokenInfo) query
+  /// ```
   Future<TokenInfo> getTokenInfo() async {
     final actor = await getActor();
     return WicpIDLActor.getTokenInfo(
@@ -472,6 +527,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   getUserApprovals: (principal) -> (vec record { principal; nat }) query
+  /// ```
   Future<List<GetUserApprovalsRet0Item>> getUserApprovals(
     Principal arg,
   ) async {
@@ -482,6 +540,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   historySize: () -> (nat64) query
+  /// ```
   Future<BigInt> historySize() async {
     final actor = await getActor();
     return WicpIDLActor.historySize(
@@ -489,6 +550,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   isBlockUsed: (nat64) -> (bool) query
+  /// ```
   Future<bool> isBlockUsed(
     BigInt arg,
   ) async {
@@ -499,6 +563,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   logo: () -> (text) query
+  /// ```
   Future<String> logo() async {
     final actor = await getActor();
     return WicpIDLActor.logo(
@@ -506,6 +573,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   mint: (opt vec nat8, nat64) -> (Result)
+  /// ```
   Future<Result> mint(
     MintArg arg,
   ) async {
@@ -516,6 +586,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   mintFor: (opt vec nat8, nat64, principal) -> (Result)
+  /// ```
   Future<Result> mintFor(
     MintForArg arg,
   ) async {
@@ -526,6 +599,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   name: () -> (text) query
+  /// ```
   Future<String> name() async {
     final actor = await getActor();
     return WicpIDLActor.name(
@@ -533,6 +609,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   owner: () -> (principal) query
+  /// ```
   Future<Principal> owner() async {
     final actor = await getActor();
     return WicpIDLActor.owner(
@@ -540,6 +619,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setFee: (nat) -> ()
+  /// ```
   Future<void> setFee(
     BigInt arg,
   ) async {
@@ -550,6 +632,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setFeeTo: (principal) -> ()
+  /// ```
   Future<void> setFeeTo(
     Principal arg,
   ) async {
@@ -560,6 +645,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setGenesis: () -> (Result)
+  /// ```
   Future<Result> setGenesis() async {
     final actor = await getActor();
     return WicpIDLActor.setGenesis(
@@ -567,6 +655,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setLogo: (text) -> ()
+  /// ```
   Future<void> setLogo(
     String arg,
   ) async {
@@ -577,6 +668,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setName: (text) -> ()
+  /// ```
   Future<void> setName(
     String arg,
   ) async {
@@ -587,6 +681,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   setOwner: (principal) -> ()
+  /// ```
   Future<void> setOwner(
     Principal arg,
   ) async {
@@ -597,6 +694,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   symbol: () -> (text) query
+  /// ```
   Future<String> symbol() async {
     final actor = await getActor();
     return WicpIDLActor.symbol(
@@ -604,6 +704,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   totalSupply: () -> (nat) query
+  /// ```
   Future<BigInt> totalSupply() async {
     final actor = await getActor();
     return WicpIDLActor.totalSupply(
@@ -611,6 +714,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   transfer: (principal, nat) -> (Result)
+  /// ```
   Future<Result> transfer(
     TransferArg arg,
   ) async {
@@ -621,6 +727,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   transferFrom: (principal, principal, nat) -> (Result)
+  /// ```
   Future<Result> transferFrom(
     TransferFromArg arg,
   ) async {
@@ -631,6 +740,9 @@ class WicpIDLService {
     );
   }
 
+  /// ```Candid
+  ///   withdraw: (nat64, text) -> (Result)
+  /// ```
   Future<Result> withdraw(
     WithdrawArg arg,
   ) async {
@@ -942,6 +1054,7 @@ class GetHoldersRet0Item {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1089,6 +1202,7 @@ class Metadata {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, fee, decimals, owner, logo, name, totalSupply, symbol]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1159,6 +1273,7 @@ class Result {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1301,6 +1416,7 @@ class TokenInfo {
         cycles,
         feeTo
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1347,6 +1463,24 @@ enum TxError {
   }
 
   final String name;
+
+  bool get isInsufficientAllowance => this == TxError.insufficientAllowance;
+
+  bool get isInsufficientBalance => this == TxError.insufficientBalance;
+
+  bool get isErrorOperationStyle => this == TxError.errorOperationStyle;
+
+  bool get isUnauthorized => this == TxError.unauthorized;
+
+  bool get isLedgerTrap => this == TxError.ledgerTrap;
+
+  bool get isErrorTo => this == TxError.errorTo;
+
+  bool get isOther => this == TxError.other;
+
+  bool get isBlockUsed => this == TxError.blockUsed;
+
+  bool get isAmountTooSmall => this == TxError.amountTooSmall;
 
   Map<String, dynamic> toJson() {
     return {name: null};
@@ -1415,6 +1549,7 @@ class AllowanceArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1478,6 +1613,7 @@ class ApproveArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1541,6 +1677,7 @@ class GetHoldersArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1561,7 +1698,11 @@ class MintArg {
   factory MintArg.fromJson(List<dynamic> tuple) {
     return MintArg(
       (tuple[0] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
     );
@@ -1606,6 +1747,7 @@ class MintArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1627,7 +1769,11 @@ class MintForArg {
   factory MintForArg.fromJson(List<dynamic> tuple) {
     return MintForArg(
       (tuple[0] as List).map((e) {
-        return e;
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       Principal.from(tuple[2]),
@@ -1683,6 +1829,7 @@ class MintForArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1746,6 +1893,7 @@ class TransferArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1821,6 +1969,7 @@ class TransferFromArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1884,6 +2033,7 @@ class WithdrawArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
