@@ -1,3 +1,9 @@
+## 1.1.6
+
+- Generate `Object` for equality comparison rather than `dynamic`.
+- Ignore unused imports.
+- Better outputs for Enum classes.
+
 ## 1.1.5
 
 - Support `composite_query` in candid.
