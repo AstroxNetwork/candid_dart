@@ -65,14 +65,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _loadBalance(false);
-        break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        break;
+    if (state == AppLifecycleState.resumed) {
+      _loadBalance(false);
     }
   }
 
@@ -300,7 +294,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                   shape: BoxShape.circle,
                 ),
                 child: const CircularProgressIndicator(),
-              )
+              ),
           ],
         ),
         const SizedBox(width: 12.0),
@@ -429,7 +423,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).padding.bottom + 24.0,
-                  )
+                  ),
                 ],
               ),
             ),

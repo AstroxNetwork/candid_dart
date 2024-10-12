@@ -1144,7 +1144,7 @@ class BurnArg0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BurnArg0 &&
@@ -1217,7 +1217,7 @@ class EventsArg0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventsArg0 &&
@@ -1272,7 +1272,7 @@ class WalletBalanceRet0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is WalletBalanceRet0 &&
@@ -1341,7 +1341,7 @@ class WalletCreateCanisterArg0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is WalletCreateCanisterArg0 &&
@@ -1444,7 +1444,7 @@ class WalletCallArg0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is WalletCallArg0 &&
@@ -1582,7 +1582,7 @@ class Metadata {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Metadata &&
@@ -1723,7 +1723,7 @@ class TxReceipt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TxReceipt &&
@@ -1822,7 +1822,7 @@ class BurnResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is BurnResult &&
@@ -1926,7 +1926,7 @@ class TxReceiptLegacy {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TxReceiptLegacy &&
@@ -2019,7 +2019,7 @@ class MintResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is MintResult &&
@@ -2074,7 +2074,7 @@ class ResultCallOk {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ResultCallOk &&
@@ -2144,7 +2144,7 @@ class ResultCall {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ResultCall &&
@@ -2197,7 +2197,7 @@ class CreateResultOk {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CreateResultOk &&
@@ -2267,7 +2267,7 @@ class CreateResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is CreateResult &&
@@ -2333,7 +2333,7 @@ class EventDetailTransfer {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetailTransfer &&
@@ -2398,7 +2398,7 @@ class EventDetailMint {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetailMint &&
@@ -2476,7 +2476,7 @@ class EventDetailCanisterCalled {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetailCanisterCalled &&
@@ -2545,7 +2545,7 @@ class EventDetailCanisterCreated {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetailCanisterCreated &&
@@ -2625,7 +2625,7 @@ class EventDetailTransferFrom {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetailTransferFrom &&
@@ -2785,7 +2785,7 @@ class EventDetail {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventDetail &&
@@ -2942,7 +2942,7 @@ class Event {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Event &&
@@ -3032,7 +3032,7 @@ class EventsConnection {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is EventsConnection &&
@@ -3244,7 +3244,7 @@ class Stats {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Stats &&
@@ -3337,7 +3337,7 @@ class AllowanceArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is AllowanceArg &&
@@ -3400,7 +3400,7 @@ class ApproveArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ApproveArg &&
@@ -3463,7 +3463,7 @@ class TransferErc20Arg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErc20Arg &&
@@ -3526,7 +3526,7 @@ class TransferArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferArg &&
@@ -3600,7 +3600,7 @@ class TransferFromArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferFromArg &&
@@ -3664,7 +3664,7 @@ class MintArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is MintArg &&
@@ -3729,7 +3729,7 @@ class MintByIcpArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is MintByIcpArg &&
@@ -3805,7 +3805,7 @@ class MintByIcpRecoverArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is MintByIcpRecoverArg &&

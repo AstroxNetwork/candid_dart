@@ -602,7 +602,7 @@ class Icrc1MetadataRet0Item {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Icrc1MetadataRet0Item &&
@@ -670,7 +670,7 @@ class Account {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Account &&
@@ -726,7 +726,7 @@ class ArchivedTransactionRangeCallbackRet0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ArchivedTransactionRangeCallbackRet0 &&
@@ -829,7 +829,7 @@ class Burn {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Burn &&
@@ -902,7 +902,7 @@ class GetTransactionsRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTransactionsRequest &&
@@ -1004,7 +1004,7 @@ class Mint {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Mint &&
@@ -1078,7 +1078,7 @@ class Result {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Result &&
@@ -1144,7 +1144,7 @@ class StandardRecord {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is StandardRecord &&
@@ -1257,7 +1257,7 @@ class Transaction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Transaction &&
@@ -1397,7 +1397,7 @@ class Transfer {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Transfer &&
@@ -1539,7 +1539,7 @@ class TransferArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferArg &&
@@ -1614,7 +1614,7 @@ class TransferErrorGenericError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorGenericError &&
@@ -1670,7 +1670,7 @@ class TransferErrorBadBurn {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorBadBurn &&
@@ -1725,7 +1725,7 @@ class TransferErrorDuplicate {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorDuplicate &&
@@ -1780,7 +1780,7 @@ class TransferErrorBadFee {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorBadFee &&
@@ -1835,7 +1835,7 @@ class TransferErrorCreatedInFuture {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorCreatedInFuture &&
@@ -1890,7 +1890,7 @@ class TransferErrorInsufficientFunds {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorInsufficientFunds &&
@@ -2058,7 +2058,7 @@ class TransferError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferError &&
@@ -2179,7 +2179,7 @@ class Value {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Value &&

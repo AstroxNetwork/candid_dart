@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      candid_dart|candid2dart:
+        options:
+          freezed: false
+          copy_with: true
+          equal: true
+          service: true
+          make_collections_unmodifiable: true

@@ -1,4 +1,4 @@
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart/agent_dart.dart' hide AccountBalanceArgs;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:oktoast/oktoast.dart';

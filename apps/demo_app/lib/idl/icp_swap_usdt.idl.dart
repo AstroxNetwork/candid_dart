@@ -794,7 +794,7 @@ class GetLastIDRet0Item {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetLastIDRet0Item &&
@@ -857,7 +857,7 @@ class GetTvlRecordRet0Item {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTvlRecordRet0Item &&
@@ -1309,7 +1309,7 @@ class TransactionsType {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransactionsType &&
@@ -1553,7 +1553,7 @@ class PublicTokenPricesData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PublicTokenPricesData &&
@@ -1822,7 +1822,7 @@ class PublicTokenOverview {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PublicTokenOverview &&
@@ -1975,7 +1975,7 @@ class PublicTokenChartDayData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PublicTokenChartDayData &&
@@ -2151,7 +2151,7 @@ class PoolInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is PoolInfo &&
@@ -2249,7 +2249,7 @@ class NatResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NatResult &&
@@ -2323,7 +2323,7 @@ class GetTokenChartDataArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTokenChartDataArg &&
@@ -2409,7 +2409,7 @@ class GetTokenPricesDataArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTokenPricesDataArg &&
@@ -2485,7 +2485,7 @@ class GetTokenTransactionsArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTokenTransactionsArg &&
@@ -2549,7 +2549,7 @@ class SaveTransactionsArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is SaveTransactionsArg &&
