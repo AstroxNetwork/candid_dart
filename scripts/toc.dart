@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
-import 'package:shell/shell.dart';
+import 'package:process_run/shell.dart';
 
 Future<void> main() async {
   final mds = <File>[];
@@ -9,11 +9,11 @@ Future<void> main() async {
   final shell = Shell();
   for (final md in mds) {
     print('insert TOC: ${md.path}');
-    await shell.run(
+    await shell.runExecutableArguments(
       // https://github.com/jonschlinkert/markdown-toc
       // pnpm add --global markdown-toc
       'markdown-toc',
-      arguments: ['-i', path.normalize(md.absolute.path)],
+      ['-i', path.normalize(md.absolute.path)],
     );
   }
 }

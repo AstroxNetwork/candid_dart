@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
-
 const _esc = '\x1B[';
 const _reset = '${_esc}0m';
 const _red = '${_esc}31m';
@@ -114,7 +112,7 @@ extension Log on Object? {
     Object? error,
     StackTrace? stackTrace,
   }) {
-    final es = [error, stackTrace].whereNotNull().join('\n\n');
+    final es = [error, stackTrace].whereType<Object>().join('\n\n');
     final hasError = es.isNotEmpty;
     final buffer = StringBuffer();
     buffer.write(_wrapReverse(_wrapBold(_wrapColor(levelColor, level))));

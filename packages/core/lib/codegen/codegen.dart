@@ -195,7 +195,7 @@ Future<$retType> $methodName($arg) async {
               ? toFreezedTupleClass(e.key, e.value, option)
               : toTupleClass(e.key, e.value, option),
         ),
-        ...idlVisitor.typedefs.values.map(toTypeDef).whereNotNull()
+        ...idlVisitor.typedefs.values.map(toTypeDef).whereType<TypeDef>(),
       ])
       ..directives = ListBuilder(imports)
       ..comments = ListBuilder([
@@ -307,9 +307,9 @@ Spec toTupleClass(
                 (b) => b
                   ..type = const Reference('List<dynamic>')
                   ..name = 'tuple',
-              )
+              ),
             ]),
-        )
+        ),
       ])
       ..fields = ListBuilder(fields)
       ..methods = ListBuilder([
@@ -336,13 +336,15 @@ Spec toTupleClass(
                 Parameter(
                   (b) => b
                     ..name = 'other'
-                    ..type = const Reference('dynamic'),
-                )
+                    ..type = const Reference('Object'),
+                ),
               ])
               ..annotations =
                   ListBuilder([const CodeExpression(Code('override'))])
               ..body = Code(
-                'return identical(this, other) || (other.runtimeType == runtimeType && other is $className ${fields.isEmpty ? '' : '&&'} ${equals.join("&&")});',
+                'return identical(this, other) '
+                '|| (other.runtimeType == runtimeType && other is $className ${fields.isEmpty ? '' : '&&'} '
+                '${equals.join("&&")});',
               ),
           ),
           Method(
@@ -432,9 +434,9 @@ Spec toFreezedTupleClass(
                 (b) => b
                   ..type = const Reference('List<dynamic>')
                   ..name = 'tuple',
-              )
+              ),
             ]),
-        )
+        ),
       ])
       ..methods = ListBuilder([
         Method(
@@ -605,7 +607,7 @@ Spec toClass(
                 (b) => b
                   ..type = const Reference('Map')
                   ..name = 'json',
-              )
+              ),
             ]),
         ),
       ])
@@ -634,8 +636,8 @@ Spec toClass(
                 Parameter(
                   (b) => b
                     ..name = 'other'
-                    ..type = const Reference('dynamic'),
-                )
+                    ..type = const Reference('Object'),
+                ),
               ])
               ..annotations =
                   ListBuilder([const CodeExpression(Code('override'))])
@@ -703,7 +705,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
             ..name = 'name'
             ..modifier = FieldModifier.final$
             ..type = const Reference('String'),
-        )
+        ),
       ])
       ..constructors = ListBuilder([
         Constructor(
@@ -714,7 +716,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
                 (p) => p
                   ..name = 'name'
                   ..toThis = true,
-              )
+              ),
             ]),
         ),
         Constructor(
@@ -729,7 +731,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
                 (b) => b
                   ..type = const Reference('Map')
                   ..name = 'json',
-              )
+              ),
             ]),
         ),
       ])
@@ -862,9 +864,9 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
                 (b) => b
                   ..type = const Reference('Map')
                   ..name = 'json',
-              )
+              ),
             ]),
-        )
+        ),
       ])
       ..methods = ListBuilder([
         Method(
