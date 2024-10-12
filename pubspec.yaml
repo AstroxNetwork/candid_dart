@@ -4,6 +4,6 @@ environment:
   sdk: '>=2.18.0 <4.0.0'
 
 dependencies:
-  melos: ^3.0.1
+  melos: ^6.0.0
   path: ^1.8.2
-  shell: ^2.0.0
+  process_run: ^1.1.0
