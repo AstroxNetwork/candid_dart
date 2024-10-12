@@ -200,7 +200,7 @@ Future<$retType> $methodName($arg) async {
       ..directives = ListBuilder(imports)
       ..comments = ListBuilder([
         'coverage:ignore-file',
-        'ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field',
+        'ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import',
         '======================================',
         'GENERATED CODE - DO NOT MODIFY BY HAND',
         '======================================',
