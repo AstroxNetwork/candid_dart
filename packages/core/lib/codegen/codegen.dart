@@ -689,7 +689,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
           ..name = 'is_$fieldName'.camelCase
           ..lambda = true
           ..type = MethodType.getter
-          ..returns = const Reference('bool')
+          ..returns = const Reference('\nbool')
           ..body = Code('this == $className.$fieldName'),
       ),
     );
@@ -741,7 +741,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
           (b) => b
             ..name = 'toJson'
             ..body = const Code('return {name: null};')
-            ..returns = const Reference('Map<String, dynamic>'),
+            ..returns = const Reference('\nMap<String, dynamic>'),
         ),
         toStringMethod,
       ])
