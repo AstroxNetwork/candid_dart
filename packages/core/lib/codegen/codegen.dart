@@ -132,7 +132,7 @@ Future<$retType> $methodName($arg) async {
   final hasObj = idlVisitor.objs.isNotEmpty || idlVisitor.tuples.isNotEmpty;
   final imports = [
     Directive.import('dart:async'),
-    Directive.import('package:agent_dart/agent_dart.dart'),
+    Directive.import('package:agent_dart_base/agent_dart_base.dart'),
     ...idlVisitor.pkgs.map(Directive.import),
     if (hasObj) Directive.import('package:meta/meta.dart'),
     if (option.freezed && hasObj)
@@ -148,8 +148,24 @@ Future<$retType> $methodName($arg) async {
     );
   }
   final emitter = DartEmitter.scoped();
+  final ignoredLintRules = [
+    'type=lint',
+    'depend_on_referenced_packages',
+    'unnecessary_null_comparison',
+    'unnecessary_non_null_assertion',
+    'unused_field',
+    'unused_import',
+  ];
   final code = Library(
     (b) => b
+      ..comments = ListBuilder([
+        'coverage:ignore-file',
+        'ignore_for_file: ${ignoredLintRules.join(', ')}',
+        '======================================',
+        'GENERATED CODE - DO NOT MODIFY BY HAND',
+        '======================================',
+      ])
+      ..directives = ListBuilder(imports)
       ..body.addAll([
         Code(newActor(clazz, actorMethods.toString())),
         if (option.service) Code(newService(clazz, serviceMethods.toString())),
@@ -199,14 +215,6 @@ Future<$retType> $methodName($arg) async {
               : toTupleClass(e.key, e.value, option),
         ),
         ...idlVisitor.typedefs.values.map(toTypeDef).whereType<TypeDef>(),
-      ])
-      ..directives = ListBuilder(imports)
-      ..comments = ListBuilder([
-        'coverage:ignore-file',
-        'ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import',
-        '======================================',
-        'GENERATED CODE - DO NOT MODIFY BY HAND',
-        '======================================',
       ]),
   ).accept(emitter).toString();
   return DartFormatter(
