@@ -511,9 +511,6 @@ Spec toClass(
           ..named = true
           ..required = !isOpt
           ..defaultTo = useBool ? const Code('false') : null
-          ..docs = ListBuilder(
-            ['/// [$fieldName] defined in Candid: `${child.did}`'],
-          )
           ..name = fieldName
           ..toThis = true,
       ),
@@ -523,9 +520,6 @@ Spec toClass(
         (b) => b
           ..name = fieldName
           ..named = true
-          ..docs = ListBuilder(
-            ['/// [$fieldName] defined in Candid: `${child.did}`'],
-          )
           ..type = Reference(
             useBool
                 ? 'bool?'
