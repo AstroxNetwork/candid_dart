@@ -492,7 +492,7 @@ Spec toClass(
       fieldName = '\$$fieldName';
     }
     final isIdType = child is ts.IdType;
-    var dartType = child.dartType();
+    String dartType = child.dartType();
     final useBool = (isIdType && isVariant) || dartType == 'null';
     final isOpt = isIdType ||
         (child as ts.PairType).value.child is ts.OptType ||
@@ -593,7 +593,15 @@ Spec toClass(
         }
       }
     }
-    toJsonFields.writeln('final $fieldName = this.$fieldName;');
+    String toJsonField = fieldName;
+    switch (dartType) {
+      case 'BigInt?':
+        toJsonField += '?.toString()';
+        break;
+      case 'BigInt':
+        toJsonField += '.toString()';
+    }
+    toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
     (b) => b

@@ -73,21 +73,27 @@ class PrimType extends IDLType<PrimTypeContext> {
   String? deserialize({bool nullable = false}) {
     final principalType = ctx.principalType();
     if (principalType != null) {
-      return nullable
-          ? '${IDLType.ph} == null ? null : Principal.from(${IDLType.ph})'
-          : 'Principal.from(${IDLType.ph})';
+      String d = 'Principal.from(${IDLType.ph})';
+      if (nullable) {
+        d = '${IDLType.ph} == null ? null : $d';
+      }
+      return d;
     }
     if (ctx.blobType() != null) {
-      const deser =
-          '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
-      return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
+      String d = '${IDLType.ph} is Uint8List '
+          '? ${IDLType.ph} '
+          ': Uint8List.fromList((${IDLType.ph} as List).cast())';
+      if (nullable) {
+        d = '${IDLType.ph} == null ? null : $d';
+      }
+      return d;
     }
     if (kBigIntIDLTypes.contains(did)) {
-      String d;
+      String d = '${IDLType.ph} is BigInt '
+          '? ${IDLType.ph} '
+          ": BigInt.parse('\${${IDLType.ph}}')";
       if (nullable) {
-        d = '${IDLType.ph} == null ? null : ${IDLType.ph} is BigInt ? ${IDLType.ph} : BigInt.from(${IDLType.ph})';
-      } else {
-        d = '${IDLType.ph} is BigInt ? ${IDLType.ph} : BigInt.from(${IDLType.ph})';
+        d = '${IDLType.ph} == null ? null : $d';
       }
       return d;
     }
