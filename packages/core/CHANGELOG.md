@@ -1,3 +1,9 @@
+## 1.1.7
+
+- Use the current Dart version to format files.
+- Remove unnecessary comments for generated files.
+- Cast list item to the targeting Dart type.
+
 ## 1.1.6
 
 - Generate `Object` for equality comparison rather than `dynamic`.
