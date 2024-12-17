@@ -1,3 +1,7 @@
+## 1.1.10
+
+- Improve how enumeration classes being parsed and serialized
+
 ## 1.1.9
 
 - Improve how `BigInt` being parsed and serialized.
