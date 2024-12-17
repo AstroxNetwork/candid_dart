@@ -1,0 +1,10 @@
+name: candid_example
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.0 <4.0.0'
+
+dependencies:
+  agent_dart: ^1.0.0-dev.30
+  collection: '>=1.17.0 <2.0.0'
+  meta: ^1.8.0

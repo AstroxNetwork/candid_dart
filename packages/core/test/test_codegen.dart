@@ -39,10 +39,9 @@ void main() {
       expect(deps['F'], Dep(id: 'F', deps: const {'E'}));
       File('example/lib/did/cd.did.json').writeAsStringSync(jsonEncode(deps));
     });
+
     test('test IDL', () {
-      Directory('../build/example/lib/did')
-          .listSync(recursive: true)
-          .forEach((f) {
+      Directory('../../example/lib/did').listSync(recursive: true).forEach((f) {
         final filePath = f.path;
         if (filePath.endsWith('.did')) {
           final contents = (f as File).readAsStringSync();

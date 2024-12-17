@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -874,7 +874,7 @@ class Tuple {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Tuple &&
@@ -886,6 +886,7 @@ class Tuple {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3, item4]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -922,10 +923,15 @@ enum TestEnum {
   final String name;
 
   bool get isQ => this == TestEnum.q;
+
   bool get isW => this == TestEnum.w;
+
   bool get isE => this == TestEnum.e;
+
   bool get isR => this == TestEnum.r;
+
   bool get isT => this == TestEnum.t;
+
   Map<String, dynamic> toJson() {
     return {name: null};
   }
@@ -957,7 +963,7 @@ class EmptyRecord {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is EmptyRecord);
   }
@@ -966,6 +972,7 @@ class EmptyRecord {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -993,7 +1000,7 @@ class EmptyVariant {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is EmptyVariant);
   }
@@ -1002,6 +1009,7 @@ class EmptyVariant {
   int get hashCode => Object.hashAll([
         runtimeType,
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1015,22 +1023,11 @@ class EmptyVariant {
 @immutable
 class Record {
   const Record({
-    /// [emptyRecord] defined in Candid: `emptyRecord: EmptyRecord`
     required this.emptyRecord,
-
-    /// [emptyVariant] defined in Candid: `emptyVariant: EmptyVariant`
     required this.emptyVariant,
-
-    /// [tuple] defined in Candid: `tuple: Tuple`
     required this.tuple,
-
-    /// [name] defined in Candid: `name: Name`
     required this.name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     this.phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     this.profile,
   });
 
@@ -1041,7 +1038,11 @@ class Record {
       tuple: Tuple.fromJson(json['tuple']),
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1085,22 +1086,11 @@ class Record {
   }
 
   Record copyWith({
-    /// [emptyRecord] defined in Candid: `emptyRecord: EmptyRecord`
     EmptyRecord? emptyRecord,
-
-    /// [emptyVariant] defined in Candid: `emptyVariant: EmptyVariant`
     EmptyVariant? emptyVariant,
-
-    /// [tuple] defined in Candid: `tuple: Tuple`
     Tuple? tuple,
-
-    /// [name] defined in Candid: `name: Name`
     Name? name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     Phone? phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     String? profile,
   }) {
     return Record(
@@ -1114,7 +1104,7 @@ class Record {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Record &&
@@ -1131,6 +1121,7 @@ class Record {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, emptyRecord, emptyVariant, tuple, name, phone, profile]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1144,13 +1135,8 @@ class Record {
 @immutable
 class Variant {
   const Variant({
-    /// [name] defined in Candid: `name: Name`
     this.name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     this.phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     this.profile,
   });
 
@@ -1158,7 +1144,11 @@ class Variant {
     return Variant(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1187,13 +1177,8 @@ class Variant {
   }
 
   Variant copyWith({
-    /// [name] defined in Candid: `name: Name`
     Name? name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     Phone? phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     String? profile,
   }) {
     return Variant(
@@ -1204,7 +1189,7 @@ class Variant {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Variant &&
@@ -1215,6 +1200,7 @@ class Variant {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, name, phone, profile]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1228,16 +1214,9 @@ class Variant {
 @immutable
 class NullableRecordOpt {
   const NullableRecordOpt({
-    /// [name] defined in Candid: `name: Name`
     required this.name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     this.phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     this.profile,
-
-    /// [family] defined in Candid: `family: opt vec Variant`
     this.family,
   });
 
@@ -1245,7 +1224,11 @@ class NullableRecordOpt {
     return NullableRecordOpt(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1284,16 +1267,9 @@ class NullableRecordOpt {
   }
 
   NullableRecordOpt copyWith({
-    /// [name] defined in Candid: `name: Name`
     Name? name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     Phone? phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     String? profile,
-
-    /// [family] defined in Candid: `family: opt vec Variant`
     List<Variant>? family,
   }) {
     return NullableRecordOpt(
@@ -1305,7 +1281,7 @@ class NullableRecordOpt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NullableRecordOpt &&
@@ -1323,6 +1299,7 @@ class NullableRecordOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1342,16 +1319,9 @@ typedef NullableNestedRecordOptItem = NullableRecordOpt;
 @immutable
 class NullableVariantOpt {
   const NullableVariantOpt({
-    /// [name] defined in Candid: `name: Name`
     this.name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     this.phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     this.profile,
-
-    /// [family] defined in Candid: `family: opt vec Record`
     this.family,
   });
 
@@ -1359,7 +1329,11 @@ class NullableVariantOpt {
     return NullableVariantOpt(
       name: json['name'],
       phone: (json['phone'] as List).map((e) {
-        return e is BigInt ? e : BigInt.from(e);
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
       }).firstOrNull,
       profile: (json['profile'] as List).map((e) {
         return e;
@@ -1398,16 +1372,9 @@ class NullableVariantOpt {
   }
 
   NullableVariantOpt copyWith({
-    /// [name] defined in Candid: `name: Name`
     Name? name,
-
-    /// [phone] defined in Candid: `phone: opt Phone`
     Phone? phone,
-
-    /// [profile] defined in Candid: `profile: opt text`
     String? profile,
-
-    /// [family] defined in Candid: `family: opt vec Record`
     List<Record>? family,
   }) {
     return NullableVariantOpt(
@@ -1419,7 +1386,7 @@ class NullableVariantOpt {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is NullableVariantOpt &&
@@ -1437,6 +1404,7 @@ class NullableVariantOpt {
         profile,
         const DeepCollectionEquality().hash(family)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1490,7 +1458,7 @@ class New {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is New &&
@@ -1500,6 +1468,7 @@ class New {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1519,19 +1488,10 @@ typedef NullableNewOpt = New;
 @immutable
 class ComplexNested1Nested3Nested5 {
   const ComplexNested1Nested3Nested5({
-    /// [field1] defined in Candid: `field1: opt vec nat`
     this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     required this.field2,
-
-    /// [field3] defined in Candid: `field3: vec vec vec vec vec Record`
     required this.field3,
-
-    /// [field4] defined in Candid: `field4: opt vec vec vec vec vec Record`
     this.field4,
-
-    /// [field5] defined in Candid: `field5: opt vec opt vec opt vec opt vec opt vec Record`
     this.field5,
   });
 
@@ -1644,19 +1604,10 @@ class ComplexNested1Nested3Nested5 {
   }
 
   ComplexNested1Nested3Nested5 copyWith({
-    /// [field1] defined in Candid: `field1: opt vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [field3] defined in Candid: `field3: vec vec vec vec vec Record`
     List<List<List<List<List<Record>>>>>? field3,
-
-    /// [field4] defined in Candid: `field4: opt vec vec vec vec vec Record`
     List<List<List<List<List<Record>>>>>? field4,
-
-    /// [field5] defined in Candid: `field5: opt vec opt vec opt vec opt vec opt vec Record`
     List<List<List<List<List<Record>?>?>?>?>? field5,
   }) {
     return ComplexNested1Nested3Nested5(
@@ -1669,7 +1620,7 @@ class ComplexNested1Nested3Nested5 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested1Nested3Nested5 &&
@@ -1689,6 +1640,7 @@ class ComplexNested1Nested3Nested5 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1702,13 +1654,8 @@ class ComplexNested1Nested3Nested5 {
 @immutable
 class ComplexNested1Nested3 {
   const ComplexNested1Nested3({
-    /// [field1] defined in Candid: `field1: vec nat`
     required this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     required this.field2,
-
-    /// [nested5] defined in Candid: `nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record }`
     required this.nested5,
   });
 
@@ -1747,13 +1694,8 @@ class ComplexNested1Nested3 {
   }
 
   ComplexNested1Nested3 copyWith({
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [nested5] defined in Candid: `nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record }`
     ComplexNested1Nested3Nested5? nested5,
   }) {
     return ComplexNested1Nested3(
@@ -1764,7 +1706,7 @@ class ComplexNested1Nested3 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested1Nested3 &&
@@ -1780,6 +1722,7 @@ class ComplexNested1Nested3 {
         field2,
         nested5
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1793,13 +1736,8 @@ class ComplexNested1Nested3 {
 @immutable
 class ComplexNested1 {
   const ComplexNested1({
-    /// [field1] defined in Candid: `field1: vec nat`
     required this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     required this.field2,
-
-    /// [nested3] defined in Candid: `nested3: record { field1: vec nat; field2: vec nat8; nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record } }`
     required this.nested3,
   });
 
@@ -1838,13 +1776,8 @@ class ComplexNested1 {
   }
 
   ComplexNested1 copyWith({
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [nested3] defined in Candid: `nested3: record { field1: vec nat; field2: vec nat8; nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record } }`
     ComplexNested1Nested3? nested3,
   }) {
     return ComplexNested1(
@@ -1855,7 +1788,7 @@ class ComplexNested1 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested1 &&
@@ -1871,6 +1804,7 @@ class ComplexNested1 {
         field2,
         nested3
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1884,28 +1818,13 @@ class ComplexNested1 {
 @immutable
 class ComplexNested2Nested4Nested6 {
   const ComplexNested2Nested4Nested6({
-    /// [noBody] defined in Candid: `no_body`
     this.noBody = false,
-
-    /// [field1] defined in Candid: `field1: vec nat`
     this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     this.field2,
-
-    /// [field3] defined in Candid: `field3: vec vec vec vec vec Record`
     this.field3,
-
-    /// [field4] defined in Candid: `field4: opt vec vec vec vec vec Record`
     this.field4,
-
-    /// [field5] defined in Candid: `field5: vec opt vec Record`
     this.field5,
-
-    /// [field6] defined in Candid: `field6: vec opt vec New1`
     this.field6,
-
-    /// [field7] defined in Candid: `field7: vec opt vec New2`
     this.field7,
   });
 
@@ -2039,28 +1958,13 @@ class ComplexNested2Nested4Nested6 {
   }
 
   ComplexNested2Nested4Nested6 copyWith({
-    /// [noBody] defined in Candid: `no_body`
     bool? noBody,
-
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [field3] defined in Candid: `field3: vec vec vec vec vec Record`
     List<List<List<List<List<Record>>>>>? field3,
-
-    /// [field4] defined in Candid: `field4: opt vec vec vec vec vec Record`
     List<List<List<List<List<Record>>>>>? field4,
-
-    /// [field5] defined in Candid: `field5: vec opt vec Record`
     List<List<Record>?>? field5,
-
-    /// [field6] defined in Candid: `field6: vec opt vec New1`
     List<List<New1>?>? field6,
-
-    /// [field7] defined in Candid: `field7: vec opt vec New2`
     List<List<New2>?>? field7,
   }) {
     return ComplexNested2Nested4Nested6(
@@ -2076,7 +1980,7 @@ class ComplexNested2Nested4Nested6 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested2Nested4Nested6 &&
@@ -2102,6 +2006,7 @@ class ComplexNested2Nested4Nested6 {
         const DeepCollectionEquality().hash(field6),
         const DeepCollectionEquality().hash(field7)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2115,13 +2020,8 @@ class ComplexNested2Nested4Nested6 {
 @immutable
 class ComplexNested2Nested4 {
   const ComplexNested2Nested4({
-    /// [field1] defined in Candid: `field1: vec nat`
     required this.field1,
-
-    /// [field2] defined in Candid: `field2: opt vec nat8`
     this.field2,
-
-    /// [nested6] defined in Candid: `nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 }`
     required this.nested6,
   });
 
@@ -2164,13 +2064,8 @@ class ComplexNested2Nested4 {
   }
 
   ComplexNested2Nested4 copyWith({
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: opt vec nat8`
     Uint8List? field2,
-
-    /// [nested6] defined in Candid: `nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 }`
     ComplexNested2Nested4Nested6? nested6,
   }) {
     return ComplexNested2Nested4(
@@ -2181,7 +2076,7 @@ class ComplexNested2Nested4 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested2Nested4 &&
@@ -2197,6 +2092,7 @@ class ComplexNested2Nested4 {
         field2,
         nested6
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2210,16 +2106,9 @@ class ComplexNested2Nested4 {
 @immutable
 class ComplexNested2 {
   const ComplexNested2({
-    /// [noBody] defined in Candid: `no_body`
     this.noBody = false,
-
-    /// [field1] defined in Candid: `field1: opt vec nat`
     this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     this.field2,
-
-    /// [nested4] defined in Candid: `nested4: record { field1: vec nat; field2: opt vec nat8; nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 } }`
     this.nested4,
   });
 
@@ -2270,16 +2159,9 @@ class ComplexNested2 {
   }
 
   ComplexNested2 copyWith({
-    /// [noBody] defined in Candid: `no_body`
     bool? noBody,
-
-    /// [field1] defined in Candid: `field1: opt vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [nested4] defined in Candid: `nested4: record { field1: vec nat; field2: opt vec nat8; nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 } }`
     ComplexNested2Nested4? nested4,
   }) {
     return ComplexNested2(
@@ -2291,7 +2173,7 @@ class ComplexNested2 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested2 &&
@@ -2309,6 +2191,7 @@ class ComplexNested2 {
         field2,
         nested4
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2322,22 +2205,11 @@ class ComplexNested2 {
 @immutable
 class ComplexNested3Nested5Nested7 {
   const ComplexNested3Nested5Nested7({
-    /// [noKey] defined in Candid: `no_key`
     this.noKey = false,
-
-    /// [field1] defined in Candid: `field1: vec nat`
     this.field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     this.field2,
-
-    /// [field3] defined in Candid: `field3: vec vec Record`
     this.field3,
-
-    /// [field4] defined in Candid: `field4: vec vec New1`
     this.field4,
-
-    /// [field5] defined in Candid: `field5: vec vec New2`
     this.field5,
   });
 
@@ -2422,22 +2294,11 @@ class ComplexNested3Nested5Nested7 {
   }
 
   ComplexNested3Nested5Nested7 copyWith({
-    /// [noKey] defined in Candid: `no_key`
     bool? noKey,
-
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: vec nat8`
     Uint8List? field2,
-
-    /// [field3] defined in Candid: `field3: vec vec Record`
     List<List<Record>>? field3,
-
-    /// [field4] defined in Candid: `field4: vec vec New1`
     List<List<New1>>? field4,
-
-    /// [field5] defined in Candid: `field5: vec vec New2`
     List<List<New2>>? field5,
   }) {
     return ComplexNested3Nested5Nested7(
@@ -2451,7 +2312,7 @@ class ComplexNested3Nested5Nested7 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested3Nested5Nested7 &&
@@ -2473,6 +2334,7 @@ class ComplexNested3Nested5Nested7 {
         const DeepCollectionEquality().hash(field4),
         const DeepCollectionEquality().hash(field5)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2486,13 +2348,8 @@ class ComplexNested3Nested5Nested7 {
 @immutable
 class ComplexNested3Nested5 {
   const ComplexNested3Nested5({
-    /// [field1] defined in Candid: `field1: vec nat`
     required this.field1,
-
-    /// [field2] defined in Candid: `field2: opt vec nat8`
     this.field2,
-
-    /// [nested7] defined in Candid: `nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 }`
     required this.nested7,
   });
 
@@ -2535,13 +2392,8 @@ class ComplexNested3Nested5 {
   }
 
   ComplexNested3Nested5 copyWith({
-    /// [field1] defined in Candid: `field1: vec nat`
     List<BigInt>? field1,
-
-    /// [field2] defined in Candid: `field2: opt vec nat8`
     Uint8List? field2,
-
-    /// [nested7] defined in Candid: `nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 }`
     ComplexNested3Nested5Nested7? nested7,
   }) {
     return ComplexNested3Nested5(
@@ -2552,7 +2404,7 @@ class ComplexNested3Nested5 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested3Nested5 &&
@@ -2568,6 +2420,7 @@ class ComplexNested3Nested5 {
         field2,
         nested7
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2581,10 +2434,7 @@ class ComplexNested3Nested5 {
 @immutable
 class ComplexNested3 {
   const ComplexNested3({
-    /// [noKey] defined in Candid: `no_key`
     this.noKey = false,
-
-    /// [nested5] defined in Candid: `nested5: record { field1: vec nat; field2: opt vec nat8; nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 } }`
     this.nested5,
   });
 
@@ -2615,10 +2465,7 @@ class ComplexNested3 {
   }
 
   ComplexNested3 copyWith({
-    /// [noKey] defined in Candid: `no_key`
     bool? noKey,
-
-    /// [nested5] defined in Candid: `nested5: record { field1: vec nat; field2: opt vec nat8; nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 } }`
     ComplexNested3Nested5? nested5,
   }) {
     return ComplexNested3(
@@ -2628,7 +2475,7 @@ class ComplexNested3 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ComplexNested3 &&
@@ -2638,6 +2485,7 @@ class ComplexNested3 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, noKey, nested5]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2651,19 +2499,10 @@ class ComplexNested3 {
 @immutable
 class Complex {
   const Complex({
-    /// [field1] defined in Candid: `field1: opt vec Record`
     this.field1,
-
-    /// [field2] defined in Candid: `field2: opt vec Phone`
     this.field2,
-
-    /// [nested1] defined in Candid: `nested1: record { field1: vec nat; field2: vec nat8; nested3: record { field1: vec nat; field2: vec nat8; nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record } } }`
     required this.nested1,
-
-    /// [nested2] defined in Candid: `nested2: variant { no_body; field1: opt vec nat; field2: vec nat8; nested4: record { field1: vec nat; field2: opt vec nat8; nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 } } }`
     required this.nested2,
-
-    /// [nested3] defined in Candid: `nested3: variant { no_key; nested5: record { field1: vec nat; field2: opt vec nat8; nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 } } }`
     required this.nested3,
   });
 
@@ -2676,7 +2515,11 @@ class Complex {
       }).firstOrNull,
       field2: (json['field2'] as List).map((e) {
         return (e as List?)?.map((e) {
-          return e is BigInt ? e : BigInt.from(e);
+          return e == null
+              ? null
+              : e is BigInt
+                  ? e
+                  : BigInt.from(e);
         }).toList();
       }).firstOrNull,
       nested1: ComplexNested1.fromJson(
@@ -2722,19 +2565,10 @@ class Complex {
   }
 
   Complex copyWith({
-    /// [field1] defined in Candid: `field1: opt vec Record`
     List<Record>? field1,
-
-    /// [field2] defined in Candid: `field2: opt vec Phone`
     List<Phone>? field2,
-
-    /// [nested1] defined in Candid: `nested1: record { field1: vec nat; field2: vec nat8; nested3: record { field1: vec nat; field2: vec nat8; nested5: record { field1: opt vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: opt vec opt vec opt vec opt vec opt vec Record } } }`
     ComplexNested1? nested1,
-
-    /// [nested2] defined in Candid: `nested2: variant { no_body; field1: opt vec nat; field2: vec nat8; nested4: record { field1: vec nat; field2: opt vec nat8; nested6: variant { no_body; field1: vec nat; field2: vec nat8; field3: vec vec vec vec vec Record; field4: opt vec vec vec vec vec Record; field5: vec opt vec Record; field6: vec opt vec New1; field7: vec opt vec New2 } } }`
     ComplexNested2? nested2,
-
-    /// [nested3] defined in Candid: `nested3: variant { no_key; nested5: record { field1: vec nat; field2: opt vec nat8; nested7: variant { no_key; field1: vec nat; field2: vec nat8; field3: vec vec Record; field4: vec vec New1; field5: vec vec New2 } } }`
     ComplexNested3? nested3,
   }) {
     return Complex(
@@ -2747,7 +2581,7 @@ class Complex {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Complex &&
@@ -2767,6 +2601,7 @@ class Complex {
         nested2,
         nested3
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2807,7 +2642,7 @@ class RefServiceEcho3Arg0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RefServiceEcho3Arg0 &&
@@ -2816,6 +2651,7 @@ class RefServiceEcho3Arg0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2875,7 +2711,7 @@ class ServiceDoRet0Echo3Arg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ServiceDoRet0Echo3Arg &&
@@ -2885,6 +2721,7 @@ class ServiceDoRet0Echo3Arg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2938,7 +2775,7 @@ class ServiceDoRet0Echo3Ret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ServiceDoRet0Echo3Ret &&
@@ -2948,6 +2785,7 @@ class ServiceDoRet0Echo3Ret {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3012,7 +2850,7 @@ class RefServiceInsertArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RefServiceInsertArg &&
@@ -3023,6 +2861,7 @@ class RefServiceInsertArg {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3162,7 +3001,7 @@ class RefServiceEcho2Arg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RefServiceEcho2Arg &&
@@ -3178,6 +3017,7 @@ class RefServiceEcho2Arg {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -3312,7 +3152,7 @@ class RefServiceEcho2Ret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RefServiceEcho2Ret &&
@@ -3328,6 +3168,7 @@ class RefServiceEcho2Ret {
         const DeepCollectionEquality().hash(item2),
         const DeepCollectionEquality().hash(item3)
       ]);
+
   @override
   String toString() {
     return toJson().toString();

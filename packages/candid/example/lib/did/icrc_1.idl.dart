@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -555,7 +555,7 @@ class Icrc1MetadataRet0Item {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Icrc1MetadataRet0Item &&
@@ -565,6 +565,7 @@ class Icrc1MetadataRet0Item {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -578,10 +579,7 @@ class Icrc1MetadataRet0Item {
 @immutable
 class Account {
   const Account({
-    /// [owner] defined in Candid: `owner: principal`
     required this.owner,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     this.subaccount,
   });
 
@@ -614,10 +612,7 @@ class Account {
   }
 
   Account copyWith({
-    /// [owner] defined in Candid: `owner: principal`
     Principal? owner,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     Uint8List? subaccount,
   }) {
     return Account(
@@ -627,7 +622,7 @@ class Account {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Account &&
@@ -638,6 +633,7 @@ class Account {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, owner, subaccount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -650,10 +646,7 @@ class Account {
 /// ```
 @immutable
 class ArchivedTransactionRangeCallbackRet0 {
-  const ArchivedTransactionRangeCallbackRet0(
-      {
-      /// [transactions] defined in Candid: `transactions: vec Transaction`
-      required this.transactions});
+  const ArchivedTransactionRangeCallbackRet0({required this.transactions});
 
   factory ArchivedTransactionRangeCallbackRet0.fromJson(Map json) {
     return ArchivedTransactionRangeCallbackRet0(
@@ -674,16 +667,14 @@ class ArchivedTransactionRangeCallbackRet0 {
   }
 
   ArchivedTransactionRangeCallbackRet0 copyWith(
-      {
-      /// [transactions] defined in Candid: `transactions: vec Transaction`
-      List<Transaction>? transactions}) {
+      {List<Transaction>? transactions}) {
     return ArchivedTransactionRangeCallbackRet0(
       transactions: transactions ?? this.transactions,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ArchivedTransactionRangeCallbackRet0 &&
@@ -694,6 +685,7 @@ class ArchivedTransactionRangeCallbackRet0 {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, const DeepCollectionEquality().hash(transactions)]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -707,16 +699,9 @@ class ArchivedTransactionRangeCallbackRet0 {
 @immutable
 class Burn {
   const Burn({
-    /// [from] defined in Candid: `from: Account`
     required this.from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
 
@@ -769,16 +754,9 @@ class Burn {
   }
 
   Burn copyWith({
-    /// [from] defined in Candid: `from: Account`
     Account? from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Burn(
@@ -790,7 +768,7 @@ class Burn {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Burn &&
@@ -804,6 +782,7 @@ class Burn {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, from, memo, createdAtTime, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -817,10 +796,7 @@ class Burn {
 @immutable
 class GetTransactionsRequest {
   const GetTransactionsRequest({
-    /// [start] defined in Candid: `start: nat`
     required this.start,
-
-    /// [length] defined in Candid: `length: nat`
     required this.length,
   });
 
@@ -850,10 +826,7 @@ class GetTransactionsRequest {
   }
 
   GetTransactionsRequest copyWith({
-    /// [start] defined in Candid: `start: nat`
     BigInt? start,
-
-    /// [length] defined in Candid: `length: nat`
     BigInt? length,
   }) {
     return GetTransactionsRequest(
@@ -863,7 +836,7 @@ class GetTransactionsRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetTransactionsRequest &&
@@ -873,6 +846,7 @@ class GetTransactionsRequest {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, start, length]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -886,16 +860,9 @@ class GetTransactionsRequest {
 @immutable
 class Mint {
   const Mint({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
 
@@ -948,16 +915,9 @@ class Mint {
   }
 
   Mint copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Mint(
@@ -969,7 +929,7 @@ class Mint {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Mint &&
@@ -983,6 +943,7 @@ class Mint {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, to, memo, createdAtTime, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -996,10 +957,7 @@ class Mint {
 @immutable
 class Result {
   const Result({
-    /// [ok] defined in Candid: `Ok: nat`
     this.ok,
-
-    /// [err] defined in Candid: `Err: TransferError`
     this.err,
   });
 
@@ -1030,10 +988,7 @@ class Result {
   }
 
   Result copyWith({
-    /// [ok] defined in Candid: `Ok: nat`
     BigInt? ok,
-
-    /// [err] defined in Candid: `Err: TransferError`
     TransferError? err,
   }) {
     return Result(
@@ -1043,7 +998,7 @@ class Result {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Result &&
@@ -1053,6 +1008,7 @@ class Result {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ok, err]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1066,10 +1022,7 @@ class Result {
 @immutable
 class StandardRecord {
   const StandardRecord({
-    /// [url] defined in Candid: `url: text`
     required this.url,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
   });
 
@@ -1096,10 +1049,7 @@ class StandardRecord {
   }
 
   StandardRecord copyWith({
-    /// [url] defined in Candid: `url: text`
     String? url,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
   }) {
     return StandardRecord(
@@ -1109,7 +1059,7 @@ class StandardRecord {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is StandardRecord &&
@@ -1119,6 +1069,7 @@ class StandardRecord {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, url, name]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1132,19 +1083,10 @@ class StandardRecord {
 @immutable
 class Transaction {
   const Transaction({
-    /// [burn] defined in Candid: `burn: opt Burn`
     this.burn,
-
-    /// [kind] defined in Candid: `kind: text`
     required this.kind,
-
-    /// [mint] defined in Candid: `mint: opt Mint`
     this.mint,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     required this.timestamp,
-
-    /// [transfer] defined in Candid: `transfer: opt Transfer`
     this.transfer,
   });
 
@@ -1197,19 +1139,10 @@ class Transaction {
   }
 
   Transaction copyWith({
-    /// [burn] defined in Candid: `burn: opt Burn`
     Burn? burn,
-
-    /// [kind] defined in Candid: `kind: text`
     String? kind,
-
-    /// [mint] defined in Candid: `mint: opt Mint`
     Mint? mint,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     BigInt? timestamp,
-
-    /// [transfer] defined in Candid: `transfer: opt Transfer`
     Transfer? transfer,
   }) {
     return Transaction(
@@ -1222,7 +1155,7 @@ class Transaction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Transaction &&
@@ -1238,6 +1171,7 @@ class Transaction {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, burn, kind, mint, timestamp, transfer]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1251,22 +1185,11 @@ class Transaction {
 @immutable
 class Transfer {
   const Transfer({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     this.fee,
-
-    /// [from] defined in Candid: `from: Account`
     required this.from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
 
@@ -1337,22 +1260,11 @@ class Transfer {
   }
 
   Transfer copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     BigInt? fee,
-
-    /// [from] defined in Candid: `from: Account`
     Account? from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Transfer(
@@ -1366,7 +1278,7 @@ class Transfer {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Transfer &&
@@ -1382,6 +1294,7 @@ class Transfer {
   @override
   int get hashCode =>
       Object.hashAll([runtimeType, to, fee, from, memo, createdAtTime, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1395,22 +1308,11 @@ class Transfer {
 @immutable
 class TransferArg {
   const TransferArg({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     this.fee,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt vec nat8`
     this.fromSubaccount,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
 
@@ -1487,22 +1389,11 @@ class TransferArg {
   }
 
   TransferArg copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     BigInt? fee,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt vec nat8`
     Uint8List? fromSubaccount,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return TransferArg(
@@ -1516,7 +1407,7 @@ class TransferArg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferArg &&
@@ -1533,6 +1424,7 @@ class TransferArg {
   @override
   int get hashCode => Object.hashAll(
       [runtimeType, to, fee, memo, fromSubaccount, createdAtTime, amount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1546,10 +1438,7 @@ class TransferArg {
 @immutable
 class TransferErrorGenericError {
   const TransferErrorGenericError({
-    /// [message] defined in Candid: `message: text`
     required this.message,
-
-    /// [errorCode] defined in Candid: `error_code: nat`
     required this.errorCode,
   });
 
@@ -1578,10 +1467,7 @@ class TransferErrorGenericError {
   }
 
   TransferErrorGenericError copyWith({
-    /// [message] defined in Candid: `message: text`
     String? message,
-
-    /// [errorCode] defined in Candid: `error_code: nat`
     BigInt? errorCode,
   }) {
     return TransferErrorGenericError(
@@ -1591,7 +1477,7 @@ class TransferErrorGenericError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorGenericError &&
@@ -1602,6 +1488,7 @@ class TransferErrorGenericError {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, message, errorCode]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1614,10 +1501,7 @@ class TransferErrorGenericError {
 /// ```
 @immutable
 class TransferErrorBadBurn {
-  const TransferErrorBadBurn(
-      {
-      /// [minBurnAmount] defined in Candid: `min_burn_amount: nat`
-      required this.minBurnAmount});
+  const TransferErrorBadBurn({required this.minBurnAmount});
 
   factory TransferErrorBadBurn.fromJson(Map json) {
     return TransferErrorBadBurn(
@@ -1637,17 +1521,14 @@ class TransferErrorBadBurn {
     };
   }
 
-  TransferErrorBadBurn copyWith(
-      {
-      /// [minBurnAmount] defined in Candid: `min_burn_amount: nat`
-      BigInt? minBurnAmount}) {
+  TransferErrorBadBurn copyWith({BigInt? minBurnAmount}) {
     return TransferErrorBadBurn(
       minBurnAmount: minBurnAmount ?? this.minBurnAmount,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorBadBurn &&
@@ -1657,6 +1538,7 @@ class TransferErrorBadBurn {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, minBurnAmount]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1669,10 +1551,7 @@ class TransferErrorBadBurn {
 /// ```
 @immutable
 class TransferErrorDuplicate {
-  const TransferErrorDuplicate(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: nat`
-      required this.duplicateOf});
+  const TransferErrorDuplicate({required this.duplicateOf});
 
   factory TransferErrorDuplicate.fromJson(Map json) {
     return TransferErrorDuplicate(
@@ -1692,17 +1571,14 @@ class TransferErrorDuplicate {
     };
   }
 
-  TransferErrorDuplicate copyWith(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: nat`
-      BigInt? duplicateOf}) {
+  TransferErrorDuplicate copyWith({BigInt? duplicateOf}) {
     return TransferErrorDuplicate(
       duplicateOf: duplicateOf ?? this.duplicateOf,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorDuplicate &&
@@ -1712,6 +1588,7 @@ class TransferErrorDuplicate {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, duplicateOf]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1724,10 +1601,7 @@ class TransferErrorDuplicate {
 /// ```
 @immutable
 class TransferErrorBadFee {
-  const TransferErrorBadFee(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: nat`
-      required this.expectedFee});
+  const TransferErrorBadFee({required this.expectedFee});
 
   factory TransferErrorBadFee.fromJson(Map json) {
     return TransferErrorBadFee(
@@ -1747,17 +1621,14 @@ class TransferErrorBadFee {
     };
   }
 
-  TransferErrorBadFee copyWith(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: nat`
-      BigInt? expectedFee}) {
+  TransferErrorBadFee copyWith({BigInt? expectedFee}) {
     return TransferErrorBadFee(
       expectedFee: expectedFee ?? this.expectedFee,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorBadFee &&
@@ -1767,6 +1638,7 @@ class TransferErrorBadFee {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, expectedFee]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1779,10 +1651,7 @@ class TransferErrorBadFee {
 /// ```
 @immutable
 class TransferErrorCreatedInFuture {
-  const TransferErrorCreatedInFuture(
-      {
-      /// [ledgerTime] defined in Candid: `ledger_time: nat64`
-      required this.ledgerTime});
+  const TransferErrorCreatedInFuture({required this.ledgerTime});
 
   factory TransferErrorCreatedInFuture.fromJson(Map json) {
     return TransferErrorCreatedInFuture(
@@ -1802,17 +1671,14 @@ class TransferErrorCreatedInFuture {
     };
   }
 
-  TransferErrorCreatedInFuture copyWith(
-      {
-      /// [ledgerTime] defined in Candid: `ledger_time: nat64`
-      BigInt? ledgerTime}) {
+  TransferErrorCreatedInFuture copyWith({BigInt? ledgerTime}) {
     return TransferErrorCreatedInFuture(
       ledgerTime: ledgerTime ?? this.ledgerTime,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorCreatedInFuture &&
@@ -1822,6 +1688,7 @@ class TransferErrorCreatedInFuture {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, ledgerTime]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1834,10 +1701,7 @@ class TransferErrorCreatedInFuture {
 /// ```
 @immutable
 class TransferErrorInsufficientFunds {
-  const TransferErrorInsufficientFunds(
-      {
-      /// [balance] defined in Candid: `balance: nat`
-      required this.balance});
+  const TransferErrorInsufficientFunds({required this.balance});
 
   factory TransferErrorInsufficientFunds.fromJson(Map json) {
     return TransferErrorInsufficientFunds(
@@ -1857,17 +1721,14 @@ class TransferErrorInsufficientFunds {
     };
   }
 
-  TransferErrorInsufficientFunds copyWith(
-      {
-      /// [balance] defined in Candid: `balance: nat`
-      BigInt? balance}) {
+  TransferErrorInsufficientFunds copyWith({BigInt? balance}) {
     return TransferErrorInsufficientFunds(
       balance: balance ?? this.balance,
     );
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferErrorInsufficientFunds &&
@@ -1876,6 +1737,7 @@ class TransferErrorInsufficientFunds {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, balance]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1889,28 +1751,13 @@ class TransferErrorInsufficientFunds {
 @immutable
 class TransferError {
   const TransferError({
-    /// [genericError] defined in Candid: `GenericError: record { message: text; error_code: nat }`
     this.genericError,
-
-    /// [temporarilyUnavailable] defined in Candid: `TemporarilyUnavailable`
     this.temporarilyUnavailable = false,
-
-    /// [badBurn] defined in Candid: `BadBurn: record { min_burn_amount: nat }`
     this.badBurn,
-
-    /// [duplicate] defined in Candid: `Duplicate: record { duplicate_of: nat }`
     this.duplicate,
-
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: nat }`
     this.badFee,
-
-    /// [createdInFuture] defined in Candid: `CreatedInFuture: record { ledger_time: nat64 }`
     this.createdInFuture,
-
-    /// [tooOld] defined in Candid: `TooOld`
     this.tooOld = false,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: nat }`
     this.insufficientFunds,
   });
 
@@ -1997,28 +1844,13 @@ class TransferError {
   }
 
   TransferError copyWith({
-    /// [genericError] defined in Candid: `GenericError: record { message: text; error_code: nat }`
     TransferErrorGenericError? genericError,
-
-    /// [temporarilyUnavailable] defined in Candid: `TemporarilyUnavailable`
     bool? temporarilyUnavailable,
-
-    /// [badBurn] defined in Candid: `BadBurn: record { min_burn_amount: nat }`
     TransferErrorBadBurn? badBurn,
-
-    /// [duplicate] defined in Candid: `Duplicate: record { duplicate_of: nat }`
     TransferErrorDuplicate? duplicate,
-
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: nat }`
     TransferErrorBadFee? badFee,
-
-    /// [createdInFuture] defined in Candid: `CreatedInFuture: record { ledger_time: nat64 }`
     TransferErrorCreatedInFuture? createdInFuture,
-
-    /// [tooOld] defined in Candid: `TooOld`
     bool? tooOld,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: nat }`
     TransferErrorInsufficientFunds? insufficientFunds,
   }) {
     return TransferError(
@@ -2035,7 +1867,7 @@ class TransferError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TransferError &&
@@ -2066,6 +1898,7 @@ class TransferError {
         tooOld,
         insufficientFunds
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -2079,16 +1912,9 @@ class TransferError {
 @immutable
 class Value {
   const Value({
-    /// [int_] defined in Candid: `Int: int`
     this.int_,
-
-    /// [nat] defined in Candid: `Nat: nat`
     this.nat,
-
-    /// [blob] defined in Candid: `Blob: vec nat8`
     this.blob,
-
-    /// [text] defined in Candid: `Text: text`
     this.text,
   });
 
@@ -2139,16 +1965,9 @@ class Value {
   }
 
   Value copyWith({
-    /// [int_] defined in Candid: `Int: int`
     BigInt? int_,
-
-    /// [nat] defined in Candid: `Nat: nat`
     BigInt? nat,
-
-    /// [blob] defined in Candid: `Blob: vec nat8`
     Uint8List? blob,
-
-    /// [text] defined in Candid: `Text: text`
     String? text,
   }) {
     return Value(
@@ -2160,7 +1979,7 @@ class Value {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Value &&
@@ -2172,6 +1991,7 @@ class Value {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, int_, nat, blob, text]);
+
   @override
   String toString() {
     return toJson().toString();

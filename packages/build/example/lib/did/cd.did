@@ -67,10 +67,14 @@ type J = opt vec opt vec H;
 
 type K = func () -> ();
 
+type L = record {
+  texts : opt vec text;
+};
 
 service : () -> {
     echo: (node: opt Node)->(opt Node1) query;
     echo1: (A, B, C, D, E, F, G, H, I, J)->(opt A, opt B, opt C, opt D, opt E, opt F, opt G, opt H, opt I, opt J);
     echo2: (tt: J)-> ();
     echo3: (tt: J)-> () composite_query;
+    echo4: ()-> (L);
 }

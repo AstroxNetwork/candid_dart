@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -8,7 +8,9 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:agent_dart/agent_dart.dart';
 import 'package:collection/collection.dart';
+import 'package:dart_style/dart_style.dart';
 import 'package:meta/meta.dart';
+import 'package:recase/recase.dart';
 
 class CdIDLActor {
   const CdIDLActor._();
@@ -24,7 +26,14 @@ class CdIDLActor {
       [if (arg != null) arg]
     ];
     const method = 'echo';
+    print(method);
+    print(request);
+    print(actor);
     final response = await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    print(response);
     return (response as List).map((e) {
       return e == null ? null : Node1.fromJson(e);
     }).firstOrNull;
@@ -39,7 +48,14 @@ class CdIDLActor {
   ) async {
     final request = arg.toJson();
     const method = 'echo1';
+    print(method);
+    print(request);
+    print(actor);
     final response = await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    print(response);
     return Echo1Ret.fromJson(response);
   }
 
@@ -59,7 +75,14 @@ class CdIDLActor {
       ]
     ];
     const method = 'echo2';
-    await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    final response = await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    print(response);
   }
 
   /// ```Candid
@@ -78,112 +101,33 @@ class CdIDLActor {
       ]
     ];
     const method = 'echo3';
-    await actor.getFunc(method)!(request);
-  }
-}
-
-class CdIDLService {
-  CdIDLService({
-    required this.canisterId,
-    required this.uri,
-    this.identity,
-    this.createActorMethod,
-    this.debug = true,
-  }) : idl = CdIDL.idl;
-
-  final String canisterId;
-  final Uri uri;
-  final Service idl;
-  final Identity? identity;
-  final bool debug;
-  final CreateActorMethod? createActorMethod;
-
-  Completer<CanisterActor>? _actor;
-
-  Future<CanisterActor> getActor() {
-    if (_actor != null) {
-      return _actor!.future;
-    }
-    final completer = Completer<CanisterActor>();
-    _actor = completer;
-    Future(() async {
-      final httpAgent = HttpAgent(
-        defaultProtocol: uri.scheme,
-        defaultHost: uri.host,
-        defaultPort: uri.port,
-        options: HttpAgentOptions(identity: identity),
-      );
-      if (debug) {
-        await httpAgent.fetchRootKey();
-      }
-      httpAgent.addTransform(
-        HttpAgentRequestTransformFn(call: makeNonceTransform()),
-      );
-      return CanisterActor(
-        ActorConfig(
-          canisterId: Principal.fromText(canisterId),
-          agent: httpAgent,
-        ),
-        idl,
-        createActorMethod: createActorMethod,
-      );
-    }).then(completer.complete).catchError((e, s) {
-      completer.completeError(e, s);
-      _actor = null;
-    });
-    return completer.future;
+    print(method);
+    print(request);
+    print(actor);
+    final response = await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    print(response);
   }
 
   /// ```Candid
-  ///   echo: (node: opt Node) -> (opt Node1) query
+  ///   echo4: () -> (L)
   /// ```
-  Future<Node1?> echo([
-    Node? arg,
-  ]) async {
-    final actor = await getActor();
-    return CdIDLActor.echo(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo1: (A, B, C, D, E, F, G, H, I, J) -> (opt A, opt B, opt C, opt D, opt E, opt F, opt G, opt H, opt I, opt J)
-  /// ```
-  Future<Echo1Ret> echo1(
-    Echo1Arg arg,
+  static Future<L> echo4(
+    CanisterActor actor,
   ) async {
-    final actor = await getActor();
-    return CdIDLActor.echo1(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo2: (tt: J) -> ()
-  /// ```
-  Future<void> echo2(
-    J arg,
-  ) async {
-    final actor = await getActor();
-    return CdIDLActor.echo2(
-      actor,
-      arg,
-    );
-  }
-
-  /// ```Candid
-  ///   echo3: (tt: J) -> () composite_query
-  /// ```
-  Future<void> echo3(
-    J arg,
-  ) async {
-    final actor = await getActor();
-    return CdIDLActor.echo3(
-      actor,
-      arg,
-    );
+    const request = [];
+    const method = 'echo4';
+    print(method);
+    print(request);
+    print(actor);
+    final response = await actor.getFunc(method)!(request);
+    print(method);
+    print(request);
+    print(actor);
+    print(response);
+    return L.fromJson(response);
   }
 }
 
@@ -360,6 +304,18 @@ class CdIDL {
     [],
   );
 
+  /// [_L] defined in Candid
+  /// ```Candid
+  ///   type L = record { texts: opt vec text };
+  /// ```
+  static final RecordClass _L = IDL.Record({
+    'texts': IDL.Opt(
+      IDL.Vec(
+        IDL.Text,
+      ),
+    ),
+  });
+
   static final ServiceClass idl = () {
     _Class.fill(__Class);
     _Node2.fill(__Node2);
@@ -428,6 +384,11 @@ class CdIDL {
         [],
         ['composite_query'],
       ),
+      'echo4': IDL.Func(
+        [],
+        [_L],
+        [],
+      ),
     });
   }();
 }
@@ -439,16 +400,9 @@ class CdIDL {
 @immutable
 class Class {
   const Class({
-    /// [noBody] defined in Candid: `no_body`
     this.noBody = false,
-
-    /// [hello] defined in Candid: `hello: text`
     this.hello,
-
-    /// [class_] defined in Candid: `class: opt vec opt Class`
     this.class_,
-
-    /// [bigint] defined in Candid: `bigint: nat`
     this.bigint,
   });
 
@@ -503,16 +457,9 @@ class Class {
   }
 
   Class copyWith({
-    /// [noBody] defined in Candid: `no_body`
     bool? noBody,
-
-    /// [hello] defined in Candid: `hello: text`
     String? hello,
-
-    /// [class_] defined in Candid: `class: opt vec opt Class`
     List<Class?>? class_,
-
-    /// [bigint] defined in Candid: `bigint: nat`
     BigInt? bigint,
   }) {
     return Class(
@@ -524,7 +471,7 @@ class Class {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Class &&
@@ -542,6 +489,7 @@ class Class {
         const DeepCollectionEquality().hash(class_),
         bigint
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -582,7 +530,7 @@ class Node2 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node2 &&
@@ -591,6 +539,7 @@ class Node2 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -604,10 +553,7 @@ class Node2 {
 @immutable
 class Node {
   const Node({
-    /// [data] defined in Candid: `data: nat`
     required this.data,
-
-    /// [left] defined in Candid: `left: opt Node2`
     this.left,
   });
 
@@ -636,10 +582,7 @@ class Node {
   }
 
   Node copyWith({
-    /// [data] defined in Candid: `data: nat`
     BigInt? data,
-
-    /// [left] defined in Candid: `left: opt Node2`
     Node2? left,
   }) {
     return Node(
@@ -649,7 +592,7 @@ class Node {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node &&
@@ -659,6 +602,7 @@ class Node {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, data, left]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -712,7 +656,7 @@ class Node1 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node1 &&
@@ -722,6 +666,7 @@ class Node1 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -735,22 +680,11 @@ class Node1 {
 @immutable
 class D {
   const D({
-    /// [a] defined in Candid: `A`
     this.a = false,
-
-    /// [b] defined in Candid: `B`
     this.b = false,
-
-    /// [c] defined in Candid: `c: C`
     this.c,
-
-    /// [d] defined in Candid: `d: D`
     this.d,
-
-    /// [e] defined in Candid: `e: E`
     this.e,
-
-    /// [node2] defined in Candid: `node2: Node2`
     this.node2,
   });
 
@@ -809,22 +743,11 @@ class D {
   }
 
   D copyWith({
-    /// [a] defined in Candid: `A`
     bool? a,
-
-    /// [b] defined in Candid: `B`
     bool? b,
-
-    /// [c] defined in Candid: `c: C`
     C? c,
-
-    /// [d] defined in Candid: `d: D`
     D? d,
-
-    /// [e] defined in Candid: `e: E`
     E? e,
-
-    /// [node2] defined in Candid: `node2: Node2`
     Node2? node2,
   }) {
     return D(
@@ -838,7 +761,7 @@ class D {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is D &&
@@ -852,6 +775,7 @@ class D {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, a, b, c, d, e, node2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -920,7 +844,7 @@ class G0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G0 &&
@@ -931,6 +855,7 @@ class G0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1019,7 +944,7 @@ class G1 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G1 &&
@@ -1030,6 +955,7 @@ class G1 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1139,7 +1065,7 @@ class G {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G &&
@@ -1149,6 +1075,57 @@ class G {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+}
+
+/// [L] defined in Candid
+/// ```Candid
+///   record { texts: opt vec text }
+/// ```
+@immutable
+class L {
+  const L({this.texts});
+
+  factory L.fromJson(Map json) {
+    return L(
+      texts: (json['texts'] as List).map((e) {
+        return (e as List?)?.cast<String>();
+      }).firstOrNull,
+    );
+  }
+
+  /// [texts] defined in Candid: `texts: opt vec text`
+  final List<String>? texts;
+
+  Map<String, dynamic> toJson() {
+    final texts = this.texts;
+    return {
+      'texts': [if (texts != null) texts],
+    };
+  }
+
+  L copyWith({List<String>? texts}) {
+    return L(
+      texts: texts ?? this.texts,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is L &&
+            const DeepCollectionEquality().equals(other.texts, texts));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hashAll([runtimeType, const DeepCollectionEquality().hash(texts)]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1370,7 +1347,7 @@ class Echo1Arg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Echo1Arg &&
@@ -1400,6 +1377,7 @@ class Echo1Arg {
         item9,
         item10
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1657,7 +1635,7 @@ class Echo1Ret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Echo1Ret &&
@@ -1687,6 +1665,7 @@ class Echo1Ret {
         item9,
         item10
       ]);
+
   @override
   String toString() {
     return toJson().toString();

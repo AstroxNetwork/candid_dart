@@ -1,5 +1,5 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field
+// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
@@ -93,50 +93,50 @@ class CdIDL {
   /// ```Candid
   ///   type Class = variant { no_body; hello: text; class: opt vec opt Class; bigint: nat };
   /// ```
-  static final RecClass _Class = IDL.Rec()
-    ..fill(IDL.Variant({
-      'no_body': IDL.Null,
-      'hello': IDL.Text,
-      'class': IDL.Opt(
-        IDL.Vec(
-          IDL.Opt(
-            _Class,
-          ),
+  static final RecClass _Class = IDL.Rec();
+  static final VariantClass __Class = IDL.Variant({
+    'no_body': IDL.Null,
+    'hello': IDL.Text,
+    'class': IDL.Opt(
+      IDL.Vec(
+        IDL.Opt(
+          _Class,
         ),
       ),
-      'bigint': IDL.Nat,
-    }));
+    ),
+    'bigint': IDL.Nat,
+  });
 
   /// [_Node2] defined in Candid
   /// ```Candid
   ///   type Node2 = record { Node1 };
   /// ```
-  static final RecClass _Node2 = IDL.Rec()
-    ..fill(IDL.Tuple([
-      _Node1,
-    ]));
+  static final RecClass _Node2 = IDL.Rec();
+  static final TupleClass __Node2 = IDL.Tuple([
+    _Node1,
+  ]);
 
   /// [_Node] defined in Candid
   /// ```Candid
   ///   type Node = record { data: nat; left: opt Node2 };
   /// ```
-  static final RecClass _Node = IDL.Rec()
-    ..fill(IDL.Record({
-      'data': IDL.Nat,
-      'left': IDL.Opt(
-        _Node2,
-      ),
-    }));
+  static final RecClass _Node = IDL.Rec();
+  static final RecordClass __Node = IDL.Record({
+    'data': IDL.Nat,
+    'left': IDL.Opt(
+      _Node2,
+    ),
+  });
 
   /// [_Node1] defined in Candid
   /// ```Candid
   ///   type Node1 = record { Node; Node };
   /// ```
-  static final RecClass _Node1 = IDL.Rec()
-    ..fill(IDL.Tuple([
-      _Node,
-      _Node,
-    ]));
+  static final RecClass _Node1 = IDL.Rec();
+  static final TupleClass __Node1 = IDL.Tuple([
+    _Node,
+    _Node,
+  ]);
 
   /// [_A] defined in Candid
   /// ```Candid
@@ -158,26 +158,26 @@ class CdIDL {
   /// ```Candid
   ///   type C = opt vec D;
   /// ```
-  static final RecClass _C = IDL.Rec()
-    ..fill(IDL.Opt(
-      IDL.Vec(
-        _D,
-      ),
-    ));
+  static final RecClass _C = IDL.Rec();
+  static final OptClass __C = IDL.Opt(
+    IDL.Vec(
+      _D,
+    ),
+  );
 
   /// [_D] defined in Candid
   /// ```Candid
   ///   type D = variant { A; B; c: C; d: D; e: E; node2: Node2 };
   /// ```
-  static final RecClass _D = IDL.Rec()
-    ..fill(IDL.Variant({
-      'A': IDL.Null,
-      'B': IDL.Null,
-      'c': _C,
-      'd': _D,
-      'e': _E,
-      'node2': _Node2,
-    }));
+  static final RecClass _D = IDL.Rec();
+  static final VariantClass __D = IDL.Variant({
+    'A': IDL.Null,
+    'B': IDL.Null,
+    'c': _C,
+    'd': _D,
+    'e': _E,
+    'node2': _Node2,
+  });
 
   /// [_E] defined in Candid
   /// ```Candid
@@ -199,19 +199,19 @@ class CdIDL {
   /// ```Candid
   ///   type G = record { record { F; E; G }; record { A; B; C } };
   /// ```
-  static final RecClass _G = IDL.Rec()
-    ..fill(IDL.Tuple([
-      IDL.Tuple([
-        _F,
-        _E,
-        _G,
-      ]),
-      IDL.Tuple([
-        _A,
-        _B,
-        _C,
-      ]),
-    ]));
+  static final RecClass _G = IDL.Rec();
+  static final TupleClass __G = IDL.Tuple([
+    IDL.Tuple([
+      _F,
+      _E,
+      _G,
+    ]),
+    IDL.Tuple([
+      _A,
+      _B,
+      _C,
+    ]),
+  ]);
 
   /// [_H] defined in Candid
   /// ```Candid
@@ -259,62 +259,71 @@ class CdIDL {
     [],
   );
 
-  static final ServiceClass idl = IDL.Service({
-    'echo': IDL.Func(
-      [
-        IDL.Opt(
-          _Node,
-        )
-      ],
-      [
-        IDL.Opt(
-          _Node1,
-        )
-      ],
-      ['query'],
-    ),
-    'echo1': IDL.Func(
-      [_A, _B, _C, _D, _E, _F, _G, _H, _I, _J],
-      [
-        IDL.Opt(
-          _A,
-        ),
-        IDL.Opt(
-          _B,
-        ),
-        IDL.Opt(
-          _C,
-        ),
-        IDL.Opt(
-          _D,
-        ),
-        IDL.Opt(
-          _E,
-        ),
-        IDL.Opt(
-          _F,
-        ),
-        IDL.Opt(
-          _G,
-        ),
-        IDL.Opt(
-          _H,
-        ),
-        IDL.Opt(
-          _I,
-        ),
-        IDL.Opt(
-          _J,
-        )
-      ],
-      [],
-    ),
-    'echo2': IDL.Func(
-      [_J],
-      [],
-      [],
-    ),
-  });
+  static final ServiceClass idl = () {
+    _Class.fill(__Class);
+    _Node2.fill(__Node2);
+    _Node.fill(__Node);
+    _Node1.fill(__Node1);
+    _C.fill(__C);
+    _D.fill(__D);
+    _G.fill(__G);
+    return IDL.Service({
+      'echo': IDL.Func(
+        [
+          IDL.Opt(
+            _Node,
+          )
+        ],
+        [
+          IDL.Opt(
+            _Node1,
+          )
+        ],
+        ['query'],
+      ),
+      'echo1': IDL.Func(
+        [_A, _B, _C, _D, _E, _F, _G, _H, _I, _J],
+        [
+          IDL.Opt(
+            _A,
+          ),
+          IDL.Opt(
+            _B,
+          ),
+          IDL.Opt(
+            _C,
+          ),
+          IDL.Opt(
+            _D,
+          ),
+          IDL.Opt(
+            _E,
+          ),
+          IDL.Opt(
+            _F,
+          ),
+          IDL.Opt(
+            _G,
+          ),
+          IDL.Opt(
+            _H,
+          ),
+          IDL.Opt(
+            _I,
+          ),
+          IDL.Opt(
+            _J,
+          )
+        ],
+        [],
+      ),
+      'echo2': IDL.Func(
+        [_J],
+        [],
+        [],
+      ),
+    });
+  }();
 }
 
 /// [Class] defined in Candid
@@ -324,16 +333,9 @@ class CdIDL {
 @immutable
 class Class {
   const Class({
-    /// [noBody] defined in Candid: `no_body`
     this.noBody = false,
-
-    /// [hello] defined in Candid: `hello: text`
     this.hello,
-
-    /// [class_] defined in Candid: `class: opt vec opt Class`
     this.class_,
-
-    /// [bigint] defined in Candid: `bigint: nat`
     this.bigint,
   });
 
@@ -388,16 +390,9 @@ class Class {
   }
 
   Class copyWith({
-    /// [noBody] defined in Candid: `no_body`
     bool? noBody,
-
-    /// [hello] defined in Candid: `hello: text`
     String? hello,
-
-    /// [class_] defined in Candid: `class: opt vec opt Class`
     List<Class?>? class_,
-
-    /// [bigint] defined in Candid: `bigint: nat`
     BigInt? bigint,
   }) {
     return Class(
@@ -409,7 +404,7 @@ class Class {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Class &&
@@ -427,6 +422,7 @@ class Class {
         const DeepCollectionEquality().hash(class_),
         bigint
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -467,7 +463,7 @@ class Node2 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node2 &&
@@ -476,6 +472,7 @@ class Node2 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -489,10 +486,7 @@ class Node2 {
 @immutable
 class Node {
   const Node({
-    /// [data] defined in Candid: `data: nat`
     required this.data,
-
-    /// [left] defined in Candid: `left: opt Node2`
     this.left,
   });
 
@@ -521,10 +515,7 @@ class Node {
   }
 
   Node copyWith({
-    /// [data] defined in Candid: `data: nat`
     BigInt? data,
-
-    /// [left] defined in Candid: `left: opt Node2`
     Node2? left,
   }) {
     return Node(
@@ -534,7 +525,7 @@ class Node {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node &&
@@ -544,6 +535,7 @@ class Node {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, data, left]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -597,7 +589,7 @@ class Node1 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Node1 &&
@@ -607,6 +599,7 @@ class Node1 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -620,22 +613,11 @@ class Node1 {
 @immutable
 class D {
   const D({
-    /// [a] defined in Candid: `A`
     this.a = false,
-
-    /// [b] defined in Candid: `B`
     this.b = false,
-
-    /// [c] defined in Candid: `c: C`
     this.c,
-
-    /// [d] defined in Candid: `d: D`
     this.d,
-
-    /// [e] defined in Candid: `e: E`
     this.e,
-
-    /// [node2] defined in Candid: `node2: Node2`
     this.node2,
   });
 
@@ -649,9 +631,11 @@ class D {
         }).toList();
       }).firstOrNull,
       d: json['d'] == null ? null : D.fromJson(json['d']),
-      e: json['e'] is Uint8List
-          ? json['e']
-          : Uint8List.fromList((json['e'] as List).cast()),
+      e: json['e'] == null
+          ? null
+          : json['e'] is Uint8List
+              ? json['e']
+              : Uint8List.fromList((json['e'] as List).cast()),
       node2: json['node2'] == null ? null : Node2.fromJson(json['node2']),
     );
   }
@@ -692,22 +676,11 @@ class D {
   }
 
   D copyWith({
-    /// [a] defined in Candid: `A`
     bool? a,
-
-    /// [b] defined in Candid: `B`
     bool? b,
-
-    /// [c] defined in Candid: `c: C`
     C? c,
-
-    /// [d] defined in Candid: `d: D`
     D? d,
-
-    /// [e] defined in Candid: `e: E`
     E? e,
-
-    /// [node2] defined in Candid: `node2: Node2`
     Node2? node2,
   }) {
     return D(
@@ -721,7 +694,7 @@ class D {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is D &&
@@ -735,6 +708,7 @@ class D {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, a, b, c, d, e, node2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -803,7 +777,7 @@ class G0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G0 &&
@@ -814,6 +788,7 @@ class G0 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -902,7 +877,7 @@ class G1 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G1 &&
@@ -913,6 +888,7 @@ class G1 {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2, item3]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1022,7 +998,7 @@ class G {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is G &&
@@ -1032,6 +1008,7 @@ class G {
 
   @override
   int get hashCode => Object.hashAll([runtimeType, item1, item2]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1253,7 +1230,7 @@ class Echo1Arg {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Echo1Arg &&
@@ -1283,6 +1260,7 @@ class Echo1Arg {
         item9,
         item10
       ]);
+
   @override
   String toString() {
     return toJson().toString();
@@ -1311,7 +1289,7 @@ class Echo1Ret {
   factory Echo1Ret.fromJson(List<dynamic> tuple) {
     return Echo1Ret(
       (tuple[0] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return (e as List).map((e) {
             return (e as List).map((e) {
               return (e as List?)?.map((e) {
@@ -1322,7 +1300,7 @@ class Echo1Ret {
         }).toList();
       }).firstOrNull,
       (tuple[1] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return (e as List).map((e) {
             return (e as List?)?.map((e) {
               return D.fromJson(e);
@@ -1341,10 +1319,14 @@ class Echo1Ret {
         return e == null ? null : D.fromJson(e);
       }).firstOrNull,
       (tuple[4] as List).map((e) {
-        return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
       }).firstOrNull,
       (tuple[5] as List).map((e) {
-        return (e as List).map((e) {
+        return (e as List?)?.map((e) {
           return e is Uint8List ? e : Uint8List.fromList((e as List).cast());
         }).toList();
       }).firstOrNull,
@@ -1441,7 +1423,7 @@ class Echo1Ret {
     return [
       [
         if (item1 != null)
-          item1.map((e) {
+          item1?.map((e) {
             return e.map((e) {
               return [if (e != null) e];
             }).toList();
@@ -1449,7 +1431,7 @@ class Echo1Ret {
       ],
       [
         if (item2 != null)
-          item2.map((e) {
+          item2?.map((e) {
             return [if (e != null) e];
           }).toList()
       ],
@@ -1536,7 +1518,7 @@ class Echo1Ret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Echo1Ret &&
@@ -1566,6 +1548,7 @@ class Echo1Ret {
         item9,
         item10
       ]);
+
   @override
   String toString() {
     return toJson().toString();
