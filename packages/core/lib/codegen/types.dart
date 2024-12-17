@@ -374,10 +374,11 @@ class VecType extends NestedType<VecTypeContext> {
         d = "(${IDLType.ph} as List).map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
       }
     } else if (d == null || d == IDLType.ph) {
+      final castType = child.dartType(nullable: nullable);
       if (nullable) {
-        d = '(${IDLType.ph} as List?)?.cast()';
+        d = '(${IDLType.ph} as List?)?.cast<$castType>()';
       } else {
-        d = '(${IDLType.ph} as List).cast()';
+        d = '(${IDLType.ph} as List).cast<$castType>()';
       }
     }
     return d;
