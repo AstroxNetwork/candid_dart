@@ -1,3 +1,7 @@
+## 1.1.8
+
+- Use `agent_dart_base` as the import package instead of `agent_dart`.
+
 ## 1.1.7
 
 - Use the current Dart version to format files.
