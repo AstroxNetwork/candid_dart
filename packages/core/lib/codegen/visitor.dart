@@ -17,6 +17,7 @@ typedef SerFactory = Def Function();
 class IDLVisitor extends CandidBaseVisitor<IDLType<RuleContext>> {
   final sers = <String, SerFactory>{};
   final objs = <String, ObjectType>{};
+  final enums = <String, ObjectType>{};
   final tuples = <String, TupleType>{};
   final typedefs = <String, Def>{};
   final pkgs = <String>{};
@@ -245,7 +246,11 @@ class IDLVisitor extends CandidBaseVisitor<IDLType<RuleContext>> {
     if (sames.length > 1) {
       return;
     }
-    objs[className] = type;
+    if (type.isEnum) {
+      enums[className] = type;
+    } else {
+      objs[className] = type;
+    }
   }
 }
 

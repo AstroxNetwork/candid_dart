@@ -16,6 +16,8 @@ import 'extension.dart';
 import 'types.dart' as ts;
 import 'visitor.dart';
 
+late IDLVisitor _idlVisitor;
+
 String did2dart(
   String fileName,
   String contents, [
@@ -25,7 +27,7 @@ String did2dart(
   final cdVisitor = PreVisitor();
   cdVisitor.visit(newParser(contents).prog());
   final deps = cdVisitor.deps;
-  final idlVisitor = IDLVisitor();
+  final idlVisitor = _idlVisitor = IDLVisitor();
   final prog = idlVisitor.visit(newParser(contents).prog()) as ts.Prog;
   final defs = prog.defs;
   final cdSb = StringBuffer();
@@ -129,7 +131,9 @@ Future<$retType> $methodName($arg) async {
     }
   }
   final sameObjs = idlVisitor.sameObjs;
-  final hasObj = idlVisitor.objs.isNotEmpty || idlVisitor.tuples.isNotEmpty;
+  final hasObj = idlVisitor.objs.isNotEmpty ||
+      idlVisitor.enums.isNotEmpty ||
+      idlVisitor.tuples.isNotEmpty;
   final imports = [
     Directive.import('dart:async'),
     Directive.import('package:agent_dart_base/agent_dart_base.dart'),
@@ -170,7 +174,7 @@ Future<$retType> $methodName($arg) async {
         Code(newActor(clazz, actorMethods.toString())),
         if (option.service) Code(newService(clazz, serviceMethods.toString())),
         Code('class ${clazz}IDL{\nconst ${clazz}IDL._();\n$idls\n$actors}'),
-        ...idlVisitor.objs.entries.map((e) {
+        ...{...idlVisitor.objs, ...idlVisitor.enums}.entries.map((e) {
           final className = e.key;
           final type = e.value;
           final isTuple = type is ts.RecordType && type.isTupleValue;
@@ -299,7 +303,8 @@ Spec toTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
-    toJsonFields.writeln('final $fieldName = this.$fieldName;');
+    final toJsonField = _typeToJsonField(e, fieldName);
+    toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
     (b) => b
@@ -418,7 +423,8 @@ Spec toFreezedTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
-    toJsonFields.writeln('final $fieldName = this.$fieldName;');
+    final toJsonField = _typeToJsonField(e, fieldName);
+    toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
     (b) => b
@@ -593,14 +599,7 @@ Spec toClass(
         }
       }
     }
-    String toJsonField = fieldName;
-    switch (dartType) {
-      case 'BigInt?':
-        toJsonField += '?.toString()';
-        break;
-      case 'BigInt':
-        toJsonField += '.toString()';
-    }
+    final toJsonField = _typeToJsonField(e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
@@ -850,7 +849,8 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         }
       }
     }
-    toJsonFields.writeln('final $fieldName = this.$fieldName;');
+    final toJsonField = _typeToJsonField(e, fieldName);
+    toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
     (b) => b
@@ -998,4 +998,26 @@ class ${className}IDLActor {
   $methods
 }
    ''';
+}
+
+String _typeToJsonField(ts.DelegateType type, String fieldName) {
+  final child = type.child;
+  final isOpt = child is ts.OptType;
+  String dartType = child.dartType();
+  final isEnum = _idlVisitor.enums.containsKey(dartType);
+  if (isOpt && !dartType.endsWith('?')) {
+    dartType += '?';
+  }
+  String toJsonField = fieldName;
+  if (isEnum) {
+    if (isOpt) {
+      toJsonField += '?';
+    }
+    toJsonField += '.name';
+  } else if (dartType == 'BigInt?') {
+    toJsonField += '?.toString()';
+  } else if (dartType == 'BigInt') {
+    toJsonField += '.toString()';
+  }
+  return toJsonField;
 }
