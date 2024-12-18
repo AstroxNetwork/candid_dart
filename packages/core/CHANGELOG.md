@@ -1,3 +1,7 @@
+## 1.1.12
+
+- Improve `fromJson` and `toJson` for Enum classes to compatible with other libraries.
+
 ## 1.1.10
 
 - Improve how enumeration classes being parsed and serialized
