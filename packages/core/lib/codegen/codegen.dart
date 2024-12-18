@@ -713,6 +713,7 @@ Spec toEnum(String className, ts.ObjectType obj) {
   return Enum(
     (b) => b
       ..name = className
+      ..docs = ListBuilder(['/// [$className] defined in Candid', obj.doc])
       ..values = ListBuilder(values)
       ..fields = ListBuilder([
         Field(
@@ -755,12 +756,11 @@ Spec toEnum(String className, ts.ObjectType obj) {
         Method(
           (b) => b
             ..name = 'toJson'
-            ..body = const Code('return {name: null};')
-            ..returns = const Reference('\nMap<String, dynamic>'),
+            ..body = const Code('return {name: name};')
+            ..returns = const Reference('\nMap<String, String>'),
         ),
         toStringMethod,
-      ])
-      ..docs = ListBuilder(['/// [$className] defined in Candid', obj.doc]),
+      ]),
   );
 }
 
@@ -1013,7 +1013,7 @@ String _typeToJsonField(ts.DelegateType type, String fieldName) {
     if (isOpt) {
       toJsonField += '?';
     }
-    toJsonField += '.name';
+    toJsonField += '.toJson()';
   } else if (dartType == 'BigInt?') {
     toJsonField += '?.toString()';
   } else if (dartType == 'BigInt') {
