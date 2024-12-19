@@ -756,8 +756,8 @@ Spec toEnum(String className, ts.ObjectType obj) {
         Method(
           (b) => b
             ..name = 'toJson'
-            ..body = const Code('return {name: name};')
-            ..returns = const Reference('\nMap<String, String>'),
+            ..body = const Code('return {name: null};')
+            ..returns = const Reference('\nMap<String, Null>'),
         ),
         toStringMethod,
       ]),
