@@ -131,9 +131,7 @@ Future<$retType> $methodName($arg) async {
     }
   }
   final sameObjs = idlVisitor.sameObjs;
-  final hasObj = idlVisitor.objs.isNotEmpty ||
-      idlVisitor.enums.isNotEmpty ||
-      idlVisitor.tuples.isNotEmpty;
+  final hasObj = idlVisitor.objs.isNotEmpty || idlVisitor.tuples.isNotEmpty;
   final imports = [
     Directive.import('dart:async'),
     Directive.import('package:agent_dart_base/agent_dart_base.dart'),
@@ -174,7 +172,7 @@ Future<$retType> $methodName($arg) async {
         Code(newActor(clazz, actorMethods.toString())),
         if (option.service) Code(newService(clazz, serviceMethods.toString())),
         Code('class ${clazz}IDL{\nconst ${clazz}IDL._();\n$idls\n$actors}'),
-        ...{...idlVisitor.objs, ...idlVisitor.enums}.entries.map((e) {
+        ...idlVisitor.objs.entries.map((e) {
           final className = e.key;
           final type = e.value;
           final isTuple = type is ts.RecordType && type.isTupleValue;
@@ -303,7 +301,7 @@ Spec toTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
-    final toJsonField = _typeToJsonField(e, fieldName);
+    final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
@@ -423,7 +421,7 @@ Spec toFreezedTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
-    final toJsonField = _typeToJsonField(e, fieldName);
+    final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
@@ -599,7 +597,7 @@ Spec toClass(
         }
       }
     }
-    final toJsonField = _typeToJsonField(e, fieldName);
+    final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
@@ -849,7 +847,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         }
       }
     }
-    final toJsonField = _typeToJsonField(e, fieldName);
+    final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
@@ -1000,17 +998,42 @@ class ${className}IDLActor {
    ''';
 }
 
-String _typeToJsonField(ts.DelegateType type, String fieldName) {
+String _typeToJsonField(
+  ts.ObjectType parent,
+  ts.DelegateType type,
+  String fieldName,
+) {
   final child = type.child;
   final isOpt = child is ts.OptType;
   String dartType = child.dartType();
-  final isEnum = _idlVisitor.enums.containsKey(dartType);
+
+  // Handles type alias recursively.
+  while (true) {
+    final typedefType = _idlVisitor.typedefs.entries.firstWhereOrNull(
+      (entry) => RegExp('^type $dartType = .*;\$').hasMatch(entry.key),
+    );
+    if (typedefType == null) {
+      break;
+    }
+    final result = toTypeDef(typedefType.value);
+    if (result == null) {
+      break;
+    }
+    dartType = result.definition.code.toString();
+  }
+
+  // Put the nullable annotation if it's optional.
   if (isOpt && !dartType.endsWith('?')) {
     dartType += '?';
   }
+
+  // Put extra method calls accordingly.
   String toJsonField = fieldName;
-  if (isEnum) {
-    if (isOpt) {
+  final objectType = _idlVisitor.objs[dartType];
+  final isEnum = objectType?.isEnum ?? false;
+  final isRecordClass = objectType is ts.RecordType && !objectType.isTupleValue;
+  if (isEnum || isRecordClass) {
+    if (isOpt || parent.isVariant) {
       toJsonField += '?';
     }
     toJsonField += '.toJson()';
