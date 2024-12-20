@@ -1,3 +1,8 @@
+## 1.1.14
+
+- Improve how type alias getting serialized.
+- Improve how record class getting serialized.
+
 ## 1.1.13
 
 - Fix enumeration classes `toJson`.
@@ -8,7 +13,7 @@
 
 ## 1.1.10
 
-- Improve how enumeration classes being parsed and serialized
+- Improve how enumeration classes being parsed and serialized.
 
 ## 1.1.9
 
