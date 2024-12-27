@@ -360,7 +360,7 @@ class VecType extends NestedType<VecTypeContext> {
       nullable = false;
     }
     if (s != null && s != IDLType.ph) {
-      s = "${IDLType.ph}${nullable ? '?' : ''}.map((e) { return ${s.replaceAll(IDLType.ph, "e")}; }).toList()";
+      s = "${IDLType.ph}.map((e) { return ${s.replaceAll(IDLType.ph, "e")}; }).toList()";
     }
     return s;
   }
