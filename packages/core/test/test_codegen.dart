@@ -41,7 +41,17 @@ void main() {
     });
 
     test('test IDL', () {
-      Directory('../../example/lib/did').listSync(recursive: true).forEach((f) {
+      final list =
+          Directory('../../example/lib/did').listSync(recursive: true).toList();
+      for (final f in list.toList()) {
+        final filePath = f.path;
+        if (filePath.endsWith('.idl.dart')) {
+          f.deleteSync();
+          list.remove(f);
+        }
+      }
+
+      for (final f in list) {
         final filePath = f.path;
         if (filePath.endsWith('.did')) {
           final contents = (f as File).readAsStringSync();
@@ -55,7 +65,7 @@ void main() {
             filePath.replaceAll(RegExp(r'.did$'), '.idl.dart'),
           ).writeAsStringSync(code);
         }
-      });
+      }
     });
   });
 }
