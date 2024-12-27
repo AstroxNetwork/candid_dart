@@ -1019,6 +1019,7 @@ String _typeToJsonField(
     dartType = result.definition.code.toString();
   }
 
+  final isBool = (child is ts.IdType && parent.isVariant) || dartType == 'null';
   // Put the nullable annotation if it's optional.
   if (isOpt && !dartType.endsWith('?')) {
     dartType += '?';
@@ -1029,7 +1030,7 @@ String _typeToJsonField(
   final objectType = _idlVisitor.objs[dartType];
   final isEnum = objectType?.isEnum ?? false;
   final isRecordClass = objectType is ts.RecordType && !objectType.isTupleValue;
-  if (isEnum || isRecordClass) {
+  if (!isBool && (isEnum || isRecordClass)) {
     if (isOpt || parent.isVariant) {
       toJsonField += '?';
     }
