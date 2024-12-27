@@ -272,9 +272,6 @@ Spec toTupleClass(
         (b) => b
           ..name = fieldName
           ..named = true
-          ..docs = ListBuilder(
-            ['/// [$fieldName] defined in Candid: `${child.did}`'],
-          )
           ..type = Reference(dartType.endsWith('?') ? dartType : '$dartType?'),
       ),
     );
