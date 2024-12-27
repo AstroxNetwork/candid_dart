@@ -1,3 +1,9 @@
+## 1.1.15
+
+- Remove did comments from all `copyWith` methods.
+- Do not serialize boolean type with `toJson`.
+- Do not add null-aware operator when serializing `VecType`.
+
 ## 1.1.14
 
 - Improve how type alias getting serialized.
