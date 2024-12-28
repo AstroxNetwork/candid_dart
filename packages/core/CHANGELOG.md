@@ -1,3 +1,7 @@
+## 1.1.18
+
+- Fix `BigInt` type prediction in `fromJson`.
+
 ## 1.1.17
 
 - Adds `fromIDLDeserializable` for generated type classes.
