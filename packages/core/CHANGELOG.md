@@ -1,3 +1,7 @@
+## 1.1.16
+
+- Adds `toIDLSerializable` for generated type classes.
+
 ## 1.1.15
 
 - Remove did comments from all `copyWith` methods.
