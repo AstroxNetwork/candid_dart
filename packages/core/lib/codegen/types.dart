@@ -89,19 +89,13 @@ class PrimType extends IDLType<PrimTypeContext> {
       return d;
     }
     if (kBigIntIDLTypes.contains(did)) {
-      String d = '';
-      if (fromIDL) {
-        d += '${IDLType.ph} is BigInt';
-      } else {
-        d += '${IDLType.ph} is BigInt || '
-            '${IDLType.ph} is num || '
-            '${IDLType.ph} is String';
-      }
-      d += '? ${IDLType.ph} ';
+      String d = '${IDLType.ph} is BigInt ? ${IDLType.ph} ';
       if (fromIDL) {
         d += ': BigInt.from(${IDLType.ph})';
       } else {
-        d += ": BigInt.parse('\${${IDLType.ph}}')";
+        d += ': ${IDLType.ph} is num '
+            '? BigInt.from(${IDLType.ph}) '
+            ": BigInt.parse('\${${IDLType.ph}}')";
       }
       if (nullable) {
         d = '${IDLType.ph} == null ? null : $d';
