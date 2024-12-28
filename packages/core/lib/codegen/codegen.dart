@@ -100,7 +100,8 @@ String did2dart(
       final retType = body.ret.dartType();
       final noRet = body.ret.children.isEmpty;
       final noArgs = body.args.children.isEmpty;
-      final retDeser = noRet ? '' : 'return ${body.ret.deserialize()};';
+      final retDeser =
+          noRet ? '' : 'return ${body.ret.deserialize(fromIDL: true)};';
       final arg = noArgs
           ? ''
           : argsType.endsWith('?')
@@ -232,6 +233,7 @@ Spec toTupleClass(
 ) {
   final constructorParameters = <Parameter>[];
   final fromJson = StringBuffer();
+  final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
   final toSerializableFields = StringBuffer();
@@ -288,13 +290,18 @@ Spec toTupleClass(
           ),
       ),
     );
-    var deserialize = child.deserialize();
-    if (deserialize != null) {
-      deserialize = deserialize.replaceAll(ts.IDLType.ph, 'tuple[$index]');
-    } else {
-      deserialize = 'tuple[$index]';
-    }
-    fromJson.writeln('$deserialize,');
+
+    final deserJson = child.deserializeAndReplace(
+      replace: 'tuple[$index]',
+      fromIDL: false,
+    );
+    fromJson.writeln('$deserJson,');
+    final deserIDL = child.deserializeAndReplace(
+      replace: 'tuple[$index]',
+      fromIDL: true,
+    );
+    fromDeserializable.writeln('$deserIDL,');
+
     final ser = child.serialize();
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
@@ -312,6 +319,22 @@ Spec toTupleClass(
           (b) => b
             ..requiredParameters = ListBuilder(constructorParameters)
             ..constant = true,
+        ),
+        Constructor(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the deserialization with `packages:agent_dart`.',
+            ])
+            ..name = 'fromIDLDeserializable'
+            ..factory = true
+            ..body = Code('return $className($fromDeserializable);')
+            ..requiredParameters = ListBuilder([
+              Parameter(
+                (b) => b
+                  ..type = const Reference('List<dynamic>')
+                  ..name = 'tuple',
+              ),
+            ]),
         ),
         Constructor(
           (b) => b
@@ -397,6 +420,7 @@ Spec toFreezedTupleClass(
 ) {
   final requiredParameters = <Parameter>[];
   final fromJson = StringBuffer();
+  final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
   final toSerializableFields = StringBuffer();
@@ -419,13 +443,18 @@ Spec toFreezedTupleClass(
           ..name = fieldName,
       ),
     );
-    var deserialize = child.deserialize();
-    if (deserialize != null) {
-      deserialize = deserialize.replaceAll(ts.IDLType.ph, 'tuple[$index]');
-    } else {
-      deserialize = 'tuple[$index]';
-    }
-    fromJson.writeln('$deserialize,');
+
+    final deserJson = child.deserializeAndReplace(
+      replace: 'tuple[$index]',
+      fromIDL: false,
+    );
+    fromJson.writeln('$deserJson,');
+    final deserIDL = child.deserializeAndReplace(
+      replace: 'tuple[$index]',
+      fromIDL: true,
+    );
+    fromDeserializable.writeln('$deserIDL,');
+
     final ser = child.serialize();
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
@@ -451,6 +480,22 @@ Spec toFreezedTupleClass(
             ..redirect = Reference('_$className')
             ..factory = true
             ..constant = true,
+        ),
+        Constructor(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the deserialization with `packages:agent_dart`.',
+            ])
+            ..name = 'fromIDLDeserializable'
+            ..factory = true
+            ..body = Code('return $className($fromDeserializable);')
+            ..requiredParameters = ListBuilder([
+              Parameter(
+                (b) => b
+                  ..type = const Reference('List<dynamic>')
+                  ..name = 'tuple',
+              ),
+            ]),
         ),
         Constructor(
           (b) => b
@@ -496,6 +541,7 @@ Spec toClass(
   final isVariant = obj.isVariant;
   final constructorParameters = <Parameter>[];
   final fromJson = StringBuffer();
+  final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
   final toSerializableFields = StringBuffer();
@@ -575,23 +621,22 @@ Spec toClass(
     );
     if (useBool) {
       fromJson.writeln("$fieldName: json.containsKey('$idlName'),");
+      fromDeserializable.writeln("$fieldName: obj.containsKey('$idlName'),");
       toJson.writeln("if ($fieldName) '$idlName': null,");
     } else {
-      var deser = child.deserialize(nullable: isOpt);
-      if (deser != null) {
-        if (isNumberKey) {
-          deser = deser.replaceAll(ts.IDLType.ph, 'json[$idlName]');
-        } else {
-          deser = deser.replaceAll(ts.IDLType.ph, "json['$idlName']");
-        }
-      } else {
-        if (isNumberKey) {
-          deser = 'json[$idlName]';
-        } else {
-          deser = "json['$idlName']";
-        }
-      }
-      fromJson.writeln('$fieldName: $deser,');
+      final deserJson = child.deserializeAndReplace(
+        replace: isNumberKey ? 'json[$idlName]' : "json['$idlName']",
+        fromIDL: false,
+        nullable: isOpt,
+      );
+      fromJson.writeln('$fieldName: $deserJson,');
+      final deserIDL = child.deserializeAndReplace(
+        replace: isNumberKey ? 'obj[$idlName]' : "obj['$idlName']",
+        fromIDL: true,
+        nullable: isOpt,
+      );
+      fromDeserializable.writeln('$fieldName: $deserIDL,');
+
       final ser = child.serialize();
       final arg =
           ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
@@ -630,6 +675,23 @@ Spec toClass(
           (b) => b
             ..optionalParameters = ListBuilder(constructorParameters)
             ..constant = true,
+        ),
+        Constructor(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the deserialization with `packages:agent_dart`.',
+            ])
+            ..name = 'fromIDLDeserializable'
+            ..factory = true
+            ..body =
+                Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
+            ..requiredParameters = ListBuilder([
+              Parameter(
+                (b) => b
+                  ..type = const Reference('Map')
+                  ..name = 'obj',
+              ),
+            ]),
         ),
         Constructor(
           (b) => b
@@ -765,6 +827,24 @@ Spec toEnum(String className, ts.ObjectType obj) {
         ),
         Constructor(
           (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the deserialization with `packages:agent_dart`.',
+            ])
+            ..name = 'fromIDLDeserializable'
+            ..factory = true
+            ..body = Code(
+              'final key = obj.keys.first; return $className.values.firstWhere((e) => e.name == key);',
+            )
+            ..requiredParameters = ListBuilder([
+              Parameter(
+                (b) => b
+                  ..type = const Reference('Map')
+                  ..name = 'obj',
+              ),
+            ]),
+        ),
+        Constructor(
+          (b) => b
             ..name = 'fromJson'
             ..factory = true
             ..body = Code(
@@ -796,6 +876,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
   final isVariant = obj.isVariant;
   final optionalParameters = <Parameter>[];
   final fromJson = StringBuffer();
+  final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
   final toSerializableFields = StringBuffer();
@@ -838,21 +919,18 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
       fromJson.writeln("$fieldName: json.containsKey('$idlName'),");
       toJson.writeln("if ($fieldName) '$idlName': null,");
     } else {
-      var deser = child.deserialize(nullable: isOpt);
-      if (deser != null) {
-        if (isNumberKey) {
-          deser = deser.replaceAll(ts.IDLType.ph, 'json[$idlName]');
-        } else {
-          deser = deser.replaceAll(ts.IDLType.ph, "json['$idlName']");
-        }
-      } else {
-        if (isNumberKey) {
-          deser = 'json[$idlName]';
-        } else {
-          deser = "json['$idlName']";
-        }
-      }
-      fromJson.writeln('$fieldName: $deser,');
+      final deserJson = child.deserializeAndReplace(
+        replace: isNumberKey ? 'json[$idlName]' : "json['$idlName']",
+        fromIDL: false,
+        nullable: isOpt,
+      );
+      fromJson.writeln('$fieldName: $deserJson,');
+      final deserIDL = child.deserializeAndReplace(
+        replace: isNumberKey ? 'obj[$idlName]' : "obj['$idlName']",
+        fromIDL: true,
+        nullable: isOpt,
+      );
+      fromDeserializable.writeln('$fieldName: $deserIDL,');
       final ser = child.serialize();
       final arg =
           ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
@@ -899,6 +977,23 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
             ..redirect = Reference('_$className')
             ..factory = true
             ..constant = true,
+        ),
+        Constructor(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the deserialization with `packages:agent_dart`.',
+            ])
+            ..name = 'fromIDLDeserializable'
+            ..factory = true
+            ..body =
+                Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
+            ..requiredParameters = ListBuilder([
+              Parameter(
+                (b) => b
+                  ..type = const Reference('Map')
+                  ..name = 'obj',
+              ),
+            ]),
         ),
         Constructor(
           (b) => b
@@ -1085,4 +1180,16 @@ String _typeToJsonField(
     toJsonField += '.toString()';
   }
   return toJsonField;
+}
+
+extension on ts.IDLType {
+  String deserializeAndReplace({
+    required String replace,
+    required bool fromIDL,
+    bool nullable = false,
+  }) {
+    return deserialize(fromIDL: fromIDL, nullable: nullable)
+            ?.replaceAll(ts.IDLType.ph, replace) ??
+        replace;
+  }
 }

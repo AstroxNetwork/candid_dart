@@ -34,7 +34,7 @@ abstract class IDLType<T extends RuleContext> {
     return null;
   }
 
-  String? deserialize({bool nullable = false}) {
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
     return null;
   }
 
@@ -70,7 +70,7 @@ class PrimType extends IDLType<PrimTypeContext> {
   bool get serializable => true;
 
   @override
-  String? deserialize({bool nullable = false}) {
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
     final principalType = ctx.principalType();
     if (principalType != null) {
       String d = 'Principal.from(${IDLType.ph})';
@@ -89,9 +89,20 @@ class PrimType extends IDLType<PrimTypeContext> {
       return d;
     }
     if (kBigIntIDLTypes.contains(did)) {
-      String d = '${IDLType.ph} is BigInt '
-          '? ${IDLType.ph} '
-          ": BigInt.parse('\${${IDLType.ph}}')";
+      String d = '';
+      if (fromIDL) {
+        d += '${IDLType.ph} is BigInt';
+      } else {
+        d += '${IDLType.ph} is BigInt || '
+            '${IDLType.ph} is num || '
+            '${IDLType.ph} is String';
+      }
+      d += '? ${IDLType.ph} ';
+      if (fromIDL) {
+        d += ': BigInt.from(${IDLType.ph})';
+      } else {
+        d += ": BigInt.parse('\${${IDLType.ph}}')";
+      }
       if (nullable) {
         d = '${IDLType.ph} == null ? null : $d';
       }
@@ -139,8 +150,8 @@ class IdType extends IDLType<IdTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return child.deserialize(nullable: nullable);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    return child.deserialize(fromIDL: fromIDL, nullable: nullable);
   }
 }
 
@@ -224,22 +235,22 @@ class Id extends IDLType<IdContext> {
 
   String? _deser;
 
-  bool __deser = false;
+  final __deser = <bool, bool>{};
 
   @override
-  String? deserialize({bool nullable = false}) {
-    if (!__deser) {
-      __deser = true;
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    if (!(__deser[fromIDL] ?? false)) {
+      __deser[fromIDL] = true;
       final raw = _raw;
       if (raw is Def && raw.isObj) {
+        final method = fromIDL ? 'fromIDLDeserializable' : 'fromJson';
+        String deser = '${raw.key.did.pascalCase}.$method(${IDLType.ph})';
         if (nullable) {
-          _deser =
-              '${IDLType.ph} == null ? null : ${raw.key.did.pascalCase}.fromJson(${IDLType.ph})';
-        } else {
-          _deser = '${raw.key.did.pascalCase}.fromJson(${IDLType.ph})';
+          deser = '${IDLType.ph} == null ? null : $deser';
         }
+        _deser = deser;
       } else {
-        _deser = _raw?.deserialize(nullable: nullable);
+        _deser = _raw?.deserialize(fromIDL: fromIDL, nullable: nullable);
       }
     }
     return _deser;
@@ -260,8 +271,8 @@ abstract class NestedType<T extends RuleContext> extends IDLType {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return child.deserialize(nullable: nullable);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    return child.deserialize(fromIDL: fromIDL, nullable: nullable);
   }
 }
 
@@ -292,8 +303,8 @@ class OptType extends NestedType<OptTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    final deser = child.deserialize(nullable: true);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    final deser = child.deserialize(fromIDL: fromIDL, nullable: true);
     if (deser != null) {
       return "(${IDLType.ph} as List).map((e) { return ${deser.replaceAll(IDLType.ph, 'e')}; }).firstOrNull";
     } else {
@@ -366,13 +377,13 @@ class VecType extends NestedType<VecTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
     if (isUint8List) {
       const deser =
           '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
       return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
     }
-    var d = child.deserialize();
+    var d = child.deserialize(fromIDL: fromIDL);
     if (d != null && d != IDLType.ph) {
       if (nullable) {
         d = "(${IDLType.ph} as List?)?.map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
@@ -413,8 +424,8 @@ abstract class DelegateType<T extends RuleContext> extends IDLType {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return child.deserialize(nullable: nullable);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    return child.deserialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -560,25 +571,28 @@ class RecordType extends ObjectType<RecordTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    String deser;
     if (isTupleValue) {
-      final deser = StringBuffer();
+      final buffer = StringBuffer();
       for (var i = 0; i < children.length; ++i) {
-        final d = children[i].deserialize();
+        final d = children[i].deserialize(fromIDL: fromIDL);
         if (d != null) {
-          deser.write(d.replaceAll(IDLType.ph, '${IDLType.ph}[$i]'));
+          buffer.write(d.replaceAll(IDLType.ph, '${IDLType.ph}[$i]'));
         } else {
-          deser.write('${IDLType.ph}[$i]');
+          buffer.write('${IDLType.ph}[$i]');
         }
-        deser.write(',');
+        buffer.write(',');
       }
-      return nullable
-          ? '${IDLType.ph} == null ? null : ${ctx.getClassName()}($deser)'
-          : '${ctx.getClassName()}($deser)';
+      deser = '${ctx.getClassName()}($buffer)';
+    } else {
+      final method = fromIDL ? 'fromIDLDeserializable' : 'fromJson';
+      deser = '${ctx.getClassName()}.$method(${IDLType.ph},)';
     }
-    return nullable
-        ? '${IDLType.ph} == null ? null : ${ctx.getClassName()}.fromJson(${IDLType.ph},)'
-        : '${ctx.getClassName()}.fromJson(${IDLType.ph},)';
+    if (nullable) {
+      deser = '${IDLType.ph} == null ? null : $deser';
+    }
+    return deser;
   }
 }
 
@@ -623,10 +637,13 @@ class VariantType extends ObjectType<VariantTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return nullable
-        ? '${IDLType.ph} == null ? null : ${ctx.getClassName()}.fromJson(${IDLType.ph},)'
-        : '${ctx.getClassName()}.fromJson(${IDLType.ph},)';
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    final method = fromIDL ? 'fromIDLDeserializable' : 'fromJson';
+    String deser = '${ctx.getClassName()}.$method(${IDLType.ph},)';
+    if (nullable) {
+      deser = '${IDLType.ph} == null ? null : $deser';
+    }
+    return deser;
   }
 }
 
@@ -674,8 +691,8 @@ class PairType extends IDLType<PairTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return value.deserialize(nullable: nullable);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    return value.deserialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -793,8 +810,8 @@ class Def extends IDLType<DefContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
-    return body.deserialize(nullable: nullable);
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
+    return body.deserialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -850,13 +867,14 @@ class TupleType extends ObjectType<TupleTypeContext> {
   }
 
   @override
-  String? deserialize({bool nullable = false}) {
+  String? deserialize({required bool fromIDL, bool nullable = false}) {
     if (children.isEmpty) {
       return '';
     } else if (children.length == 1) {
-      return children.first.deserialize();
+      return children.first.deserialize(fromIDL: fromIDL);
     }
-    return '${ctx.getClassName()}.fromJson(${IDLType.ph})';
+    final method = fromIDL ? 'fromIDLDeserializable' : 'fromJson';
+    return '${ctx.getClassName()}.$method(${IDLType.ph})';
   }
 }
 
