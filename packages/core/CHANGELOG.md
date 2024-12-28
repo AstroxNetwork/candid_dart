@@ -1,3 +1,7 @@
+## 1.1.17
+
+- Adds `fromIDLDeserializable` for generated type classes.
+
 ## 1.1.16
 
 - Adds `toIDLSerializable` for generated type classes.
