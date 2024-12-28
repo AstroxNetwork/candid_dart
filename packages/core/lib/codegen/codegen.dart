@@ -234,6 +234,7 @@ Spec toTupleClass(
   final fromJson = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializableFields = StringBuffer();
   final hashes = <String>[];
   final equals = <String>[];
   final fields = <Field>[];
@@ -298,6 +299,7 @@ Spec toTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
+    toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
@@ -327,6 +329,15 @@ Spec toTupleClass(
       ])
       ..fields = ListBuilder(fields)
       ..methods = ListBuilder([
+        Method(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the serialization with `packages:agent_dart`.',
+            ])
+            ..name = 'toIDLSerializable'
+            ..body = Code('${toSerializableFields}return [$toJson];')
+            ..returns = const Reference('List<dynamic>'),
+        ),
         Method(
           (b) => b
             ..name = 'toJson'
@@ -388,6 +399,7 @@ Spec toFreezedTupleClass(
   final fromJson = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializableFields = StringBuffer();
   obj.children.forEachIndexed((index, e) {
     final child = e.child;
     final fieldName = 'item${index + 1}';
@@ -418,6 +430,7 @@ Spec toFreezedTupleClass(
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
+    toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
@@ -456,6 +469,15 @@ Spec toFreezedTupleClass(
       ..methods = ListBuilder([
         Method(
           (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the serialization with `packages:agent_dart`.',
+            ])
+            ..name = 'toIDLSerializable'
+            ..body = Code('${toSerializableFields}return [$toJson];')
+            ..returns = const Reference('List<dynamic'),
+        ),
+        Method(
+          (b) => b
             ..name = 'toJson'
             ..body = Code('${toJsonFields}return [$toJson];')
             ..returns = const Reference('List<dynamic>'),
@@ -476,6 +498,7 @@ Spec toClass(
   final fromJson = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializableFields = StringBuffer();
   final hashes = <String>[];
   final equals = <String>[];
   final fields = <Field>[];
@@ -594,6 +617,7 @@ Spec toClass(
         }
       }
     }
+    toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
@@ -623,6 +647,15 @@ Spec toClass(
       ])
       ..fields = ListBuilder(fields)
       ..methods = ListBuilder([
+        Method(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the serialization with `packages:agent_dart`.',
+            ])
+            ..name = 'toIDLSerializable'
+            ..body = Code('${toSerializableFields}return { $toJson };')
+            ..returns = const Reference('Map<String, dynamic>'),
+        ),
         Method(
           (b) => b
             ..name = 'toJson'
@@ -765,6 +798,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
   final fromJson = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializableFields = StringBuffer();
   for (final e in obj.children) {
     final child = e.child;
     final idlName = child.id!;
@@ -844,6 +878,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         }
       }
     }
+    toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
@@ -880,6 +915,15 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         ),
       ])
       ..methods = ListBuilder([
+        Method(
+          (b) => b
+            ..docs = ListBuilder([
+              '/// An extra method for the serialization with `packages:agent_dart`.',
+            ])
+            ..name = 'toIDLSerializable'
+            ..body = Code('${toSerializableFields}return { $toJson };')
+            ..returns = const Reference('Map<String, dynamic>'),
+        ),
         Method(
           (b) => b
             ..name = 'toJson'
