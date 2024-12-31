@@ -313,7 +313,7 @@ Spec toTupleClass(
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
-    final toJsonField = _typeToJsonField(obj, e, fieldName);
+    final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
@@ -468,7 +468,7 @@ Spec toFreezedTupleClass(
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
-    final toJsonField = _typeToJsonField(obj, e, fieldName);
+    final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   });
   return Class(
@@ -673,7 +673,7 @@ Spec toClass(
       }
     }
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
-    final toJsonField = _typeToJsonField(obj, e, fieldName);
+    final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
@@ -970,7 +970,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
       }
     }
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
-    final toJsonField = _typeToJsonField(obj, e, fieldName);
+    final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
   }
   return Class(
@@ -1150,10 +1150,15 @@ class ${className}IDLActor {
 }
 
 String _typeToJsonField(
+  GenOption option,
   ts.ObjectType parent,
   ts.DelegateType type,
   String fieldName,
 ) {
+  if (!option.explicitSerializationMethods) {
+    return fieldName;
+  }
+
   final child = type.child;
   final isOpt = child is ts.OptType;
   String dartType = child.dartType();
