@@ -108,13 +108,14 @@ Future<void> cli(List<String> arguments) async {
 
   final option = GenOption(
     freezed: parse['freezed'],
-    makeCollectionsUnmodifiable: parse['make-collections-unmodifiable'],
     equal: parse['equal'],
     copyWith: parse['copy-with'],
     service: parse['service'],
     injectPackages: packages,
     preActorCall: parse['pre-actor-call'],
     postActorCall: parse['post-actor-call'],
+    makeCollectionsUnmodifiable: parse['make-collections-unmodifiable'],
+    explicitSerializationMethods: parse['explicit-serialization-methods'],
   );
 
   option.$info(tag: '   options');

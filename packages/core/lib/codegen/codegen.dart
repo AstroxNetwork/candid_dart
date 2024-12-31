@@ -1,4 +1,4 @@
-import 'dart:io' show Platform;
+import 'dart:io' show Platform, stdout;
 
 import 'package:antlr4/antlr4.dart';
 import 'package:built_collection/built_collection.dart';
@@ -19,11 +19,15 @@ import 'visitor.dart';
 late IDLVisitor _idlVisitor;
 
 String did2dart(
-  String fileName,
+  String filename,
   String contents, [
   GenOption option = const GenOption(),
 ]) {
-  fileName = fileName.replaceAllMapped(RegExp(r'[^\da-zA-Z_.]'), (_) => '_');
+  stdout.writeln(
+    '[candid_dart] Generate for $filename with options: \n'
+    '${option.toJson().entries.map((entry) => '  ${entry.key}: ${entry.value}').join('\n')}',
+  );
+  filename = filename.replaceAllMapped(RegExp(r'[^\da-zA-Z_.]'), (_) => '_');
   final cdVisitor = PreVisitor();
   cdVisitor.visit(newParser(contents).prog());
   final deps = cdVisitor.deps;
@@ -67,7 +71,8 @@ String did2dart(
         );
       } else {
         actors.writeln(
-          'static final ${actor.type} $idlName = (){${cds}return ${actor.body.idlType};}();',
+          'static final ${actor.type} $idlName = '
+          '(){${cds}return ${actor.body.idlType};}();',
         );
       }
     }
@@ -82,7 +87,7 @@ String did2dart(
       );
     }
   }
-  final split = fileName.split('.');
+  final split = filename.split('.');
   split.removeLast();
   final clazz = split.join('_').pascalCase;
   final actorMethods = StringBuffer();
@@ -147,7 +152,7 @@ Future<$retType> $methodName($arg) async {
   if (option.freezed && hasObj) {
     imports.add(
       Directive.part(
-        fileName.replaceAll(RegExp(r'.did$'), '.idl.freezed.dart'),
+        filename.replaceAll(RegExp(r'.did$'), '.idl.freezed.dart'),
       ),
     );
   }
