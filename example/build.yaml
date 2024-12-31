@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      candid_dart|candid2dart:
+        generate_for:
+          - lib/**/**.did
+        options:
+          freezed: false
+          copy_with: true
+          equal: true
+          service: false
+          explicit_serialization_methods: false

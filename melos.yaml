@@ -3,6 +3,7 @@ name: candid_dart_packages
 packages:
   - packages/**
   - apps/**
+  - example/
 
 command:
   bootstrap:
