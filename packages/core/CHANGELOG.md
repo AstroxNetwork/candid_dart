@@ -1,3 +1,9 @@
+## 1.2.0
+
+- Add `explicitSerializationMethods` for generate options.
+- Log the configured options when generating.
+- Use the raw field name when generating `toJson` if no explicit serialization.
+
 ## 1.1.18
 
 - Fix `BigInt` type prediction in `fromJson`.
