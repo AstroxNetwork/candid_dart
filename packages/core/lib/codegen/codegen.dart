@@ -100,8 +100,9 @@ String did2dart(
       final retType = body.ret.dartType();
       final noRet = body.ret.children.isEmpty;
       final noArgs = body.args.children.isEmpty;
-      final retDeser =
-          noRet ? '' : 'return ${body.ret.deserialize(fromIDL: true)};';
+      final retDeser = noRet
+          ? ''
+          : 'return ${body.ret.deserialize(fromIDL: option.explicitSerializationMethods)};';
       final arg = noArgs
           ? ''
           : argsType.endsWith('?')
@@ -179,7 +180,7 @@ Future<$retType> $methodName($arg) async {
           final isTuple = type is ts.RecordType && type.isTupleValue;
           final Spec clazz;
           if (type.isEnum) {
-            clazz = toEnum(className, type);
+            clazz = toEnum(className, type, option);
           } else if (option.freezed) {
             clazz = isTuple
                 ? toFreezedTupleClass(className, type, option)
@@ -320,22 +321,23 @@ Spec toTupleClass(
             ..requiredParameters = ListBuilder(constructorParameters)
             ..constant = true,
         ),
-        Constructor(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the deserialization with `packages:agent_dart`.',
-            ])
-            ..name = 'fromIDLDeserializable'
-            ..factory = true
-            ..body = Code('return $className($fromDeserializable);')
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (b) => b
-                  ..type = const Reference('List<dynamic>')
-                  ..name = 'tuple',
-              ),
-            ]),
-        ),
+        if (option.explicitSerializationMethods)
+          Constructor(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the deserialization with `packages:agent_dart`.',
+              ])
+              ..name = 'fromIDLDeserializable'
+              ..factory = true
+              ..body = Code('return $className($fromDeserializable);')
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (b) => b
+                    ..type = const Reference('List<dynamic>')
+                    ..name = 'tuple',
+                ),
+              ]),
+          ),
         Constructor(
           (b) => b
             ..name = 'fromJson'
@@ -352,15 +354,16 @@ Spec toTupleClass(
       ])
       ..fields = ListBuilder(fields)
       ..methods = ListBuilder([
-        Method(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the serialization with `packages:agent_dart`.',
-            ])
-            ..name = 'toIDLSerializable'
-            ..body = Code('${toSerializableFields}return [$toJson];')
-            ..returns = const Reference('List<dynamic>'),
-        ),
+        if (option.explicitSerializationMethods)
+          Method(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the serialization with `packages:agent_dart`.',
+              ])
+              ..name = 'toIDLSerializable'
+              ..body = Code('${toSerializableFields}return [$toJson];')
+              ..returns = const Reference('List<dynamic>'),
+          ),
         Method(
           (b) => b
             ..name = 'toJson'
@@ -481,22 +484,23 @@ Spec toFreezedTupleClass(
             ..factory = true
             ..constant = true,
         ),
-        Constructor(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the deserialization with `packages:agent_dart`.',
-            ])
-            ..name = 'fromIDLDeserializable'
-            ..factory = true
-            ..body = Code('return $className($fromDeserializable);')
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (b) => b
-                  ..type = const Reference('List<dynamic>')
-                  ..name = 'tuple',
-              ),
-            ]),
-        ),
+        if (option.explicitSerializationMethods)
+          Constructor(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the deserialization with `packages:agent_dart`.',
+              ])
+              ..name = 'fromIDLDeserializable'
+              ..factory = true
+              ..body = Code('return $className($fromDeserializable);')
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (b) => b
+                    ..type = const Reference('List<dynamic>')
+                    ..name = 'tuple',
+                ),
+              ]),
+          ),
         Constructor(
           (b) => b
             ..name = 'fromJson'
@@ -512,15 +516,16 @@ Spec toFreezedTupleClass(
         ),
       ])
       ..methods = ListBuilder([
-        Method(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the serialization with `packages:agent_dart`.',
-            ])
-            ..name = 'toIDLSerializable'
-            ..body = Code('${toSerializableFields}return [$toJson];')
-            ..returns = const Reference('List<dynamic'),
-        ),
+        if (option.explicitSerializationMethods)
+          Method(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the serialization with `packages:agent_dart`.',
+              ])
+              ..name = 'toIDLSerializable'
+              ..body = Code('${toSerializableFields}return [$toJson];')
+              ..returns = const Reference('List<dynamic'),
+          ),
         Method(
           (b) => b
             ..name = 'toJson'
@@ -676,23 +681,24 @@ Spec toClass(
             ..optionalParameters = ListBuilder(constructorParameters)
             ..constant = true,
         ),
-        Constructor(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the deserialization with `packages:agent_dart`.',
-            ])
-            ..name = 'fromIDLDeserializable'
-            ..factory = true
-            ..body =
-                Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (b) => b
-                  ..type = const Reference('Map')
-                  ..name = 'obj',
-              ),
-            ]),
-        ),
+        if (option.explicitSerializationMethods)
+          Constructor(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the deserialization with `packages:agent_dart`.',
+              ])
+              ..name = 'fromIDLDeserializable'
+              ..factory = true
+              ..body =
+                  Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (b) => b
+                    ..type = const Reference('Map')
+                    ..name = 'obj',
+                ),
+              ]),
+          ),
         Constructor(
           (b) => b
             ..name = 'fromJson'
@@ -709,15 +715,16 @@ Spec toClass(
       ])
       ..fields = ListBuilder(fields)
       ..methods = ListBuilder([
-        Method(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the serialization with `packages:agent_dart`.',
-            ])
-            ..name = 'toIDLSerializable'
-            ..body = Code('${toSerializableFields}return { $toJson };')
-            ..returns = const Reference('Map<String, dynamic>'),
-        ),
+        if (option.explicitSerializationMethods)
+          Method(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the serialization with `packages:agent_dart`.',
+              ])
+              ..name = 'toIDLSerializable'
+              ..body = Code('${toSerializableFields}return { $toJson };')
+              ..returns = const Reference('Map<String, dynamic>'),
+          ),
         Method(
           (b) => b
             ..name = 'toJson'
@@ -768,7 +775,7 @@ Spec toClass(
   );
 }
 
-Spec toEnum(String className, ts.ObjectType obj) {
+Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
   final values = <EnumValue>[];
   final getters = <Method>[];
   for (final e in obj.children) {
@@ -825,24 +832,25 @@ Spec toEnum(String className, ts.ObjectType obj) {
               ),
             ]),
         ),
-        Constructor(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the deserialization with `packages:agent_dart`.',
-            ])
-            ..name = 'fromIDLDeserializable'
-            ..factory = true
-            ..body = Code(
-              'final key = obj.keys.first; return $className.values.firstWhere((e) => e.name == key);',
-            )
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (b) => b
-                  ..type = const Reference('Map')
-                  ..name = 'obj',
-              ),
-            ]),
-        ),
+        if (option.explicitSerializationMethods)
+          Constructor(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the deserialization with `packages:agent_dart`.',
+              ])
+              ..name = 'fromIDLDeserializable'
+              ..factory = true
+              ..body = Code(
+                'final key = obj.keys.first; return $className.values.firstWhere((e) => e.name == key);',
+              )
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (b) => b
+                    ..type = const Reference('Map')
+                    ..name = 'obj',
+                ),
+              ]),
+          ),
         Constructor(
           (b) => b
             ..name = 'fromJson'
@@ -978,23 +986,24 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
             ..factory = true
             ..constant = true,
         ),
-        Constructor(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the deserialization with `packages:agent_dart`.',
-            ])
-            ..name = 'fromIDLDeserializable'
-            ..factory = true
-            ..body =
-                Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (b) => b
-                  ..type = const Reference('Map')
-                  ..name = 'obj',
-              ),
-            ]),
-        ),
+        if (option.explicitSerializationMethods)
+          Constructor(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the deserialization with `packages:agent_dart`.',
+              ])
+              ..name = 'fromIDLDeserializable'
+              ..factory = true
+              ..body =
+                  Code('return ${obj.ctx.getClassName()}($fromDeserializable);')
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (b) => b
+                    ..type = const Reference('Map')
+                    ..name = 'obj',
+                ),
+              ]),
+          ),
         Constructor(
           (b) => b
             ..name = 'fromJson'
@@ -1010,15 +1019,16 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         ),
       ])
       ..methods = ListBuilder([
-        Method(
-          (b) => b
-            ..docs = ListBuilder([
-              '/// An extra method for the serialization with `packages:agent_dart`.',
-            ])
-            ..name = 'toIDLSerializable'
-            ..body = Code('${toSerializableFields}return { $toJson };')
-            ..returns = const Reference('Map<String, dynamic>'),
-        ),
+        if (option.explicitSerializationMethods)
+          Method(
+            (b) => b
+              ..docs = ListBuilder([
+                '/// An extra method for the serialization with `packages:agent_dart`.',
+              ])
+              ..name = 'toIDLSerializable'
+              ..body = Code('${toSerializableFields}return { $toJson };')
+              ..returns = const Reference('Map<String, dynamic>'),
+          ),
         Method(
           (b) => b
             ..name = 'toJson'

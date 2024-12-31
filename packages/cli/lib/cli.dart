@@ -76,6 +76,12 @@ Future<void> cli(List<String> arguments) async {
         'Determine whether collection fields are unmodifiable. This option only works when `Freezed` is enabled.',
   );
   parser.addFlag(
+    'explicit-serialization-methods',
+    negatable: false,
+    help:
+        'Determine whether to generate `fromIDLDeserializable` and `toIDLSerializable`.',
+  );
+  parser.addFlag(
     'help',
     abbr: 'h',
     negatable: false,
