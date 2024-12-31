@@ -227,8 +227,7 @@ class Id extends IDLType<IdContext> {
     return _ser;
   }
 
-  String? _deser;
-
+  final _deser = <bool, String?>{};
   final __deser = <bool, bool>{};
 
   @override
@@ -242,12 +241,13 @@ class Id extends IDLType<IdContext> {
         if (nullable) {
           deser = '${IDLType.ph} == null ? null : $deser';
         }
-        _deser = deser;
+        _deser[fromIDL] = deser;
       } else {
-        _deser = _raw?.deserialize(fromIDL: fromIDL, nullable: nullable);
+        _deser[fromIDL] =
+            _raw?.deserialize(fromIDL: fromIDL, nullable: nullable);
       }
     }
-    return _deser;
+    return _deser[fromIDL];
   }
 }
 
@@ -377,7 +377,7 @@ class VecType extends NestedType<VecTypeContext> {
           '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
       return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
     }
-    var d = child.deserialize(fromIDL: fromIDL);
+    String? d = child.deserialize(fromIDL: fromIDL);
     if (d != null && d != IDLType.ph) {
       if (nullable) {
         d = "(${IDLType.ph} as List?)?.map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
