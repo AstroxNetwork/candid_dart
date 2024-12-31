@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -23,7 +23,7 @@ class LedgerIDLActor {
     final request = [arg];
     const method = 'transfer';
     final response = await actor.getFunc(method)!(request);
-    return TransferResult.fromJson(response);
+    return TransferResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -36,7 +36,7 @@ class LedgerIDLActor {
     final request = [arg];
     const method = 'account_balance';
     final response = await actor.getFunc(method)!(request);
-    return Tokens.fromJson(response);
+    return Tokens.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -49,7 +49,7 @@ class LedgerIDLActor {
     final request = [arg];
     const method = 'transfer_fee';
     final response = await actor.getFunc(method)!(request);
-    return TransferFee.fromJson(response);
+    return TransferFee.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -61,7 +61,7 @@ class LedgerIDLActor {
     const request = [];
     const method = 'symbol';
     final response = await actor.getFunc(method)!(request);
-    return SymbolRet0.fromJson(
+    return SymbolRet0.fromIDLDeserializable(
       response,
     );
   }
@@ -75,7 +75,7 @@ class LedgerIDLActor {
     const request = [];
     const method = 'name';
     final response = await actor.getFunc(method)!(request);
-    return NameRet0.fromJson(
+    return NameRet0.fromIDLDeserializable(
       response,
     );
   }
@@ -89,7 +89,7 @@ class LedgerIDLActor {
     const request = [];
     const method = 'decimals';
     final response = await actor.getFunc(method)!(request);
-    return DecimalsRet0.fromJson(
+    return DecimalsRet0.fromIDLDeserializable(
       response,
     );
   }
@@ -103,7 +103,7 @@ class LedgerIDLActor {
     const request = [];
     const method = 'archives';
     final response = await actor.getFunc(method)!(request);
-    return Archives.fromJson(response);
+    return Archives.fromIDLDeserializable(response);
   }
 }
 
@@ -425,10 +425,14 @@ class LedgerIDL {
 /// ```
 @immutable
 class SymbolRet0 {
-  const SymbolRet0(
-      {
-      /// [symbol] defined in Candid: `symbol: text`
-      required this.symbol});
+  const SymbolRet0({required this.symbol});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory SymbolRet0.fromIDLDeserializable(Map obj) {
+    return SymbolRet0(
+      symbol: obj['symbol'],
+    );
+  }
 
   factory SymbolRet0.fromJson(Map json) {
     return SymbolRet0(
@@ -439,6 +443,14 @@ class SymbolRet0 {
   /// [symbol] defined in Candid: `symbol: text`
   final String symbol;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final symbol = this.symbol;
+    return {
+      'symbol': symbol,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final symbol = this.symbol;
     return {
@@ -446,10 +458,7 @@ class SymbolRet0 {
     };
   }
 
-  SymbolRet0 copyWith(
-      {
-      /// [symbol] defined in Candid: `symbol: text`
-      String? symbol}) {
+  SymbolRet0 copyWith({String? symbol}) {
     return SymbolRet0(
       symbol: symbol ?? this.symbol,
     );
@@ -478,10 +487,14 @@ class SymbolRet0 {
 /// ```
 @immutable
 class NameRet0 {
-  const NameRet0(
-      {
-      /// [name] defined in Candid: `name: text`
-      required this.name});
+  const NameRet0({required this.name});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory NameRet0.fromIDLDeserializable(Map obj) {
+    return NameRet0(
+      name: obj['name'],
+    );
+  }
 
   factory NameRet0.fromJson(Map json) {
     return NameRet0(
@@ -492,6 +505,14 @@ class NameRet0 {
   /// [name] defined in Candid: `name: text`
   final String name;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -499,10 +520,7 @@ class NameRet0 {
     };
   }
 
-  NameRet0 copyWith(
-      {
-      /// [name] defined in Candid: `name: text`
-      String? name}) {
+  NameRet0 copyWith({String? name}) {
     return NameRet0(
       name: name ?? this.name,
     );
@@ -531,10 +549,14 @@ class NameRet0 {
 /// ```
 @immutable
 class DecimalsRet0 {
-  const DecimalsRet0(
-      {
-      /// [decimals] defined in Candid: `decimals: nat32`
-      required this.decimals});
+  const DecimalsRet0({required this.decimals});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory DecimalsRet0.fromIDLDeserializable(Map obj) {
+    return DecimalsRet0(
+      decimals: obj['decimals'],
+    );
+  }
 
   factory DecimalsRet0.fromJson(Map json) {
     return DecimalsRet0(
@@ -545,6 +567,14 @@ class DecimalsRet0 {
   /// [decimals] defined in Candid: `decimals: nat32`
   final int decimals;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final decimals = this.decimals;
+    return {
+      'decimals': decimals,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final decimals = this.decimals;
     return {
@@ -552,10 +582,7 @@ class DecimalsRet0 {
     };
   }
 
-  DecimalsRet0 copyWith(
-      {
-      /// [decimals] defined in Candid: `decimals: nat32`
-      int? decimals}) {
+  DecimalsRet0 copyWith({int? decimals}) {
     return DecimalsRet0(
       decimals: decimals ?? this.decimals,
     );
@@ -585,31 +612,44 @@ class DecimalsRet0 {
 /// ```
 @immutable
 class Tokens {
-  const Tokens(
-      {
-      /// [e8s] defined in Candid: `e8s: nat64`
-      required this.e8s});
+  const Tokens({required this.e8s});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Tokens.fromIDLDeserializable(Map obj) {
+    return Tokens(
+      e8s: obj['e8s'] is BigInt ? obj['e8s'] : BigInt.from(obj['e8s']),
+    );
+  }
 
   factory Tokens.fromJson(Map json) {
     return Tokens(
-      e8s: json['e8s'] is BigInt ? json['e8s'] : BigInt.from(json['e8s']),
+      e8s: json['e8s'] is BigInt
+          ? json['e8s']
+          : json['e8s'] is num
+              ? BigInt.from(json['e8s'])
+              : BigInt.parse('${json['e8s']}'),
     );
   }
 
   /// [e8s] defined in Candid: `e8s: nat64`
   final BigInt e8s;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final e8s = this.e8s;
     return {
       'e8s': e8s,
     };
   }
 
-  Tokens copyWith(
-      {
-      /// [e8s] defined in Candid: `e8s: nat64`
-      BigInt? e8s}) {
+  Map<String, dynamic> toJson() {
+    final e8s = this.e8s.toString();
+    return {
+      'e8s': e8s,
+    };
+  }
+
+  Tokens copyWith({BigInt? e8s}) {
     return Tokens(
       e8s: e8s ?? this.e8s,
     );
@@ -638,33 +678,46 @@ class Tokens {
 /// ```
 @immutable
 class TimeStamp {
-  const TimeStamp(
-      {
-      /// [timestampNanos] defined in Candid: `timestamp_nanos: nat64`
-      required this.timestampNanos});
+  const TimeStamp({required this.timestampNanos});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TimeStamp.fromIDLDeserializable(Map obj) {
+    return TimeStamp(
+      timestampNanos: obj['timestamp_nanos'] is BigInt
+          ? obj['timestamp_nanos']
+          : BigInt.from(obj['timestamp_nanos']),
+    );
+  }
 
   factory TimeStamp.fromJson(Map json) {
     return TimeStamp(
       timestampNanos: json['timestamp_nanos'] is BigInt
           ? json['timestamp_nanos']
-          : BigInt.from(json['timestamp_nanos']),
+          : json['timestamp_nanos'] is num
+              ? BigInt.from(json['timestamp_nanos'])
+              : BigInt.parse('${json['timestamp_nanos']}'),
     );
   }
 
   /// [timestampNanos] defined in Candid: `timestamp_nanos: nat64`
   final BigInt timestampNanos;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final timestampNanos = this.timestampNanos;
     return {
       'timestamp_nanos': timestampNanos,
     };
   }
 
-  TimeStamp copyWith(
-      {
-      /// [timestampNanos] defined in Candid: `timestamp_nanos: nat64`
-      BigInt? timestampNanos}) {
+  Map<String, dynamic> toJson() {
+    final timestampNanos = this.timestampNanos.toString();
+    return {
+      'timestamp_nanos': timestampNanos,
+    };
+  }
+
+  TimeStamp copyWith({BigInt? timestampNanos}) {
     return TimeStamp(
       timestampNanos: timestampNanos ?? this.timestampNanos,
     );
@@ -695,28 +748,43 @@ class TimeStamp {
 @immutable
 class TransferArgs {
   const TransferArgs({
-    /// [memo] defined in Candid: `memo: Memo`
     required this.memo,
-
-    /// [amount] defined in Candid: `amount: Tokens`
     required this.amount,
-
-    /// [fee] defined in Candid: `fee: Tokens`
     required this.fee,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt SubAccount`
     this.fromSubaccount,
-
-    /// [to] defined in Candid: `to: AccountIdentifier`
     required this.to,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt TimeStamp`
     this.createdAtTime,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferArgs.fromIDLDeserializable(Map obj) {
+    return TransferArgs(
+      memo: obj['memo'] is BigInt ? obj['memo'] : BigInt.from(obj['memo']),
+      amount: Tokens.fromIDLDeserializable(obj['amount']),
+      fee: Tokens.fromIDLDeserializable(obj['fee']),
+      fromSubaccount: (obj['from_subaccount'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      to: obj['to'] is Uint8List
+          ? obj['to']
+          : Uint8List.fromList((obj['to'] as List).cast()),
+      createdAtTime: (obj['created_at_time'] as List).map((e) {
+        return e == null ? null : TimeStamp.fromIDLDeserializable(e);
+      }).firstOrNull,
+    );
+  }
+
   factory TransferArgs.fromJson(Map json) {
     return TransferArgs(
-      memo: json['memo'] is BigInt ? json['memo'] : BigInt.from(json['memo']),
+      memo: json['memo'] is BigInt
+          ? json['memo']
+          : json['memo'] is num
+              ? BigInt.from(json['memo'])
+              : BigInt.parse('${json['memo']}'),
       amount: Tokens.fromJson(json['amount']),
       fee: Tokens.fromJson(json['fee']),
       fromSubaccount: (json['from_subaccount'] as List).map((e) {
@@ -753,7 +821,8 @@ class TransferArgs {
   /// [createdAtTime] defined in Candid: `created_at_time: opt TimeStamp`
   final TimeStamp? createdAtTime;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final memo = this.memo;
     final amount = this.amount;
     final fee = this.fee;
@@ -770,23 +839,29 @@ class TransferArgs {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final memo = this.memo.toString();
+    final amount = this.amount.toJson();
+    final fee = this.fee.toJson();
+    final fromSubaccount = this.fromSubaccount;
+    final to = this.to;
+    final createdAtTime = this.createdAtTime;
+    return {
+      'memo': memo,
+      'amount': amount,
+      'fee': fee,
+      'from_subaccount': [if (fromSubaccount != null) fromSubaccount],
+      'to': to,
+      'created_at_time': [if (createdAtTime != null) createdAtTime],
+    };
+  }
+
   TransferArgs copyWith({
-    /// [memo] defined in Candid: `memo: Memo`
     Memo? memo,
-
-    /// [amount] defined in Candid: `amount: Tokens`
     Tokens? amount,
-
-    /// [fee] defined in Candid: `fee: Tokens`
     Tokens? fee,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt SubAccount`
     SubAccount? fromSubaccount,
-
-    /// [to] defined in Candid: `to: AccountIdentifier`
     AccountIdentifier? to,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt TimeStamp`
     TimeStamp? createdAtTime,
   }) {
     return TransferArgs(
@@ -830,10 +905,14 @@ class TransferArgs {
 /// ```
 @immutable
 class TransferErrorBadFee {
-  const TransferErrorBadFee(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: Tokens`
-      required this.expectedFee});
+  const TransferErrorBadFee({required this.expectedFee});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorBadFee.fromIDLDeserializable(Map obj) {
+    return TransferErrorBadFee(
+      expectedFee: Tokens.fromIDLDeserializable(obj['expected_fee']),
+    );
+  }
 
   factory TransferErrorBadFee.fromJson(Map json) {
     return TransferErrorBadFee(
@@ -844,17 +923,22 @@ class TransferErrorBadFee {
   /// [expectedFee] defined in Candid: `expected_fee: Tokens`
   final Tokens expectedFee;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final expectedFee = this.expectedFee;
     return {
       'expected_fee': expectedFee,
     };
   }
 
-  TransferErrorBadFee copyWith(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: Tokens`
-      Tokens? expectedFee}) {
+  Map<String, dynamic> toJson() {
+    final expectedFee = this.expectedFee.toJson();
+    return {
+      'expected_fee': expectedFee,
+    };
+  }
+
+  TransferErrorBadFee copyWith({Tokens? expectedFee}) {
     return TransferErrorBadFee(
       expectedFee: expectedFee ?? this.expectedFee,
     );
@@ -884,10 +968,14 @@ class TransferErrorBadFee {
 /// ```
 @immutable
 class TransferErrorInsufficientFunds {
-  const TransferErrorInsufficientFunds(
-      {
-      /// [balance] defined in Candid: `balance: Tokens`
-      required this.balance});
+  const TransferErrorInsufficientFunds({required this.balance});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorInsufficientFunds.fromIDLDeserializable(Map obj) {
+    return TransferErrorInsufficientFunds(
+      balance: Tokens.fromIDLDeserializable(obj['balance']),
+    );
+  }
 
   factory TransferErrorInsufficientFunds.fromJson(Map json) {
     return TransferErrorInsufficientFunds(
@@ -898,17 +986,22 @@ class TransferErrorInsufficientFunds {
   /// [balance] defined in Candid: `balance: Tokens`
   final Tokens balance;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final balance = this.balance;
     return {
       'balance': balance,
     };
   }
 
-  TransferErrorInsufficientFunds copyWith(
-      {
-      /// [balance] defined in Candid: `balance: Tokens`
-      Tokens? balance}) {
+  Map<String, dynamic> toJson() {
+    final balance = this.balance.toJson();
+    return {
+      'balance': balance,
+    };
+  }
+
+  TransferErrorInsufficientFunds copyWith({Tokens? balance}) {
     return TransferErrorInsufficientFunds(
       balance: balance ?? this.balance,
     );
@@ -937,33 +1030,46 @@ class TransferErrorInsufficientFunds {
 /// ```
 @immutable
 class TransferErrorTxTooOld {
-  const TransferErrorTxTooOld(
-      {
-      /// [allowedWindowNanos] defined in Candid: `allowed_window_nanos: nat64`
-      required this.allowedWindowNanos});
+  const TransferErrorTxTooOld({required this.allowedWindowNanos});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorTxTooOld.fromIDLDeserializable(Map obj) {
+    return TransferErrorTxTooOld(
+      allowedWindowNanos: obj['allowed_window_nanos'] is BigInt
+          ? obj['allowed_window_nanos']
+          : BigInt.from(obj['allowed_window_nanos']),
+    );
+  }
 
   factory TransferErrorTxTooOld.fromJson(Map json) {
     return TransferErrorTxTooOld(
       allowedWindowNanos: json['allowed_window_nanos'] is BigInt
           ? json['allowed_window_nanos']
-          : BigInt.from(json['allowed_window_nanos']),
+          : json['allowed_window_nanos'] is num
+              ? BigInt.from(json['allowed_window_nanos'])
+              : BigInt.parse('${json['allowed_window_nanos']}'),
     );
   }
 
   /// [allowedWindowNanos] defined in Candid: `allowed_window_nanos: nat64`
   final BigInt allowedWindowNanos;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final allowedWindowNanos = this.allowedWindowNanos;
     return {
       'allowed_window_nanos': allowedWindowNanos,
     };
   }
 
-  TransferErrorTxTooOld copyWith(
-      {
-      /// [allowedWindowNanos] defined in Candid: `allowed_window_nanos: nat64`
-      BigInt? allowedWindowNanos}) {
+  Map<String, dynamic> toJson() {
+    final allowedWindowNanos = this.allowedWindowNanos.toString();
+    return {
+      'allowed_window_nanos': allowedWindowNanos,
+    };
+  }
+
+  TransferErrorTxTooOld copyWith({BigInt? allowedWindowNanos}) {
     return TransferErrorTxTooOld(
       allowedWindowNanos: allowedWindowNanos ?? this.allowedWindowNanos,
     );
@@ -993,33 +1099,46 @@ class TransferErrorTxTooOld {
 /// ```
 @immutable
 class TransferErrorTxDuplicate {
-  const TransferErrorTxDuplicate(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: BlockIndex`
-      required this.duplicateOf});
+  const TransferErrorTxDuplicate({required this.duplicateOf});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorTxDuplicate.fromIDLDeserializable(Map obj) {
+    return TransferErrorTxDuplicate(
+      duplicateOf: obj['duplicate_of'] is BigInt
+          ? obj['duplicate_of']
+          : BigInt.from(obj['duplicate_of']),
+    );
+  }
 
   factory TransferErrorTxDuplicate.fromJson(Map json) {
     return TransferErrorTxDuplicate(
       duplicateOf: json['duplicate_of'] is BigInt
           ? json['duplicate_of']
-          : BigInt.from(json['duplicate_of']),
+          : json['duplicate_of'] is num
+              ? BigInt.from(json['duplicate_of'])
+              : BigInt.parse('${json['duplicate_of']}'),
     );
   }
 
   /// [duplicateOf] defined in Candid: `duplicate_of: BlockIndex`
   final BlockIndex duplicateOf;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final duplicateOf = this.duplicateOf;
     return {
       'duplicate_of': duplicateOf,
     };
   }
 
-  TransferErrorTxDuplicate copyWith(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: BlockIndex`
-      BlockIndex? duplicateOf}) {
+  Map<String, dynamic> toJson() {
+    final duplicateOf = this.duplicateOf.toString();
+    return {
+      'duplicate_of': duplicateOf,
+    };
+  }
+
+  TransferErrorTxDuplicate copyWith({BlockIndex? duplicateOf}) {
     return TransferErrorTxDuplicate(
       duplicateOf: duplicateOf ?? this.duplicateOf,
     );
@@ -1050,21 +1169,39 @@ class TransferErrorTxDuplicate {
 @immutable
 class TransferError {
   const TransferError({
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: Tokens }`
     this.badFee,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: Tokens }`
     this.insufficientFunds,
-
-    /// [txTooOld] defined in Candid: `TxTooOld: record { allowed_window_nanos: nat64 }`
     this.txTooOld,
-
-    /// [txCreatedInFuture] defined in Candid: `TxCreatedInFuture: null`
     this.txCreatedInFuture = false,
-
-    /// [txDuplicate] defined in Candid: `TxDuplicate: record { duplicate_of: BlockIndex }`
     this.txDuplicate,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferError.fromIDLDeserializable(Map obj) {
+    return TransferError(
+      badFee: obj['BadFee'] == null
+          ? null
+          : TransferErrorBadFee.fromIDLDeserializable(
+              obj['BadFee'],
+            ),
+      insufficientFunds: obj['InsufficientFunds'] == null
+          ? null
+          : TransferErrorInsufficientFunds.fromIDLDeserializable(
+              obj['InsufficientFunds'],
+            ),
+      txTooOld: obj['TxTooOld'] == null
+          ? null
+          : TransferErrorTxTooOld.fromIDLDeserializable(
+              obj['TxTooOld'],
+            ),
+      txCreatedInFuture: obj.containsKey('TxCreatedInFuture'),
+      txDuplicate: obj['TxDuplicate'] == null
+          ? null
+          : TransferErrorTxDuplicate.fromIDLDeserializable(
+              obj['TxDuplicate'],
+            ),
+    );
+  }
 
   factory TransferError.fromJson(Map json) {
     return TransferError(
@@ -1107,7 +1244,8 @@ class TransferError {
   /// [txDuplicate] defined in Candid: `TxDuplicate: record { duplicate_of: BlockIndex }`
   final TransferErrorTxDuplicate? txDuplicate;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final badFee = this.badFee;
     final insufficientFunds = this.insufficientFunds;
     final txTooOld = this.txTooOld;
@@ -1122,20 +1260,26 @@ class TransferError {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final badFee = this.badFee?.toJson();
+    final insufficientFunds = this.insufficientFunds?.toJson();
+    final txTooOld = this.txTooOld?.toJson();
+    final txCreatedInFuture = this.txCreatedInFuture;
+    final txDuplicate = this.txDuplicate?.toJson();
+    return {
+      if (badFee != null) 'BadFee': badFee,
+      if (insufficientFunds != null) 'InsufficientFunds': insufficientFunds,
+      if (txTooOld != null) 'TxTooOld': txTooOld,
+      if (txCreatedInFuture) 'TxCreatedInFuture': null,
+      if (txDuplicate != null) 'TxDuplicate': txDuplicate,
+    };
+  }
+
   TransferError copyWith({
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: Tokens }`
     TransferErrorBadFee? badFee,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: Tokens }`
     TransferErrorInsufficientFunds? insufficientFunds,
-
-    /// [txTooOld] defined in Candid: `TxTooOld: record { allowed_window_nanos: nat64 }`
     TransferErrorTxTooOld? txTooOld,
-
-    /// [txCreatedInFuture] defined in Candid: `TxCreatedInFuture: null`
     bool? txCreatedInFuture,
-
-    /// [txDuplicate] defined in Candid: `TxDuplicate: record { duplicate_of: BlockIndex }`
     TransferErrorTxDuplicate? txDuplicate,
   }) {
     return TransferError(
@@ -1186,12 +1330,23 @@ class TransferError {
 @immutable
 class TransferResult {
   const TransferResult({
-    /// [ok] defined in Candid: `Ok: BlockIndex`
     this.ok,
-
-    /// [err] defined in Candid: `Err: TransferError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferResult.fromIDLDeserializable(Map obj) {
+    return TransferResult(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err: obj['Err'] == null
+          ? null
+          : TransferError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory TransferResult.fromJson(Map json) {
     return TransferResult(
@@ -1199,7 +1354,9 @@ class TransferResult {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : TransferError.fromJson(json['Err']),
     );
   }
@@ -1210,7 +1367,8 @@ class TransferResult {
   /// [err] defined in Candid: `Err: TransferError`
   final TransferError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -1219,11 +1377,17 @@ class TransferResult {
     };
   }
 
-  TransferResult copyWith({
-    /// [ok] defined in Candid: `Ok: BlockIndex`
-    BlockIndex? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err;
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: TransferError`
+  TransferResult copyWith({
+    BlockIndex? ok,
     TransferError? err,
   }) {
     return TransferResult(
@@ -1256,10 +1420,16 @@ class TransferResult {
 /// ```
 @immutable
 class AccountBalanceArgs {
-  const AccountBalanceArgs(
-      {
-      /// [account] defined in Candid: `account: AccountIdentifier`
-      required this.account});
+  const AccountBalanceArgs({required this.account});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory AccountBalanceArgs.fromIDLDeserializable(Map obj) {
+    return AccountBalanceArgs(
+      account: obj['account'] is Uint8List
+          ? obj['account']
+          : Uint8List.fromList((obj['account'] as List).cast()),
+    );
+  }
 
   factory AccountBalanceArgs.fromJson(Map json) {
     return AccountBalanceArgs(
@@ -1272,6 +1442,14 @@ class AccountBalanceArgs {
   /// [account] defined in Candid: `account: AccountIdentifier`
   final AccountIdentifier account;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final account = this.account;
+    return {
+      'account': account,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final account = this.account;
     return {
@@ -1279,10 +1457,7 @@ class AccountBalanceArgs {
     };
   }
 
-  AccountBalanceArgs copyWith(
-      {
-      /// [account] defined in Candid: `account: AccountIdentifier`
-      AccountIdentifier? account}) {
+  AccountBalanceArgs copyWith({AccountIdentifier? account}) {
     return AccountBalanceArgs(
       account: account ?? this.account,
     );
@@ -1313,8 +1488,18 @@ class AccountBalanceArgs {
 class TransferFeeArg {
   const TransferFeeArg();
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferFeeArg.fromIDLDeserializable(List<dynamic> tuple) {
+    return TransferFeeArg();
+  }
+
   factory TransferFeeArg.fromJson(List<dynamic> tuple) {
     return TransferFeeArg();
+  }
+
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
+    return [];
   }
 
   List<dynamic> toJson() {
@@ -1348,10 +1533,14 @@ class TransferFeeArg {
 /// ```
 @immutable
 class TransferFee {
-  const TransferFee(
-      {
-      /// [transferFee] defined in Candid: `transfer_fee: Tokens`
-      required this.transferFee});
+  const TransferFee({required this.transferFee});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferFee.fromIDLDeserializable(Map obj) {
+    return TransferFee(
+      transferFee: Tokens.fromIDLDeserializable(obj['transfer_fee']),
+    );
+  }
 
   factory TransferFee.fromJson(Map json) {
     return TransferFee(
@@ -1362,17 +1551,22 @@ class TransferFee {
   /// [transferFee] defined in Candid: `transfer_fee: Tokens`
   final Tokens transferFee;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final transferFee = this.transferFee;
     return {
       'transfer_fee': transferFee,
     };
   }
 
-  TransferFee copyWith(
-      {
-      /// [transferFee] defined in Candid: `transfer_fee: Tokens`
-      Tokens? transferFee}) {
+  Map<String, dynamic> toJson() {
+    final transferFee = this.transferFee.toJson();
+    return {
+      'transfer_fee': transferFee,
+    };
+  }
+
+  TransferFee copyWith({Tokens? transferFee}) {
     return TransferFee(
       transferFee: transferFee ?? this.transferFee,
     );
@@ -1402,10 +1596,14 @@ class TransferFee {
 /// ```
 @immutable
 class Archive {
-  const Archive(
-      {
-      /// [canisterId] defined in Candid: `canister_id: principal`
-      required this.canisterId});
+  const Archive({required this.canisterId});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Archive.fromIDLDeserializable(Map obj) {
+    return Archive(
+      canisterId: Principal.from(obj['canister_id']),
+    );
+  }
 
   factory Archive.fromJson(Map json) {
     return Archive(
@@ -1416,6 +1614,14 @@ class Archive {
   /// [canisterId] defined in Candid: `canister_id: principal`
   final Principal canisterId;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final canisterId = this.canisterId;
+    return {
+      'canister_id': canisterId,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final canisterId = this.canisterId;
     return {
@@ -1423,10 +1629,7 @@ class Archive {
     };
   }
 
-  Archive copyWith(
-      {
-      /// [canisterId] defined in Candid: `canister_id: principal`
-      Principal? canisterId}) {
+  Archive copyWith({Principal? canisterId}) {
     return Archive(
       canisterId: canisterId ?? this.canisterId,
     );
@@ -1456,10 +1659,16 @@ class Archive {
 /// ```
 @immutable
 class Archives {
-  const Archives(
-      {
-      /// [archives] defined in Candid: `archives: vec Archive`
-      required this.archives});
+  const Archives({required this.archives});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Archives.fromIDLDeserializable(Map obj) {
+    return Archives(
+      archives: (obj['archives'] as List).map((e) {
+        return Archive.fromIDLDeserializable(e);
+      }).toList(),
+    );
+  }
 
   factory Archives.fromJson(Map json) {
     return Archives(
@@ -1472,6 +1681,14 @@ class Archives {
   /// [archives] defined in Candid: `archives: vec Archive`
   final List<Archive> archives;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final archives = this.archives;
+    return {
+      'archives': archives,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final archives = this.archives;
     return {
@@ -1479,10 +1696,7 @@ class Archives {
     };
   }
 
-  Archives copyWith(
-      {
-      /// [archives] defined in Candid: `archives: vec Archive`
-      List<Archive>? archives}) {
+  Archives copyWith({List<Archive>? archives}) {
     return Archives(
       archives: archives ?? this.archives,
     );

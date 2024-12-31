@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -36,7 +36,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'approve';
     final response = await actor.getFunc(method)!(request);
-    return TxReceipt.fromJson(response);
+    return TxReceipt.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -73,7 +73,7 @@ class XtcIDLActor {
     const request = [];
     const method = 'getMetadata';
     final response = await actor.getFunc(method)!(request);
-    return Metadata.fromJson(response);
+    return Metadata.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -158,7 +158,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'transferErc20';
     final response = await actor.getFunc(method)!(request);
-    return TxReceiptLegacy.fromJson(response);
+    return TxReceiptLegacy.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -171,7 +171,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'transfer';
     final response = await actor.getFunc(method)!(request);
-    return TxReceipt.fromJson(response);
+    return TxReceipt.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -184,7 +184,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'transferFrom';
     final response = await actor.getFunc(method)!(request);
-    return TxReceipt.fromJson(response);
+    return TxReceipt.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -197,7 +197,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'mint';
     final response = await actor.getFunc(method)!(request);
-    return MintResult.fromJson(response);
+    return MintResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -256,7 +256,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'mint_by_icp';
     final response = await actor.getFunc(method)!(request);
-    return TxReceipt.fromJson(response);
+    return TxReceipt.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -269,7 +269,7 @@ class XtcIDLActor {
     final request = arg.toJson();
     const method = 'mint_by_icp_recover';
     final response = await actor.getFunc(method)!(request);
-    return TxReceipt.fromJson(response);
+    return TxReceipt.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -282,7 +282,7 @@ class XtcIDLActor {
     final request = [arg];
     const method = 'burn';
     final response = await actor.getFunc(method)!(request);
-    return BurnResult.fromJson(response);
+    return BurnResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -310,7 +310,7 @@ class XtcIDLActor {
     final request = [arg];
     const method = 'events';
     final response = await actor.getFunc(method)!(request);
-    return EventsConnection.fromJson(response);
+    return EventsConnection.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -333,7 +333,7 @@ class XtcIDLActor {
     const request = [];
     const method = 'stats';
     final response = await actor.getFunc(method)!(request);
-    return Stats.fromJson(response);
+    return Stats.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -345,7 +345,7 @@ class XtcIDLActor {
     const request = [];
     const method = 'wallet_balance';
     final response = await actor.getFunc(method)!(request);
-    return WalletBalanceRet0.fromJson(
+    return WalletBalanceRet0.fromIDLDeserializable(
       response,
     );
   }
@@ -360,7 +360,7 @@ class XtcIDLActor {
     final request = [arg];
     const method = 'wallet_create_canister';
     final response = await actor.getFunc(method)!(request);
-    return CreateResult.fromJson(response);
+    return CreateResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -373,7 +373,7 @@ class XtcIDLActor {
     final request = [arg];
     const method = 'wallet_create_wallet';
     final response = await actor.getFunc(method)!(request);
-    return CreateResult.fromJson(response);
+    return CreateResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -386,7 +386,7 @@ class XtcIDLActor {
     final request = [arg];
     const method = 'wallet_call';
     final response = await actor.getFunc(method)!(request);
-    return ResultCall.fromJson(response);
+    return ResultCall.fromIDLDeserializable(response);
   }
 }
 
@@ -1215,19 +1215,27 @@ class XtcIDL {
 @immutable
 class BurnArg0 {
   const BurnArg0({
-    /// [canisterId] defined in Candid: `canister_id: principal`
     required this.canisterId,
-
-    /// [amount] defined in Candid: `amount: nat64`
     required this.amount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BurnArg0.fromIDLDeserializable(Map obj) {
+    return BurnArg0(
+      canisterId: Principal.from(obj['canister_id']),
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory BurnArg0.fromJson(Map json) {
     return BurnArg0(
       canisterId: Principal.from(json['canister_id']),
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
@@ -1237,7 +1245,8 @@ class BurnArg0 {
   /// [amount] defined in Candid: `amount: nat64`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final canisterId = this.canisterId;
     final amount = this.amount;
     return {
@@ -1246,11 +1255,17 @@ class BurnArg0 {
     };
   }
 
-  BurnArg0 copyWith({
-    /// [canisterId] defined in Candid: `canister_id: principal`
-    Principal? canisterId,
+  Map<String, dynamic> toJson() {
+    final canisterId = this.canisterId;
+    final amount = this.amount.toString();
+    return {
+      'canister_id': canisterId,
+      'amount': amount,
+    };
+  }
 
-    /// [amount] defined in Candid: `amount: nat64`
+  BurnArg0 copyWith({
+    Principal? canisterId,
     BigInt? amount,
   }) {
     return BurnArg0(
@@ -1285,12 +1300,23 @@ class BurnArg0 {
 @immutable
 class EventsArg0 {
   const EventsArg0({
-    /// [offset] defined in Candid: `offset: opt nat64`
     this.offset,
-
-    /// [limit] defined in Candid: `limit: nat16`
     required this.limit,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventsArg0.fromIDLDeserializable(Map obj) {
+    return EventsArg0(
+      offset: (obj['offset'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      limit: obj['limit'],
+    );
+  }
 
   factory EventsArg0.fromJson(Map json) {
     return EventsArg0(
@@ -1299,7 +1325,9 @@ class EventsArg0 {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       limit: json['limit'],
     );
@@ -1311,7 +1339,8 @@ class EventsArg0 {
   /// [limit] defined in Candid: `limit: nat16`
   final int limit;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final offset = this.offset;
     final limit = this.limit;
     return {
@@ -1320,11 +1349,17 @@ class EventsArg0 {
     };
   }
 
-  EventsArg0 copyWith({
-    /// [offset] defined in Candid: `offset: opt nat64`
-    BigInt? offset,
+  Map<String, dynamic> toJson() {
+    final offset = this.offset?.toString();
+    final limit = this.limit;
+    return {
+      'offset': [if (offset != null) offset],
+      'limit': limit,
+    };
+  }
 
-    /// [limit] defined in Candid: `limit: nat16`
+  EventsArg0 copyWith({
+    BigInt? offset,
     int? limit,
   }) {
     return EventsArg0(
@@ -1357,33 +1392,45 @@ class EventsArg0 {
 /// ```
 @immutable
 class WalletBalanceRet0 {
-  const WalletBalanceRet0(
-      {
-      /// [amount] defined in Candid: `amount: nat64`
-      required this.amount});
+  const WalletBalanceRet0({required this.amount});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory WalletBalanceRet0.fromIDLDeserializable(Map obj) {
+    return WalletBalanceRet0(
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory WalletBalanceRet0.fromJson(Map json) {
     return WalletBalanceRet0(
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
   /// [amount] defined in Candid: `amount: nat64`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final amount = this.amount;
     return {
       'amount': amount,
     };
   }
 
-  WalletBalanceRet0 copyWith(
-      {
-      /// [amount] defined in Candid: `amount: nat64`
-      BigInt? amount}) {
+  Map<String, dynamic> toJson() {
+    final amount = this.amount.toString();
+    return {
+      'amount': amount,
+    };
+  }
+
+  WalletBalanceRet0 copyWith({BigInt? amount}) {
     return WalletBalanceRet0(
       amount: amount ?? this.amount,
     );
@@ -1413,18 +1460,28 @@ class WalletBalanceRet0 {
 @immutable
 class WalletCreateCanisterArg0 {
   const WalletCreateCanisterArg0({
-    /// [cycles] defined in Candid: `cycles: nat64`
     required this.cycles,
-
-    /// [controller] defined in Candid: `controller: opt principal`
     this.controller,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory WalletCreateCanisterArg0.fromIDLDeserializable(Map obj) {
+    return WalletCreateCanisterArg0(
+      cycles:
+          obj['cycles'] is BigInt ? obj['cycles'] : BigInt.from(obj['cycles']),
+      controller: (obj['controller'] as List).map((e) {
+        return e == null ? null : Principal.from(e);
+      }).firstOrNull,
+    );
+  }
 
   factory WalletCreateCanisterArg0.fromJson(Map json) {
     return WalletCreateCanisterArg0(
       cycles: json['cycles'] is BigInt
           ? json['cycles']
-          : BigInt.from(json['cycles']),
+          : json['cycles'] is num
+              ? BigInt.from(json['cycles'])
+              : BigInt.parse('${json['cycles']}'),
       controller: (json['controller'] as List).map((e) {
         return e == null ? null : Principal.from(e);
       }).firstOrNull,
@@ -1437,7 +1494,8 @@ class WalletCreateCanisterArg0 {
   /// [controller] defined in Candid: `controller: opt principal`
   final Principal? controller;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final cycles = this.cycles;
     final controller = this.controller;
     return {
@@ -1446,11 +1504,17 @@ class WalletCreateCanisterArg0 {
     };
   }
 
-  WalletCreateCanisterArg0 copyWith({
-    /// [cycles] defined in Candid: `cycles: nat64`
-    BigInt? cycles,
+  Map<String, dynamic> toJson() {
+    final cycles = this.cycles.toString();
+    final controller = this.controller;
+    return {
+      'cycles': cycles,
+      'controller': [if (controller != null) controller],
+    };
+  }
 
-    /// [controller] defined in Candid: `controller: opt principal`
+  WalletCreateCanisterArg0 copyWith({
+    BigInt? cycles,
     Principal? controller,
   }) {
     return WalletCreateCanisterArg0(
@@ -1491,18 +1555,24 @@ typedef WalletCreateWalletArg0 = WalletCreateCanisterArg0;
 @immutable
 class WalletCallArg0 {
   const WalletCallArg0({
-    /// [canister] defined in Candid: `canister: principal`
     required this.canister,
-
-    /// [methodName] defined in Candid: `method_name: text`
     required this.methodName,
-
-    /// [args] defined in Candid: `args: blob`
     required this.args,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     required this.cycles,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory WalletCallArg0.fromIDLDeserializable(Map obj) {
+    return WalletCallArg0(
+      canister: Principal.from(obj['canister']),
+      methodName: obj['method_name'],
+      args: obj['args'] is Uint8List
+          ? obj['args']
+          : Uint8List.fromList((obj['args'] as List).cast()),
+      cycles:
+          obj['cycles'] is BigInt ? obj['cycles'] : BigInt.from(obj['cycles']),
+    );
+  }
 
   factory WalletCallArg0.fromJson(Map json) {
     return WalletCallArg0(
@@ -1513,7 +1583,9 @@ class WalletCallArg0 {
           : Uint8List.fromList((json['args'] as List).cast()),
       cycles: json['cycles'] is BigInt
           ? json['cycles']
-          : BigInt.from(json['cycles']),
+          : json['cycles'] is num
+              ? BigInt.from(json['cycles'])
+              : BigInt.parse('${json['cycles']}'),
     );
   }
 
@@ -1529,7 +1601,8 @@ class WalletCallArg0 {
   /// [cycles] defined in Candid: `cycles: nat64`
   final BigInt cycles;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final canister = this.canister;
     final methodName = this.methodName;
     final args = this.args;
@@ -1542,17 +1615,23 @@ class WalletCallArg0 {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final canister = this.canister;
+    final methodName = this.methodName;
+    final args = this.args;
+    final cycles = this.cycles.toString();
+    return {
+      'canister': canister,
+      'method_name': methodName,
+      'args': args,
+      'cycles': cycles,
+    };
+  }
+
   WalletCallArg0 copyWith({
-    /// [canister] defined in Candid: `canister: principal`
     Principal? canister,
-
-    /// [methodName] defined in Candid: `method_name: text`
     String? methodName,
-
-    /// [args] defined in Candid: `args: blob`
     Uint8List? args,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     BigInt? cycles,
   }) {
     return WalletCallArg0(
@@ -1593,39 +1672,47 @@ class WalletCallArg0 {
 @immutable
 class Metadata {
   const Metadata({
-    /// [decimals] defined in Candid: `decimals: nat8`
     required this.decimals,
-
-    /// [fee] defined in Candid: `fee: nat`
     required this.fee,
-
-    /// [logo] defined in Candid: `logo: text`
     required this.logo,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
-
-    /// [owner] defined in Candid: `owner: principal`
     required this.owner,
-
-    /// [symbol] defined in Candid: `symbol: text`
     required this.symbol,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     required this.totalSupply,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Metadata.fromIDLDeserializable(Map obj) {
+    return Metadata(
+      decimals: obj['decimals'],
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      logo: obj['logo'],
+      name: obj['name'],
+      owner: Principal.from(obj['owner']),
+      symbol: obj['symbol'],
+      totalSupply: obj['totalSupply'] is BigInt
+          ? obj['totalSupply']
+          : BigInt.from(obj['totalSupply']),
+    );
+  }
 
   factory Metadata.fromJson(Map json) {
     return Metadata(
       decimals: json['decimals'],
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       logo: json['logo'],
       name: json['name'],
       owner: Principal.from(json['owner']),
       symbol: json['symbol'],
       totalSupply: json['totalSupply'] is BigInt
           ? json['totalSupply']
-          : BigInt.from(json['totalSupply']),
+          : json['totalSupply'] is num
+              ? BigInt.from(json['totalSupply'])
+              : BigInt.parse('${json['totalSupply']}'),
     );
   }
 
@@ -1650,7 +1737,8 @@ class Metadata {
   /// [totalSupply] defined in Candid: `totalSupply: nat`
   final BigInt totalSupply;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final decimals = this.decimals;
     final fee = this.fee;
     final logo = this.logo;
@@ -1669,26 +1757,32 @@ class Metadata {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final decimals = this.decimals;
+    final fee = this.fee.toString();
+    final logo = this.logo;
+    final name = this.name;
+    final owner = this.owner;
+    final symbol = this.symbol;
+    final totalSupply = this.totalSupply.toString();
+    return {
+      'decimals': decimals,
+      'fee': fee,
+      'logo': logo,
+      'name': name,
+      'owner': owner,
+      'symbol': symbol,
+      'totalSupply': totalSupply,
+    };
+  }
+
   Metadata copyWith({
-    /// [decimals] defined in Candid: `decimals: nat8`
     int? decimals,
-
-    /// [fee] defined in Candid: `fee: nat`
     BigInt? fee,
-
-    /// [logo] defined in Candid: `logo: text`
     String? logo,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
-
-    /// [owner] defined in Candid: `owner: principal`
     Principal? owner,
-
-    /// [symbol] defined in Candid: `symbol: text`
     String? symbol,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     BigInt? totalSupply,
   }) {
     return Metadata(
@@ -1774,6 +1868,12 @@ enum TxError {
 
   const TxError(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxError.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TxError.values.firstWhere((e) => e.name == key);
+  }
+
   factory TxError.fromJson(Map json) {
     final key = json.keys.first;
     return TxError.values.firstWhere((e) => e.name == key);
@@ -1808,7 +1908,7 @@ enum TxError {
 
   bool get isInsufficientXTCFee => this == TxError.insufficientXTCFee;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -1825,12 +1925,22 @@ enum TxError {
 @immutable
 class TxReceipt {
   const TxReceipt({
-    /// [ok] defined in Candid: `Ok: nat`
     this.ok,
-
-    /// [err] defined in Candid: `Err: TxError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxReceipt.fromIDLDeserializable(Map obj) {
+    return TxReceipt(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err:
+          obj['Err'] == null ? null : TxError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory TxReceipt.fromJson(Map json) {
     return TxReceipt(
@@ -1838,7 +1948,9 @@ class TxReceipt {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : TxError.fromJson(json['Err']),
     );
   }
@@ -1849,7 +1961,8 @@ class TxReceipt {
   /// [err] defined in Candid: `Err: TxError`
   final TxError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -1858,11 +1971,17 @@ class TxReceipt {
     };
   }
 
-  TxReceipt copyWith({
-    /// [ok] defined in Candid: `Ok: nat`
-    BigInt? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err?.toJson();
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: TxError`
+  TxReceipt copyWith({
+    BigInt? ok,
     TxError? err,
   }) {
     return TxReceipt(
@@ -1905,6 +2024,12 @@ enum BurnError {
 
   const BurnError(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BurnError.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return BurnError.values.firstWhere((e) => e.name == key);
+  }
+
   factory BurnError.fromJson(Map json) {
     final key = json.keys.first;
     return BurnError.values.firstWhere((e) => e.name == key);
@@ -1918,7 +2043,7 @@ enum BurnError {
 
   bool get isNotSufficientLiquidity => this == BurnError.notSufficientLiquidity;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -1935,12 +2060,23 @@ enum BurnError {
 @immutable
 class BurnResult {
   const BurnResult({
-    /// [ok] defined in Candid: `Ok: TransactionId`
     this.ok,
-
-    /// [err] defined in Candid: `Err: BurnError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BurnResult.fromIDLDeserializable(Map obj) {
+    return BurnResult(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err: obj['Err'] == null
+          ? null
+          : BurnError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory BurnResult.fromJson(Map json) {
     return BurnResult(
@@ -1948,7 +2084,9 @@ class BurnResult {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : BurnError.fromJson(json['Err']),
     );
   }
@@ -1959,7 +2097,8 @@ class BurnResult {
   /// [err] defined in Candid: `Err: BurnError`
   final BurnError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -1968,11 +2107,17 @@ class BurnResult {
     };
   }
 
-  BurnResult copyWith({
-    /// [ok] defined in Candid: `Ok: TransactionId`
-    TransactionId? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err?.toJson();
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: BurnError`
+  BurnResult copyWith({
+    TransactionId? ok,
     BurnError? err,
   }) {
     return BurnResult(
@@ -2012,6 +2157,12 @@ enum TxReceiptLegacyErr {
 
   const TxReceiptLegacyErr(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxReceiptLegacyErr.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TxReceiptLegacyErr.values.firstWhere((e) => e.name == key);
+  }
+
   factory TxReceiptLegacyErr.fromJson(Map json) {
     final key = json.keys.first;
     return TxReceiptLegacyErr.values.firstWhere((e) => e.name == key);
@@ -2025,7 +2176,7 @@ enum TxReceiptLegacyErr {
   bool get isInsufficientBalance =>
       this == TxReceiptLegacyErr.insufficientBalance;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -2042,12 +2193,25 @@ enum TxReceiptLegacyErr {
 @immutable
 class TxReceiptLegacy {
   const TxReceiptLegacy({
-    /// [err] defined in Candid: `Err: variant { InsufficientAllowance; InsufficientBalance }`
     this.err,
-
-    /// [ok] defined in Candid: `Ok: nat`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxReceiptLegacy.fromIDLDeserializable(Map obj) {
+    return TxReceiptLegacy(
+      err: obj['Err'] == null
+          ? null
+          : TxReceiptLegacyErr.fromIDLDeserializable(
+              obj['Err'],
+            ),
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+    );
+  }
 
   factory TxReceiptLegacy.fromJson(Map json) {
     return TxReceiptLegacy(
@@ -2060,7 +2224,9 @@ class TxReceiptLegacy {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
     );
   }
 
@@ -2070,7 +2236,8 @@ class TxReceiptLegacy {
   /// [ok] defined in Candid: `Ok: nat`
   final BigInt? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -2079,11 +2246,17 @@ class TxReceiptLegacy {
     };
   }
 
-  TxReceiptLegacy copyWith({
-    /// [err] defined in Candid: `Err: variant { InsufficientAllowance; InsufficientBalance }`
-    TxReceiptLegacyErr? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err?.toJson();
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'Err': err,
+      if (ok != null) 'Ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `Ok: nat`
+  TxReceiptLegacy copyWith({
+    TxReceiptLegacyErr? err,
     BigInt? ok,
   }) {
     return TxReceiptLegacy(
@@ -2120,6 +2293,12 @@ enum MintError {
 
   const MintError(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintError.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return MintError.values.firstWhere((e) => e.name == key);
+  }
+
   factory MintError.fromJson(Map json) {
     final key = json.keys.first;
     return MintError.values.firstWhere((e) => e.name == key);
@@ -2129,7 +2308,7 @@ enum MintError {
 
   bool get isNotSufficientLiquidity => this == MintError.notSufficientLiquidity;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -2146,12 +2325,23 @@ enum MintError {
 @immutable
 class MintResult {
   const MintResult({
-    /// [ok] defined in Candid: `Ok: TransactionId`
     this.ok,
-
-    /// [err] defined in Candid: `Err: MintError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintResult.fromIDLDeserializable(Map obj) {
+    return MintResult(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err: obj['Err'] == null
+          ? null
+          : MintError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory MintResult.fromJson(Map json) {
     return MintResult(
@@ -2159,7 +2349,9 @@ class MintResult {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : MintError.fromJson(json['Err']),
     );
   }
@@ -2170,7 +2362,8 @@ class MintResult {
   /// [err] defined in Candid: `Err: MintError`
   final MintError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -2179,11 +2372,17 @@ class MintResult {
     };
   }
 
-  MintResult copyWith({
-    /// [ok] defined in Candid: `Ok: TransactionId`
-    TransactionId? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err?.toJson();
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: MintError`
+  MintResult copyWith({
+    TransactionId? ok,
     MintError? err,
   }) {
     return MintResult(
@@ -2216,10 +2415,16 @@ class MintResult {
 /// ```
 @immutable
 class ResultCallOk {
-  const ResultCallOk(
-      {
-      /// [returnKey] defined in Candid: `returnKey: blob`
-      required this.returnKey});
+  const ResultCallOk({required this.returnKey});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory ResultCallOk.fromIDLDeserializable(Map obj) {
+    return ResultCallOk(
+      returnKey: obj['returnKey'] is Uint8List
+          ? obj['returnKey']
+          : Uint8List.fromList((obj['returnKey'] as List).cast()),
+    );
+  }
 
   factory ResultCallOk.fromJson(Map json) {
     return ResultCallOk(
@@ -2232,6 +2437,14 @@ class ResultCallOk {
   /// [returnKey] defined in Candid: `returnKey: blob`
   final Uint8List returnKey;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final returnKey = this.returnKey;
+    return {
+      'returnKey': returnKey,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final returnKey = this.returnKey;
     return {
@@ -2239,10 +2452,7 @@ class ResultCallOk {
     };
   }
 
-  ResultCallOk copyWith(
-      {
-      /// [returnKey] defined in Candid: `returnKey: blob`
-      Uint8List? returnKey}) {
+  ResultCallOk copyWith({Uint8List? returnKey}) {
     return ResultCallOk(
       returnKey: returnKey ?? this.returnKey,
     );
@@ -2273,12 +2483,21 @@ class ResultCallOk {
 @immutable
 class ResultCall {
   const ResultCall({
-    /// [ok] defined in Candid: `Ok: record { returnKey: blob }`
     this.ok,
-
-    /// [err] defined in Candid: `Err: text`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory ResultCall.fromIDLDeserializable(Map obj) {
+    return ResultCall(
+      ok: obj['Ok'] == null
+          ? null
+          : ResultCallOk.fromIDLDeserializable(
+              obj['Ok'],
+            ),
+      err: obj['Err'],
+    );
+  }
 
   factory ResultCall.fromJson(Map json) {
     return ResultCall(
@@ -2297,7 +2516,8 @@ class ResultCall {
   /// [err] defined in Candid: `Err: text`
   final String? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -2306,11 +2526,17 @@ class ResultCall {
     };
   }
 
-  ResultCall copyWith({
-    /// [ok] defined in Candid: `Ok: record { returnKey: blob }`
-    ResultCallOk? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok?.toJson();
+    final err = this.err;
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: text`
+  ResultCall copyWith({
+    ResultCallOk? ok,
     String? err,
   }) {
     return ResultCall(
@@ -2343,10 +2569,14 @@ class ResultCall {
 /// ```
 @immutable
 class CreateResultOk {
-  const CreateResultOk(
-      {
-      /// [canisterId] defined in Candid: `canister_id: principal`
-      required this.canisterId});
+  const CreateResultOk({required this.canisterId});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory CreateResultOk.fromIDLDeserializable(Map obj) {
+    return CreateResultOk(
+      canisterId: Principal.from(obj['canister_id']),
+    );
+  }
 
   factory CreateResultOk.fromJson(Map json) {
     return CreateResultOk(
@@ -2357,6 +2587,14 @@ class CreateResultOk {
   /// [canisterId] defined in Candid: `canister_id: principal`
   final Principal canisterId;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final canisterId = this.canisterId;
+    return {
+      'canister_id': canisterId,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final canisterId = this.canisterId;
     return {
@@ -2364,10 +2602,7 @@ class CreateResultOk {
     };
   }
 
-  CreateResultOk copyWith(
-      {
-      /// [canisterId] defined in Candid: `canister_id: principal`
-      Principal? canisterId}) {
+  CreateResultOk copyWith({Principal? canisterId}) {
     return CreateResultOk(
       canisterId: canisterId ?? this.canisterId,
     );
@@ -2398,12 +2633,21 @@ class CreateResultOk {
 @immutable
 class CreateResult {
   const CreateResult({
-    /// [ok] defined in Candid: `Ok: record { canister_id: principal }`
     this.ok,
-
-    /// [err] defined in Candid: `Err: text`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory CreateResult.fromIDLDeserializable(Map obj) {
+    return CreateResult(
+      ok: obj['Ok'] == null
+          ? null
+          : CreateResultOk.fromIDLDeserializable(
+              obj['Ok'],
+            ),
+      err: obj['Err'],
+    );
+  }
 
   factory CreateResult.fromJson(Map json) {
     return CreateResult(
@@ -2422,7 +2666,8 @@ class CreateResult {
   /// [err] defined in Candid: `Err: text`
   final String? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -2431,11 +2676,17 @@ class CreateResult {
     };
   }
 
-  CreateResult copyWith({
-    /// [ok] defined in Candid: `Ok: record { canister_id: principal }`
-    CreateResultOk? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok?.toJson();
+    final err = this.err;
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: text`
+  CreateResult copyWith({
+    CreateResultOk? ok,
     String? err,
   }) {
     return CreateResult(
@@ -2469,12 +2720,17 @@ class CreateResult {
 @immutable
 class EventDetailTransfer {
   const EventDetailTransfer({
-    /// [from] defined in Candid: `from: principal`
     required this.from,
-
-    /// [to] defined in Candid: `to: principal`
     required this.to,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetailTransfer.fromIDLDeserializable(Map obj) {
+    return EventDetailTransfer(
+      from: Principal.from(obj['from']),
+      to: Principal.from(obj['to']),
+    );
+  }
 
   factory EventDetailTransfer.fromJson(Map json) {
     return EventDetailTransfer(
@@ -2489,6 +2745,16 @@ class EventDetailTransfer {
   /// [to] defined in Candid: `to: principal`
   final Principal to;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final from = this.from;
+    final to = this.to;
+    return {
+      'from': from,
+      'to': to,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final from = this.from;
     final to = this.to;
@@ -2499,10 +2765,7 @@ class EventDetailTransfer {
   }
 
   EventDetailTransfer copyWith({
-    /// [from] defined in Candid: `from: principal`
     Principal? from,
-
-    /// [to] defined in Candid: `to: principal`
     Principal? to,
   }) {
     return EventDetailTransfer(
@@ -2547,10 +2810,14 @@ typedef EventDetailApprove = EventDetailTransfer;
 /// ```
 @immutable
 class EventDetailMint {
-  const EventDetailMint(
-      {
-      /// [to] defined in Candid: `to: principal`
-      required this.to});
+  const EventDetailMint({required this.to});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetailMint.fromIDLDeserializable(Map obj) {
+    return EventDetailMint(
+      to: Principal.from(obj['to']),
+    );
+  }
 
   factory EventDetailMint.fromJson(Map json) {
     return EventDetailMint(
@@ -2561,6 +2828,14 @@ class EventDetailMint {
   /// [to] defined in Candid: `to: principal`
   final Principal to;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final to = this.to;
+    return {
+      'to': to,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final to = this.to;
     return {
@@ -2568,10 +2843,7 @@ class EventDetailMint {
     };
   }
 
-  EventDetailMint copyWith(
-      {
-      /// [to] defined in Candid: `to: principal`
-      Principal? to}) {
+  EventDetailMint copyWith({Principal? to}) {
     return EventDetailMint(
       to: to ?? this.to,
     );
@@ -2601,15 +2873,19 @@ class EventDetailMint {
 @immutable
 class EventDetailCanisterCalled {
   const EventDetailCanisterCalled({
-    /// [from] defined in Candid: `from: principal`
     required this.from,
-
-    /// [canister] defined in Candid: `canister: principal`
     required this.canister,
-
-    /// [methodName] defined in Candid: `method_name: text`
     required this.methodName,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetailCanisterCalled.fromIDLDeserializable(Map obj) {
+    return EventDetailCanisterCalled(
+      from: Principal.from(obj['from']),
+      canister: Principal.from(obj['canister']),
+      methodName: obj['method_name'],
+    );
+  }
 
   factory EventDetailCanisterCalled.fromJson(Map json) {
     return EventDetailCanisterCalled(
@@ -2628,6 +2904,18 @@ class EventDetailCanisterCalled {
   /// [methodName] defined in Candid: `method_name: text`
   final String methodName;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final from = this.from;
+    final canister = this.canister;
+    final methodName = this.methodName;
+    return {
+      'from': from,
+      'canister': canister,
+      'method_name': methodName,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final from = this.from;
     final canister = this.canister;
@@ -2640,13 +2928,8 @@ class EventDetailCanisterCalled {
   }
 
   EventDetailCanisterCalled copyWith({
-    /// [from] defined in Candid: `from: principal`
     Principal? from,
-
-    /// [canister] defined in Candid: `canister: principal`
     Principal? canister,
-
-    /// [methodName] defined in Candid: `method_name: text`
     String? methodName,
   }) {
     return EventDetailCanisterCalled(
@@ -2684,12 +2967,17 @@ class EventDetailCanisterCalled {
 @immutable
 class EventDetailCanisterCreated {
   const EventDetailCanisterCreated({
-    /// [from] defined in Candid: `from: principal`
     required this.from,
-
-    /// [canister] defined in Candid: `canister: principal`
     required this.canister,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetailCanisterCreated.fromIDLDeserializable(Map obj) {
+    return EventDetailCanisterCreated(
+      from: Principal.from(obj['from']),
+      canister: Principal.from(obj['canister']),
+    );
+  }
 
   factory EventDetailCanisterCreated.fromJson(Map json) {
     return EventDetailCanisterCreated(
@@ -2704,6 +2992,16 @@ class EventDetailCanisterCreated {
   /// [canister] defined in Candid: `canister: principal`
   final Principal canister;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final from = this.from;
+    final canister = this.canister;
+    return {
+      'from': from,
+      'canister': canister,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final from = this.from;
     final canister = this.canister;
@@ -2714,10 +3012,7 @@ class EventDetailCanisterCreated {
   }
 
   EventDetailCanisterCreated copyWith({
-    /// [from] defined in Candid: `from: principal`
     Principal? from,
-
-    /// [canister] defined in Candid: `canister: principal`
     Principal? canister,
   }) {
     return EventDetailCanisterCreated(
@@ -2752,15 +3047,19 @@ class EventDetailCanisterCreated {
 @immutable
 class EventDetailTransferFrom {
   const EventDetailTransferFrom({
-    /// [caller] defined in Candid: `caller: principal`
     required this.caller,
-
-    /// [from] defined in Candid: `from: principal`
     required this.from,
-
-    /// [to] defined in Candid: `to: principal`
     required this.to,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetailTransferFrom.fromIDLDeserializable(Map obj) {
+    return EventDetailTransferFrom(
+      caller: Principal.from(obj['caller']),
+      from: Principal.from(obj['from']),
+      to: Principal.from(obj['to']),
+    );
+  }
 
   factory EventDetailTransferFrom.fromJson(Map json) {
     return EventDetailTransferFrom(
@@ -2779,6 +3078,18 @@ class EventDetailTransferFrom {
   /// [to] defined in Candid: `to: principal`
   final Principal to;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final caller = this.caller;
+    final from = this.from;
+    final to = this.to;
+    return {
+      'caller': caller,
+      'from': from,
+      'to': to,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final caller = this.caller;
     final from = this.from;
@@ -2791,13 +3102,8 @@ class EventDetailTransferFrom {
   }
 
   EventDetailTransferFrom copyWith({
-    /// [caller] defined in Candid: `caller: principal`
     Principal? caller,
-
-    /// [from] defined in Candid: `from: principal`
     Principal? from,
-
-    /// [to] defined in Candid: `to: principal`
     Principal? to,
   }) {
     return EventDetailTransferFrom(
@@ -2833,27 +3139,55 @@ class EventDetailTransferFrom {
 @immutable
 class EventDetail {
   const EventDetail({
-    /// [transfer] defined in Candid: `Transfer: record { from: principal; to: principal }`
     this.transfer,
-
-    /// [mint] defined in Candid: `Mint: record { to: principal }`
     this.mint,
-
-    /// [burn] defined in Candid: `Burn: record { from: principal; to: principal }`
     this.burn,
-
-    /// [canisterCalled] defined in Candid: `CanisterCalled: record { from: principal; canister: principal; method_name: text }`
     this.canisterCalled,
-
-    /// [canisterCreated] defined in Candid: `CanisterCreated: record { from: principal; canister: principal }`
     this.canisterCreated,
-
-    /// [transferFrom] defined in Candid: `TransferFrom: record { caller: principal; from: principal; to: principal }`
     this.transferFrom,
-
-    /// [approve] defined in Candid: `Approve: record { from: principal; to: principal }`
     this.approve,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventDetail.fromIDLDeserializable(Map obj) {
+    return EventDetail(
+      transfer: obj['Transfer'] == null
+          ? null
+          : EventDetailTransfer.fromIDLDeserializable(
+              obj['Transfer'],
+            ),
+      mint: obj['Mint'] == null
+          ? null
+          : EventDetailMint.fromIDLDeserializable(
+              obj['Mint'],
+            ),
+      burn: obj['Burn'] == null
+          ? null
+          : EventDetailBurn.fromIDLDeserializable(
+              obj['Burn'],
+            ),
+      canisterCalled: obj['CanisterCalled'] == null
+          ? null
+          : EventDetailCanisterCalled.fromIDLDeserializable(
+              obj['CanisterCalled'],
+            ),
+      canisterCreated: obj['CanisterCreated'] == null
+          ? null
+          : EventDetailCanisterCreated.fromIDLDeserializable(
+              obj['CanisterCreated'],
+            ),
+      transferFrom: obj['TransferFrom'] == null
+          ? null
+          : EventDetailTransferFrom.fromIDLDeserializable(
+              obj['TransferFrom'],
+            ),
+      approve: obj['Approve'] == null
+          ? null
+          : EventDetailApprove.fromIDLDeserializable(
+              obj['Approve'],
+            ),
+    );
+  }
 
   factory EventDetail.fromJson(Map json) {
     return EventDetail(
@@ -2916,7 +3250,8 @@ class EventDetail {
   /// [approve] defined in Candid: `Approve: record { from: principal; to: principal }`
   final EventDetailApprove? approve;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final transfer = this.transfer;
     final mint = this.mint;
     final burn = this.burn;
@@ -2935,26 +3270,32 @@ class EventDetail {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final transfer = this.transfer?.toJson();
+    final mint = this.mint?.toJson();
+    final burn = this.burn;
+    final canisterCalled = this.canisterCalled?.toJson();
+    final canisterCreated = this.canisterCreated?.toJson();
+    final transferFrom = this.transferFrom?.toJson();
+    final approve = this.approve;
+    return {
+      if (transfer != null) 'Transfer': transfer,
+      if (mint != null) 'Mint': mint,
+      if (burn != null) 'Burn': burn,
+      if (canisterCalled != null) 'CanisterCalled': canisterCalled,
+      if (canisterCreated != null) 'CanisterCreated': canisterCreated,
+      if (transferFrom != null) 'TransferFrom': transferFrom,
+      if (approve != null) 'Approve': approve,
+    };
+  }
+
   EventDetail copyWith({
-    /// [transfer] defined in Candid: `Transfer: record { from: principal; to: principal }`
     EventDetailTransfer? transfer,
-
-    /// [mint] defined in Candid: `Mint: record { to: principal }`
     EventDetailMint? mint,
-
-    /// [burn] defined in Candid: `Burn: record { from: principal; to: principal }`
     EventDetailBurn? burn,
-
-    /// [canisterCalled] defined in Candid: `CanisterCalled: record { from: principal; canister: principal; method_name: text }`
     EventDetailCanisterCalled? canisterCalled,
-
-    /// [canisterCreated] defined in Candid: `CanisterCreated: record { from: principal; canister: principal }`
     EventDetailCanisterCreated? canisterCreated,
-
-    /// [transferFrom] defined in Candid: `TransferFrom: record { caller: principal; from: principal; to: principal }`
     EventDetailTransferFrom? transferFrom,
-
-    /// [approve] defined in Candid: `Approve: record { from: principal; to: principal }`
     EventDetailApprove? approve,
   }) {
     return EventDetail(
@@ -3017,6 +3358,12 @@ enum TransactionStatus {
 
   const TransactionStatus(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransactionStatus.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TransactionStatus.values.firstWhere((e) => e.name == key);
+  }
+
   factory TransactionStatus.fromJson(Map json) {
     final key = json.keys.first;
     return TransactionStatus.values.firstWhere((e) => e.name == key);
@@ -3028,7 +3375,7 @@ enum TransactionStatus {
 
   bool get isFailed => this == TransactionStatus.failed;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -3045,32 +3392,45 @@ enum TransactionStatus {
 @immutable
 class Event {
   const Event({
-    /// [fee] defined in Candid: `fee: nat64`
     required this.fee,
-
-    /// [kind] defined in Candid: `kind: EventDetail`
     required this.kind,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     required this.cycles,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     required this.timestamp,
-
-    /// [status] defined in Candid: `status: TransactionStatus`
     required this.status,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Event.fromIDLDeserializable(Map obj) {
+    return Event(
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      kind: EventDetail.fromIDLDeserializable(obj['kind']),
+      cycles:
+          obj['cycles'] is BigInt ? obj['cycles'] : BigInt.from(obj['cycles']),
+      timestamp: obj['timestamp'] is BigInt
+          ? obj['timestamp']
+          : BigInt.from(obj['timestamp']),
+      status: TransactionStatus.fromIDLDeserializable(obj['status']),
+    );
+  }
+
   factory Event.fromJson(Map json) {
     return Event(
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       kind: EventDetail.fromJson(json['kind']),
       cycles: json['cycles'] is BigInt
           ? json['cycles']
-          : BigInt.from(json['cycles']),
+          : json['cycles'] is num
+              ? BigInt.from(json['cycles'])
+              : BigInt.parse('${json['cycles']}'),
       timestamp: json['timestamp'] is BigInt
           ? json['timestamp']
-          : BigInt.from(json['timestamp']),
+          : json['timestamp'] is num
+              ? BigInt.from(json['timestamp'])
+              : BigInt.parse('${json['timestamp']}'),
       status: TransactionStatus.fromJson(json['status']),
     );
   }
@@ -3090,7 +3450,8 @@ class Event {
   /// [status] defined in Candid: `status: TransactionStatus`
   final TransactionStatus status;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final fee = this.fee;
     final kind = this.kind;
     final cycles = this.cycles;
@@ -3105,20 +3466,26 @@ class Event {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final fee = this.fee.toString();
+    final kind = this.kind;
+    final cycles = this.cycles.toString();
+    final timestamp = this.timestamp.toString();
+    final status = this.status.toJson();
+    return {
+      'fee': fee,
+      'kind': kind,
+      'cycles': cycles,
+      'timestamp': timestamp,
+      'status': status,
+    };
+  }
+
   Event copyWith({
-    /// [fee] defined in Candid: `fee: nat64`
     BigInt? fee,
-
-    /// [kind] defined in Candid: `kind: EventDetail`
     EventDetail? kind,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     BigInt? cycles,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     BigInt? timestamp,
-
-    /// [status] defined in Candid: `status: TransactionStatus`
     TransactionStatus? status,
   }) {
     return Event(
@@ -3160,15 +3527,25 @@ class Event {
 @immutable
 class EventsConnection {
   const EventsConnection({
-    /// [data] defined in Candid: `data: vec Event`
     required this.data,
-
-    /// [nextOffset] defined in Candid: `next_offset: TransactionId`
     required this.nextOffset,
-
-    /// [nextCanisterId] defined in Candid: `next_canister_id: opt principal`
     this.nextCanisterId,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EventsConnection.fromIDLDeserializable(Map obj) {
+    return EventsConnection(
+      data: (obj['data'] as List).map((e) {
+        return Event.fromIDLDeserializable(e);
+      }).toList(),
+      nextOffset: obj['next_offset'] is BigInt
+          ? obj['next_offset']
+          : BigInt.from(obj['next_offset']),
+      nextCanisterId: (obj['next_canister_id'] as List).map((e) {
+        return e == null ? null : Principal.from(e);
+      }).firstOrNull,
+    );
+  }
 
   factory EventsConnection.fromJson(Map json) {
     return EventsConnection(
@@ -3177,7 +3554,9 @@ class EventsConnection {
       }).toList(),
       nextOffset: json['next_offset'] is BigInt
           ? json['next_offset']
-          : BigInt.from(json['next_offset']),
+          : json['next_offset'] is num
+              ? BigInt.from(json['next_offset'])
+              : BigInt.parse('${json['next_offset']}'),
       nextCanisterId: (json['next_canister_id'] as List).map((e) {
         return e == null ? null : Principal.from(e);
       }).firstOrNull,
@@ -3193,7 +3572,8 @@ class EventsConnection {
   /// [nextCanisterId] defined in Candid: `next_canister_id: opt principal`
   final Principal? nextCanisterId;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final data = this.data;
     final nextOffset = this.nextOffset;
     final nextCanisterId = this.nextCanisterId;
@@ -3204,14 +3584,20 @@ class EventsConnection {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final nextOffset = this.nextOffset.toString();
+    final nextCanisterId = this.nextCanisterId;
+    return {
+      'data': data,
+      'next_offset': nextOffset,
+      'next_canister_id': [if (nextCanisterId != null) nextCanisterId],
+    };
+  }
+
   EventsConnection copyWith({
-    /// [data] defined in Candid: `data: vec Event`
     List<Event>? data,
-
-    /// [nextOffset] defined in Candid: `next_offset: TransactionId`
     TransactionId? nextOffset,
-
-    /// [nextCanisterId] defined in Candid: `next_canister_id: opt principal`
     Principal? nextCanisterId,
   }) {
     return EventsConnection(
@@ -3254,73 +3640,112 @@ class EventsConnection {
 @immutable
 class Stats {
   const Stats({
-    /// [supply] defined in Candid: `supply: nat`
     required this.supply,
-
-    /// [fee] defined in Candid: `fee: nat`
     required this.fee,
-
-    /// [historyEvents] defined in Candid: `history_events: nat64`
     required this.historyEvents,
-
-    /// [balance] defined in Candid: `balance: nat64`
     required this.balance,
-
-    /// [transfersCount] defined in Candid: `transfers_count: nat64`
     required this.transfersCount,
-
-    /// [transfersFromCount] defined in Candid: `transfers_from_count: nat64`
     required this.transfersFromCount,
-
-    /// [approvalsCount] defined in Candid: `approvals_count: nat64`
     required this.approvalsCount,
-
-    /// [mintsCount] defined in Candid: `mints_count: nat64`
     required this.mintsCount,
-
-    /// [burnsCount] defined in Candid: `burns_count: nat64`
     required this.burnsCount,
-
-    /// [proxyCallsCount] defined in Candid: `proxy_calls_count: nat64`
     required this.proxyCallsCount,
-
-    /// [canistersCreatedCount] defined in Candid: `canisters_created_count: nat64`
     required this.canistersCreatedCount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Stats.fromIDLDeserializable(Map obj) {
+    return Stats(
+      supply:
+          obj['supply'] is BigInt ? obj['supply'] : BigInt.from(obj['supply']),
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      historyEvents: obj['history_events'] is BigInt
+          ? obj['history_events']
+          : BigInt.from(obj['history_events']),
+      balance: obj['balance'] is BigInt
+          ? obj['balance']
+          : BigInt.from(obj['balance']),
+      transfersCount: obj['transfers_count'] is BigInt
+          ? obj['transfers_count']
+          : BigInt.from(obj['transfers_count']),
+      transfersFromCount: obj['transfers_from_count'] is BigInt
+          ? obj['transfers_from_count']
+          : BigInt.from(obj['transfers_from_count']),
+      approvalsCount: obj['approvals_count'] is BigInt
+          ? obj['approvals_count']
+          : BigInt.from(obj['approvals_count']),
+      mintsCount: obj['mints_count'] is BigInt
+          ? obj['mints_count']
+          : BigInt.from(obj['mints_count']),
+      burnsCount: obj['burns_count'] is BigInt
+          ? obj['burns_count']
+          : BigInt.from(obj['burns_count']),
+      proxyCallsCount: obj['proxy_calls_count'] is BigInt
+          ? obj['proxy_calls_count']
+          : BigInt.from(obj['proxy_calls_count']),
+      canistersCreatedCount: obj['canisters_created_count'] is BigInt
+          ? obj['canisters_created_count']
+          : BigInt.from(obj['canisters_created_count']),
+    );
+  }
 
   factory Stats.fromJson(Map json) {
     return Stats(
       supply: json['supply'] is BigInt
           ? json['supply']
-          : BigInt.from(json['supply']),
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+          : json['supply'] is num
+              ? BigInt.from(json['supply'])
+              : BigInt.parse('${json['supply']}'),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       historyEvents: json['history_events'] is BigInt
           ? json['history_events']
-          : BigInt.from(json['history_events']),
+          : json['history_events'] is num
+              ? BigInt.from(json['history_events'])
+              : BigInt.parse('${json['history_events']}'),
       balance: json['balance'] is BigInt
           ? json['balance']
-          : BigInt.from(json['balance']),
+          : json['balance'] is num
+              ? BigInt.from(json['balance'])
+              : BigInt.parse('${json['balance']}'),
       transfersCount: json['transfers_count'] is BigInt
           ? json['transfers_count']
-          : BigInt.from(json['transfers_count']),
+          : json['transfers_count'] is num
+              ? BigInt.from(json['transfers_count'])
+              : BigInt.parse('${json['transfers_count']}'),
       transfersFromCount: json['transfers_from_count'] is BigInt
           ? json['transfers_from_count']
-          : BigInt.from(json['transfers_from_count']),
+          : json['transfers_from_count'] is num
+              ? BigInt.from(json['transfers_from_count'])
+              : BigInt.parse('${json['transfers_from_count']}'),
       approvalsCount: json['approvals_count'] is BigInt
           ? json['approvals_count']
-          : BigInt.from(json['approvals_count']),
+          : json['approvals_count'] is num
+              ? BigInt.from(json['approvals_count'])
+              : BigInt.parse('${json['approvals_count']}'),
       mintsCount: json['mints_count'] is BigInt
           ? json['mints_count']
-          : BigInt.from(json['mints_count']),
+          : json['mints_count'] is num
+              ? BigInt.from(json['mints_count'])
+              : BigInt.parse('${json['mints_count']}'),
       burnsCount: json['burns_count'] is BigInt
           ? json['burns_count']
-          : BigInt.from(json['burns_count']),
+          : json['burns_count'] is num
+              ? BigInt.from(json['burns_count'])
+              : BigInt.parse('${json['burns_count']}'),
       proxyCallsCount: json['proxy_calls_count'] is BigInt
           ? json['proxy_calls_count']
-          : BigInt.from(json['proxy_calls_count']),
+          : json['proxy_calls_count'] is num
+              ? BigInt.from(json['proxy_calls_count'])
+              : BigInt.parse('${json['proxy_calls_count']}'),
       canistersCreatedCount: json['canisters_created_count'] is BigInt
           ? json['canisters_created_count']
-          : BigInt.from(json['canisters_created_count']),
+          : json['canisters_created_count'] is num
+              ? BigInt.from(json['canisters_created_count'])
+              : BigInt.parse('${json['canisters_created_count']}'),
     );
   }
 
@@ -3357,7 +3782,8 @@ class Stats {
   /// [canistersCreatedCount] defined in Candid: `canisters_created_count: nat64`
   final BigInt canistersCreatedCount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final supply = this.supply;
     final fee = this.fee;
     final historyEvents = this.historyEvents;
@@ -3384,38 +3810,44 @@ class Stats {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final supply = this.supply.toString();
+    final fee = this.fee.toString();
+    final historyEvents = this.historyEvents.toString();
+    final balance = this.balance.toString();
+    final transfersCount = this.transfersCount.toString();
+    final transfersFromCount = this.transfersFromCount.toString();
+    final approvalsCount = this.approvalsCount.toString();
+    final mintsCount = this.mintsCount.toString();
+    final burnsCount = this.burnsCount.toString();
+    final proxyCallsCount = this.proxyCallsCount.toString();
+    final canistersCreatedCount = this.canistersCreatedCount.toString();
+    return {
+      'supply': supply,
+      'fee': fee,
+      'history_events': historyEvents,
+      'balance': balance,
+      'transfers_count': transfersCount,
+      'transfers_from_count': transfersFromCount,
+      'approvals_count': approvalsCount,
+      'mints_count': mintsCount,
+      'burns_count': burnsCount,
+      'proxy_calls_count': proxyCallsCount,
+      'canisters_created_count': canistersCreatedCount,
+    };
+  }
+
   Stats copyWith({
-    /// [supply] defined in Candid: `supply: nat`
     BigInt? supply,
-
-    /// [fee] defined in Candid: `fee: nat`
     BigInt? fee,
-
-    /// [historyEvents] defined in Candid: `history_events: nat64`
     BigInt? historyEvents,
-
-    /// [balance] defined in Candid: `balance: nat64`
     BigInt? balance,
-
-    /// [transfersCount] defined in Candid: `transfers_count: nat64`
     BigInt? transfersCount,
-
-    /// [transfersFromCount] defined in Candid: `transfers_from_count: nat64`
     BigInt? transfersFromCount,
-
-    /// [approvalsCount] defined in Candid: `approvals_count: nat64`
     BigInt? approvalsCount,
-
-    /// [mintsCount] defined in Candid: `mints_count: nat64`
     BigInt? mintsCount,
-
-    /// [burnsCount] defined in Candid: `burns_count: nat64`
     BigInt? burnsCount,
-
-    /// [proxyCallsCount] defined in Candid: `proxy_calls_count: nat64`
     BigInt? proxyCallsCount,
-
-    /// [canistersCreatedCount] defined in Candid: `canisters_created_count: nat64`
     BigInt? canistersCreatedCount,
   }) {
     return Stats(
@@ -3493,6 +3925,14 @@ class AllowanceArg {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory AllowanceArg.fromIDLDeserializable(List<dynamic> tuple) {
+    return AllowanceArg(
+      Principal.from(tuple[0]),
+      Principal.from(tuple[1]),
+    );
+  }
+
   factory AllowanceArg.fromJson(List<dynamic> tuple) {
     return AllowanceArg(
       Principal.from(tuple[0]),
@@ -3506,6 +3946,16 @@ class AllowanceArg {
   /// [item2] defined in Candid: `principal`
   final Principal item2;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
+
   List<dynamic> toJson() {
     final item1 = this.item1;
     final item2 = this.item2;
@@ -3516,10 +3966,7 @@ class AllowanceArg {
   }
 
   AllowanceArg copyWith({
-    /// [item1] defined in Candid: `principal`
     Principal? item1,
-
-    /// [item2] defined in Candid: `principal`
     Principal? item2,
   }) {
     return AllowanceArg(
@@ -3557,10 +4004,22 @@ class ApproveArg {
     this.item2,
   );
 
-  factory ApproveArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory ApproveArg.fromIDLDeserializable(List<dynamic> tuple) {
     return ApproveArg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory ApproveArg.fromJson(List<dynamic> tuple) {
+    return ApproveArg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -3570,7 +4029,8 @@ class ApproveArg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -3579,11 +4039,17 @@ class ApproveArg {
     ];
   }
 
-  ApproveArg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  ApproveArg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return ApproveArg(
@@ -3621,10 +4087,22 @@ class TransferErc20Arg {
     this.item2,
   );
 
-  factory TransferErc20Arg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErc20Arg.fromIDLDeserializable(List<dynamic> tuple) {
     return TransferErc20Arg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory TransferErc20Arg.fromJson(List<dynamic> tuple) {
+    return TransferErc20Arg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -3634,7 +4112,8 @@ class TransferErc20Arg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -3643,11 +4122,17 @@ class TransferErc20Arg {
     ];
   }
 
-  TransferErc20Arg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  TransferErc20Arg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return TransferErc20Arg(
@@ -3685,10 +4170,22 @@ class TransferArg {
     this.item2,
   );
 
-  factory TransferArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferArg.fromIDLDeserializable(List<dynamic> tuple) {
     return TransferArg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory TransferArg.fromJson(List<dynamic> tuple) {
+    return TransferArg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -3698,7 +4195,8 @@ class TransferArg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -3707,11 +4205,17 @@ class TransferArg {
     ];
   }
 
-  TransferArg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  TransferArg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return TransferArg(
@@ -3750,11 +4254,24 @@ class TransferFromArg {
     this.item3,
   );
 
-  factory TransferFromArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferFromArg.fromIDLDeserializable(List<dynamic> tuple) {
     return TransferFromArg(
       Principal.from(tuple[0]),
       Principal.from(tuple[1]),
       tuple[2] is BigInt ? tuple[2] : BigInt.from(tuple[2]),
+    );
+  }
+
+  factory TransferFromArg.fromJson(List<dynamic> tuple) {
+    return TransferFromArg(
+      Principal.from(tuple[0]),
+      Principal.from(tuple[1]),
+      tuple[2] is BigInt
+          ? tuple[2]
+          : tuple[2] is num
+              ? BigInt.from(tuple[2])
+              : BigInt.parse('${tuple[2]}'),
     );
   }
 
@@ -3767,7 +4284,8 @@ class TransferFromArg {
   /// [item3] defined in Candid: `nat`
   final BigInt item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -3778,14 +4296,20 @@ class TransferFromArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    final item3 = this.item3.toString();
+    return [
+      item1,
+      item2,
+      item3,
+    ];
+  }
+
   TransferFromArg copyWith({
-    /// [item1] defined in Candid: `principal`
     Principal? item1,
-
-    /// [item2] defined in Candid: `principal`
     Principal? item2,
-
-    /// [item3] defined in Candid: `nat`
     BigInt? item3,
   }) {
     return TransferFromArg(
@@ -3825,10 +4349,22 @@ class MintArg {
     this.item2,
   );
 
-  factory MintArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintArg.fromIDLDeserializable(List<dynamic> tuple) {
     return MintArg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory MintArg.fromJson(List<dynamic> tuple) {
+    return MintArg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -3838,7 +4374,8 @@ class MintArg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -3847,11 +4384,17 @@ class MintArg {
     ];
   }
 
-  MintArg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  MintArg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return MintArg(
@@ -3889,7 +4432,8 @@ class MintByIcpArg {
     this.item2,
   );
 
-  factory MintByIcpArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintByIcpArg.fromIDLDeserializable(List<dynamic> tuple) {
     return MintByIcpArg(
       (tuple[0] as List).map((e) {
         return e == null
@@ -3902,13 +4446,31 @@ class MintByIcpArg {
     );
   }
 
+  factory MintByIcpArg.fromJson(List<dynamic> tuple) {
+    return MintByIcpArg(
+      (tuple[0] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+    );
+  }
+
   /// [item1] defined in Candid: `opt vec nat8`
   final Uint8List? item1;
 
   /// [item2] defined in Candid: `nat64`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -3917,11 +4479,17 @@ class MintByIcpArg {
     ];
   }
 
-  MintByIcpArg copyWith({
-    /// [item1] defined in Candid: `opt vec nat8`
-    Uint8List? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      [if (item1 != null) item1],
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat64`
+  MintByIcpArg copyWith({
+    Uint8List? item1,
     BigInt? item2,
   }) {
     return MintByIcpArg(
@@ -3960,7 +4528,8 @@ class MintByIcpRecoverArg {
     this.item3,
   );
 
-  factory MintByIcpRecoverArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintByIcpRecoverArg.fromIDLDeserializable(List<dynamic> tuple) {
     return MintByIcpRecoverArg(
       (tuple[0] as List).map((e) {
         return e == null
@@ -3974,6 +4543,24 @@ class MintByIcpRecoverArg {
     );
   }
 
+  factory MintByIcpRecoverArg.fromJson(List<dynamic> tuple) {
+    return MintByIcpRecoverArg(
+      (tuple[0] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      Principal.from(tuple[2]),
+    );
+  }
+
   /// [item1] defined in Candid: `opt vec nat8`
   final Uint8List? item1;
 
@@ -3983,7 +4570,8 @@ class MintByIcpRecoverArg {
   /// [item3] defined in Candid: `principal`
   final Principal item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -3994,14 +4582,20 @@ class MintByIcpRecoverArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3;
+    return [
+      [if (item1 != null) item1],
+      item2,
+      item3,
+    ];
+  }
+
   MintByIcpRecoverArg copyWith({
-    /// [item1] defined in Candid: `opt vec nat8`
     Uint8List? item1,
-
-    /// [item2] defined in Candid: `nat64`
     BigInt? item2,
-
-    /// [item3] defined in Candid: `principal`
     Principal? item3,
   }) {
     return MintByIcpRecoverArg(

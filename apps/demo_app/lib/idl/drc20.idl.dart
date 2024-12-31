@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -72,7 +72,7 @@ class Drc20IDLActor {
     const method = 'drc20_metadata';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return Metadata.fromJson(e);
+      return Metadata.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -110,7 +110,7 @@ class Drc20IDLActor {
     final request = arg.toJson();
     const method = 'drc20_transfer';
     final response = await actor.getFunc(method)!(request);
-    return TxnResult.fromJson(response);
+    return TxnResult.fromIDLDeserializable(response);
   }
 }
 
@@ -415,6 +415,12 @@ enum TxnResultErrCode {
 
   const TxnResultErrCode(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxnResultErrCode.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TxnResultErrCode.values.firstWhere((e) => e.name == key);
+  }
+
   factory TxnResultErrCode.fromJson(Map json) {
     final key = json.keys.first;
     return TxnResultErrCode.values.firstWhere((e) => e.name == key);
@@ -442,7 +448,7 @@ enum TxnResultErrCode {
 
   bool get isUndefinedError => this == TxnResultErrCode.undefinedError;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -459,12 +465,19 @@ enum TxnResultErrCode {
 @immutable
 class TxnResultErr {
   const TxnResultErr({
-    /// [code] defined in Candid: `code: variant { DuplicateExecutedTransfer; InsufficientAllowance; InsufficientBalance; InsufficientGas; LockedTransferExpired; NoLockedTransfer; NonceError; UndefinedError }`
     required this.code,
-
-    /// [message] defined in Candid: `message: text`
     required this.message,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxnResultErr.fromIDLDeserializable(Map obj) {
+    return TxnResultErr(
+      code: TxnResultErrCode.fromIDLDeserializable(
+        obj['code'],
+      ),
+      message: obj['message'],
+    );
+  }
 
   factory TxnResultErr.fromJson(Map json) {
     return TxnResultErr(
@@ -481,7 +494,8 @@ class TxnResultErr {
   /// [message] defined in Candid: `message: text`
   final String message;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final code = this.code;
     final message = this.message;
     return {
@@ -490,11 +504,17 @@ class TxnResultErr {
     };
   }
 
-  TxnResultErr copyWith({
-    /// [code] defined in Candid: `code: variant { DuplicateExecutedTransfer; InsufficientAllowance; InsufficientBalance; InsufficientGas; LockedTransferExpired; NoLockedTransfer; NonceError; UndefinedError }`
-    TxnResultErrCode? code,
+  Map<String, dynamic> toJson() {
+    final code = this.code.toJson();
+    final message = this.message;
+    return {
+      'code': code,
+      'message': message,
+    };
+  }
 
-    /// [message] defined in Candid: `message: text`
+  TxnResultErr copyWith({
+    TxnResultErrCode? code,
     String? message,
   }) {
     return TxnResultErr(
@@ -528,12 +548,25 @@ class TxnResultErr {
 @immutable
 class TxnResult {
   const TxnResult({
-    /// [err] defined in Candid: `err: record { code: variant { DuplicateExecutedTransfer; InsufficientAllowance; InsufficientBalance; InsufficientGas; LockedTransferExpired; NoLockedTransfer; NonceError; UndefinedError }; message: text }`
     this.err,
-
-    /// [ok] defined in Candid: `ok: Txid`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxnResult.fromIDLDeserializable(Map obj) {
+    return TxnResult(
+      err: obj['err'] == null
+          ? null
+          : TxnResultErr.fromIDLDeserializable(
+              obj['err'],
+            ),
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is Uint8List
+              ? obj['ok']
+              : Uint8List.fromList((obj['ok'] as List).cast()),
+    );
+  }
 
   factory TxnResult.fromJson(Map json) {
     return TxnResult(
@@ -556,7 +589,8 @@ class TxnResult {
   /// [ok] defined in Candid: `ok: Txid`
   final Txid? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -565,11 +599,17 @@ class TxnResult {
     };
   }
 
-  TxnResult copyWith({
-    /// [err] defined in Candid: `err: record { code: variant { DuplicateExecutedTransfer; InsufficientAllowance; InsufficientBalance; InsufficientGas; LockedTransferExpired; NoLockedTransfer; NonceError; UndefinedError }; message: text }`
-    TxnResultErr? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err?.toJson();
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: Txid`
+  TxnResult copyWith({
+    TxnResultErr? err,
     Txid? ok,
   }) {
     return TxnResult(
@@ -603,12 +643,17 @@ class TxnResult {
 @immutable
 class Metadata {
   const Metadata({
-    /// [content] defined in Candid: `content: text`
     required this.content,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Metadata.fromIDLDeserializable(Map obj) {
+    return Metadata(
+      content: obj['content'],
+      name: obj['name'],
+    );
+  }
 
   factory Metadata.fromJson(Map json) {
     return Metadata(
@@ -623,6 +668,16 @@ class Metadata {
   /// [name] defined in Candid: `name: text`
   final String name;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final content = this.content;
+    final name = this.name;
+    return {
+      'content': content,
+      'name': name,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final content = this.content;
     final name = this.name;
@@ -633,10 +688,7 @@ class Metadata {
   }
 
   Metadata copyWith({
-    /// [content] defined in Candid: `content: text`
     String? content,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
   }) {
     return Metadata(
@@ -677,7 +729,8 @@ class Drc20TransferArg {
     this.item5,
   );
 
-  factory Drc20TransferArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Drc20TransferArg.fromIDLDeserializable(List<dynamic> tuple) {
     return Drc20TransferArg(
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
@@ -687,6 +740,40 @@ class Drc20TransferArg {
             : e is BigInt
                 ? e
                 : BigInt.from(e);
+      }).firstOrNull,
+      (tuple[3] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      (tuple[4] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+    );
+  }
+
+  factory Drc20TransferArg.fromJson(List<dynamic> tuple) {
+    return Drc20TransferArg(
+      tuple[0],
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      (tuple[2] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       (tuple[3] as List).map((e) {
         return e == null
@@ -720,7 +807,8 @@ class Drc20TransferArg {
   /// [item5] defined in Candid: `opt Data`
   final Data? item5;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -735,20 +823,26 @@ class Drc20TransferArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3?.toString();
+    final item4 = this.item4;
+    final item5 = this.item5;
+    return [
+      item1,
+      item2,
+      [if (item3 != null) item3],
+      [if (item4 != null) item4],
+      [if (item5 != null) item5],
+    ];
+  }
+
   Drc20TransferArg copyWith({
-    /// [item1] defined in Candid: `To`
     To? item1,
-
-    /// [item2] defined in Candid: `Amount`
     Amount? item2,
-
-    /// [item3] defined in Candid: `opt Nonce`
     Nonce? item3,
-
-    /// [item4] defined in Candid: `Sa: opt vec nat8`
     Uint8List? item4,
-
-    /// [item5] defined in Candid: `opt Data`
     Data? item5,
   }) {
     return Drc20TransferArg(

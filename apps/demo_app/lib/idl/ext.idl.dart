@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -22,7 +22,7 @@ class ExtIDLActor {
     const request = [];
     const method = 'getFee';
     final response = await actor.getFunc(method)!(request);
-    return FeeResult.fromJson(response);
+    return FeeResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -35,7 +35,7 @@ class ExtIDLActor {
     final request = [arg];
     const method = 'balance';
     final response = await actor.getFunc(method)!(request);
-    return BalanceResponse.fromJson(response);
+    return BalanceResponse.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -47,7 +47,7 @@ class ExtIDLActor {
     const request = [];
     const method = 'metadata';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -60,7 +60,7 @@ class ExtIDLActor {
     final request = [arg];
     const method = 'transfer';
     final response = await actor.getFunc(method)!(request);
-    return TransferResponse.fromJson(response);
+    return TransferResponse.fromIDLDeserializable(response);
   }
 }
 
@@ -336,12 +336,18 @@ class ExtIDL {
 @immutable
 class User {
   const User({
-    /// [address] defined in Candid: `address: AccountIdentifier`
     this.address,
-
-    /// [principal] defined in Candid: `principal: principal`
     this.principal,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory User.fromIDLDeserializable(Map obj) {
+    return User(
+      address: obj['address'],
+      principal:
+          obj['principal'] == null ? null : Principal.from(obj['principal']),
+    );
+  }
 
   factory User.fromJson(Map json) {
     return User(
@@ -357,6 +363,16 @@ class User {
   /// [principal] defined in Candid: `principal: principal`
   final Principal? principal;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final address = this.address;
+    final principal = this.principal;
+    return {
+      if (address != null) 'address': address,
+      if (principal != null) 'principal': principal,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final address = this.address;
     final principal = this.principal;
@@ -367,10 +383,7 @@ class User {
   }
 
   User copyWith({
-    /// [address] defined in Candid: `address: AccountIdentifier`
     AccountIdentifier? address,
-
-    /// [principal] defined in Candid: `principal: principal`
     Principal? principal,
   }) {
     return User(
@@ -405,27 +418,27 @@ class User {
 @immutable
 class TransferResponseErr {
   const TransferResponseErr({
-    /// [cannotNotify] defined in Candid: `CannotNotify: AccountIdentifier`
     this.cannotNotify,
-
-    /// [insufficientAllowance] defined in Candid: `InsufficientAllowance`
     this.insufficientAllowance = false,
-
-    /// [insufficientBalance] defined in Candid: `InsufficientBalance`
     this.insufficientBalance = false,
-
-    /// [invalidToken] defined in Candid: `InvalidToken: TokenIdentifier`
     this.invalidToken,
-
-    /// [other] defined in Candid: `Other: text`
     this.other,
-
-    /// [rejected] defined in Candid: `Rejected`
     this.rejected = false,
-
-    /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
     this.unauthorized,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferResponseErr.fromIDLDeserializable(Map obj) {
+    return TransferResponseErr(
+      cannotNotify: obj['CannotNotify'],
+      insufficientAllowance: obj.containsKey('InsufficientAllowance'),
+      insufficientBalance: obj.containsKey('InsufficientBalance'),
+      invalidToken: obj['InvalidToken'],
+      other: obj['Other'],
+      rejected: obj.containsKey('Rejected'),
+      unauthorized: obj['Unauthorized'],
+    );
+  }
 
   factory TransferResponseErr.fromJson(Map json) {
     return TransferResponseErr(
@@ -460,6 +473,26 @@ class TransferResponseErr {
   /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
   final AccountIdentifier? unauthorized;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final cannotNotify = this.cannotNotify;
+    final insufficientAllowance = this.insufficientAllowance;
+    final insufficientBalance = this.insufficientBalance;
+    final invalidToken = this.invalidToken;
+    final other = this.other;
+    final rejected = this.rejected;
+    final unauthorized = this.unauthorized;
+    return {
+      if (cannotNotify != null) 'CannotNotify': cannotNotify,
+      if (insufficientAllowance) 'InsufficientAllowance': null,
+      if (insufficientBalance) 'InsufficientBalance': null,
+      if (invalidToken != null) 'InvalidToken': invalidToken,
+      if (other != null) 'Other': other,
+      if (rejected) 'Rejected': null,
+      if (unauthorized != null) 'Unauthorized': unauthorized,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final cannotNotify = this.cannotNotify;
     final insufficientAllowance = this.insufficientAllowance;
@@ -480,25 +513,12 @@ class TransferResponseErr {
   }
 
   TransferResponseErr copyWith({
-    /// [cannotNotify] defined in Candid: `CannotNotify: AccountIdentifier`
     AccountIdentifier? cannotNotify,
-
-    /// [insufficientAllowance] defined in Candid: `InsufficientAllowance`
     bool? insufficientAllowance,
-
-    /// [insufficientBalance] defined in Candid: `InsufficientBalance`
     bool? insufficientBalance,
-
-    /// [invalidToken] defined in Candid: `InvalidToken: TokenIdentifier`
     TokenIdentifier? invalidToken,
-
-    /// [other] defined in Candid: `Other: text`
     String? other,
-
-    /// [rejected] defined in Candid: `Rejected`
     bool? rejected,
-
-    /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
     AccountIdentifier? unauthorized,
   }) {
     return TransferResponseErr(
@@ -558,12 +578,25 @@ class TransferResponseErr {
 @immutable
 class TransferResponse {
   const TransferResponse({
-    /// [err] defined in Candid: `err: variant { CannotNotify: AccountIdentifier; InsufficientAllowance; InsufficientBalance; InvalidToken: TokenIdentifier; Other: text; Rejected; Unauthorized: AccountIdentifier }`
     this.err,
-
-    /// [ok] defined in Candid: `ok: Balance`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferResponse.fromIDLDeserializable(Map obj) {
+    return TransferResponse(
+      err: obj['err'] == null
+          ? null
+          : TransferResponseErr.fromIDLDeserializable(
+              obj['err'],
+            ),
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is BigInt
+              ? obj['ok']
+              : BigInt.from(obj['ok']),
+    );
+  }
 
   factory TransferResponse.fromJson(Map json) {
     return TransferResponse(
@@ -576,7 +609,9 @@ class TransferResponse {
           ? null
           : json['ok'] is BigInt
               ? json['ok']
-              : BigInt.from(json['ok']),
+              : json['ok'] is num
+                  ? BigInt.from(json['ok'])
+                  : BigInt.parse('${json['ok']}'),
     );
   }
 
@@ -586,7 +621,8 @@ class TransferResponse {
   /// [ok] defined in Candid: `ok: Balance`
   final Balance? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -595,11 +631,17 @@ class TransferResponse {
     };
   }
 
-  TransferResponse copyWith({
-    /// [err] defined in Candid: `err: variant { CannotNotify: AccountIdentifier; InsufficientAllowance; InsufficientBalance; InvalidToken: TokenIdentifier; Other: text; Rejected; Unauthorized: AccountIdentifier }`
-    TransferResponseErr? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err;
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: Balance`
+  TransferResponse copyWith({
+    TransferResponseErr? err,
     Balance? ok,
   }) {
     return TransferResponse(
@@ -633,36 +675,52 @@ class TransferResponse {
 @immutable
 class TransferRequest {
   const TransferRequest({
-    /// [amount] defined in Candid: `amount: Balance`
     required this.amount,
-
-    /// [from] defined in Candid: `from: User`
     required this.from,
-
-    /// [memo] defined in Candid: `memo: Memo`
     required this.memo,
-
-    /// [nonce] defined in Candid: `nonce: opt nat`
     this.nonce,
-
-    /// [notify] defined in Candid: `notify: bool`
     required this.notify,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     this.subaccount,
-
-    /// [to] defined in Candid: `to: User`
     required this.to,
-
-    /// [token] defined in Candid: `token: TokenIdentifier`
     required this.token,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferRequest.fromIDLDeserializable(Map obj) {
+    return TransferRequest(
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+      from: User.fromIDLDeserializable(obj['from']),
+      memo: obj['memo'] is Uint8List
+          ? obj['memo']
+          : Uint8List.fromList((obj['memo'] as List).cast()),
+      nonce: (obj['nonce'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      notify: obj['notify'],
+      subaccount: (obj['subaccount'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      to: User.fromIDLDeserializable(obj['to']),
+      token: obj['token'],
+    );
+  }
 
   factory TransferRequest.fromJson(Map json) {
     return TransferRequest(
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
       from: User.fromJson(json['from']),
       memo: json['memo'] is Uint8List
           ? json['memo']
@@ -672,7 +730,9 @@ class TransferRequest {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       notify: json['notify'],
       subaccount: (json['subaccount'] as List).map((e) {
@@ -711,7 +771,8 @@ class TransferRequest {
   /// [token] defined in Candid: `token: TokenIdentifier`
   final TokenIdentifier token;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final amount = this.amount;
     final from = this.from;
     final memo = this.memo;
@@ -732,29 +793,35 @@ class TransferRequest {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final amount = this.amount.toString();
+    final from = this.from;
+    final memo = this.memo;
+    final nonce = this.nonce?.toString();
+    final notify = this.notify;
+    final subaccount = this.subaccount;
+    final to = this.to;
+    final token = this.token;
+    return {
+      'amount': amount,
+      'from': from,
+      'memo': memo,
+      'nonce': [if (nonce != null) nonce],
+      'notify': notify,
+      'subaccount': [if (subaccount != null) subaccount],
+      'to': to,
+      'token': token,
+    };
+  }
+
   TransferRequest copyWith({
-    /// [amount] defined in Candid: `amount: Balance`
     Balance? amount,
-
-    /// [from] defined in Candid: `from: User`
     User? from,
-
-    /// [memo] defined in Candid: `memo: Memo`
     Memo? memo,
-
-    /// [nonce] defined in Candid: `nonce: opt nat`
     BigInt? nonce,
-
-    /// [notify] defined in Candid: `notify: bool`
     bool? notify,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     Uint8List? subaccount,
-
-    /// [to] defined in Candid: `to: User`
     User? to,
-
-    /// [token] defined in Candid: `token: TokenIdentifier`
     TokenIdentifier? token,
   }) {
     return TransferRequest(
@@ -802,12 +869,19 @@ class TransferRequest {
 @immutable
 class Result {
   const Result({
-    /// [err] defined in Candid: `err: CommonError`
     this.err,
-
-    /// [ok] defined in Candid: `ok: Metadata`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result.fromIDLDeserializable(Map obj) {
+    return Result(
+      err: obj['err'] == null
+          ? null
+          : CommonError.fromIDLDeserializable(obj['err']),
+      ok: obj['ok'] == null ? null : Metadata.fromIDLDeserializable(obj['ok']),
+    );
+  }
 
   factory Result.fromJson(Map json) {
     return Result(
@@ -822,6 +896,16 @@ class Result {
   /// [ok] defined in Candid: `ok: Metadata`
   final Metadata? ok;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final err = this.err;
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final err = this.err;
     final ok = this.ok;
@@ -832,10 +916,7 @@ class Result {
   }
 
   Result copyWith({
-    /// [err] defined in Candid: `err: CommonError`
     CommonError? err,
-
-    /// [ok] defined in Candid: `ok: Metadata`
     Metadata? ok,
   }) {
     return Result(
@@ -869,21 +950,29 @@ class Result {
 @immutable
 class MetadataFungible {
   const MetadataFungible({
-    /// [decimals] defined in Candid: `decimals: nat8`
     required this.decimals,
-
-    /// [metadata] defined in Candid: `metadata: opt blob`
     this.metadata,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
-
-    /// [ownerAccount] defined in Candid: `ownerAccount: AccountIdentifier`
     required this.ownerAccount,
-
-    /// [symbol] defined in Candid: `symbol: text`
     required this.symbol,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MetadataFungible.fromIDLDeserializable(Map obj) {
+    return MetadataFungible(
+      decimals: obj['decimals'],
+      metadata: (obj['metadata'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      name: obj['name'],
+      ownerAccount: obj['ownerAccount'],
+      symbol: obj['symbol'],
+    );
+  }
 
   factory MetadataFungible.fromJson(Map json) {
     return MetadataFungible(
@@ -916,6 +1005,22 @@ class MetadataFungible {
   /// [symbol] defined in Candid: `symbol: text`
   final String symbol;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final decimals = this.decimals;
+    final metadata = this.metadata;
+    final name = this.name;
+    final ownerAccount = this.ownerAccount;
+    final symbol = this.symbol;
+    return {
+      'decimals': decimals,
+      'metadata': [if (metadata != null) metadata],
+      'name': name,
+      'ownerAccount': ownerAccount,
+      'symbol': symbol,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final decimals = this.decimals;
     final metadata = this.metadata;
@@ -932,19 +1037,10 @@ class MetadataFungible {
   }
 
   MetadataFungible copyWith({
-    /// [decimals] defined in Candid: `decimals: nat8`
     int? decimals,
-
-    /// [metadata] defined in Candid: `metadata: opt blob`
     Uint8List? metadata,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
-
-    /// [ownerAccount] defined in Candid: `ownerAccount: AccountIdentifier`
     AccountIdentifier? ownerAccount,
-
-    /// [symbol] defined in Candid: `symbol: text`
     String? symbol,
   }) {
     return MetadataFungible(
@@ -987,10 +1083,20 @@ class MetadataFungible {
 /// ```
 @immutable
 class MetadataNonfungible {
-  const MetadataNonfungible(
-      {
-      /// [metadata] defined in Candid: `metadata: opt blob`
-      this.metadata});
+  const MetadataNonfungible({this.metadata});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MetadataNonfungible.fromIDLDeserializable(Map obj) {
+    return MetadataNonfungible(
+      metadata: (obj['metadata'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+    );
+  }
 
   factory MetadataNonfungible.fromJson(Map json) {
     return MetadataNonfungible(
@@ -1007,6 +1113,14 @@ class MetadataNonfungible {
   /// [metadata] defined in Candid: `metadata: opt blob`
   final Uint8List? metadata;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final metadata = this.metadata;
+    return {
+      'metadata': [if (metadata != null) metadata],
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final metadata = this.metadata;
     return {
@@ -1014,10 +1128,7 @@ class MetadataNonfungible {
     };
   }
 
-  MetadataNonfungible copyWith(
-      {
-      /// [metadata] defined in Candid: `metadata: opt blob`
-      Uint8List? metadata}) {
+  MetadataNonfungible copyWith({Uint8List? metadata}) {
     return MetadataNonfungible(
       metadata: metadata ?? this.metadata,
     );
@@ -1048,12 +1159,25 @@ class MetadataNonfungible {
 @immutable
 class Metadata {
   const Metadata({
-    /// [fungible] defined in Candid: `fungible: record { decimals: nat8; metadata: opt blob; name: text; ownerAccount: AccountIdentifier; symbol: text }`
     this.fungible,
-
-    /// [nonfungible] defined in Candid: `nonfungible: record { metadata: opt blob }`
     this.nonfungible,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Metadata.fromIDLDeserializable(Map obj) {
+    return Metadata(
+      fungible: obj['fungible'] == null
+          ? null
+          : MetadataFungible.fromIDLDeserializable(
+              obj['fungible'],
+            ),
+      nonfungible: obj['nonfungible'] == null
+          ? null
+          : MetadataNonfungible.fromIDLDeserializable(
+              obj['nonfungible'],
+            ),
+    );
+  }
 
   factory Metadata.fromJson(Map json) {
     return Metadata(
@@ -1076,7 +1200,8 @@ class Metadata {
   /// [nonfungible] defined in Candid: `nonfungible: record { metadata: opt blob }`
   final MetadataNonfungible? nonfungible;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final fungible = this.fungible;
     final nonfungible = this.nonfungible;
     return {
@@ -1085,11 +1210,17 @@ class Metadata {
     };
   }
 
-  Metadata copyWith({
-    /// [fungible] defined in Candid: `fungible: record { decimals: nat8; metadata: opt blob; name: text; ownerAccount: AccountIdentifier; symbol: text }`
-    MetadataFungible? fungible,
+  Map<String, dynamic> toJson() {
+    final fungible = this.fungible?.toJson();
+    final nonfungible = this.nonfungible?.toJson();
+    return {
+      if (fungible != null) 'fungible': fungible,
+      if (nonfungible != null) 'nonfungible': nonfungible,
+    };
+  }
 
-    /// [nonfungible] defined in Candid: `nonfungible: record { metadata: opt blob }`
+  Metadata copyWith({
+    MetadataFungible? fungible,
     MetadataNonfungible? nonfungible,
   }) {
     return Metadata(
@@ -1125,18 +1256,21 @@ class Metadata {
 @immutable
 class CommonError {
   const CommonError({
-    /// [insufficientBalance] defined in Candid: `InsufficientBalance`
     this.insufficientBalance = false,
-
-    /// [invalidToken] defined in Candid: `InvalidToken: TokenIdentifier`
     this.invalidToken,
-
-    /// [other] defined in Candid: `Other: text`
     this.other,
-
-    /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
     this.unauthorized,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory CommonError.fromIDLDeserializable(Map obj) {
+    return CommonError(
+      insufficientBalance: obj.containsKey('InsufficientBalance'),
+      invalidToken: obj['InvalidToken'],
+      other: obj['Other'],
+      unauthorized: obj['Unauthorized'],
+    );
+  }
 
   factory CommonError.fromJson(Map json) {
     return CommonError(
@@ -1159,6 +1293,20 @@ class CommonError {
   /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
   final AccountIdentifier? unauthorized;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final insufficientBalance = this.insufficientBalance;
+    final invalidToken = this.invalidToken;
+    final other = this.other;
+    final unauthorized = this.unauthorized;
+    return {
+      if (insufficientBalance) 'InsufficientBalance': null,
+      if (invalidToken != null) 'InvalidToken': invalidToken,
+      if (other != null) 'Other': other,
+      if (unauthorized != null) 'Unauthorized': unauthorized,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final insufficientBalance = this.insufficientBalance;
     final invalidToken = this.invalidToken;
@@ -1173,16 +1321,9 @@ class CommonError {
   }
 
   CommonError copyWith({
-    /// [insufficientBalance] defined in Candid: `InsufficientBalance`
     bool? insufficientBalance,
-
-    /// [invalidToken] defined in Candid: `InvalidToken: TokenIdentifier`
     TokenIdentifier? invalidToken,
-
-    /// [other] defined in Candid: `Other: text`
     String? other,
-
-    /// [unauthorized] defined in Candid: `Unauthorized: AccountIdentifier`
     AccountIdentifier? unauthorized,
   }) {
     return CommonError(
@@ -1224,12 +1365,23 @@ class CommonError {
 @immutable
 class BalanceResponse {
   const BalanceResponse({
-    /// [err] defined in Candid: `err: CommonError`
     this.err,
-
-    /// [ok] defined in Candid: `ok: Balance`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BalanceResponse.fromIDLDeserializable(Map obj) {
+    return BalanceResponse(
+      err: obj['err'] == null
+          ? null
+          : CommonError.fromIDLDeserializable(obj['err']),
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is BigInt
+              ? obj['ok']
+              : BigInt.from(obj['ok']),
+    );
+  }
 
   factory BalanceResponse.fromJson(Map json) {
     return BalanceResponse(
@@ -1238,7 +1390,9 @@ class BalanceResponse {
           ? null
           : json['ok'] is BigInt
               ? json['ok']
-              : BigInt.from(json['ok']),
+              : json['ok'] is num
+                  ? BigInt.from(json['ok'])
+                  : BigInt.parse('${json['ok']}'),
     );
   }
 
@@ -1248,7 +1402,8 @@ class BalanceResponse {
   /// [ok] defined in Candid: `ok: Balance`
   final Balance? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -1257,11 +1412,17 @@ class BalanceResponse {
     };
   }
 
-  BalanceResponse copyWith({
-    /// [err] defined in Candid: `err: CommonError`
-    CommonError? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err;
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: Balance`
+  BalanceResponse copyWith({
+    CommonError? err,
     Balance? ok,
   }) {
     return BalanceResponse(
@@ -1295,12 +1456,17 @@ class BalanceResponse {
 @immutable
 class BalanceRequest {
   const BalanceRequest({
-    /// [token] defined in Candid: `token: TokenIdentifier`
     required this.token,
-
-    /// [user] defined in Candid: `user: User`
     required this.user,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BalanceRequest.fromIDLDeserializable(Map obj) {
+    return BalanceRequest(
+      token: obj['token'],
+      user: User.fromIDLDeserializable(obj['user']),
+    );
+  }
 
   factory BalanceRequest.fromJson(Map json) {
     return BalanceRequest(
@@ -1315,6 +1481,16 @@ class BalanceRequest {
   /// [user] defined in Candid: `user: User`
   final User user;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final token = this.token;
+    final user = this.user;
+    return {
+      'token': token,
+      'user': user,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final token = this.token;
     final user = this.user;
@@ -1325,10 +1501,7 @@ class BalanceRequest {
   }
 
   BalanceRequest copyWith({
-    /// [token] defined in Candid: `token: TokenIdentifier`
     TokenIdentifier? token,
-
-    /// [user] defined in Candid: `user: User`
     User? user,
   }) {
     return BalanceRequest(
@@ -1362,12 +1535,23 @@ class BalanceRequest {
 @immutable
 class FeeResult {
   const FeeResult({
-    /// [err] defined in Candid: `err: CommonError`
     this.err,
-
-    /// [ok] defined in Candid: `ok: nat`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory FeeResult.fromIDLDeserializable(Map obj) {
+    return FeeResult(
+      err: obj['err'] == null
+          ? null
+          : CommonError.fromIDLDeserializable(obj['err']),
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is BigInt
+              ? obj['ok']
+              : BigInt.from(obj['ok']),
+    );
+  }
 
   factory FeeResult.fromJson(Map json) {
     return FeeResult(
@@ -1376,7 +1560,9 @@ class FeeResult {
           ? null
           : json['ok'] is BigInt
               ? json['ok']
-              : BigInt.from(json['ok']),
+              : json['ok'] is num
+                  ? BigInt.from(json['ok'])
+                  : BigInt.parse('${json['ok']}'),
     );
   }
 
@@ -1386,7 +1572,8 @@ class FeeResult {
   /// [ok] defined in Candid: `ok: nat`
   final BigInt? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -1395,11 +1582,17 @@ class FeeResult {
     };
   }
 
-  FeeResult copyWith({
-    /// [err] defined in Candid: `err: CommonError`
-    CommonError? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err;
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: nat`
+  FeeResult copyWith({
+    CommonError? err,
     BigInt? ok,
   }) {
     return FeeResult(

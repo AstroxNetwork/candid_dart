@@ -1,11 +1,11 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -22,7 +22,7 @@ class IcpSwapTokensIDLActor {
     final request = [arg];
     const method = 'add';
     final response = await actor.getFunc(method)!(request);
-    return BoolResult.fromJson(response);
+    return BoolResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -35,7 +35,7 @@ class IcpSwapTokensIDLActor {
     final request = [arg];
     const method = 'addAdmin';
     final response = await actor.getFunc(method)!(request);
-    return BoolResult.fromJson(response);
+    return BoolResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -47,7 +47,7 @@ class IcpSwapTokensIDLActor {
     const request = [];
     const method = 'cycleAvailable';
     final response = await actor.getFunc(method)!(request);
-    return NatResult.fromJson(response);
+    return NatResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -59,7 +59,7 @@ class IcpSwapTokensIDLActor {
     const request = [];
     const method = 'cycleBalance';
     final response = await actor.getFunc(method)!(request);
-    return NatResult.fromJson(response);
+    return NatResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -72,7 +72,7 @@ class IcpSwapTokensIDLActor {
     final request = arg.toJson();
     const method = 'edit';
     final response = await actor.getFunc(method)!(request);
-    return BoolResult.fromJson(response);
+    return BoolResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -85,7 +85,7 @@ class IcpSwapTokensIDLActor {
     final request = [arg];
     const method = 'get';
     final response = await actor.getFunc(method)!(request);
-    return Result2.fromJson(response);
+    return Result2.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -97,7 +97,7 @@ class IcpSwapTokensIDLActor {
     const request = [];
     const method = 'getAdminList';
     final response = await actor.getFunc(method)!(request);
-    return Result1.fromJson(response);
+    return Result1.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -109,7 +109,7 @@ class IcpSwapTokensIDLActor {
     const request = [];
     const method = 'getList';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -122,7 +122,7 @@ class IcpSwapTokensIDLActor {
     final request = [arg];
     const method = 'remove';
     final response = await actor.getFunc(method)!(request);
-    return BoolResult.fromJson(response);
+    return BoolResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -135,7 +135,7 @@ class IcpSwapTokensIDLActor {
     final request = [arg];
     const method = 'removeAdmin';
     final response = await actor.getFunc(method)!(request);
-    return BoolResult.fromJson(response);
+    return BoolResult.fromIDLDeserializable(response);
   }
 }
 
@@ -453,44 +453,53 @@ class IcpSwapTokensIDL {
 @immutable
 class TokenMetadata {
   const TokenMetadata({
-    /// [canisterId] defined in Candid: `canisterId: text`
     required this.canisterId,
-
-    /// [decimals] defined in Candid: `decimals: nat`
     required this.decimals,
-
-    /// [fee] defined in Candid: `fee: nat`
     required this.fee,
-
-    /// [introduction] defined in Candid: `introduction: text`
     required this.introduction,
-
-    /// [mediaLinks] defined in Candid: `mediaLinks: vec Media`
     required this.mediaLinks,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
-
-    /// [rank] defined in Candid: `rank: nat32`
     required this.rank,
-
-    /// [standard] defined in Candid: `standard: text`
     required this.standard,
-
-    /// [symbol] defined in Candid: `symbol: text`
     required this.symbol,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     required this.totalSupply,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TokenMetadata.fromIDLDeserializable(Map obj) {
+    return TokenMetadata(
+      canisterId: obj['canisterId'],
+      decimals: obj['decimals'] is BigInt
+          ? obj['decimals']
+          : BigInt.from(obj['decimals']),
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      introduction: obj['introduction'],
+      mediaLinks: (obj['mediaLinks'] as List).map((e) {
+        return Media.fromIDLDeserializable(e);
+      }).toList(),
+      name: obj['name'],
+      rank: obj['rank'],
+      standard: obj['standard'],
+      symbol: obj['symbol'],
+      totalSupply: obj['totalSupply'] is BigInt
+          ? obj['totalSupply']
+          : BigInt.from(obj['totalSupply']),
+    );
+  }
 
   factory TokenMetadata.fromJson(Map json) {
     return TokenMetadata(
       canisterId: json['canisterId'],
       decimals: json['decimals'] is BigInt
           ? json['decimals']
-          : BigInt.from(json['decimals']),
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+          : json['decimals'] is num
+              ? BigInt.from(json['decimals'])
+              : BigInt.parse('${json['decimals']}'),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       introduction: json['introduction'],
       mediaLinks: (json['mediaLinks'] as List).map((e) {
         return Media.fromJson(e);
@@ -501,7 +510,9 @@ class TokenMetadata {
       symbol: json['symbol'],
       totalSupply: json['totalSupply'] is BigInt
           ? json['totalSupply']
-          : BigInt.from(json['totalSupply']),
+          : json['totalSupply'] is num
+              ? BigInt.from(json['totalSupply'])
+              : BigInt.parse('${json['totalSupply']}'),
     );
   }
 
@@ -535,7 +546,8 @@ class TokenMetadata {
   /// [totalSupply] defined in Candid: `totalSupply: nat`
   final BigInt totalSupply;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final canisterId = this.canisterId;
     final decimals = this.decimals;
     final fee = this.fee;
@@ -560,35 +572,41 @@ class TokenMetadata {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final canisterId = this.canisterId;
+    final decimals = this.decimals.toString();
+    final fee = this.fee.toString();
+    final introduction = this.introduction;
+    final mediaLinks = this.mediaLinks;
+    final name = this.name;
+    final rank = this.rank;
+    final standard = this.standard;
+    final symbol = this.symbol;
+    final totalSupply = this.totalSupply.toString();
+    return {
+      'canisterId': canisterId,
+      'decimals': decimals,
+      'fee': fee,
+      'introduction': introduction,
+      'mediaLinks': mediaLinks,
+      'name': name,
+      'rank': rank,
+      'standard': standard,
+      'symbol': symbol,
+      'totalSupply': totalSupply,
+    };
+  }
+
   TokenMetadata copyWith({
-    /// [canisterId] defined in Candid: `canisterId: text`
     String? canisterId,
-
-    /// [decimals] defined in Candid: `decimals: nat`
     BigInt? decimals,
-
-    /// [fee] defined in Candid: `fee: nat`
     BigInt? fee,
-
-    /// [introduction] defined in Candid: `introduction: text`
     String? introduction,
-
-    /// [mediaLinks] defined in Candid: `mediaLinks: vec Media`
     List<Media>? mediaLinks,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
-
-    /// [rank] defined in Candid: `rank: nat32`
     int? rank,
-
-    /// [standard] defined in Candid: `standard: text`
     String? standard,
-
-    /// [symbol] defined in Candid: `symbol: text`
     String? symbol,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     BigInt? totalSupply,
   }) {
     return TokenMetadata(
@@ -656,12 +674,19 @@ class TokenMetadata {
 @immutable
 class Result2 {
   const Result2({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: opt TokenMetadata`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result2.fromIDLDeserializable(Map obj) {
+    return Result2(
+      err: obj['err'],
+      ok: (obj['ok'] as List).map((e) {
+        return e == null ? null : TokenMetadata.fromIDLDeserializable(e);
+      }).firstOrNull,
+    );
+  }
 
   factory Result2.fromJson(Map json) {
     return Result2(
@@ -678,6 +703,16 @@ class Result2 {
   /// [ok] defined in Candid: `ok: opt TokenMetadata`
   final TokenMetadata? ok;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final err = this.err;
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': [if (ok != null) ok],
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final err = this.err;
     final ok = this.ok;
@@ -688,10 +723,7 @@ class Result2 {
   }
 
   Result2 copyWith({
-    /// [err] defined in Candid: `err: text`
     String? err,
-
-    /// [ok] defined in Candid: `ok: opt TokenMetadata`
     TokenMetadata? ok,
   }) {
     return Result2(
@@ -725,17 +757,22 @@ class Result2 {
 @immutable
 class Result1 {
   const Result1({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: vec text`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result1.fromIDLDeserializable(Map obj) {
+    return Result1(
+      err: obj['err'],
+      ok: (obj['ok'] as List?)?.cast<String>(),
+    );
+  }
 
   factory Result1.fromJson(Map json) {
     return Result1(
       err: json['err'],
-      ok: (json['ok'] as List?)?.cast(),
+      ok: (json['ok'] as List?)?.cast<String>(),
     );
   }
 
@@ -744,6 +781,16 @@ class Result1 {
 
   /// [ok] defined in Candid: `ok: vec text`
   final List<String>? ok;
+
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final err = this.err;
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
   Map<String, dynamic> toJson() {
     final err = this.err;
@@ -755,10 +802,7 @@ class Result1 {
   }
 
   Result1 copyWith({
-    /// [err] defined in Candid: `err: text`
     String? err,
-
-    /// [ok] defined in Candid: `ok: vec text`
     List<String>? ok,
   }) {
     return Result1(
@@ -793,12 +837,19 @@ class Result1 {
 @immutable
 class Result {
   const Result({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: vec TokenMetadata`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result.fromIDLDeserializable(Map obj) {
+    return Result(
+      err: obj['err'],
+      ok: (obj['ok'] as List?)?.map((e) {
+        return TokenMetadata.fromIDLDeserializable(e);
+      }).toList(),
+    );
+  }
 
   factory Result.fromJson(Map json) {
     return Result(
@@ -815,6 +866,16 @@ class Result {
   /// [ok] defined in Candid: `ok: vec TokenMetadata`
   final List<TokenMetadata>? ok;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final err = this.err;
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final err = this.err;
     final ok = this.ok;
@@ -825,10 +886,7 @@ class Result {
   }
 
   Result copyWith({
-    /// [err] defined in Candid: `err: text`
     String? err,
-
-    /// [ok] defined in Candid: `ok: vec TokenMetadata`
     List<TokenMetadata>? ok,
   }) {
     return Result(
@@ -863,12 +921,21 @@ class Result {
 @immutable
 class NatResult {
   const NatResult({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: nat`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory NatResult.fromIDLDeserializable(Map obj) {
+    return NatResult(
+      err: obj['err'],
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is BigInt
+              ? obj['ok']
+              : BigInt.from(obj['ok']),
+    );
+  }
 
   factory NatResult.fromJson(Map json) {
     return NatResult(
@@ -877,7 +944,9 @@ class NatResult {
           ? null
           : json['ok'] is BigInt
               ? json['ok']
-              : BigInt.from(json['ok']),
+              : json['ok'] is num
+                  ? BigInt.from(json['ok'])
+                  : BigInt.parse('${json['ok']}'),
     );
   }
 
@@ -887,7 +956,8 @@ class NatResult {
   /// [ok] defined in Candid: `ok: nat`
   final BigInt? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -896,11 +966,17 @@ class NatResult {
     };
   }
 
-  NatResult copyWith({
-    /// [err] defined in Candid: `err: text`
-    String? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err;
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: nat`
+  NatResult copyWith({
+    String? err,
     BigInt? ok,
   }) {
     return NatResult(
@@ -934,12 +1010,17 @@ class NatResult {
 @immutable
 class Media {
   const Media({
-    /// [link] defined in Candid: `link: text`
     required this.link,
-
-    /// [mediaType] defined in Candid: `mediaType: text`
     required this.mediaType,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Media.fromIDLDeserializable(Map obj) {
+    return Media(
+      link: obj['link'],
+      mediaType: obj['mediaType'],
+    );
+  }
 
   factory Media.fromJson(Map json) {
     return Media(
@@ -954,6 +1035,16 @@ class Media {
   /// [mediaType] defined in Candid: `mediaType: text`
   final String mediaType;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final link = this.link;
+    final mediaType = this.mediaType;
+    return {
+      'link': link,
+      'mediaType': mediaType,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final link = this.link;
     final mediaType = this.mediaType;
@@ -964,10 +1055,7 @@ class Media {
   }
 
   Media copyWith({
-    /// [link] defined in Candid: `link: text`
     String? link,
-
-    /// [mediaType] defined in Candid: `mediaType: text`
     String? mediaType,
   }) {
     return Media(
@@ -1002,12 +1090,17 @@ class Media {
 @immutable
 class BoolResult {
   const BoolResult({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: bool`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory BoolResult.fromIDLDeserializable(Map obj) {
+    return BoolResult(
+      err: obj['err'],
+      ok: obj['ok'],
+    );
+  }
 
   factory BoolResult.fromJson(Map json) {
     return BoolResult(
@@ -1022,6 +1115,16 @@ class BoolResult {
   /// [ok] defined in Candid: `ok: bool`
   final bool? ok;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final err = this.err;
+    final ok = this.ok;
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final err = this.err;
     final ok = this.ok;
@@ -1032,10 +1135,7 @@ class BoolResult {
   }
 
   BoolResult copyWith({
-    /// [err] defined in Candid: `err: text`
     String? err,
-
-    /// [ok] defined in Candid: `ok: bool`
     bool? ok,
   }) {
     return BoolResult(
@@ -1073,6 +1173,14 @@ class EditArg {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory EditArg.fromIDLDeserializable(List<dynamic> tuple) {
+    return EditArg(
+      tuple[0],
+      TokenMetadata.fromIDLDeserializable(tuple[1]),
+    );
+  }
+
   factory EditArg.fromJson(List<dynamic> tuple) {
     return EditArg(
       tuple[0],
@@ -1086,7 +1194,8 @@ class EditArg {
   /// [item2] defined in Candid: `TokenMetadata`
   final TokenMetadata item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1095,11 +1204,17 @@ class EditArg {
     ];
   }
 
-  EditArg copyWith({
-    /// [item1] defined in Candid: `text`
-    String? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toJson();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `TokenMetadata`
+  EditArg copyWith({
+    String? item1,
     TokenMetadata? item2,
   }) {
     return EditArg(

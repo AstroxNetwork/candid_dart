@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -62,7 +62,7 @@ class Icrc1IDLActor {
     return (response as List).map((e) {
       return Icrc1MetadataRet0Item(
         e[0],
-        Value.fromJson(e[1]),
+        Value.fromIDLDeserializable(e[1]),
       );
     }).toList();
   }
@@ -77,7 +77,7 @@ class Icrc1IDLActor {
     const method = 'icrc1_minting_account';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return e == null ? null : Account.fromJson(e);
+      return e == null ? null : Account.fromIDLDeserializable(e);
     }).firstOrNull;
   }
 
@@ -103,7 +103,7 @@ class Icrc1IDLActor {
     const method = 'icrc1_supported_standards';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return StandardRecord.fromJson(e);
+      return StandardRecord.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -141,7 +141,7 @@ class Icrc1IDLActor {
     final request = [arg];
     const method = 'icrc1_transfer';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 }
 
@@ -606,6 +606,14 @@ class Icrc1MetadataRet0Item {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Icrc1MetadataRet0Item.fromIDLDeserializable(List<dynamic> tuple) {
+    return Icrc1MetadataRet0Item(
+      tuple[0],
+      Value.fromJson(tuple[1]),
+    );
+  }
+
   factory Icrc1MetadataRet0Item.fromJson(List<dynamic> tuple) {
     return Icrc1MetadataRet0Item(
       tuple[0],
@@ -619,6 +627,16 @@ class Icrc1MetadataRet0Item {
   /// [item2] defined in Candid: `Value`
   final Value item2;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
+
   List<dynamic> toJson() {
     final item1 = this.item1;
     final item2 = this.item2;
@@ -629,10 +647,7 @@ class Icrc1MetadataRet0Item {
   }
 
   Icrc1MetadataRet0Item copyWith({
-    /// [item1] defined in Candid: `text`
     String? item1,
-
-    /// [item2] defined in Candid: `Value`
     Value? item2,
   }) {
     return Icrc1MetadataRet0Item(
@@ -666,12 +681,23 @@ class Icrc1MetadataRet0Item {
 @immutable
 class Account {
   const Account({
-    /// [owner] defined in Candid: `owner: principal`
     required this.owner,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     this.subaccount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Account.fromIDLDeserializable(Map obj) {
+    return Account(
+      owner: Principal.from(obj['owner']),
+      subaccount: (obj['subaccount'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+    );
+  }
 
   factory Account.fromJson(Map json) {
     return Account(
@@ -692,6 +718,16 @@ class Account {
   /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
   final Uint8List? subaccount;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final owner = this.owner;
+    final subaccount = this.subaccount;
+    return {
+      'owner': owner,
+      'subaccount': [if (subaccount != null) subaccount],
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final owner = this.owner;
     final subaccount = this.subaccount;
@@ -702,10 +738,7 @@ class Account {
   }
 
   Account copyWith({
-    /// [owner] defined in Candid: `owner: principal`
     Principal? owner,
-
-    /// [subaccount] defined in Candid: `subaccount: opt vec nat8`
     Uint8List? subaccount,
   }) {
     return Account(
@@ -739,10 +772,16 @@ class Account {
 /// ```
 @immutable
 class ArchivedTransactionRangeCallbackRet0 {
-  const ArchivedTransactionRangeCallbackRet0(
-      {
-      /// [transactions] defined in Candid: `transactions: vec Transaction`
-      required this.transactions});
+  const ArchivedTransactionRangeCallbackRet0({required this.transactions});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory ArchivedTransactionRangeCallbackRet0.fromIDLDeserializable(Map obj) {
+    return ArchivedTransactionRangeCallbackRet0(
+      transactions: (obj['transactions'] as List).map((e) {
+        return Transaction.fromIDLDeserializable(e);
+      }).toList(),
+    );
+  }
 
   factory ArchivedTransactionRangeCallbackRet0.fromJson(Map json) {
     return ArchivedTransactionRangeCallbackRet0(
@@ -755,6 +794,14 @@ class ArchivedTransactionRangeCallbackRet0 {
   /// [transactions] defined in Candid: `transactions: vec Transaction`
   final List<Transaction> transactions;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final transactions = this.transactions;
+    return {
+      'transactions': transactions,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final transactions = this.transactions;
     return {
@@ -763,9 +810,7 @@ class ArchivedTransactionRangeCallbackRet0 {
   }
 
   ArchivedTransactionRangeCallbackRet0 copyWith(
-      {
-      /// [transactions] defined in Candid: `transactions: vec Transaction`
-      List<Transaction>? transactions}) {
+      {List<Transaction>? transactions}) {
     return ArchivedTransactionRangeCallbackRet0(
       transactions: transactions ?? this.transactions,
     );
@@ -797,18 +842,34 @@ class ArchivedTransactionRangeCallbackRet0 {
 @immutable
 class Burn {
   const Burn({
-    /// [from] defined in Candid: `from: Account`
     required this.from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Burn.fromIDLDeserializable(Map obj) {
+    return Burn(
+      from: Account.fromIDLDeserializable(obj['from']),
+      memo: (obj['memo'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      createdAtTime: (obj['created_at_time'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory Burn.fromJson(Map json) {
     return Burn(
@@ -825,11 +886,15 @@ class Burn {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
@@ -845,7 +910,8 @@ class Burn {
   /// [amount] defined in Candid: `amount: nat`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final from = this.from;
     final memo = this.memo;
     final createdAtTime = this.createdAtTime;
@@ -858,17 +924,23 @@ class Burn {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final from = this.from.toJson();
+    final memo = this.memo;
+    final createdAtTime = this.createdAtTime?.toString();
+    final amount = this.amount.toString();
+    return {
+      'from': from,
+      'memo': [if (memo != null) memo],
+      'created_at_time': [if (createdAtTime != null) createdAtTime],
+      'amount': amount,
+    };
+  }
+
   Burn copyWith({
-    /// [from] defined in Candid: `from: Account`
     Account? from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Burn(
@@ -908,20 +980,31 @@ class Burn {
 @immutable
 class GetTransactionsRequest {
   const GetTransactionsRequest({
-    /// [start] defined in Candid: `start: nat`
     required this.start,
-
-    /// [length] defined in Candid: `length: nat`
     required this.length,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetTransactionsRequest.fromIDLDeserializable(Map obj) {
+    return GetTransactionsRequest(
+      start: obj['start'] is BigInt ? obj['start'] : BigInt.from(obj['start']),
+      length:
+          obj['length'] is BigInt ? obj['length'] : BigInt.from(obj['length']),
+    );
+  }
+
   factory GetTransactionsRequest.fromJson(Map json) {
     return GetTransactionsRequest(
-      start:
-          json['start'] is BigInt ? json['start'] : BigInt.from(json['start']),
+      start: json['start'] is BigInt
+          ? json['start']
+          : json['start'] is num
+              ? BigInt.from(json['start'])
+              : BigInt.parse('${json['start']}'),
       length: json['length'] is BigInt
           ? json['length']
-          : BigInt.from(json['length']),
+          : json['length'] is num
+              ? BigInt.from(json['length'])
+              : BigInt.parse('${json['length']}'),
     );
   }
 
@@ -931,7 +1014,8 @@ class GetTransactionsRequest {
   /// [length] defined in Candid: `length: nat`
   final BigInt length;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final start = this.start;
     final length = this.length;
     return {
@@ -940,11 +1024,17 @@ class GetTransactionsRequest {
     };
   }
 
-  GetTransactionsRequest copyWith({
-    /// [start] defined in Candid: `start: nat`
-    BigInt? start,
+  Map<String, dynamic> toJson() {
+    final start = this.start.toString();
+    final length = this.length.toString();
+    return {
+      'start': start,
+      'length': length,
+    };
+  }
 
-    /// [length] defined in Candid: `length: nat`
+  GetTransactionsRequest copyWith({
+    BigInt? start,
     BigInt? length,
   }) {
     return GetTransactionsRequest(
@@ -978,18 +1068,34 @@ class GetTransactionsRequest {
 @immutable
 class Mint {
   const Mint({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Mint.fromIDLDeserializable(Map obj) {
+    return Mint(
+      to: Account.fromIDLDeserializable(obj['to']),
+      memo: (obj['memo'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      createdAtTime: (obj['created_at_time'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory Mint.fromJson(Map json) {
     return Mint(
@@ -1006,11 +1112,15 @@ class Mint {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
@@ -1026,7 +1136,8 @@ class Mint {
   /// [amount] defined in Candid: `amount: nat`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final to = this.to;
     final memo = this.memo;
     final createdAtTime = this.createdAtTime;
@@ -1039,17 +1150,23 @@ class Mint {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final to = this.to.toJson();
+    final memo = this.memo;
+    final createdAtTime = this.createdAtTime?.toString();
+    final amount = this.amount.toString();
+    return {
+      'to': to,
+      'memo': [if (memo != null) memo],
+      'created_at_time': [if (createdAtTime != null) createdAtTime],
+      'amount': amount,
+    };
+  }
+
   Mint copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Mint(
@@ -1089,12 +1206,23 @@ class Mint {
 @immutable
 class Result {
   const Result({
-    /// [ok] defined in Candid: `Ok: nat`
     this.ok,
-
-    /// [err] defined in Candid: `Err: TransferError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result.fromIDLDeserializable(Map obj) {
+    return Result(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err: obj['Err'] == null
+          ? null
+          : TransferError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory Result.fromJson(Map json) {
     return Result(
@@ -1102,7 +1230,9 @@ class Result {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : TransferError.fromJson(json['Err']),
     );
   }
@@ -1113,7 +1243,8 @@ class Result {
   /// [err] defined in Candid: `Err: TransferError`
   final TransferError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -1122,11 +1253,17 @@ class Result {
     };
   }
 
-  Result copyWith({
-    /// [ok] defined in Candid: `Ok: nat`
-    BigInt? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err;
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: TransferError`
+  Result copyWith({
+    BigInt? ok,
     TransferError? err,
   }) {
     return Result(
@@ -1160,12 +1297,17 @@ class Result {
 @immutable
 class StandardRecord {
   const StandardRecord({
-    /// [url] defined in Candid: `url: text`
     required this.url,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory StandardRecord.fromIDLDeserializable(Map obj) {
+    return StandardRecord(
+      url: obj['url'],
+      name: obj['name'],
+    );
+  }
 
   factory StandardRecord.fromJson(Map json) {
     return StandardRecord(
@@ -1180,6 +1322,16 @@ class StandardRecord {
   /// [name] defined in Candid: `name: text`
   final String name;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
+    final url = this.url;
+    final name = this.name;
+    return {
+      'url': url,
+      'name': name,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     final url = this.url;
     final name = this.name;
@@ -1190,10 +1342,7 @@ class StandardRecord {
   }
 
   StandardRecord copyWith({
-    /// [url] defined in Candid: `url: text`
     String? url,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
   }) {
     return StandardRecord(
@@ -1227,21 +1376,31 @@ class StandardRecord {
 @immutable
 class Transaction {
   const Transaction({
-    /// [burn] defined in Candid: `burn: opt Burn`
     this.burn,
-
-    /// [kind] defined in Candid: `kind: text`
     required this.kind,
-
-    /// [mint] defined in Candid: `mint: opt Mint`
     this.mint,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     required this.timestamp,
-
-    /// [transfer] defined in Candid: `transfer: opt Transfer`
     this.transfer,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Transaction.fromIDLDeserializable(Map obj) {
+    return Transaction(
+      burn: (obj['burn'] as List).map((e) {
+        return e == null ? null : Burn.fromIDLDeserializable(e);
+      }).firstOrNull,
+      kind: obj['kind'],
+      mint: (obj['mint'] as List).map((e) {
+        return e == null ? null : Mint.fromIDLDeserializable(e);
+      }).firstOrNull,
+      timestamp: obj['timestamp'] is BigInt
+          ? obj['timestamp']
+          : BigInt.from(obj['timestamp']),
+      transfer: (obj['transfer'] as List).map((e) {
+        return e == null ? null : Transfer.fromIDLDeserializable(e);
+      }).firstOrNull,
+    );
+  }
 
   factory Transaction.fromJson(Map json) {
     return Transaction(
@@ -1254,7 +1413,9 @@ class Transaction {
       }).firstOrNull,
       timestamp: json['timestamp'] is BigInt
           ? json['timestamp']
-          : BigInt.from(json['timestamp']),
+          : json['timestamp'] is num
+              ? BigInt.from(json['timestamp'])
+              : BigInt.parse('${json['timestamp']}'),
       transfer: (json['transfer'] as List).map((e) {
         return e == null ? null : Transfer.fromJson(e);
       }).firstOrNull,
@@ -1276,7 +1437,8 @@ class Transaction {
   /// [transfer] defined in Candid: `transfer: opt Transfer`
   final Transfer? transfer;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final burn = this.burn;
     final kind = this.kind;
     final mint = this.mint;
@@ -1291,20 +1453,26 @@ class Transaction {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final burn = this.burn;
+    final kind = this.kind;
+    final mint = this.mint;
+    final timestamp = this.timestamp.toString();
+    final transfer = this.transfer;
+    return {
+      'burn': [if (burn != null) burn],
+      'kind': kind,
+      'mint': [if (mint != null) mint],
+      'timestamp': timestamp,
+      'transfer': [if (transfer != null) transfer],
+    };
+  }
+
   Transaction copyWith({
-    /// [burn] defined in Candid: `burn: opt Burn`
     Burn? burn,
-
-    /// [kind] defined in Candid: `kind: text`
     String? kind,
-
-    /// [mint] defined in Candid: `mint: opt Mint`
     Mint? mint,
-
-    /// [timestamp] defined in Candid: `timestamp: nat64`
     BigInt? timestamp,
-
-    /// [transfer] defined in Candid: `transfer: opt Transfer`
     Transfer? transfer,
   }) {
     return Transaction(
@@ -1347,24 +1515,44 @@ class Transaction {
 @immutable
 class Transfer {
   const Transfer({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     this.fee,
-
-    /// [from] defined in Candid: `from: Account`
     required this.from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Transfer.fromIDLDeserializable(Map obj) {
+    return Transfer(
+      to: Account.fromIDLDeserializable(obj['to']),
+      fee: (obj['fee'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      from: Account.fromIDLDeserializable(obj['from']),
+      memo: (obj['memo'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      createdAtTime: (obj['created_at_time'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory Transfer.fromJson(Map json) {
     return Transfer(
@@ -1374,7 +1562,9 @@ class Transfer {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       from: Account.fromJson(json['from']),
       memo: (json['memo'] as List).map((e) {
@@ -1389,11 +1579,15 @@ class Transfer {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
@@ -1415,7 +1609,8 @@ class Transfer {
   /// [amount] defined in Candid: `amount: nat`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final to = this.to;
     final fee = this.fee;
     final from = this.from;
@@ -1432,23 +1627,29 @@ class Transfer {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final to = this.to.toJson();
+    final fee = this.fee?.toString();
+    final from = this.from.toJson();
+    final memo = this.memo;
+    final createdAtTime = this.createdAtTime?.toString();
+    final amount = this.amount.toString();
+    return {
+      'to': to,
+      'fee': [if (fee != null) fee],
+      'from': from,
+      'memo': [if (memo != null) memo],
+      'created_at_time': [if (createdAtTime != null) createdAtTime],
+      'amount': amount,
+    };
+  }
+
   Transfer copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     BigInt? fee,
-
-    /// [from] defined in Candid: `from: Account`
     Account? from,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return Transfer(
@@ -1492,24 +1693,50 @@ class Transfer {
 @immutable
 class TransferArg {
   const TransferArg({
-    /// [to] defined in Candid: `to: Account`
     required this.to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     this.fee,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     this.memo,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt vec nat8`
     this.fromSubaccount,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     this.createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     required this.amount,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferArg.fromIDLDeserializable(Map obj) {
+    return TransferArg(
+      to: Account.fromIDLDeserializable(obj['to']),
+      fee: (obj['fee'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      memo: (obj['memo'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      fromSubaccount: (obj['from_subaccount'] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      createdAtTime: (obj['created_at_time'] as List).map((e) {
+        return e == null
+            ? null
+            : e is BigInt
+                ? e
+                : BigInt.from(e);
+      }).firstOrNull,
+      amount:
+          obj['amount'] is BigInt ? obj['amount'] : BigInt.from(obj['amount']),
+    );
+  }
 
   factory TransferArg.fromJson(Map json) {
     return TransferArg(
@@ -1519,7 +1746,9 @@ class TransferArg {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       memo: (json['memo'] as List).map((e) {
         return e == null
@@ -1540,11 +1769,15 @@ class TransferArg {
             ? null
             : e is BigInt
                 ? e
-                : BigInt.from(e);
+                : e is num
+                    ? BigInt.from(e)
+                    : BigInt.parse('${e}');
       }).firstOrNull,
       amount: json['amount'] is BigInt
           ? json['amount']
-          : BigInt.from(json['amount']),
+          : json['amount'] is num
+              ? BigInt.from(json['amount'])
+              : BigInt.parse('${json['amount']}'),
     );
   }
 
@@ -1566,7 +1799,8 @@ class TransferArg {
   /// [amount] defined in Candid: `amount: nat`
   final BigInt amount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final to = this.to;
     final fee = this.fee;
     final memo = this.memo;
@@ -1583,23 +1817,29 @@ class TransferArg {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final to = this.to.toJson();
+    final fee = this.fee?.toString();
+    final memo = this.memo;
+    final fromSubaccount = this.fromSubaccount;
+    final createdAtTime = this.createdAtTime?.toString();
+    final amount = this.amount.toString();
+    return {
+      'to': to,
+      'fee': [if (fee != null) fee],
+      'memo': [if (memo != null) memo],
+      'from_subaccount': [if (fromSubaccount != null) fromSubaccount],
+      'created_at_time': [if (createdAtTime != null) createdAtTime],
+      'amount': amount,
+    };
+  }
+
   TransferArg copyWith({
-    /// [to] defined in Candid: `to: Account`
     Account? to,
-
-    /// [fee] defined in Candid: `fee: opt nat`
     BigInt? fee,
-
-    /// [memo] defined in Candid: `memo: opt vec nat8`
     Uint8List? memo,
-
-    /// [fromSubaccount] defined in Candid: `from_subaccount: opt vec nat8`
     Uint8List? fromSubaccount,
-
-    /// [createdAtTime] defined in Candid: `created_at_time: opt nat64`
     BigInt? createdAtTime,
-
-    /// [amount] defined in Candid: `amount: nat`
     BigInt? amount,
   }) {
     return TransferArg(
@@ -1644,19 +1884,28 @@ class TransferArg {
 @immutable
 class TransferErrorGenericError {
   const TransferErrorGenericError({
-    /// [message] defined in Candid: `message: text`
     required this.message,
-
-    /// [errorCode] defined in Candid: `error_code: nat`
     required this.errorCode,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorGenericError.fromIDLDeserializable(Map obj) {
+    return TransferErrorGenericError(
+      message: obj['message'],
+      errorCode: obj['error_code'] is BigInt
+          ? obj['error_code']
+          : BigInt.from(obj['error_code']),
+    );
+  }
 
   factory TransferErrorGenericError.fromJson(Map json) {
     return TransferErrorGenericError(
       message: json['message'],
       errorCode: json['error_code'] is BigInt
           ? json['error_code']
-          : BigInt.from(json['error_code']),
+          : json['error_code'] is num
+              ? BigInt.from(json['error_code'])
+              : BigInt.parse('${json['error_code']}'),
     );
   }
 
@@ -1666,7 +1915,8 @@ class TransferErrorGenericError {
   /// [errorCode] defined in Candid: `error_code: nat`
   final BigInt errorCode;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final message = this.message;
     final errorCode = this.errorCode;
     return {
@@ -1675,11 +1925,17 @@ class TransferErrorGenericError {
     };
   }
 
-  TransferErrorGenericError copyWith({
-    /// [message] defined in Candid: `message: text`
-    String? message,
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final errorCode = this.errorCode.toString();
+    return {
+      'message': message,
+      'error_code': errorCode,
+    };
+  }
 
-    /// [errorCode] defined in Candid: `error_code: nat`
+  TransferErrorGenericError copyWith({
+    String? message,
     BigInt? errorCode,
   }) {
     return TransferErrorGenericError(
@@ -1713,33 +1969,46 @@ class TransferErrorGenericError {
 /// ```
 @immutable
 class TransferErrorBadBurn {
-  const TransferErrorBadBurn(
-      {
-      /// [minBurnAmount] defined in Candid: `min_burn_amount: nat`
-      required this.minBurnAmount});
+  const TransferErrorBadBurn({required this.minBurnAmount});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorBadBurn.fromIDLDeserializable(Map obj) {
+    return TransferErrorBadBurn(
+      minBurnAmount: obj['min_burn_amount'] is BigInt
+          ? obj['min_burn_amount']
+          : BigInt.from(obj['min_burn_amount']),
+    );
+  }
 
   factory TransferErrorBadBurn.fromJson(Map json) {
     return TransferErrorBadBurn(
       minBurnAmount: json['min_burn_amount'] is BigInt
           ? json['min_burn_amount']
-          : BigInt.from(json['min_burn_amount']),
+          : json['min_burn_amount'] is num
+              ? BigInt.from(json['min_burn_amount'])
+              : BigInt.parse('${json['min_burn_amount']}'),
     );
   }
 
   /// [minBurnAmount] defined in Candid: `min_burn_amount: nat`
   final BigInt minBurnAmount;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final minBurnAmount = this.minBurnAmount;
     return {
       'min_burn_amount': minBurnAmount,
     };
   }
 
-  TransferErrorBadBurn copyWith(
-      {
-      /// [minBurnAmount] defined in Candid: `min_burn_amount: nat`
-      BigInt? minBurnAmount}) {
+  Map<String, dynamic> toJson() {
+    final minBurnAmount = this.minBurnAmount.toString();
+    return {
+      'min_burn_amount': minBurnAmount,
+    };
+  }
+
+  TransferErrorBadBurn copyWith({BigInt? minBurnAmount}) {
     return TransferErrorBadBurn(
       minBurnAmount: minBurnAmount ?? this.minBurnAmount,
     );
@@ -1769,33 +2038,46 @@ class TransferErrorBadBurn {
 /// ```
 @immutable
 class TransferErrorDuplicate {
-  const TransferErrorDuplicate(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: nat`
-      required this.duplicateOf});
+  const TransferErrorDuplicate({required this.duplicateOf});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorDuplicate.fromIDLDeserializable(Map obj) {
+    return TransferErrorDuplicate(
+      duplicateOf: obj['duplicate_of'] is BigInt
+          ? obj['duplicate_of']
+          : BigInt.from(obj['duplicate_of']),
+    );
+  }
 
   factory TransferErrorDuplicate.fromJson(Map json) {
     return TransferErrorDuplicate(
       duplicateOf: json['duplicate_of'] is BigInt
           ? json['duplicate_of']
-          : BigInt.from(json['duplicate_of']),
+          : json['duplicate_of'] is num
+              ? BigInt.from(json['duplicate_of'])
+              : BigInt.parse('${json['duplicate_of']}'),
     );
   }
 
   /// [duplicateOf] defined in Candid: `duplicate_of: nat`
   final BigInt duplicateOf;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final duplicateOf = this.duplicateOf;
     return {
       'duplicate_of': duplicateOf,
     };
   }
 
-  TransferErrorDuplicate copyWith(
-      {
-      /// [duplicateOf] defined in Candid: `duplicate_of: nat`
-      BigInt? duplicateOf}) {
+  Map<String, dynamic> toJson() {
+    final duplicateOf = this.duplicateOf.toString();
+    return {
+      'duplicate_of': duplicateOf,
+    };
+  }
+
+  TransferErrorDuplicate copyWith({BigInt? duplicateOf}) {
     return TransferErrorDuplicate(
       duplicateOf: duplicateOf ?? this.duplicateOf,
     );
@@ -1825,33 +2107,46 @@ class TransferErrorDuplicate {
 /// ```
 @immutable
 class TransferErrorBadFee {
-  const TransferErrorBadFee(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: nat`
-      required this.expectedFee});
+  const TransferErrorBadFee({required this.expectedFee});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorBadFee.fromIDLDeserializable(Map obj) {
+    return TransferErrorBadFee(
+      expectedFee: obj['expected_fee'] is BigInt
+          ? obj['expected_fee']
+          : BigInt.from(obj['expected_fee']),
+    );
+  }
 
   factory TransferErrorBadFee.fromJson(Map json) {
     return TransferErrorBadFee(
       expectedFee: json['expected_fee'] is BigInt
           ? json['expected_fee']
-          : BigInt.from(json['expected_fee']),
+          : json['expected_fee'] is num
+              ? BigInt.from(json['expected_fee'])
+              : BigInt.parse('${json['expected_fee']}'),
     );
   }
 
   /// [expectedFee] defined in Candid: `expected_fee: nat`
   final BigInt expectedFee;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final expectedFee = this.expectedFee;
     return {
       'expected_fee': expectedFee,
     };
   }
 
-  TransferErrorBadFee copyWith(
-      {
-      /// [expectedFee] defined in Candid: `expected_fee: nat`
-      BigInt? expectedFee}) {
+  Map<String, dynamic> toJson() {
+    final expectedFee = this.expectedFee.toString();
+    return {
+      'expected_fee': expectedFee,
+    };
+  }
+
+  TransferErrorBadFee copyWith({BigInt? expectedFee}) {
     return TransferErrorBadFee(
       expectedFee: expectedFee ?? this.expectedFee,
     );
@@ -1881,33 +2176,46 @@ class TransferErrorBadFee {
 /// ```
 @immutable
 class TransferErrorCreatedInFuture {
-  const TransferErrorCreatedInFuture(
-      {
-      /// [ledgerTime] defined in Candid: `ledger_time: nat64`
-      required this.ledgerTime});
+  const TransferErrorCreatedInFuture({required this.ledgerTime});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorCreatedInFuture.fromIDLDeserializable(Map obj) {
+    return TransferErrorCreatedInFuture(
+      ledgerTime: obj['ledger_time'] is BigInt
+          ? obj['ledger_time']
+          : BigInt.from(obj['ledger_time']),
+    );
+  }
 
   factory TransferErrorCreatedInFuture.fromJson(Map json) {
     return TransferErrorCreatedInFuture(
       ledgerTime: json['ledger_time'] is BigInt
           ? json['ledger_time']
-          : BigInt.from(json['ledger_time']),
+          : json['ledger_time'] is num
+              ? BigInt.from(json['ledger_time'])
+              : BigInt.parse('${json['ledger_time']}'),
     );
   }
 
   /// [ledgerTime] defined in Candid: `ledger_time: nat64`
   final BigInt ledgerTime;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ledgerTime = this.ledgerTime;
     return {
       'ledger_time': ledgerTime,
     };
   }
 
-  TransferErrorCreatedInFuture copyWith(
-      {
-      /// [ledgerTime] defined in Candid: `ledger_time: nat64`
-      BigInt? ledgerTime}) {
+  Map<String, dynamic> toJson() {
+    final ledgerTime = this.ledgerTime.toString();
+    return {
+      'ledger_time': ledgerTime,
+    };
+  }
+
+  TransferErrorCreatedInFuture copyWith({BigInt? ledgerTime}) {
     return TransferErrorCreatedInFuture(
       ledgerTime: ledgerTime ?? this.ledgerTime,
     );
@@ -1937,33 +2245,46 @@ class TransferErrorCreatedInFuture {
 /// ```
 @immutable
 class TransferErrorInsufficientFunds {
-  const TransferErrorInsufficientFunds(
-      {
-      /// [balance] defined in Candid: `balance: nat`
-      required this.balance});
+  const TransferErrorInsufficientFunds({required this.balance});
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferErrorInsufficientFunds.fromIDLDeserializable(Map obj) {
+    return TransferErrorInsufficientFunds(
+      balance: obj['balance'] is BigInt
+          ? obj['balance']
+          : BigInt.from(obj['balance']),
+    );
+  }
 
   factory TransferErrorInsufficientFunds.fromJson(Map json) {
     return TransferErrorInsufficientFunds(
       balance: json['balance'] is BigInt
           ? json['balance']
-          : BigInt.from(json['balance']),
+          : json['balance'] is num
+              ? BigInt.from(json['balance'])
+              : BigInt.parse('${json['balance']}'),
     );
   }
 
   /// [balance] defined in Candid: `balance: nat`
   final BigInt balance;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final balance = this.balance;
     return {
       'balance': balance,
     };
   }
 
-  TransferErrorInsufficientFunds copyWith(
-      {
-      /// [balance] defined in Candid: `balance: nat`
-      BigInt? balance}) {
+  Map<String, dynamic> toJson() {
+    final balance = this.balance.toString();
+    return {
+      'balance': balance,
+    };
+  }
+
+  TransferErrorInsufficientFunds copyWith({BigInt? balance}) {
     return TransferErrorInsufficientFunds(
       balance: balance ?? this.balance,
     );
@@ -1993,30 +2314,53 @@ class TransferErrorInsufficientFunds {
 @immutable
 class TransferError {
   const TransferError({
-    /// [genericError] defined in Candid: `GenericError: record { message: text; error_code: nat }`
     this.genericError,
-
-    /// [temporarilyUnavailable] defined in Candid: `TemporarilyUnavailable`
     this.temporarilyUnavailable = false,
-
-    /// [badBurn] defined in Candid: `BadBurn: record { min_burn_amount: nat }`
     this.badBurn,
-
-    /// [duplicate] defined in Candid: `Duplicate: record { duplicate_of: nat }`
     this.duplicate,
-
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: nat }`
     this.badFee,
-
-    /// [createdInFuture] defined in Candid: `CreatedInFuture: record { ledger_time: nat64 }`
     this.createdInFuture,
-
-    /// [tooOld] defined in Candid: `TooOld`
     this.tooOld = false,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: nat }`
     this.insufficientFunds,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferError.fromIDLDeserializable(Map obj) {
+    return TransferError(
+      genericError: obj['GenericError'] == null
+          ? null
+          : TransferErrorGenericError.fromIDLDeserializable(
+              obj['GenericError'],
+            ),
+      temporarilyUnavailable: obj.containsKey('TemporarilyUnavailable'),
+      badBurn: obj['BadBurn'] == null
+          ? null
+          : TransferErrorBadBurn.fromIDLDeserializable(
+              obj['BadBurn'],
+            ),
+      duplicate: obj['Duplicate'] == null
+          ? null
+          : TransferErrorDuplicate.fromIDLDeserializable(
+              obj['Duplicate'],
+            ),
+      badFee: obj['BadFee'] == null
+          ? null
+          : TransferErrorBadFee.fromIDLDeserializable(
+              obj['BadFee'],
+            ),
+      createdInFuture: obj['CreatedInFuture'] == null
+          ? null
+          : TransferErrorCreatedInFuture.fromIDLDeserializable(
+              obj['CreatedInFuture'],
+            ),
+      tooOld: obj.containsKey('TooOld'),
+      insufficientFunds: obj['InsufficientFunds'] == null
+          ? null
+          : TransferErrorInsufficientFunds.fromIDLDeserializable(
+              obj['InsufficientFunds'],
+            ),
+    );
+  }
 
   factory TransferError.fromJson(Map json) {
     return TransferError(
@@ -2079,7 +2423,8 @@ class TransferError {
   /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: nat }`
   final TransferErrorInsufficientFunds? insufficientFunds;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final genericError = this.genericError;
     final temporarilyUnavailable = this.temporarilyUnavailable;
     final badBurn = this.badBurn;
@@ -2100,29 +2445,35 @@ class TransferError {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final genericError = this.genericError?.toJson();
+    final temporarilyUnavailable = this.temporarilyUnavailable;
+    final badBurn = this.badBurn?.toJson();
+    final duplicate = this.duplicate?.toJson();
+    final badFee = this.badFee?.toJson();
+    final createdInFuture = this.createdInFuture?.toJson();
+    final tooOld = this.tooOld;
+    final insufficientFunds = this.insufficientFunds?.toJson();
+    return {
+      if (genericError != null) 'GenericError': genericError,
+      if (temporarilyUnavailable) 'TemporarilyUnavailable': null,
+      if (badBurn != null) 'BadBurn': badBurn,
+      if (duplicate != null) 'Duplicate': duplicate,
+      if (badFee != null) 'BadFee': badFee,
+      if (createdInFuture != null) 'CreatedInFuture': createdInFuture,
+      if (tooOld) 'TooOld': null,
+      if (insufficientFunds != null) 'InsufficientFunds': insufficientFunds,
+    };
+  }
+
   TransferError copyWith({
-    /// [genericError] defined in Candid: `GenericError: record { message: text; error_code: nat }`
     TransferErrorGenericError? genericError,
-
-    /// [temporarilyUnavailable] defined in Candid: `TemporarilyUnavailable`
     bool? temporarilyUnavailable,
-
-    /// [badBurn] defined in Candid: `BadBurn: record { min_burn_amount: nat }`
     TransferErrorBadBurn? badBurn,
-
-    /// [duplicate] defined in Candid: `Duplicate: record { duplicate_of: nat }`
     TransferErrorDuplicate? duplicate,
-
-    /// [badFee] defined in Candid: `BadFee: record { expected_fee: nat }`
     TransferErrorBadFee? badFee,
-
-    /// [createdInFuture] defined in Candid: `CreatedInFuture: record { ledger_time: nat64 }`
     TransferErrorCreatedInFuture? createdInFuture,
-
-    /// [tooOld] defined in Candid: `TooOld`
     bool? tooOld,
-
-    /// [insufficientFunds] defined in Candid: `InsufficientFunds: record { balance: nat }`
     TransferErrorInsufficientFunds? insufficientFunds,
   }) {
     return TransferError(
@@ -2184,18 +2535,33 @@ class TransferError {
 @immutable
 class Value {
   const Value({
-    /// [int_] defined in Candid: `Int: int`
     this.int_,
-
-    /// [nat] defined in Candid: `Nat: nat`
     this.nat,
-
-    /// [blob] defined in Candid: `Blob: vec nat8`
     this.blob,
-
-    /// [text] defined in Candid: `Text: text`
     this.text,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Value.fromIDLDeserializable(Map obj) {
+    return Value(
+      int_: obj['Int'] == null
+          ? null
+          : obj['Int'] is BigInt
+              ? obj['Int']
+              : BigInt.from(obj['Int']),
+      nat: obj['Nat'] == null
+          ? null
+          : obj['Nat'] is BigInt
+              ? obj['Nat']
+              : BigInt.from(obj['Nat']),
+      blob: obj['Blob'] == null
+          ? null
+          : obj['Blob'] is Uint8List
+              ? obj['Blob']
+              : Uint8List.fromList((obj['Blob'] as List).cast()),
+      text: obj['Text'],
+    );
+  }
 
   factory Value.fromJson(Map json) {
     return Value(
@@ -2203,12 +2569,16 @@ class Value {
           ? null
           : json['Int'] is BigInt
               ? json['Int']
-              : BigInt.from(json['Int']),
+              : json['Int'] is num
+                  ? BigInt.from(json['Int'])
+                  : BigInt.parse('${json['Int']}'),
       nat: json['Nat'] == null
           ? null
           : json['Nat'] is BigInt
               ? json['Nat']
-              : BigInt.from(json['Nat']),
+              : json['Nat'] is num
+                  ? BigInt.from(json['Nat'])
+                  : BigInt.parse('${json['Nat']}'),
       blob: json['Blob'] == null
           ? null
           : json['Blob'] is Uint8List
@@ -2230,7 +2600,8 @@ class Value {
   /// [text] defined in Candid: `Text: text`
   final String? text;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final int_ = this.int_;
     final nat = this.nat;
     final blob = this.blob;
@@ -2243,17 +2614,23 @@ class Value {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final int_ = this.int_.toString();
+    final nat = this.nat.toString();
+    final blob = this.blob;
+    final text = this.text;
+    return {
+      if (int_ != null) 'Int': int_,
+      if (nat != null) 'Nat': nat,
+      if (blob != null) 'Blob': blob,
+      if (text != null) 'Text': text,
+    };
+  }
+
   Value copyWith({
-    /// [int_] defined in Candid: `Int: int`
     BigInt? int_,
-
-    /// [nat] defined in Candid: `Nat: nat`
     BigInt? nat,
-
-    /// [blob] defined in Candid: `Blob: vec nat8`
     Uint8List? blob,
-
-    /// [text] defined in Candid: `Text: text`
     String? text,
   }) {
     return Value(

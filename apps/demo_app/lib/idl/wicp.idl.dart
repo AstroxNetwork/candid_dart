@@ -1,12 +1,12 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -36,7 +36,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'approve';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -117,7 +117,7 @@ class WicpIDLActor {
     const request = [];
     const method = 'getMetadata';
     final response = await actor.getFunc(method)!(request);
-    return Metadata.fromJson(response);
+    return Metadata.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -129,7 +129,7 @@ class WicpIDLActor {
     const request = [];
     const method = 'getTokenInfo';
     final response = await actor.getFunc(method)!(request);
-    return TokenInfo.fromJson(response);
+    return TokenInfo.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -197,7 +197,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'mint';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -210,7 +210,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'mintFor';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -270,7 +270,7 @@ class WicpIDLActor {
     const request = [];
     const method = 'setGenesis';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -343,7 +343,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'transfer';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -356,7 +356,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'transferFrom';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -369,7 +369,7 @@ class WicpIDLActor {
     final request = arg.toJson();
     const method = 'withdraw';
     final response = await actor.getFunc(method)!(request);
-    return Result.fromJson(response);
+    return Result.fromIDLDeserializable(response);
   }
 }
 
@@ -1008,10 +1008,22 @@ class GetHoldersRet0Item {
     this.item2,
   );
 
-  factory GetHoldersRet0Item.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetHoldersRet0Item.fromIDLDeserializable(List<dynamic> tuple) {
     return GetHoldersRet0Item(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory GetHoldersRet0Item.fromJson(List<dynamic> tuple) {
+    return GetHoldersRet0Item(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -1021,7 +1033,8 @@ class GetHoldersRet0Item {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1030,11 +1043,17 @@ class GetHoldersRet0Item {
     ];
   }
 
-  GetHoldersRet0Item copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  GetHoldersRet0Item copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return GetHoldersRet0Item(
@@ -1074,38 +1093,46 @@ typedef GetUserApprovalsRet0Item = GetHoldersRet0Item;
 @immutable
 class Metadata {
   const Metadata({
-    /// [fee] defined in Candid: `fee: nat`
     required this.fee,
-
-    /// [decimals] defined in Candid: `decimals: nat8`
     required this.decimals,
-
-    /// [owner] defined in Candid: `owner: principal`
     required this.owner,
-
-    /// [logo] defined in Candid: `logo: text`
     required this.logo,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     required this.totalSupply,
-
-    /// [symbol] defined in Candid: `symbol: text`
     required this.symbol,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Metadata.fromIDLDeserializable(Map obj) {
+    return Metadata(
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      decimals: obj['decimals'],
+      owner: Principal.from(obj['owner']),
+      logo: obj['logo'],
+      name: obj['name'],
+      totalSupply: obj['totalSupply'] is BigInt
+          ? obj['totalSupply']
+          : BigInt.from(obj['totalSupply']),
+      symbol: obj['symbol'],
+    );
+  }
+
   factory Metadata.fromJson(Map json) {
     return Metadata(
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       decimals: json['decimals'],
       owner: Principal.from(json['owner']),
       logo: json['logo'],
       name: json['name'],
       totalSupply: json['totalSupply'] is BigInt
           ? json['totalSupply']
-          : BigInt.from(json['totalSupply']),
+          : json['totalSupply'] is num
+              ? BigInt.from(json['totalSupply'])
+              : BigInt.parse('${json['totalSupply']}'),
       symbol: json['symbol'],
     );
   }
@@ -1131,7 +1158,8 @@ class Metadata {
   /// [symbol] defined in Candid: `symbol: text`
   final String symbol;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final fee = this.fee;
     final decimals = this.decimals;
     final owner = this.owner;
@@ -1150,26 +1178,32 @@ class Metadata {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final fee = this.fee.toString();
+    final decimals = this.decimals;
+    final owner = this.owner;
+    final logo = this.logo;
+    final name = this.name;
+    final totalSupply = this.totalSupply.toString();
+    final symbol = this.symbol;
+    return {
+      'fee': fee,
+      'decimals': decimals,
+      'owner': owner,
+      'logo': logo,
+      'name': name,
+      'totalSupply': totalSupply,
+      'symbol': symbol,
+    };
+  }
+
   Metadata copyWith({
-    /// [fee] defined in Candid: `fee: nat`
     BigInt? fee,
-
-    /// [decimals] defined in Candid: `decimals: nat8`
     int? decimals,
-
-    /// [owner] defined in Candid: `owner: principal`
     Principal? owner,
-
-    /// [logo] defined in Candid: `logo: text`
     String? logo,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
-
-    /// [totalSupply] defined in Candid: `totalSupply: nat`
     BigInt? totalSupply,
-
-    /// [symbol] defined in Candid: `symbol: text`
     String? symbol,
   }) {
     return Metadata(
@@ -1216,12 +1250,22 @@ class Metadata {
 @immutable
 class Result {
   const Result({
-    /// [ok] defined in Candid: `Ok: nat`
     this.ok,
-
-    /// [err] defined in Candid: `Err: TxError`
     this.err,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory Result.fromIDLDeserializable(Map obj) {
+    return Result(
+      ok: obj['Ok'] == null
+          ? null
+          : obj['Ok'] is BigInt
+              ? obj['Ok']
+              : BigInt.from(obj['Ok']),
+      err:
+          obj['Err'] == null ? null : TxError.fromIDLDeserializable(obj['Err']),
+    );
+  }
 
   factory Result.fromJson(Map json) {
     return Result(
@@ -1229,7 +1273,9 @@ class Result {
           ? null
           : json['Ok'] is BigInt
               ? json['Ok']
-              : BigInt.from(json['Ok']),
+              : json['Ok'] is num
+                  ? BigInt.from(json['Ok'])
+                  : BigInt.parse('${json['Ok']}'),
       err: json['Err'] == null ? null : TxError.fromJson(json['Err']),
     );
   }
@@ -1240,7 +1286,8 @@ class Result {
   /// [err] defined in Candid: `Err: TxError`
   final TxError? err;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final ok = this.ok;
     final err = this.err;
     return {
@@ -1249,11 +1296,17 @@ class Result {
     };
   }
 
-  Result copyWith({
-    /// [ok] defined in Candid: `Ok: nat`
-    BigInt? ok,
+  Map<String, dynamic> toJson() {
+    final ok = this.ok.toString();
+    final err = this.err?.toJson();
+    return {
+      if (ok != null) 'Ok': ok,
+      if (err != null) 'Err': err,
+    };
+  }
 
-    /// [err] defined in Candid: `Err: TxError`
+  Result copyWith({
+    BigInt? ok,
     TxError? err,
   }) {
     return Result(
@@ -1287,40 +1340,56 @@ class Result {
 @immutable
 class TokenInfo {
   const TokenInfo({
-    /// [holderNumber] defined in Candid: `holderNumber: nat64`
     required this.holderNumber,
-
-    /// [deployTime] defined in Candid: `deployTime: nat64`
     required this.deployTime,
-
-    /// [metadata] defined in Candid: `metadata: Metadata`
     required this.metadata,
-
-    /// [historySize] defined in Candid: `historySize: nat64`
     required this.historySize,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     required this.cycles,
-
-    /// [feeTo] defined in Candid: `feeTo: principal`
     required this.feeTo,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TokenInfo.fromIDLDeserializable(Map obj) {
+    return TokenInfo(
+      holderNumber: obj['holderNumber'] is BigInt
+          ? obj['holderNumber']
+          : BigInt.from(obj['holderNumber']),
+      deployTime: obj['deployTime'] is BigInt
+          ? obj['deployTime']
+          : BigInt.from(obj['deployTime']),
+      metadata: Metadata.fromIDLDeserializable(obj['metadata']),
+      historySize: obj['historySize'] is BigInt
+          ? obj['historySize']
+          : BigInt.from(obj['historySize']),
+      cycles:
+          obj['cycles'] is BigInt ? obj['cycles'] : BigInt.from(obj['cycles']),
+      feeTo: Principal.from(obj['feeTo']),
+    );
+  }
 
   factory TokenInfo.fromJson(Map json) {
     return TokenInfo(
       holderNumber: json['holderNumber'] is BigInt
           ? json['holderNumber']
-          : BigInt.from(json['holderNumber']),
+          : json['holderNumber'] is num
+              ? BigInt.from(json['holderNumber'])
+              : BigInt.parse('${json['holderNumber']}'),
       deployTime: json['deployTime'] is BigInt
           ? json['deployTime']
-          : BigInt.from(json['deployTime']),
+          : json['deployTime'] is num
+              ? BigInt.from(json['deployTime'])
+              : BigInt.parse('${json['deployTime']}'),
       metadata: Metadata.fromJson(json['metadata']),
       historySize: json['historySize'] is BigInt
           ? json['historySize']
-          : BigInt.from(json['historySize']),
+          : json['historySize'] is num
+              ? BigInt.from(json['historySize'])
+              : BigInt.parse('${json['historySize']}'),
       cycles: json['cycles'] is BigInt
           ? json['cycles']
-          : BigInt.from(json['cycles']),
+          : json['cycles'] is num
+              ? BigInt.from(json['cycles'])
+              : BigInt.parse('${json['cycles']}'),
       feeTo: Principal.from(json['feeTo']),
     );
   }
@@ -1343,7 +1412,8 @@ class TokenInfo {
   /// [feeTo] defined in Candid: `feeTo: principal`
   final Principal feeTo;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final holderNumber = this.holderNumber;
     final deployTime = this.deployTime;
     final metadata = this.metadata;
@@ -1360,23 +1430,29 @@ class TokenInfo {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final holderNumber = this.holderNumber.toString();
+    final deployTime = this.deployTime.toString();
+    final metadata = this.metadata.toJson();
+    final historySize = this.historySize.toString();
+    final cycles = this.cycles.toString();
+    final feeTo = this.feeTo;
+    return {
+      'holderNumber': holderNumber,
+      'deployTime': deployTime,
+      'metadata': metadata,
+      'historySize': historySize,
+      'cycles': cycles,
+      'feeTo': feeTo,
+    };
+  }
+
   TokenInfo copyWith({
-    /// [holderNumber] defined in Candid: `holderNumber: nat64`
     BigInt? holderNumber,
-
-    /// [deployTime] defined in Candid: `deployTime: nat64`
     BigInt? deployTime,
-
-    /// [metadata] defined in Candid: `metadata: Metadata`
     Metadata? metadata,
-
-    /// [historySize] defined in Candid: `historySize: nat64`
     BigInt? historySize,
-
-    /// [cycles] defined in Candid: `cycles: nat64`
     BigInt? cycles,
-
-    /// [feeTo] defined in Candid: `feeTo: principal`
     Principal? feeTo,
   }) {
     return TokenInfo(
@@ -1457,6 +1533,12 @@ enum TxError {
 
   const TxError(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TxError.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TxError.values.firstWhere((e) => e.name == key);
+  }
+
   factory TxError.fromJson(Map json) {
     final key = json.keys.first;
     return TxError.values.firstWhere((e) => e.name == key);
@@ -1482,7 +1564,7 @@ enum TxError {
 
   bool get isAmountTooSmall => this == TxError.amountTooSmall;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -1503,6 +1585,14 @@ class AllowanceArg {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory AllowanceArg.fromIDLDeserializable(List<dynamic> tuple) {
+    return AllowanceArg(
+      Principal.from(tuple[0]),
+      Principal.from(tuple[1]),
+    );
+  }
+
   factory AllowanceArg.fromJson(List<dynamic> tuple) {
     return AllowanceArg(
       Principal.from(tuple[0]),
@@ -1516,6 +1606,16 @@ class AllowanceArg {
   /// [item2] defined in Candid: `principal`
   final Principal item2;
 
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
+
   List<dynamic> toJson() {
     final item1 = this.item1;
     final item2 = this.item2;
@@ -1526,10 +1626,7 @@ class AllowanceArg {
   }
 
   AllowanceArg copyWith({
-    /// [item1] defined in Candid: `principal`
     Principal? item1,
-
-    /// [item2] defined in Candid: `principal`
     Principal? item2,
   }) {
     return AllowanceArg(
@@ -1567,10 +1664,22 @@ class ApproveArg {
     this.item2,
   );
 
-  factory ApproveArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory ApproveArg.fromIDLDeserializable(List<dynamic> tuple) {
     return ApproveArg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory ApproveArg.fromJson(List<dynamic> tuple) {
+    return ApproveArg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -1580,7 +1689,8 @@ class ApproveArg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1589,11 +1699,17 @@ class ApproveArg {
     ];
   }
 
-  ApproveArg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  ApproveArg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return ApproveArg(
@@ -1631,10 +1747,26 @@ class GetHoldersArg {
     this.item2,
   );
 
-  factory GetHoldersArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetHoldersArg.fromIDLDeserializable(List<dynamic> tuple) {
     return GetHoldersArg(
       tuple[0] is BigInt ? tuple[0] : BigInt.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory GetHoldersArg.fromJson(List<dynamic> tuple) {
+    return GetHoldersArg(
+      tuple[0] is BigInt
+          ? tuple[0]
+          : tuple[0] is num
+              ? BigInt.from(tuple[0])
+              : BigInt.parse('${tuple[0]}'),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -1644,7 +1776,8 @@ class GetHoldersArg {
   /// [item2] defined in Candid: `nat64`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1653,11 +1786,17 @@ class GetHoldersArg {
     ];
   }
 
-  GetHoldersArg copyWith({
-    /// [item1] defined in Candid: `nat64`
-    BigInt? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1.toString();
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat64`
+  GetHoldersArg copyWith({
+    BigInt? item1,
     BigInt? item2,
   }) {
     return GetHoldersArg(
@@ -1695,7 +1834,8 @@ class MintArg {
     this.item2,
   );
 
-  factory MintArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintArg.fromIDLDeserializable(List<dynamic> tuple) {
     return MintArg(
       (tuple[0] as List).map((e) {
         return e == null
@@ -1708,13 +1848,31 @@ class MintArg {
     );
   }
 
+  factory MintArg.fromJson(List<dynamic> tuple) {
+    return MintArg(
+      (tuple[0] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+    );
+  }
+
   /// [item1] defined in Candid: `opt vec nat8`
   final Uint8List? item1;
 
   /// [item2] defined in Candid: `nat64`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1723,11 +1881,17 @@ class MintArg {
     ];
   }
 
-  MintArg copyWith({
-    /// [item1] defined in Candid: `opt vec nat8`
-    Uint8List? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      [if (item1 != null) item1],
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat64`
+  MintArg copyWith({
+    Uint8List? item1,
     BigInt? item2,
   }) {
     return MintArg(
@@ -1766,7 +1930,8 @@ class MintForArg {
     this.item3,
   );
 
-  factory MintForArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory MintForArg.fromIDLDeserializable(List<dynamic> tuple) {
     return MintForArg(
       (tuple[0] as List).map((e) {
         return e == null
@@ -1780,6 +1945,24 @@ class MintForArg {
     );
   }
 
+  factory MintForArg.fromJson(List<dynamic> tuple) {
+    return MintForArg(
+      (tuple[0] as List).map((e) {
+        return e == null
+            ? null
+            : e is Uint8List
+                ? e
+                : Uint8List.fromList((e as List).cast());
+      }).firstOrNull,
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      Principal.from(tuple[2]),
+    );
+  }
+
   /// [item1] defined in Candid: `opt vec nat8`
   final Uint8List? item1;
 
@@ -1789,7 +1972,8 @@ class MintForArg {
   /// [item3] defined in Candid: `principal`
   final Principal item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -1800,14 +1984,20 @@ class MintForArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3;
+    return [
+      [if (item1 != null) item1],
+      item2,
+      item3,
+    ];
+  }
+
   MintForArg copyWith({
-    /// [item1] defined in Candid: `opt vec nat8`
     Uint8List? item1,
-
-    /// [item2] defined in Candid: `nat64`
     BigInt? item2,
-
-    /// [item3] defined in Candid: `principal`
     Principal? item3,
   }) {
     return MintForArg(
@@ -1847,10 +2037,22 @@ class TransferArg {
     this.item2,
   );
 
-  factory TransferArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferArg.fromIDLDeserializable(List<dynamic> tuple) {
     return TransferArg(
       Principal.from(tuple[0]),
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory TransferArg.fromJson(List<dynamic> tuple) {
+    return TransferArg(
+      Principal.from(tuple[0]),
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -1860,7 +2062,8 @@ class TransferArg {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -1869,11 +2072,17 @@ class TransferArg {
     ];
   }
 
-  TransferArg copyWith({
-    /// [item1] defined in Candid: `principal`
-    Principal? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  TransferArg copyWith({
+    Principal? item1,
     BigInt? item2,
   }) {
     return TransferArg(
@@ -1912,11 +2121,24 @@ class TransferFromArg {
     this.item3,
   );
 
-  factory TransferFromArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransferFromArg.fromIDLDeserializable(List<dynamic> tuple) {
     return TransferFromArg(
       Principal.from(tuple[0]),
       Principal.from(tuple[1]),
       tuple[2] is BigInt ? tuple[2] : BigInt.from(tuple[2]),
+    );
+  }
+
+  factory TransferFromArg.fromJson(List<dynamic> tuple) {
+    return TransferFromArg(
+      Principal.from(tuple[0]),
+      Principal.from(tuple[1]),
+      tuple[2] is BigInt
+          ? tuple[2]
+          : tuple[2] is num
+              ? BigInt.from(tuple[2])
+              : BigInt.parse('${tuple[2]}'),
     );
   }
 
@@ -1929,7 +2151,8 @@ class TransferFromArg {
   /// [item3] defined in Candid: `nat`
   final BigInt item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -1940,14 +2163,20 @@ class TransferFromArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    final item3 = this.item3.toString();
+    return [
+      item1,
+      item2,
+      item3,
+    ];
+  }
+
   TransferFromArg copyWith({
-    /// [item1] defined in Candid: `principal`
     Principal? item1,
-
-    /// [item2] defined in Candid: `principal`
     Principal? item2,
-
-    /// [item3] defined in Candid: `nat`
     BigInt? item3,
   }) {
     return TransferFromArg(
@@ -1987,9 +2216,21 @@ class WithdrawArg {
     this.item2,
   );
 
-  factory WithdrawArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory WithdrawArg.fromIDLDeserializable(List<dynamic> tuple) {
     return WithdrawArg(
       tuple[0] is BigInt ? tuple[0] : BigInt.from(tuple[0]),
+      tuple[1],
+    );
+  }
+
+  factory WithdrawArg.fromJson(List<dynamic> tuple) {
+    return WithdrawArg(
+      tuple[0] is BigInt
+          ? tuple[0]
+          : tuple[0] is num
+              ? BigInt.from(tuple[0])
+              : BigInt.parse('${tuple[0]}'),
       tuple[1],
     );
   }
@@ -2000,7 +2241,8 @@ class WithdrawArg {
   /// [item2] defined in Candid: `text`
   final String item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -2009,11 +2251,17 @@ class WithdrawArg {
     ];
   }
 
-  WithdrawArg copyWith({
-    /// [item1] defined in Candid: `nat64`
-    BigInt? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1.toString();
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `text`
+  WithdrawArg copyWith({
+    BigInt? item1,
     String? item2,
   }) {
     return WithdrawArg(

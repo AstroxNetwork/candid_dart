@@ -1,11 +1,11 @@
 // coverage:ignore-file
-// ignore_for_file: type=lint, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
+// ignore_for_file: type=lint, depend_on_referenced_packages, unnecessary_null_comparison, unnecessary_non_null_assertion, unused_field, unused_import
 // ======================================
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ======================================
 
 import 'dart:async';
-import 'package:agent_dart/agent_dart.dart';
+import 'package:agent_dart_base/agent_dart_base.dart';
 import 'package:collection/collection.dart';
 import 'package:meta/meta.dart';
 
@@ -21,7 +21,7 @@ class IcpSwapUsdtIDLActor {
     const request = [];
     const method = 'cycleAvailable';
     final response = await actor.getFunc(method)!(request);
-    return NatResult.fromJson(response);
+    return NatResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -33,7 +33,7 @@ class IcpSwapUsdtIDLActor {
     const request = [];
     const method = 'cycleBalance';
     final response = await actor.getFunc(method)!(request);
-    return NatResult.fromJson(response);
+    return NatResult.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -61,7 +61,7 @@ class IcpSwapUsdtIDLActor {
     const method = 'getAllToken';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return PublicTokenOverview.fromJson(e);
+      return PublicTokenOverview.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -106,7 +106,7 @@ class IcpSwapUsdtIDLActor {
     const method = 'getPoolsForToken';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return PoolInfo.fromJson(e);
+      return PoolInfo.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -144,7 +144,7 @@ class IcpSwapUsdtIDLActor {
     final request = [arg];
     const method = 'getToken';
     final response = await actor.getFunc(method)!(request);
-    return PublicTokenOverview.fromJson(response);
+    return PublicTokenOverview.fromIDLDeserializable(response);
   }
 
   /// ```Candid
@@ -158,7 +158,7 @@ class IcpSwapUsdtIDLActor {
     const method = 'getTokenChartData';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return PublicTokenChartDayData.fromJson(e);
+      return PublicTokenChartDayData.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -173,7 +173,7 @@ class IcpSwapUsdtIDLActor {
     const method = 'getTokenPricesData';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return PublicTokenPricesData.fromJson(e);
+      return PublicTokenPricesData.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -188,7 +188,7 @@ class IcpSwapUsdtIDLActor {
     const method = 'getTokenTransactions';
     final response = await actor.getFunc(method)!(request);
     return (response as List).map((e) {
-      return TransactionsType.fromJson(e);
+      return TransactionsType.fromIDLDeserializable(e);
     }).toList();
   }
 
@@ -205,7 +205,7 @@ class IcpSwapUsdtIDLActor {
     return (response as List).map((e) {
       return GetTvlRecordRet0Item(
         e[0],
-        (e[1] as List).cast(),
+        (e[1] as List).cast<double>(),
       );
     }).toList();
   }
@@ -834,10 +834,22 @@ class GetLastIDRet0Item {
     this.item2,
   );
 
-  factory GetLastIDRet0Item.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetLastIDRet0Item.fromIDLDeserializable(List<dynamic> tuple) {
     return GetLastIDRet0Item(
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
+    );
+  }
+
+  factory GetLastIDRet0Item.fromJson(List<dynamic> tuple) {
+    return GetLastIDRet0Item(
+      tuple[0],
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
     );
   }
 
@@ -847,7 +859,8 @@ class GetLastIDRet0Item {
   /// [item2] defined in Candid: `nat`
   final BigInt item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -856,11 +869,17 @@ class GetLastIDRet0Item {
     ];
   }
 
-  GetLastIDRet0Item copyWith({
-    /// [item1] defined in Candid: `text`
-    String? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `nat`
+  GetLastIDRet0Item copyWith({
+    String? item1,
     BigInt? item2,
   }) {
     return GetLastIDRet0Item(
@@ -898,10 +917,18 @@ class GetTvlRecordRet0Item {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetTvlRecordRet0Item.fromIDLDeserializable(List<dynamic> tuple) {
+    return GetTvlRecordRet0Item(
+      tuple[0],
+      (tuple[1] as List).cast<double>(),
+    );
+  }
+
   factory GetTvlRecordRet0Item.fromJson(List<dynamic> tuple) {
     return GetTvlRecordRet0Item(
       tuple[0],
-      (tuple[1] as List).cast(),
+      (tuple[1] as List).cast<double>(),
     );
   }
 
@@ -910,6 +937,16 @@ class GetTvlRecordRet0Item {
 
   /// [item2] defined in Candid: `vec float64`
   final List<double> item2;
+
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
+    final item1 = this.item1;
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
 
   List<dynamic> toJson() {
     final item1 = this.item1;
@@ -921,10 +958,7 @@ class GetTvlRecordRet0Item {
   }
 
   GetTvlRecordRet0Item copyWith({
-    /// [item1] defined in Candid: `text`
     String? item1,
-
-    /// [item2] defined in Candid: `vec float64`
     List<double>? item2,
   }) {
     return GetTvlRecordRet0Item(
@@ -959,99 +993,83 @@ class GetTvlRecordRet0Item {
 @immutable
 class TransactionsType {
   const TransactionsType({
-    /// [action] defined in Candid: `action: TransactionType`
     required this.action,
-
-    /// [amountToken0] defined in Candid: `amountToken0: float64`
     required this.amountToken0,
-
-    /// [amountToken1] defined in Candid: `amountToken1: float64`
     required this.amountToken1,
-
-    /// [amountUSD] defined in Candid: `amountUSD: float64`
     required this.amountUSD,
-
-    /// [exchangePrice] defined in Candid: `exchangePrice: float64`
     required this.exchangePrice,
-
-    /// [exchangeRate] defined in Candid: `exchangeRate: float64`
     required this.exchangeRate,
-
-    /// [from] defined in Candid: `from: text`
     required this.from,
-
-    /// [hash] defined in Candid: `hash: text`
     required this.hash,
-
-    /// [liquidityChange] defined in Candid: `liquidityChange: nat`
     required this.liquidityChange,
-
-    /// [liquidityTotal] defined in Candid: `liquidityTotal: nat`
     required this.liquidityTotal,
-
-    /// [poolFee] defined in Candid: `poolFee: nat`
     required this.poolFee,
-
-    /// [poolId] defined in Candid: `poolId: text`
     required this.poolId,
-
-    /// [recipient] defined in Candid: `recipient: text`
     required this.recipient,
-
-    /// [sender] defined in Candid: `sender: text`
     required this.sender,
-
-    /// [tick] defined in Candid: `tick: int`
     required this.tick,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     required this.timestamp,
-
-    /// [to] defined in Candid: `to: text`
     required this.to,
-
-    /// [token0ChangeAmount] defined in Candid: `token0ChangeAmount: float64`
     required this.token0ChangeAmount,
-
-    /// [token0Decimals] defined in Candid: `token0Decimals: float64`
     required this.token0Decimals,
-
-    /// [token0Fee] defined in Candid: `token0Fee: float64`
     required this.token0Fee,
-
-    /// [token0Id] defined in Candid: `token0Id: text`
     required this.token0Id,
-
-    /// [token0Price] defined in Candid: `token0Price: float64`
     required this.token0Price,
-
-    /// [token0Standard] defined in Candid: `token0Standard: text`
     required this.token0Standard,
-
-    /// [token0Symbol] defined in Candid: `token0Symbol: text`
     required this.token0Symbol,
-
-    /// [token1ChangeAmount] defined in Candid: `token1ChangeAmount: float64`
     required this.token1ChangeAmount,
-
-    /// [token1Decimals] defined in Candid: `token1Decimals: float64`
     required this.token1Decimals,
-
-    /// [token1Fee] defined in Candid: `token1Fee: float64`
     required this.token1Fee,
-
-    /// [token1Id] defined in Candid: `token1Id: text`
     required this.token1Id,
-
-    /// [token1Price] defined in Candid: `token1Price: float64`
     required this.token1Price,
-
-    /// [token1Standard] defined in Candid: `token1Standard: text`
     required this.token1Standard,
-
-    /// [token1Symbol] defined in Candid: `token1Symbol: text`
     required this.token1Symbol,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransactionsType.fromIDLDeserializable(Map obj) {
+    return TransactionsType(
+      action: TransactionType.fromIDLDeserializable(obj['action']),
+      amountToken0: obj['amountToken0'],
+      amountToken1: obj['amountToken1'],
+      amountUSD: obj['amountUSD'],
+      exchangePrice: obj['exchangePrice'],
+      exchangeRate: obj['exchangeRate'],
+      from: obj['from'],
+      hash: obj['hash'],
+      liquidityChange: obj['liquidityChange'] is BigInt
+          ? obj['liquidityChange']
+          : BigInt.from(obj['liquidityChange']),
+      liquidityTotal: obj['liquidityTotal'] is BigInt
+          ? obj['liquidityTotal']
+          : BigInt.from(obj['liquidityTotal']),
+      poolFee: obj['poolFee'] is BigInt
+          ? obj['poolFee']
+          : BigInt.from(obj['poolFee']),
+      poolId: obj['poolId'],
+      recipient: obj['recipient'],
+      sender: obj['sender'],
+      tick: obj['tick'] is BigInt ? obj['tick'] : BigInt.from(obj['tick']),
+      timestamp: obj['timestamp'] is BigInt
+          ? obj['timestamp']
+          : BigInt.from(obj['timestamp']),
+      to: obj['to'],
+      token0ChangeAmount: obj['token0ChangeAmount'],
+      token0Decimals: obj['token0Decimals'],
+      token0Fee: obj['token0Fee'],
+      token0Id: obj['token0Id'],
+      token0Price: obj['token0Price'],
+      token0Standard: obj['token0Standard'],
+      token0Symbol: obj['token0Symbol'],
+      token1ChangeAmount: obj['token1ChangeAmount'],
+      token1Decimals: obj['token1Decimals'],
+      token1Fee: obj['token1Fee'],
+      token1Id: obj['token1Id'],
+      token1Price: obj['token1Price'],
+      token1Standard: obj['token1Standard'],
+      token1Symbol: obj['token1Symbol'],
+    );
+  }
 
   factory TransactionsType.fromJson(Map json) {
     return TransactionsType(
@@ -1065,20 +1083,32 @@ class TransactionsType {
       hash: json['hash'],
       liquidityChange: json['liquidityChange'] is BigInt
           ? json['liquidityChange']
-          : BigInt.from(json['liquidityChange']),
+          : json['liquidityChange'] is num
+              ? BigInt.from(json['liquidityChange'])
+              : BigInt.parse('${json['liquidityChange']}'),
       liquidityTotal: json['liquidityTotal'] is BigInt
           ? json['liquidityTotal']
-          : BigInt.from(json['liquidityTotal']),
+          : json['liquidityTotal'] is num
+              ? BigInt.from(json['liquidityTotal'])
+              : BigInt.parse('${json['liquidityTotal']}'),
       poolFee: json['poolFee'] is BigInt
           ? json['poolFee']
-          : BigInt.from(json['poolFee']),
+          : json['poolFee'] is num
+              ? BigInt.from(json['poolFee'])
+              : BigInt.parse('${json['poolFee']}'),
       poolId: json['poolId'],
       recipient: json['recipient'],
       sender: json['sender'],
-      tick: json['tick'] is BigInt ? json['tick'] : BigInt.from(json['tick']),
+      tick: json['tick'] is BigInt
+          ? json['tick']
+          : json['tick'] is num
+              ? BigInt.from(json['tick'])
+              : BigInt.parse('${json['tick']}'),
       timestamp: json['timestamp'] is BigInt
           ? json['timestamp']
-          : BigInt.from(json['timestamp']),
+          : json['timestamp'] is num
+              ? BigInt.from(json['timestamp'])
+              : BigInt.parse('${json['timestamp']}'),
       to: json['to'],
       token0ChangeAmount: json['token0ChangeAmount'],
       token0Decimals: json['token0Decimals'],
@@ -1190,7 +1220,8 @@ class TransactionsType {
   /// [token1Symbol] defined in Candid: `token1Symbol: text`
   final String token1Symbol;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final action = this.action;
     final amountToken0 = this.amountToken0;
     final amountToken1 = this.amountToken1;
@@ -1257,98 +1288,104 @@ class TransactionsType {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final action = this.action.toJson();
+    final amountToken0 = this.amountToken0;
+    final amountToken1 = this.amountToken1;
+    final amountUSD = this.amountUSD;
+    final exchangePrice = this.exchangePrice;
+    final exchangeRate = this.exchangeRate;
+    final from = this.from;
+    final hash = this.hash;
+    final liquidityChange = this.liquidityChange.toString();
+    final liquidityTotal = this.liquidityTotal.toString();
+    final poolFee = this.poolFee.toString();
+    final poolId = this.poolId;
+    final recipient = this.recipient;
+    final sender = this.sender;
+    final tick = this.tick.toString();
+    final timestamp = this.timestamp.toString();
+    final to = this.to;
+    final token0ChangeAmount = this.token0ChangeAmount;
+    final token0Decimals = this.token0Decimals;
+    final token0Fee = this.token0Fee;
+    final token0Id = this.token0Id;
+    final token0Price = this.token0Price;
+    final token0Standard = this.token0Standard;
+    final token0Symbol = this.token0Symbol;
+    final token1ChangeAmount = this.token1ChangeAmount;
+    final token1Decimals = this.token1Decimals;
+    final token1Fee = this.token1Fee;
+    final token1Id = this.token1Id;
+    final token1Price = this.token1Price;
+    final token1Standard = this.token1Standard;
+    final token1Symbol = this.token1Symbol;
+    return {
+      'action': action,
+      'amountToken0': amountToken0,
+      'amountToken1': amountToken1,
+      'amountUSD': amountUSD,
+      'exchangePrice': exchangePrice,
+      'exchangeRate': exchangeRate,
+      'from': from,
+      'hash': hash,
+      'liquidityChange': liquidityChange,
+      'liquidityTotal': liquidityTotal,
+      'poolFee': poolFee,
+      'poolId': poolId,
+      'recipient': recipient,
+      'sender': sender,
+      'tick': tick,
+      'timestamp': timestamp,
+      'to': to,
+      'token0ChangeAmount': token0ChangeAmount,
+      'token0Decimals': token0Decimals,
+      'token0Fee': token0Fee,
+      'token0Id': token0Id,
+      'token0Price': token0Price,
+      'token0Standard': token0Standard,
+      'token0Symbol': token0Symbol,
+      'token1ChangeAmount': token1ChangeAmount,
+      'token1Decimals': token1Decimals,
+      'token1Fee': token1Fee,
+      'token1Id': token1Id,
+      'token1Price': token1Price,
+      'token1Standard': token1Standard,
+      'token1Symbol': token1Symbol,
+    };
+  }
+
   TransactionsType copyWith({
-    /// [action] defined in Candid: `action: TransactionType`
     TransactionType? action,
-
-    /// [amountToken0] defined in Candid: `amountToken0: float64`
     double? amountToken0,
-
-    /// [amountToken1] defined in Candid: `amountToken1: float64`
     double? amountToken1,
-
-    /// [amountUSD] defined in Candid: `amountUSD: float64`
     double? amountUSD,
-
-    /// [exchangePrice] defined in Candid: `exchangePrice: float64`
     double? exchangePrice,
-
-    /// [exchangeRate] defined in Candid: `exchangeRate: float64`
     double? exchangeRate,
-
-    /// [from] defined in Candid: `from: text`
     String? from,
-
-    /// [hash] defined in Candid: `hash: text`
     String? hash,
-
-    /// [liquidityChange] defined in Candid: `liquidityChange: nat`
     BigInt? liquidityChange,
-
-    /// [liquidityTotal] defined in Candid: `liquidityTotal: nat`
     BigInt? liquidityTotal,
-
-    /// [poolFee] defined in Candid: `poolFee: nat`
     BigInt? poolFee,
-
-    /// [poolId] defined in Candid: `poolId: text`
     String? poolId,
-
-    /// [recipient] defined in Candid: `recipient: text`
     String? recipient,
-
-    /// [sender] defined in Candid: `sender: text`
     String? sender,
-
-    /// [tick] defined in Candid: `tick: int`
     BigInt? tick,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     BigInt? timestamp,
-
-    /// [to] defined in Candid: `to: text`
     String? to,
-
-    /// [token0ChangeAmount] defined in Candid: `token0ChangeAmount: float64`
     double? token0ChangeAmount,
-
-    /// [token0Decimals] defined in Candid: `token0Decimals: float64`
     double? token0Decimals,
-
-    /// [token0Fee] defined in Candid: `token0Fee: float64`
     double? token0Fee,
-
-    /// [token0Id] defined in Candid: `token0Id: text`
     String? token0Id,
-
-    /// [token0Price] defined in Candid: `token0Price: float64`
     double? token0Price,
-
-    /// [token0Standard] defined in Candid: `token0Standard: text`
     String? token0Standard,
-
-    /// [token0Symbol] defined in Candid: `token0Symbol: text`
     String? token0Symbol,
-
-    /// [token1ChangeAmount] defined in Candid: `token1ChangeAmount: float64`
     double? token1ChangeAmount,
-
-    /// [token1Decimals] defined in Candid: `token1Decimals: float64`
     double? token1Decimals,
-
-    /// [token1Fee] defined in Candid: `token1Fee: float64`
     double? token1Fee,
-
-    /// [token1Id] defined in Candid: `token1Id: text`
     String? token1Id,
-
-    /// [token1Price] defined in Candid: `token1Price: float64`
     double? token1Price,
-
-    /// [token1Standard] defined in Candid: `token1Standard: text`
     String? token1Standard,
-
-    /// [token1Symbol] defined in Candid: `token1Symbol: text`
     String? token1Symbol,
   }) {
     return TransactionsType(
@@ -1511,6 +1548,12 @@ enum TransactionType {
 
   const TransactionType(this.name);
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory TransactionType.fromIDLDeserializable(Map obj) {
+    final key = obj.keys.first;
+    return TransactionType.values.firstWhere((e) => e.name == key);
+  }
+
   factory TransactionType.fromJson(Map json) {
     final key = json.keys.first;
     return TransactionType.values.firstWhere((e) => e.name == key);
@@ -1528,7 +1571,7 @@ enum TransactionType {
 
   bool get isSwap => this == TransactionType.swap;
 
-  Map<String, dynamic> toJson() {
+  Map<String, Null> toJson() {
     return {name: null};
   }
 
@@ -1545,35 +1588,44 @@ enum TransactionType {
 @immutable
 class PublicTokenPricesData {
   const PublicTokenPricesData({
-    /// [close] defined in Candid: `close: float64`
     required this.close,
-
-    /// [high] defined in Candid: `high: float64`
     required this.high,
-
-    /// [id] defined in Candid: `id: int`
     required this.id,
-
-    /// [low] defined in Candid: `low: float64`
     required this.low,
-
-    /// [open] defined in Candid: `open: float64`
     required this.open,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     required this.timestamp,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory PublicTokenPricesData.fromIDLDeserializable(Map obj) {
+    return PublicTokenPricesData(
+      close: obj['close'],
+      high: obj['high'],
+      id: obj['id'] is BigInt ? obj['id'] : BigInt.from(obj['id']),
+      low: obj['low'],
+      open: obj['open'],
+      timestamp: obj['timestamp'] is BigInt
+          ? obj['timestamp']
+          : BigInt.from(obj['timestamp']),
+    );
+  }
 
   factory PublicTokenPricesData.fromJson(Map json) {
     return PublicTokenPricesData(
       close: json['close'],
       high: json['high'],
-      id: json['id'] is BigInt ? json['id'] : BigInt.from(json['id']),
+      id: json['id'] is BigInt
+          ? json['id']
+          : json['id'] is num
+              ? BigInt.from(json['id'])
+              : BigInt.parse('${json['id']}'),
       low: json['low'],
       open: json['open'],
       timestamp: json['timestamp'] is BigInt
           ? json['timestamp']
-          : BigInt.from(json['timestamp']),
+          : json['timestamp'] is num
+              ? BigInt.from(json['timestamp'])
+              : BigInt.parse('${json['timestamp']}'),
     );
   }
 
@@ -1595,7 +1647,8 @@ class PublicTokenPricesData {
   /// [timestamp] defined in Candid: `timestamp: int`
   final BigInt timestamp;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final close = this.close;
     final high = this.high;
     final id = this.id;
@@ -1612,23 +1665,29 @@ class PublicTokenPricesData {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final close = this.close;
+    final high = this.high;
+    final id = this.id.toString();
+    final low = this.low;
+    final open = this.open;
+    final timestamp = this.timestamp.toString();
+    return {
+      'close': close,
+      'high': high,
+      'id': id,
+      'low': low,
+      'open': open,
+      'timestamp': timestamp,
+    };
+  }
+
   PublicTokenPricesData copyWith({
-    /// [close] defined in Candid: `close: float64`
     double? close,
-
-    /// [high] defined in Candid: `high: float64`
     double? high,
-
-    /// [id] defined in Candid: `id: int`
     BigInt? id,
-
-    /// [low] defined in Candid: `low: float64`
     double? low,
-
-    /// [open] defined in Candid: `open: float64`
     double? open,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     BigInt? timestamp,
   }) {
     return PublicTokenPricesData(
@@ -1672,63 +1731,59 @@ class PublicTokenPricesData {
 @immutable
 class PublicTokenOverview {
   const PublicTokenOverview({
-    /// [address] defined in Candid: `address: text`
     required this.address,
-
-    /// [feesUSD] defined in Candid: `feesUSD: float64`
     required this.feesUSD,
-
-    /// [id] defined in Candid: `id: nat`
     required this.id,
-
-    /// [name] defined in Candid: `name: text`
     required this.name,
-
-    /// [priceUSD] defined in Candid: `priceUSD: float64`
     required this.priceUSD,
-
-    /// [priceUSDChange] defined in Candid: `priceUSDChange: float64`
     required this.priceUSDChange,
-
-    /// [priceUSDChangeWeek] defined in Candid: `priceUSDChangeWeek: float64`
     required this.priceUSDChangeWeek,
-
-    /// [standard] defined in Candid: `standard: text`
     required this.standard,
-
-    /// [symbol] defined in Candid: `symbol: text`
     required this.symbol,
-
-    /// [totalVolumeUSD] defined in Candid: `totalVolumeUSD: float64`
     required this.totalVolumeUSD,
-
-    /// [tvlToken] defined in Candid: `tvlToken: float64`
     required this.tvlToken,
-
-    /// [tvlUSD] defined in Candid: `tvlUSD: float64`
     required this.tvlUSD,
-
-    /// [tvlUSDChange] defined in Candid: `tvlUSDChange: float64`
     required this.tvlUSDChange,
-
-    /// [txCount] defined in Candid: `txCount: int`
     required this.txCount,
-
-    /// [volumeUSD] defined in Candid: `volumeUSD: float64`
     required this.volumeUSD,
-
-    /// [volumeUSDChange] defined in Candid: `volumeUSDChange: float64`
     required this.volumeUSDChange,
-
-    /// [volumeUSDWeek] defined in Candid: `volumeUSDWeek: float64`
     required this.volumeUSDWeek,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory PublicTokenOverview.fromIDLDeserializable(Map obj) {
+    return PublicTokenOverview(
+      address: obj['address'],
+      feesUSD: obj['feesUSD'],
+      id: obj['id'] is BigInt ? obj['id'] : BigInt.from(obj['id']),
+      name: obj['name'],
+      priceUSD: obj['priceUSD'],
+      priceUSDChange: obj['priceUSDChange'],
+      priceUSDChangeWeek: obj['priceUSDChangeWeek'],
+      standard: obj['standard'],
+      symbol: obj['symbol'],
+      totalVolumeUSD: obj['totalVolumeUSD'],
+      tvlToken: obj['tvlToken'],
+      tvlUSD: obj['tvlUSD'],
+      tvlUSDChange: obj['tvlUSDChange'],
+      txCount: obj['txCount'] is BigInt
+          ? obj['txCount']
+          : BigInt.from(obj['txCount']),
+      volumeUSD: obj['volumeUSD'],
+      volumeUSDChange: obj['volumeUSDChange'],
+      volumeUSDWeek: obj['volumeUSDWeek'],
+    );
+  }
 
   factory PublicTokenOverview.fromJson(Map json) {
     return PublicTokenOverview(
       address: json['address'],
       feesUSD: json['feesUSD'],
-      id: json['id'] is BigInt ? json['id'] : BigInt.from(json['id']),
+      id: json['id'] is BigInt
+          ? json['id']
+          : json['id'] is num
+              ? BigInt.from(json['id'])
+              : BigInt.parse('${json['id']}'),
       name: json['name'],
       priceUSD: json['priceUSD'],
       priceUSDChange: json['priceUSDChange'],
@@ -1741,7 +1796,9 @@ class PublicTokenOverview {
       tvlUSDChange: json['tvlUSDChange'],
       txCount: json['txCount'] is BigInt
           ? json['txCount']
-          : BigInt.from(json['txCount']),
+          : json['txCount'] is num
+              ? BigInt.from(json['txCount'])
+              : BigInt.parse('${json['txCount']}'),
       volumeUSD: json['volumeUSD'],
       volumeUSDChange: json['volumeUSDChange'],
       volumeUSDWeek: json['volumeUSDWeek'],
@@ -1799,7 +1856,8 @@ class PublicTokenOverview {
   /// [volumeUSDWeek] defined in Candid: `volumeUSDWeek: float64`
   final double volumeUSDWeek;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final address = this.address;
     final feesUSD = this.feesUSD;
     final id = this.id;
@@ -1838,56 +1896,62 @@ class PublicTokenOverview {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final feesUSD = this.feesUSD;
+    final id = this.id.toString();
+    final name = this.name;
+    final priceUSD = this.priceUSD;
+    final priceUSDChange = this.priceUSDChange;
+    final priceUSDChangeWeek = this.priceUSDChangeWeek;
+    final standard = this.standard;
+    final symbol = this.symbol;
+    final totalVolumeUSD = this.totalVolumeUSD;
+    final tvlToken = this.tvlToken;
+    final tvlUSD = this.tvlUSD;
+    final tvlUSDChange = this.tvlUSDChange;
+    final txCount = this.txCount.toString();
+    final volumeUSD = this.volumeUSD;
+    final volumeUSDChange = this.volumeUSDChange;
+    final volumeUSDWeek = this.volumeUSDWeek;
+    return {
+      'address': address,
+      'feesUSD': feesUSD,
+      'id': id,
+      'name': name,
+      'priceUSD': priceUSD,
+      'priceUSDChange': priceUSDChange,
+      'priceUSDChangeWeek': priceUSDChangeWeek,
+      'standard': standard,
+      'symbol': symbol,
+      'totalVolumeUSD': totalVolumeUSD,
+      'tvlToken': tvlToken,
+      'tvlUSD': tvlUSD,
+      'tvlUSDChange': tvlUSDChange,
+      'txCount': txCount,
+      'volumeUSD': volumeUSD,
+      'volumeUSDChange': volumeUSDChange,
+      'volumeUSDWeek': volumeUSDWeek,
+    };
+  }
+
   PublicTokenOverview copyWith({
-    /// [address] defined in Candid: `address: text`
     String? address,
-
-    /// [feesUSD] defined in Candid: `feesUSD: float64`
     double? feesUSD,
-
-    /// [id] defined in Candid: `id: nat`
     BigInt? id,
-
-    /// [name] defined in Candid: `name: text`
     String? name,
-
-    /// [priceUSD] defined in Candid: `priceUSD: float64`
     double? priceUSD,
-
-    /// [priceUSDChange] defined in Candid: `priceUSDChange: float64`
     double? priceUSDChange,
-
-    /// [priceUSDChangeWeek] defined in Candid: `priceUSDChangeWeek: float64`
     double? priceUSDChangeWeek,
-
-    /// [standard] defined in Candid: `standard: text`
     String? standard,
-
-    /// [symbol] defined in Candid: `symbol: text`
     String? symbol,
-
-    /// [totalVolumeUSD] defined in Candid: `totalVolumeUSD: float64`
     double? totalVolumeUSD,
-
-    /// [tvlToken] defined in Candid: `tvlToken: float64`
     double? tvlToken,
-
-    /// [tvlUSD] defined in Candid: `tvlUSD: float64`
     double? tvlUSD,
-
-    /// [tvlUSDChange] defined in Candid: `tvlUSDChange: float64`
     double? tvlUSDChange,
-
-    /// [txCount] defined in Candid: `txCount: int`
     BigInt? txCount,
-
-    /// [volumeUSD] defined in Candid: `volumeUSD: float64`
     double? volumeUSD,
-
-    /// [volumeUSDChange] defined in Candid: `volumeUSDChange: float64`
     double? volumeUSDChange,
-
-    /// [volumeUSDWeek] defined in Candid: `volumeUSDWeek: float64`
     double? volumeUSDWeek,
   }) {
     return PublicTokenOverview(
@@ -1980,32 +2044,46 @@ class PublicTokenOverview {
 @immutable
 class PublicTokenChartDayData {
   const PublicTokenChartDayData({
-    /// [id] defined in Candid: `id: int`
     required this.id,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     required this.timestamp,
-
-    /// [tvlUSD] defined in Candid: `tvlUSD: float64`
     required this.tvlUSD,
-
-    /// [txCount] defined in Candid: `txCount: int`
     required this.txCount,
-
-    /// [volumeUSD] defined in Candid: `volumeUSD: float64`
     required this.volumeUSD,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory PublicTokenChartDayData.fromIDLDeserializable(Map obj) {
+    return PublicTokenChartDayData(
+      id: obj['id'] is BigInt ? obj['id'] : BigInt.from(obj['id']),
+      timestamp: obj['timestamp'] is BigInt
+          ? obj['timestamp']
+          : BigInt.from(obj['timestamp']),
+      tvlUSD: obj['tvlUSD'],
+      txCount: obj['txCount'] is BigInt
+          ? obj['txCount']
+          : BigInt.from(obj['txCount']),
+      volumeUSD: obj['volumeUSD'],
+    );
+  }
+
   factory PublicTokenChartDayData.fromJson(Map json) {
     return PublicTokenChartDayData(
-      id: json['id'] is BigInt ? json['id'] : BigInt.from(json['id']),
+      id: json['id'] is BigInt
+          ? json['id']
+          : json['id'] is num
+              ? BigInt.from(json['id'])
+              : BigInt.parse('${json['id']}'),
       timestamp: json['timestamp'] is BigInt
           ? json['timestamp']
-          : BigInt.from(json['timestamp']),
+          : json['timestamp'] is num
+              ? BigInt.from(json['timestamp'])
+              : BigInt.parse('${json['timestamp']}'),
       tvlUSD: json['tvlUSD'],
       txCount: json['txCount'] is BigInt
           ? json['txCount']
-          : BigInt.from(json['txCount']),
+          : json['txCount'] is num
+              ? BigInt.from(json['txCount'])
+              : BigInt.parse('${json['txCount']}'),
       volumeUSD: json['volumeUSD'],
     );
   }
@@ -2025,7 +2103,8 @@ class PublicTokenChartDayData {
   /// [volumeUSD] defined in Candid: `volumeUSD: float64`
   final double volumeUSD;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final id = this.id;
     final timestamp = this.timestamp;
     final tvlUSD = this.tvlUSD;
@@ -2040,20 +2119,26 @@ class PublicTokenChartDayData {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final id = this.id.toString();
+    final timestamp = this.timestamp.toString();
+    final tvlUSD = this.tvlUSD;
+    final txCount = this.txCount.toString();
+    final volumeUSD = this.volumeUSD;
+    return {
+      'id': id,
+      'timestamp': timestamp,
+      'tvlUSD': tvlUSD,
+      'txCount': txCount,
+      'volumeUSD': volumeUSD,
+    };
+  }
+
   PublicTokenChartDayData copyWith({
-    /// [id] defined in Candid: `id: int`
     BigInt? id,
-
-    /// [timestamp] defined in Candid: `timestamp: int`
     BigInt? timestamp,
-
-    /// [tvlUSD] defined in Candid: `tvlUSD: float64`
     double? tvlUSD,
-
-    /// [txCount] defined in Candid: `txCount: int`
     BigInt? txCount,
-
-    /// [volumeUSD] defined in Candid: `volumeUSD: float64`
     double? volumeUSD,
   }) {
     return PublicTokenChartDayData(
@@ -2096,40 +2181,41 @@ class PublicTokenChartDayData {
 @immutable
 class PoolInfo {
   const PoolInfo({
-    /// [fee] defined in Candid: `fee: int`
     required this.fee,
-
-    /// [pool] defined in Candid: `pool: text`
     required this.pool,
-
-    /// [token0Decimals] defined in Candid: `token0Decimals: float64`
     required this.token0Decimals,
-
-    /// [token0Id] defined in Candid: `token0Id: text`
     required this.token0Id,
-
-    /// [token0Price] defined in Candid: `token0Price: float64`
     required this.token0Price,
-
-    /// [token0Symbol] defined in Candid: `token0Symbol: text`
     required this.token0Symbol,
-
-    /// [token1Decimals] defined in Candid: `token1Decimals: float64`
     required this.token1Decimals,
-
-    /// [token1Id] defined in Candid: `token1Id: text`
     required this.token1Id,
-
-    /// [token1Price] defined in Candid: `token1Price: float64`
     required this.token1Price,
-
-    /// [token1Symbol] defined in Candid: `token1Symbol: text`
     required this.token1Symbol,
   });
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory PoolInfo.fromIDLDeserializable(Map obj) {
+    return PoolInfo(
+      fee: obj['fee'] is BigInt ? obj['fee'] : BigInt.from(obj['fee']),
+      pool: obj['pool'],
+      token0Decimals: obj['token0Decimals'],
+      token0Id: obj['token0Id'],
+      token0Price: obj['token0Price'],
+      token0Symbol: obj['token0Symbol'],
+      token1Decimals: obj['token1Decimals'],
+      token1Id: obj['token1Id'],
+      token1Price: obj['token1Price'],
+      token1Symbol: obj['token1Symbol'],
+    );
+  }
+
   factory PoolInfo.fromJson(Map json) {
     return PoolInfo(
-      fee: json['fee'] is BigInt ? json['fee'] : BigInt.from(json['fee']),
+      fee: json['fee'] is BigInt
+          ? json['fee']
+          : json['fee'] is num
+              ? BigInt.from(json['fee'])
+              : BigInt.parse('${json['fee']}'),
       pool: json['pool'],
       token0Decimals: json['token0Decimals'],
       token0Id: json['token0Id'],
@@ -2172,7 +2258,8 @@ class PoolInfo {
   /// [token1Symbol] defined in Candid: `token1Symbol: text`
   final String token1Symbol;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final fee = this.fee;
     final pool = this.pool;
     final token0Decimals = this.token0Decimals;
@@ -2197,35 +2284,41 @@ class PoolInfo {
     };
   }
 
+  Map<String, dynamic> toJson() {
+    final fee = this.fee.toString();
+    final pool = this.pool;
+    final token0Decimals = this.token0Decimals;
+    final token0Id = this.token0Id;
+    final token0Price = this.token0Price;
+    final token0Symbol = this.token0Symbol;
+    final token1Decimals = this.token1Decimals;
+    final token1Id = this.token1Id;
+    final token1Price = this.token1Price;
+    final token1Symbol = this.token1Symbol;
+    return {
+      'fee': fee,
+      'pool': pool,
+      'token0Decimals': token0Decimals,
+      'token0Id': token0Id,
+      'token0Price': token0Price,
+      'token0Symbol': token0Symbol,
+      'token1Decimals': token1Decimals,
+      'token1Id': token1Id,
+      'token1Price': token1Price,
+      'token1Symbol': token1Symbol,
+    };
+  }
+
   PoolInfo copyWith({
-    /// [fee] defined in Candid: `fee: int`
     BigInt? fee,
-
-    /// [pool] defined in Candid: `pool: text`
     String? pool,
-
-    /// [token0Decimals] defined in Candid: `token0Decimals: float64`
     double? token0Decimals,
-
-    /// [token0Id] defined in Candid: `token0Id: text`
     String? token0Id,
-
-    /// [token0Price] defined in Candid: `token0Price: float64`
     double? token0Price,
-
-    /// [token0Symbol] defined in Candid: `token0Symbol: text`
     String? token0Symbol,
-
-    /// [token1Decimals] defined in Candid: `token1Decimals: float64`
     double? token1Decimals,
-
-    /// [token1Id] defined in Candid: `token1Id: text`
     String? token1Id,
-
-    /// [token1Price] defined in Candid: `token1Price: float64`
     double? token1Price,
-
-    /// [token1Symbol] defined in Candid: `token1Symbol: text`
     String? token1Symbol,
   }) {
     return PoolInfo(
@@ -2295,12 +2388,21 @@ class PoolInfo {
 @immutable
 class NatResult {
   const NatResult({
-    /// [err] defined in Candid: `err: text`
     this.err,
-
-    /// [ok] defined in Candid: `ok: nat`
     this.ok,
   });
+
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory NatResult.fromIDLDeserializable(Map obj) {
+    return NatResult(
+      err: obj['err'],
+      ok: obj['ok'] == null
+          ? null
+          : obj['ok'] is BigInt
+              ? obj['ok']
+              : BigInt.from(obj['ok']),
+    );
+  }
 
   factory NatResult.fromJson(Map json) {
     return NatResult(
@@ -2309,7 +2411,9 @@ class NatResult {
           ? null
           : json['ok'] is BigInt
               ? json['ok']
-              : BigInt.from(json['ok']),
+              : json['ok'] is num
+                  ? BigInt.from(json['ok'])
+                  : BigInt.parse('${json['ok']}'),
     );
   }
 
@@ -2319,7 +2423,8 @@ class NatResult {
   /// [ok] defined in Candid: `ok: nat`
   final BigInt? ok;
 
-  Map<String, dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  Map<String, dynamic> toIDLSerializable() {
     final err = this.err;
     final ok = this.ok;
     return {
@@ -2328,11 +2433,17 @@ class NatResult {
     };
   }
 
-  NatResult copyWith({
-    /// [err] defined in Candid: `err: text`
-    String? err,
+  Map<String, dynamic> toJson() {
+    final err = this.err;
+    final ok = this.ok.toString();
+    return {
+      if (err != null) 'err': err,
+      if (ok != null) 'ok': ok,
+    };
+  }
 
-    /// [ok] defined in Candid: `ok: nat`
+  NatResult copyWith({
+    String? err,
     BigInt? ok,
   }) {
     return NatResult(
@@ -2371,11 +2482,28 @@ class GetTokenChartDataArg {
     this.item3,
   );
 
-  factory GetTokenChartDataArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetTokenChartDataArg.fromIDLDeserializable(List<dynamic> tuple) {
     return GetTokenChartDataArg(
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       tuple[2] is BigInt ? tuple[2] : BigInt.from(tuple[2]),
+    );
+  }
+
+  factory GetTokenChartDataArg.fromJson(List<dynamic> tuple) {
+    return GetTokenChartDataArg(
+      tuple[0],
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      tuple[2] is BigInt
+          ? tuple[2]
+          : tuple[2] is num
+              ? BigInt.from(tuple[2])
+              : BigInt.parse('${tuple[2]}'),
     );
   }
 
@@ -2388,7 +2516,8 @@ class GetTokenChartDataArg {
   /// [item3] defined in Candid: `nat`
   final BigInt item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -2399,14 +2528,20 @@ class GetTokenChartDataArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3.toString();
+    return [
+      item1,
+      item2,
+      item3,
+    ];
+  }
+
   GetTokenChartDataArg copyWith({
-    /// [item1] defined in Candid: `text`
     String? item1,
-
-    /// [item2] defined in Candid: `nat`
     BigInt? item2,
-
-    /// [item3] defined in Candid: `nat`
     BigInt? item3,
   }) {
     return GetTokenChartDataArg(
@@ -2448,12 +2583,34 @@ class GetTokenPricesDataArg {
     this.item4,
   );
 
-  factory GetTokenPricesDataArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetTokenPricesDataArg.fromIDLDeserializable(List<dynamic> tuple) {
     return GetTokenPricesDataArg(
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       tuple[2] is BigInt ? tuple[2] : BigInt.from(tuple[2]),
       tuple[3] is BigInt ? tuple[3] : BigInt.from(tuple[3]),
+    );
+  }
+
+  factory GetTokenPricesDataArg.fromJson(List<dynamic> tuple) {
+    return GetTokenPricesDataArg(
+      tuple[0],
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      tuple[2] is BigInt
+          ? tuple[2]
+          : tuple[2] is num
+              ? BigInt.from(tuple[2])
+              : BigInt.parse('${tuple[2]}'),
+      tuple[3] is BigInt
+          ? tuple[3]
+          : tuple[3] is num
+              ? BigInt.from(tuple[3])
+              : BigInt.parse('${tuple[3]}'),
     );
   }
 
@@ -2469,7 +2626,8 @@ class GetTokenPricesDataArg {
   /// [item4] defined in Candid: `nat`
   final BigInt item4;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -2482,17 +2640,23 @@ class GetTokenPricesDataArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3.toString();
+    final item4 = this.item4.toString();
+    return [
+      item1,
+      item2,
+      item3,
+      item4,
+    ];
+  }
+
   GetTokenPricesDataArg copyWith({
-    /// [item1] defined in Candid: `text`
     String? item1,
-
-    /// [item2] defined in Candid: `int`
     BigInt? item2,
-
-    /// [item3] defined in Candid: `int`
     BigInt? item3,
-
-    /// [item4] defined in Candid: `nat`
     BigInt? item4,
   }) {
     return GetTokenPricesDataArg(
@@ -2535,11 +2699,28 @@ class GetTokenTransactionsArg {
     this.item3,
   );
 
-  factory GetTokenTransactionsArg.fromJson(List<dynamic> tuple) {
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory GetTokenTransactionsArg.fromIDLDeserializable(List<dynamic> tuple) {
     return GetTokenTransactionsArg(
       tuple[0],
       tuple[1] is BigInt ? tuple[1] : BigInt.from(tuple[1]),
       tuple[2] is BigInt ? tuple[2] : BigInt.from(tuple[2]),
+    );
+  }
+
+  factory GetTokenTransactionsArg.fromJson(List<dynamic> tuple) {
+    return GetTokenTransactionsArg(
+      tuple[0],
+      tuple[1] is BigInt
+          ? tuple[1]
+          : tuple[1] is num
+              ? BigInt.from(tuple[1])
+              : BigInt.parse('${tuple[1]}'),
+      tuple[2] is BigInt
+          ? tuple[2]
+          : tuple[2] is num
+              ? BigInt.from(tuple[2])
+              : BigInt.parse('${tuple[2]}'),
     );
   }
 
@@ -2552,7 +2733,8 @@ class GetTokenTransactionsArg {
   /// [item3] defined in Candid: `nat`
   final BigInt item3;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     final item3 = this.item3;
@@ -2563,14 +2745,20 @@ class GetTokenTransactionsArg {
     ];
   }
 
+  List<dynamic> toJson() {
+    final item1 = this.item1;
+    final item2 = this.item2.toString();
+    final item3 = this.item3.toString();
+    return [
+      item1,
+      item2,
+      item3,
+    ];
+  }
+
   GetTokenTransactionsArg copyWith({
-    /// [item1] defined in Candid: `text`
     String? item1,
-
-    /// [item2] defined in Candid: `nat`
     BigInt? item2,
-
-    /// [item3] defined in Candid: `nat`
     BigInt? item3,
   }) {
     return GetTokenTransactionsArg(
@@ -2610,6 +2798,14 @@ class SaveTransactionsArg {
     this.item2,
   );
 
+  /// An extra method for the deserialization with `packages:agent_dart`.
+  factory SaveTransactionsArg.fromIDLDeserializable(List<dynamic> tuple) {
+    return SaveTransactionsArg(
+      TransactionsType.fromIDLDeserializable(tuple[0]),
+      tuple[1],
+    );
+  }
+
   factory SaveTransactionsArg.fromJson(List<dynamic> tuple) {
     return SaveTransactionsArg(
       TransactionsType.fromJson(tuple[0]),
@@ -2623,7 +2819,8 @@ class SaveTransactionsArg {
   /// [item2] defined in Candid: `bool`
   final bool item2;
 
-  List<dynamic> toJson() {
+  /// An extra method for the serialization with `packages:agent_dart`.
+  List<dynamic> toIDLSerializable() {
     final item1 = this.item1;
     final item2 = this.item2;
     return [
@@ -2632,11 +2829,17 @@ class SaveTransactionsArg {
     ];
   }
 
-  SaveTransactionsArg copyWith({
-    /// [item1] defined in Candid: `TransactionsType`
-    TransactionsType? item1,
+  List<dynamic> toJson() {
+    final item1 = this.item1.toJson();
+    final item2 = this.item2;
+    return [
+      item1,
+      item2,
+    ];
+  }
 
-    /// [item2] defined in Candid: `bool`
+  SaveTransactionsArg copyWith({
+    TransactionsType? item1,
     bool? item2,
   }) {
     return SaveTransactionsArg(

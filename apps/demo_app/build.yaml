@@ -10,3 +10,4 @@ targets:
           equal: true
           service: true
           make_collections_unmodifiable: true
+          explicit_serialization_methods: true
