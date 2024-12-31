@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Add `explicitSerializationMethods` for generate options.
+
 ## 1.1.5
 
 - Support `composite_query` in candid.
