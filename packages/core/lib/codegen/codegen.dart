@@ -861,12 +861,15 @@ Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
             ..name = 'fromJson'
             ..factory = true
             ..body = Code(
-              'final key = json.keys.first; return $className.values.firstWhere((e) => e.name == key);',
+              'final key = ${option.explicitSerializationMethods ? 'json' : 'json.keys.first'}; '
+              'return $className.values.firstWhere((e) => e.name == key);',
             )
             ..requiredParameters = ListBuilder([
               Parameter(
                 (b) => b
-                  ..type = const Reference('Map')
+                  ..type = Reference(
+                    option.explicitSerializationMethods ? 'String' : 'Map',
+                  )
                   ..name = 'json',
               ),
             ]),
@@ -874,11 +877,29 @@ Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
       ])
       ..methods = ListBuilder([
         ...getters,
+        if (option.explicitSerializationMethods)
+          Method(
+            (b) => b
+              ..name = 'toIDLSerializable'
+              ..docs = ListBuilder([
+                '/// An extra method for the serialization with `packages:agent_dart`.',
+              ])
+              ..body = const Code('return {name: null};')
+              ..returns = const Reference('Map<String, Null>'),
+          ),
         Method(
           (b) => b
             ..name = 'toJson'
-            ..body = const Code('return {name: null};')
-            ..returns = const Reference('\nMap<String, Null>'),
+            ..body = Code(
+              option.explicitSerializationMethods
+                  ? 'return name;'
+                  : 'return {name: null};',
+            )
+            ..returns = Reference(
+              option.explicitSerializationMethods
+                  ? 'String'
+                  : 'Map<String, Null>',
+            ),
         ),
         toStringMethod,
       ]),
