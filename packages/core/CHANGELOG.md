@@ -1,3 +1,7 @@
+## 1.2.2
+
+- Provide extra serialization methods for enum classes.
+
 ## 1.2.1
 
 - Fix deserialization cache in vec types.
