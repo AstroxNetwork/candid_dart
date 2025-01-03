@@ -1240,9 +1240,9 @@ String _typeToJsonField(
       toJsonField += '?';
     }
     toJsonField += '.toJson()';
-  } else if (dartType == 'BigInt?') {
+  } else if (dartType == 'BigInt?' || dartType == 'Principal?') {
     toJsonField += '?.toString()';
-  } else if (dartType == 'BigInt') {
+  } else if (dartType == 'BigInt' || dartType == 'Principal') {
     toJsonField += '.toString()';
   }
   return toJsonField;
