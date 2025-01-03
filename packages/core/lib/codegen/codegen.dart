@@ -373,7 +373,10 @@ Spec toTupleClass(
           (b) => b
             ..name = 'toJson'
             ..body = Code('${toJsonFields}return [$toJson];')
-            ..returns = const Reference('List<dynamic>'),
+            ..returns = Reference(
+              '${option.explicitSerializationMethods ? '' : '\n'}'
+              'List<dynamic>',
+            ),
         ),
         if (option.copyWith)
           Method(
@@ -535,7 +538,10 @@ Spec toFreezedTupleClass(
           (b) => b
             ..name = 'toJson'
             ..body = Code('${toJsonFields}return [$toJson];')
-            ..returns = const Reference('List<dynamic>'),
+            ..returns = Reference(
+              '${option.explicitSerializationMethods ? '' : '\n'}'
+              'List<dynamic>',
+            ),
         ),
         toStringMethod,
       ])
@@ -554,6 +560,7 @@ Spec toClass(
   final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializable = StringBuffer();
   final toSerializableFields = StringBuffer();
   final hashes = <String>[];
   final equals = <String>[];
@@ -630,9 +637,15 @@ Spec toClass(
       ),
     );
     if (useBool) {
-      fromJson.writeln("$fieldName: json.containsKey('$idlName'),");
       fromDeserializable.writeln("$fieldName: obj.containsKey('$idlName'),");
-      toJson.writeln("if ($fieldName) '$idlName': null,");
+      toSerializable.writeln("if ($fieldName) '$idlName': null,");
+      if (option.explicitSerializationMethods) {
+        fromJson.writeln("$fieldName: json['$idlName'],");
+        toJson.writeln("'$idlName': $fieldName,");
+      } else {
+        fromJson.writeln("$fieldName: json.containsKey('$idlName'),");
+        toJson.writeln("if ($fieldName) '$idlName': null,");
+      }
     } else {
       final deserJson = child.deserializeAndReplace(
         replace: isNumberKey ? 'json[$idlName]' : "json['$idlName']",
@@ -660,14 +673,18 @@ Spec toClass(
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
+          toSerializable.writeln('$idlName: $arg,');
           toJson.writeln('$idlName: $arg,');
         } else {
+          toSerializable.writeln("'$idlName': $arg,");
           toJson.writeln("'$idlName': $arg,");
         }
       } else {
         if (isNumberKey) {
+          toSerializable.writeln('if ($fieldName != null) $idlName: $arg,');
           toJson.writeln('if ($fieldName != null) $idlName: $arg,');
         } else {
+          toSerializable.writeln("if ($fieldName != null) '$idlName': $arg,");
           toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
         }
       }
@@ -727,14 +744,18 @@ Spec toClass(
                 '/// An extra method for the serialization with `packages:agent_dart`.',
               ])
               ..name = 'toIDLSerializable'
-              ..body = Code('${toSerializableFields}return { $toJson };')
+              ..body =
+                  Code('${toSerializableFields}return { $toSerializable };')
               ..returns = const Reference('Map<String, dynamic>'),
           ),
         Method(
           (b) => b
             ..name = 'toJson'
             ..body = Code('${toJsonFields}return { $toJson };')
-            ..returns = const Reference('Map<String, dynamic>'),
+            ..returns = Reference(
+              '${option.explicitSerializationMethods ? '' : '\n'}'
+              'Map<String, dynamic>',
+            ),
         ),
         if (option.copyWith)
           Method(
@@ -898,7 +919,8 @@ Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
             ..returns = Reference(
               option.explicitSerializationMethods
                   ? 'String'
-                  : 'Map<String, Null>',
+                  : '${option.explicitSerializationMethods ? '' : '\n'}'
+                      'Map<String, Null>',
             ),
         ),
         toStringMethod,
@@ -1059,7 +1081,10 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
           (b) => b
             ..name = 'toJson'
             ..body = Code('${toJsonFields}return { $toJson };')
-            ..returns = const Reference('Map<String, dynamic>'),
+            ..returns = Reference(
+              '${option.explicitSerializationMethods ? '' : '\n'}'
+              'Map<String, dynamic>',
+            ),
         ),
         toStringMethod,
       ])
