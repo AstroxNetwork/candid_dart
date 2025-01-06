@@ -1,3 +1,10 @@
+## 1.2.3
+
+- Improve serialization with boolean values.
+- Improve `Principal` serialization.
+- Add explicit IDL serialize option.
+- Remove generated enum values doc.
+
 ## 1.2.2
 
 - Provide extra serialization methods for enum classes.
