@@ -819,10 +819,7 @@ Spec toEnum(String className, ts.ObjectType obj, GenOption option) {
       EnumValue(
         (b) => b
           ..name = fieldName
-          ..arguments = ListBuilder([CodeExpression(Code("'$idlName'"))])
-          ..docs = ListBuilder(
-            ['/// [$fieldName] defined in Candid: `${child.did}`'],
-          ),
+          ..arguments = ListBuilder([CodeExpression(Code("'$idlName'"))]),
       ),
     );
     getters.add(
