@@ -101,7 +101,9 @@ String did2dart(
         continue;
       }
       final argsType = body.args.dartType();
-      final argsSer = body.args.serialize()!;
+      final argsSer = body.args.serialize(
+        fromIDL: option.explicitSerializationMethods,
+      )!;
       final retType = body.ret.dartType();
       final noRet = body.ret.children.isEmpty;
       final noArgs = body.args.children.isEmpty;
@@ -308,7 +310,7 @@ Spec toTupleClass(
     );
     fromDeserializable.writeln('$deserIDL,');
 
-    final ser = child.serialize();
+    final ser = child.serialize(fromIDL: !option.explicitSerializationMethods);
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
@@ -466,7 +468,7 @@ Spec toFreezedTupleClass(
     );
     fromDeserializable.writeln('$deserIDL,');
 
-    final ser = child.serialize();
+    final ser = child.serialize(fromIDL: !option.explicitSerializationMethods);
     final arg =
         ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
     toJson.writeln('$arg,');
@@ -660,7 +662,9 @@ Spec toClass(
       );
       fromDeserializable.writeln('$fieldName: $deserIDL,');
 
-      final ser = child.serialize();
+      final ser = child.serialize(
+        fromIDL: !option.explicitSerializationMethods,
+      );
       final arg =
           ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
@@ -987,7 +991,9 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         nullable: isOpt,
       );
       fromDeserializable.writeln('$fieldName: $deserIDL,');
-      final ser = child.serialize();
+      final ser = child.serialize(
+        fromIDL: !option.explicitSerializationMethods,
+      );
       final arg =
           ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;

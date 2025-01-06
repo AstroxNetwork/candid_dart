@@ -30,7 +30,7 @@ abstract class IDLType<T extends RuleContext> {
 
   bool get serializable;
 
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     return null;
   }
 
@@ -106,7 +106,7 @@ class PrimType extends IDLType<PrimTypeContext> {
   }
 
   @override
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     return IDLType.ph;
   }
 }
@@ -139,8 +139,8 @@ class IdType extends IDLType<IdTypeContext> {
   bool get serializable => child.serializable;
 
   @override
-  String? serialize({bool nullable = false}) {
-    return child.serialize(nullable: nullable);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    return child.serialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -214,14 +214,14 @@ class Id extends IDLType<IdContext> {
   bool get isOpt => _raw?.body.child is OptType;
 
   @override
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     if (!__ser) {
       __ser = true;
       final raw = _raw;
       if (raw is Def && raw.isObj) {
         _ser = IDLType.ph;
       } else {
-        _ser = _raw?.serialize(nullable: nullable);
+        _ser = _raw?.serialize(fromIDL: fromIDL, nullable: nullable);
       }
     }
     return _ser;
@@ -260,8 +260,8 @@ abstract class NestedType<T extends RuleContext> extends IDLType {
   bool get serializable => child.serializable;
 
   @override
-  String? serialize({bool nullable = false}) {
-    return child.serialize(nullable: nullable);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    return child.serialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -290,8 +290,8 @@ class OptType extends NestedType<OptTypeContext> {
   }
 
   @override
-  String? serialize({bool nullable = false}) {
-    final ser = child.serialize(nullable: true);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    final ser = child.serialize(fromIDL: fromIDL, nullable: true);
     const ns = 'if(${IDLType.ph} != null)';
     return ser != null ? '[$ns $ser]' : '[$ns ${IDLType.ph}]';
   }
@@ -358,8 +358,8 @@ class VecType extends NestedType<VecTypeContext> {
   bool get isUint8List => child.did == 'nat8' || child.did == 'int8';
 
   @override
-  String? serialize({bool nullable = false}) {
-    var s = child.serialize();
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    var s = child.serialize(fromIDL: fromIDL);
     final isOpt = ctx.parent?.parent is OptTypeContext;
     if (isOpt) {
       nullable = false;
@@ -413,8 +413,8 @@ abstract class DelegateType<T extends RuleContext> extends IDLType {
   }
 
   @override
-  String? serialize({bool nullable = false}) {
-    return child.serialize(nullable: nullable);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    return child.serialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -544,14 +544,14 @@ class RecordType extends ObjectType<RecordTypeContext> {
   String get type => isTupleValue ? 'TupleClass' : 'RecordClass';
 
   @override
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     if (isTupleValue) {
       final ser = StringBuffer();
       final nonnull = ctx.parent?.parent is OptTypeContext ? '!' : '';
       for (var i = 0; i < children.length; ++i) {
         final ind = i + 1;
         final child = children[i];
-        final s = child.serialize();
+        final s = child.serialize(fromIDL: fromIDL);
         if (s != null) {
           ser.write(s.replaceAll(IDLType.ph, '${IDLType.ph}$nonnull.item$ind'));
         } else {
@@ -626,7 +626,7 @@ class VariantType extends ObjectType<VariantTypeContext> {
   String get type => 'VariantClass';
 
   @override
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     return IDLType.ph;
   }
 
@@ -680,8 +680,8 @@ class PairType extends IDLType<PairTypeContext> {
   }
 
   @override
-  String? serialize({bool nullable = false}) {
-    return value.serialize(nullable: nullable);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    return value.serialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -799,8 +799,8 @@ class Def extends IDLType<DefContext> {
   }
 
   @override
-  String? serialize({bool nullable = false}) {
-    return body.serialize(nullable: nullable);
+  String? serialize({required bool fromIDL, bool nullable = false}) {
+    return body.serialize(fromIDL: fromIDL, nullable: nullable);
   }
 
   @override
@@ -851,13 +851,14 @@ class TupleType extends ObjectType<TupleTypeContext> {
   bool get serializable => children.every((e) => e.serializable);
 
   @override
-  String? serialize({bool nullable = false}) {
+  String? serialize({required bool fromIDL, bool nullable = false}) {
     if (children.isEmpty) {
       return '[]';
     } else if (children.length == 1) {
-      return '[${children.first.serialize()}]';
+      return '[${children.first.serialize(fromIDL: fromIDL)}]';
     }
-    return '${IDLType.ph}.toJson()';
+    final method = fromIDL ? 'toIDLSerializable' : 'toJson';
+    return '${IDLType.ph}.$method()';
   }
 
   @override
