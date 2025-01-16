@@ -1307,7 +1307,8 @@ String _typeToJsonField(
       final item = nested.child.child;
       final itemDartType = item.dartType();
       final itemObjectType = idlVisitor.objs[itemDartType];
-      if (itemObjectType is ts.RecordType && !itemObjectType.isTupleValue) {
+      if (itemDartType == 'Principal' ||
+          itemObjectType is ts.RecordType && !itemObjectType.isTupleValue) {
         if (isItemOpt || parent.isVariant) {
           toJsonField += '?';
         }
