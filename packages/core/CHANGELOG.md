@@ -1,3 +1,7 @@
+## 1.2.5
+
+- Fix reading serialized values for explicit methods.
+
 ## 1.2.4
 
 - Fix nested opt vec serialization with explicit serialization method.
