@@ -304,11 +304,19 @@ class OptType extends NestedType<OptTypeContext> {
 
   @override
   String? deserialize({required bool fromIDL, bool nullable = false}) {
-    final deser = child.deserialize(fromIDL: fromIDL, nullable: true);
-    if (deser != null) {
-      return "(${IDLType.ph} as List).map((e) { return ${deser.replaceAll(IDLType.ph, 'e')}; }).firstOrNull";
+    if (fromIDL) {
+      final deser = child.deserialize(fromIDL: fromIDL, nullable: true);
+      if (deser != null) {
+        return "(${IDLType.ph} as List).map((e) { return ${deser.replaceAll(IDLType.ph, 'e')}; }).firstOrNull";
+      } else {
+        return '(${IDLType.ph} as List).firstOrNull';
+      }
     } else {
-      return '(${IDLType.ph} as List).firstOrNull';
+      final deser = child.deserialize(fromIDL: fromIDL, nullable: false);
+      if (deser != null && child.child is VecType) {
+        return '(${IDLType.ph} as List?)?.map((e) { return ${deser.replaceAll(IDLType.ph, 'e')}; }).toList()';
+      }
+      return IDLType.ph;
     }
   }
 
@@ -387,23 +395,42 @@ class VecType extends NestedType<VecTypeContext> {
   @override
   String? deserialize({required bool fromIDL, bool nullable = false}) {
     if (isUint8List) {
-      const deser =
-          '${IDLType.ph} is Uint8List ? ${IDLType.ph} : Uint8List.fromList((${IDLType.ph} as List).cast())';
+      const deser = '${IDLType.ph} is Uint8List '
+          '? ${IDLType.ph} '
+          ': Uint8List.fromList((${IDLType.ph} as List).cast())';
       return nullable ? '${IDLType.ph} == null ? null : $deser' : deser;
     }
-    String? d = child.deserialize(fromIDL: fromIDL);
+    final isOpt = ctx.parent?.parent is OptTypeContext;
+    String? d = child.deserialize(fromIDL: fromIDL, nullable: false);
     if (d != null && d != IDLType.ph) {
       if (nullable) {
-        d = "(${IDLType.ph} as List?)?.map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
+        if (fromIDL || !isOpt) {
+          d = "(${IDLType.ph} as List?)?.map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
+        } else {
+          d = '${IDLType.ph} != null ? $d : null';
+        }
       } else {
-        d = "(${IDLType.ph} as List).map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
+        if (fromIDL) {
+          d = "(${IDLType.ph} as List).map((e) { return ${d.replaceAll(IDLType.ph, "e")}; }).toList()";
+        } else if (!isOpt ||
+            (child.child is! IdType && child.child is! RecordType)) {
+          d = '(${IDLType.ph} as List).cast()';
+        }
       }
     } else if (d == null || d == IDLType.ph) {
       final castType = child.dartType(nullable: nullable);
       if (nullable) {
-        d = '(${IDLType.ph} as List?)?.cast<$castType>()';
+        if (fromIDL) {
+          d = '(${IDLType.ph} as List?)?.cast<$castType>()';
+        } else {
+          d = '${IDLType.ph} != null ? $d : null';
+        }
       } else {
-        d = '(${IDLType.ph} as List).cast<$castType>()';
+        if (fromIDL) {
+          d = '(${IDLType.ph} as List).cast<$castType>()';
+        } else if (ctx.parent?.parent is OptTypeContext) {
+          d = '$d as $castType';
+        }
       }
     }
     return d;
