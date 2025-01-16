@@ -16,8 +16,6 @@ import 'extension.dart';
 import 'types.dart' as ts;
 import 'visitor.dart';
 
-late IDLVisitor _idlVisitor;
-
 String did2dart(
   String filename,
   String contents, [
@@ -31,7 +29,7 @@ String did2dart(
   final cdVisitor = PreVisitor();
   cdVisitor.visit(newParser(contents).prog());
   final deps = cdVisitor.deps;
-  final idlVisitor = _idlVisitor = IDLVisitor();
+  idlVisitor = IDLVisitor();
   final prog = idlVisitor.visit(newParser(contents).prog()) as ts.Prog;
   final defs = prog.defs;
   final cdSb = StringBuffer();
@@ -244,6 +242,7 @@ Spec toTupleClass(
   final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializable = StringBuffer();
   final toSerializableFields = StringBuffer();
   final hashes = <String>[];
   final equals = <String>[];
@@ -310,10 +309,18 @@ Spec toTupleClass(
     );
     fromDeserializable.writeln('$deserIDL,');
 
-    final ser = child.serialize(fromIDL: !option.explicitSerializationMethods);
-    final arg =
-        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
-    toJson.writeln('$arg,');
+    final serJson = child.serialize(
+      fromIDL: !option.explicitSerializationMethods,
+    );
+    final argJson = serJson == null
+        ? fieldName
+        : serJson.replaceAll(ts.IDLType.ph, fieldName);
+    final serIDL = child.serialize(fromIDL: true);
+    final argIDL = serIDL == null
+        ? fieldName
+        : serIDL.replaceAll(ts.IDLType.ph, fieldName);
+    toJson.writeln('$argJson,');
+    toSerializable.writeln('$argIDL,');
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
@@ -368,7 +375,7 @@ Spec toTupleClass(
                 '/// An extra method for the serialization with `packages:agent_dart`.',
               ])
               ..name = 'toIDLSerializable'
-              ..body = Code('${toSerializableFields}return [$toJson];')
+              ..body = Code('${toSerializableFields}return [$toSerializable];')
               ..returns = const Reference('List<dynamic>'),
           ),
         Method(
@@ -436,6 +443,7 @@ Spec toFreezedTupleClass(
   final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializable = StringBuffer();
   final toSerializableFields = StringBuffer();
   obj.children.forEachIndexed((index, e) {
     final child = e.child;
@@ -468,10 +476,18 @@ Spec toFreezedTupleClass(
     );
     fromDeserializable.writeln('$deserIDL,');
 
-    final ser = child.serialize(fromIDL: !option.explicitSerializationMethods);
-    final arg =
-        ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
-    toJson.writeln('$arg,');
+    final serJson = child.serialize(
+      fromIDL: !option.explicitSerializationMethods,
+    );
+    final argJson = serJson == null
+        ? fieldName
+        : serJson.replaceAll(ts.IDLType.ph, fieldName);
+    final serIDL = child.serialize(fromIDL: true);
+    final argIDL = serIDL == null
+        ? fieldName
+        : serIDL.replaceAll(ts.IDLType.ph, fieldName);
+    toJson.writeln('$argJson,');
+    toSerializable.writeln('$argIDL,');
     toSerializableFields.writeln('final $fieldName = this.$fieldName;');
     final toJsonField = _typeToJsonField(option, obj, e, fieldName);
     toJsonFields.writeln('final $fieldName = this.$toJsonField;');
@@ -533,7 +549,7 @@ Spec toFreezedTupleClass(
                 '/// An extra method for the serialization with `packages:agent_dart`.',
               ])
               ..name = 'toIDLSerializable'
-              ..body = Code('${toSerializableFields}return [$toJson];')
+              ..body = Code('${toSerializableFields}return [$toSerializable];')
               ..returns = const Reference('List<dynamic'),
           ),
         Method(
@@ -662,11 +678,16 @@ Spec toClass(
       );
       fromDeserializable.writeln('$fieldName: $deserIDL,');
 
-      final ser = child.serialize(
+      final serJson = child.serialize(
         fromIDL: !option.explicitSerializationMethods,
       );
-      final arg =
-          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
+      final argJson = serJson == null
+          ? fieldName
+          : serJson.replaceAll(ts.IDLType.ph, fieldName);
+      final serIDL = child.serialize(fromIDL: true);
+      final argIDL = serIDL == null
+          ? fieldName
+          : serIDL.replaceAll(ts.IDLType.ph, fieldName);
       var isOptChild = false;
       if (child is ts.PairType) {
         final value = child.value.child;
@@ -677,19 +698,27 @@ Spec toClass(
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
-          toSerializable.writeln('$idlName: $arg,');
-          toJson.writeln('$idlName: $arg,');
+          toSerializable.writeln('$idlName: $argIDL,');
+          toJson.writeln('$idlName: $argJson,');
         } else {
-          toSerializable.writeln("'$idlName': $arg,");
-          toJson.writeln("'$idlName': $arg,");
+          toSerializable.writeln("'$idlName': $argIDL,");
+          toJson.writeln("'$idlName': $argJson,");
         }
       } else {
         if (isNumberKey) {
-          toSerializable.writeln('if ($fieldName != null) $idlName: $arg,');
-          toJson.writeln('if ($fieldName != null) $idlName: $arg,');
+          toSerializable.writeln(
+            'if ($fieldName != null) $idlName: $argIDL,',
+          );
+          toJson.writeln(
+            'if ($fieldName != null) $idlName: $argJson,',
+          );
         } else {
-          toSerializable.writeln("if ($fieldName != null) '$idlName': $arg,");
-          toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+          toSerializable.writeln(
+            "if ($fieldName != null) '$idlName': $argIDL,",
+          );
+          toJson.writeln(
+            "if ($fieldName != null) '$idlName': $argJson,",
+          );
         }
       }
     }
@@ -936,6 +965,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
   final fromDeserializable = StringBuffer();
   final toJson = StringBuffer();
   final toJsonFields = StringBuffer();
+  final toSerializable = StringBuffer();
   final toSerializableFields = StringBuffer();
   for (final e in obj.children) {
     final child = e.child;
@@ -975,6 +1005,7 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
     if (useBool) {
       fromJson.writeln("$fieldName: json.containsKey('$idlName'),");
       toJson.writeln("if ($fieldName) '$idlName': null,");
+      toSerializable.writeln("if ($fieldName) '$idlName': null,");
     } else {
       final deserJson = child.deserializeAndReplace(
         replace: isNumberKey ? 'json[$idlName]' : "json['$idlName']",
@@ -988,12 +1019,17 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
         nullable: isOpt,
       );
       fromDeserializable.writeln('$fieldName: $deserIDL,');
-      final ser = child.serialize(
+      final serJson = child.serialize(
         fromIDL: !option.explicitSerializationMethods,
       );
-      final arg =
-          ser == null ? fieldName : ser.replaceAll(ts.IDLType.ph, fieldName);
-      var isOptChild = false;
+      final argJson = serJson == null
+          ? fieldName
+          : serJson.replaceAll(ts.IDLType.ph, fieldName);
+      final serIDL = child.serialize(fromIDL: true);
+      final argIDL = serIDL == null
+          ? fieldName
+          : serIDL.replaceAll(ts.IDLType.ph, fieldName);
+      bool isOptChild = false;
       if (child is ts.PairType) {
         final value = child.value.child;
         isOptChild = value is ts.OptType ||
@@ -1003,15 +1039,27 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
       }
       if ((!isVariant && isOptChild) || !isOpt) {
         if (isNumberKey) {
-          toJson.writeln('$idlName: $arg,');
+          toJson.writeln('$idlName: $argJson,');
+          toSerializable.writeln('$idlName: $argIDL,');
         } else {
-          toJson.writeln("'$idlName': $arg,");
+          toJson.writeln("'$idlName': $argJson,");
+          toSerializable.writeln("'$idlName': $argIDL,");
         }
       } else {
         if (isNumberKey) {
-          toJson.writeln('if ($fieldName != null) $idlName: $arg,');
+          toJson.writeln(
+            'if ($fieldName != null) $idlName: $argJson,',
+          );
+          toSerializable.writeln(
+            'if ($fieldName != null) $idlName: $argIDL,',
+          );
         } else {
-          toJson.writeln("if ($fieldName != null) '$idlName': $arg,");
+          toJson.writeln(
+            "if ($fieldName != null) '$idlName': $argJson,",
+          );
+          toSerializable.writeln(
+            "if ($fieldName != null) '$idlName': $argIDL,",
+          );
         }
       }
     }
@@ -1077,7 +1125,8 @@ Spec toFreezedClass(String className, ts.ObjectType obj, GenOption option) {
                 '/// An extra method for the serialization with `packages:agent_dart`.',
               ])
               ..name = 'toIDLSerializable'
-              ..body = Code('${toSerializableFields}return { $toJson };')
+              ..body =
+                  Code('${toSerializableFields}return { $toSerializable };')
               ..returns = const Reference('Map<String, dynamic>'),
           ),
         Method(
@@ -1214,7 +1263,7 @@ String _typeToJsonField(
 
   // Handles type alias recursively.
   while (true) {
-    final typedefType = _idlVisitor.typedefs.entries.firstWhereOrNull(
+    final typedefType = idlVisitor.typedefs.entries.firstWhereOrNull(
       (entry) => RegExp('^type $dartType = .*;\$').hasMatch(entry.key),
     );
     if (typedefType == null) {
@@ -1235,7 +1284,7 @@ String _typeToJsonField(
 
   // Put extra method calls accordingly.
   String toJsonField = fieldName;
-  final objectType = _idlVisitor.objs[dartType];
+  final objectType = idlVisitor.objs[dartType];
   final isEnum = objectType?.isEnum ?? false;
   final isRecordClass = objectType is ts.RecordType && !objectType.isTupleValue;
   if (!isBool && (isEnum || isRecordClass)) {
@@ -1247,6 +1296,24 @@ String _typeToJsonField(
     toJsonField += '?.toString()';
   } else if (dartType == 'BigInt' || dartType == 'Principal') {
     toJsonField += '.toString()';
+  } else if (child is ts.PairType) {
+    bool isItemOpt = false;
+    ts.IDLType nested = child.value.child;
+    while (nested is ts.OptType) {
+      isItemOpt = true;
+      nested = nested.child.child;
+    }
+    if (nested is ts.VecType) {
+      final item = nested.child.child;
+      final itemDartType = item.dartType();
+      final itemObjectType = idlVisitor.objs[itemDartType];
+      if (itemObjectType is ts.RecordType && !itemObjectType.isTupleValue) {
+        if (isItemOpt || parent.isVariant) {
+          toJsonField += '?';
+        }
+        toJsonField += '.map((e) => e.toJson()).toList()';
+      }
+    }
   }
   return toJsonField;
 }

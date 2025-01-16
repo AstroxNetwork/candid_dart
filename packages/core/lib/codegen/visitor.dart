@@ -12,6 +12,8 @@ import 'types.dart';
 const pkgCollection = 'package:collection/collection.dart';
 const pkgTypeData = 'dart:typed_data';
 
+late IDLVisitor idlVisitor;
+
 typedef SerFactory = Def Function();
 
 class IDLVisitor extends CandidBaseVisitor<IDLType<RuleContext>> {

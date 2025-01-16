@@ -208,23 +208,23 @@ class Id extends IDLType<IdContext> {
     return _serializable;
   }
 
-  String? _ser;
-  bool __ser = false;
+  final _ser = <bool, String?>{};
+  final __ser = <bool, bool>{};
 
   bool get isOpt => _raw?.body.child is OptType;
 
   @override
   String? serialize({required bool fromIDL, bool nullable = false}) {
-    if (!__ser) {
-      __ser = true;
+    if (!(__ser[fromIDL] ?? false)) {
+      __ser[fromIDL] = true;
       final raw = _raw;
       if (raw is Def && raw.isObj) {
-        _ser = IDLType.ph;
+        _ser[fromIDL] = IDLType.ph;
       } else {
-        _ser = _raw?.serialize(fromIDL: fromIDL, nullable: nullable);
+        _ser[fromIDL] = _raw?.serialize(fromIDL: fromIDL, nullable: nullable);
       }
     }
-    return _ser;
+    return _ser[fromIDL];
   }
 
   final _deser = <bool, String?>{};
@@ -243,8 +243,10 @@ class Id extends IDLType<IdContext> {
         }
         _deser[fromIDL] = deser;
       } else {
-        _deser[fromIDL] =
-            _raw?.deserialize(fromIDL: fromIDL, nullable: nullable);
+        _deser[fromIDL] = _raw?.deserialize(
+          fromIDL: fromIDL,
+          nullable: nullable,
+        );
       }
     }
     return _deser[fromIDL];
@@ -548,16 +550,29 @@ class RecordType extends ObjectType<RecordTypeContext> {
     if (isTupleValue) {
       final ser = StringBuffer();
       final nonnull = ctx.parent?.parent is OptTypeContext ? '!' : '';
-      for (var i = 0; i < children.length; ++i) {
+      for (int i = 0; i < children.length; ++i) {
         final ind = i + 1;
         final child = children[i];
         final s = child.serialize(fromIDL: fromIDL);
+        String r;
         if (s != null) {
-          ser.write(s.replaceAll(IDLType.ph, '${IDLType.ph}$nonnull.item$ind'));
+          r = s.replaceAll(IDLType.ph, '${IDLType.ph}$nonnull.item$ind');
         } else {
-          ser.write('${IDLType.ph}$nonnull.item$ind');
+          r = '${IDLType.ph}$nonnull.item$ind';
         }
-        ser.write(',');
+        if (!fromIDL) {
+          final type = child.dartType(nullable: nullable);
+          final objectType = idlVisitor.objs[type];
+          final isEnum = objectType?.isEnum ?? false;
+          final isRecordClass =
+              objectType is RecordType && !objectType.isTupleValue;
+          if (isEnum || isRecordClass) {
+            r += '.toJson()';
+          } else if (type == 'BigInt' || type == 'Principal') {
+            r += '.toString()';
+          }
+        }
+        ser.write('$r,');
       }
       return '[$ser]';
     }
