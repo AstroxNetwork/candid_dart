@@ -294,8 +294,12 @@ class OptType extends NestedType<OptTypeContext> {
   @override
   String? serialize({required bool fromIDL, bool nullable = false}) {
     final ser = child.serialize(fromIDL: fromIDL, nullable: true);
-    const ns = 'if(${IDLType.ph} != null)';
-    return ser != null ? '[$ns $ser]' : '[$ns ${IDLType.ph}]';
+    const ns = 'if (${IDLType.ph} != null)';
+    if (fromIDL) {
+      return ser != null ? '[$ns $ser]' : '[$ns ${IDLType.ph}]';
+    } else {
+      return ser;
+    }
   }
 
   @override
@@ -367,7 +371,15 @@ class VecType extends NestedType<VecTypeContext> {
       nullable = false;
     }
     if (s != null && s != IDLType.ph) {
-      s = "${IDLType.ph}.map((e) { return ${s.replaceAll(IDLType.ph, "e")}; }).toList()";
+      final isParentVariant = ctx.parent?.parent?.parent?.parent?.parent?.parent
+          is VariantTypeContext;
+      String call = '.map';
+      if (!fromIDL && isOpt && !isParentVariant) {
+        call = '?$call';
+      }
+      s = '${IDLType.ph}$call((e) { '
+          "return ${s.replaceAll(IDLType.ph, "e")};"
+          ' }).toList()';
     }
     return s;
   }
