@@ -1,3 +1,8 @@
+## 1.2.4
+
+- Fix nested opt vec serialization with explicit serialization method.
+- Improve nested variant type JSON serialization.
+
 ## 1.2.3
 
 - Improve serialization with boolean values.
