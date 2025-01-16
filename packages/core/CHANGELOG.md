@@ -1,3 +1,7 @@
+## 1.2.6
+
+- Improve `Principal` serialization.
+
 ## 1.2.5
 
 - Fix reading serialized values for explicit methods.
