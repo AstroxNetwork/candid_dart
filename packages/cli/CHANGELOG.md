@@ -1,3 +1,7 @@
+## 1.2.1
+
+- Update dependencies.
+
 ## 1.2.0
 
 - Add `explicitSerializationMethods` for generate options.

@@ -1,3 +1,7 @@
+## 1.1.6
+
+- Update dependencies.
+
 ## 1.1.5
 
 - Support `composite_query` in candid.

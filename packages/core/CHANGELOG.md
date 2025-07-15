@@ -1,3 +1,8 @@
+## 1.3.0
+
+- Upgrade `package:dart_style` v3.
+- Use order directives and null safety syntax for the Dart emitter.
+
 ## 1.2.6
 
 - Improve `Principal` serialization.
