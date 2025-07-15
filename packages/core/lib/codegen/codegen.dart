@@ -1,11 +1,10 @@
-import 'dart:io' show Platform, stdout;
+import 'dart:io' show stdout;
 
 import 'package:antlr4/antlr4.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:recase/recase.dart';
 
 import '../antlr/CandidLexer.dart';
@@ -156,7 +155,10 @@ Future<$retType> $methodName($arg) async {
       ),
     );
   }
-  final emitter = DartEmitter.scoped();
+  final emitter = DartEmitter.scoped(
+    orderDirectives: true,
+    useNullSafetySyntax: true,
+  );
   final ignoredLintRules = [
     'type=lint',
     'depend_on_referenced_packages',
@@ -227,8 +229,7 @@ Future<$retType> $methodName($arg) async {
       ]),
   ).accept(emitter).toString();
   return DartFormatter(
-    languageVersion: Version.parse(Platform.version.split(' ').first),
-    fixes: StyleFix.all,
+    languageVersion: DartFormatter.latestLanguageVersion,
   ).format(code);
 }
 
