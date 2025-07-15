@@ -7,7 +7,7 @@ repository: https://github.com/AstroxNetwork/candid_dart/tree/main/packages/cand
 issue_tracker: https://github.com/AstroxNetwork/candid_dart/issues
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: ^3.4.0
 
 dependencies:
   candid_dart_cli: ^1.1.5
@@ -15,7 +15,7 @@ dependencies:
   build: ^2.3.0
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: any
   test: ^1.21.0
 
 executables:
