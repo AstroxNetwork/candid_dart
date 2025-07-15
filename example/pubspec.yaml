@@ -5,11 +5,12 @@ environment:
   sdk: ^3.4.0
 
 dependencies:
-  agent_dart_base: ^1.0.0-dev.30
-  collection: ^1.17.0
-  meta: ^1.8.0
+  agent_dart_base:
+  collection:
+  freezed_annotation:
+  meta:
 
 dev_dependencies:
-  build_runner: ^2.0.0
+  build_runner:
   candid_dart:
     path: ../packages/candid
