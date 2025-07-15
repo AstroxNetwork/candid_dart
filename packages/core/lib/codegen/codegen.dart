@@ -156,7 +156,10 @@ Future<$retType> $methodName($arg) async {
       ),
     );
   }
-  final emitter = DartEmitter.scoped();
+  final emitter = DartEmitter.scoped(
+    orderDirectives: true,
+    useNullSafetySyntax: true,
+  );
   final ignoredLintRules = [
     'type=lint',
     'depend_on_referenced_packages',
