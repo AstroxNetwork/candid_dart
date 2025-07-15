@@ -228,7 +228,6 @@ Future<$retType> $methodName($arg) async {
   ).accept(emitter).toString();
   return DartFormatter(
     languageVersion: Version.parse(Platform.version.split(' ').first),
-    fixes: StyleFix.all,
   ).format(code);
 }
 
